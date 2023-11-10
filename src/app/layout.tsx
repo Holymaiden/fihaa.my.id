@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 import { Providers } from "./providers";
 import Layout from "@/common/components/layouts";
@@ -13,6 +14,11 @@ export const metadata: Metadata = {
   description: "Porfolio - M. Fiqri Haikhar Anwar",
 };
 
+const ProgressBar = dynamic(
+  () => import("@/common/components/elements/ProgressBar"),
+  { ssr: false }
+);
+
 export default function RootLayout({
   children,
 }: {
@@ -24,7 +30,10 @@ export default function RootLayout({
         className={`${jakartaSans.variable} ${soraSans.variable} ${firaCode.variable}`}
       >
         <Providers>
-          <Layout>{children}</Layout>
+          <Layout>
+            <ProgressBar />
+            {children}
+          </Layout>
         </Providers>
       </body>
     </html>
