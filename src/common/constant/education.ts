@@ -2,13 +2,13 @@ import { EducationProps } from "../types/education";
 
 export const EDUCATION: EducationProps[] = [
   {
-    school: "Universitas Syiah Kuala",
-    major: "Electrical and Computer Engineering, (S.T)",
-    logo: "/images/education/unsyiah.svg",
-    location: "Banda Aceh",
+    school: "Universitas Dipa Makassar",
+    major: "Informatics Engineering, (S.Kom)",
+    logo: "/images/education/undipa.svg",
+    location: "Makassar",
     degree: "Bachelor's degree",
-    start_year: 2014,
-    end_year: 2019,
-    link: "https://usk.ac.id",
+    start_year: 2019,
+    end_year: 2023,
+    link: "https://undipa.ac.id",
   },
 ];
