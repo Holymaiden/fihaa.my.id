@@ -10,7 +10,6 @@ import { FaRegEye as ViewIcon } from "react-icons/fa";
 import { HiOutlineClock as ClockIcon } from "react-icons/hi";
 
 import Image from "@/common/components/elements/Image";
-import { formatBlogSlug } from "@/common/helpers";
 import { BlogFeaturedProps } from "@/common/types/blog";
 
 const BlogFeaturedHero = ({ data }: BlogFeaturedProps) => {
@@ -74,9 +73,7 @@ const BlogFeaturedHero = ({ data }: BlogFeaturedProps) => {
           <div className="flex flex-col justify-end gap-6">
             <div className="flex flex-col space-y-2 text-white">
               <Link
-                href={`/blog/${formatBlogSlug(currentFeatured?.slug)}?id=${
-                  currentFeatured?.id
-                }`}
+                href={`/blog/${currentFeatured?.slug}?id=${currentFeatured?.id}`}
               >
                 <h3 className="flex w-fit text-2xl font-bold font-sora leading-normal relative group cursor-pointer">
                   {currentFeatured?.title}

@@ -83,3 +83,16 @@ export const getMdxFileCount = (type: string, slug: string) => {
   const mdxFiles = files.filter((file) => file.endsWith(".mdx"));
   return mdxFiles.length;
 };
+
+export const strToMdx = async (str: string) => {
+  const { content, frontmatter } = await compileMDX<{ title: string }>({
+    source: str,
+    options: { parseFrontmatter: true },
+    components: useMDXComponents,
+  });
+
+  return {
+    frontMatter: frontmatter,
+    content: content,
+  };
+};

@@ -63,6 +63,7 @@ export type BlogDetailProps = {
   body_markdown: string;
   user: UserProps;
   blog_slug: string | null;
+  view?: number;
 };
 
 export type BlogProps = {

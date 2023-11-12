@@ -48,7 +48,7 @@ export const BLOG_ITEMS: BlogItemProps[] = [
     public_reactions_count: 10,
     page_views_count: 10,
     published_timestamp: "2022-01-01",
-    body_markdown: "Body 2",
+    body_markdown: "## Body 2",
     positive_reactions_count: 10,
     cover_image: "/images/placeholder.png",
     tag_list: ["tag 1", "tag 2"],

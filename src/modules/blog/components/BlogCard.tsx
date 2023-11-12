@@ -13,7 +13,7 @@ import Breakline from "@/common/components/elements/Breakline";
 import Card from "@/common/components/elements/Card";
 import Image from "@/common/components/elements/Image";
 import Tooltip from "@/common/components/elements/Tooltip";
-import { formatBlogSlug, formatDate } from "@/common/helpers";
+import {  formatDate } from "@/common/helpers";
 import { BlogItemProps } from "@/common/types/blog";
 
 interface BlogCardProps extends BlogItemProps {
@@ -35,8 +35,6 @@ const BlogCard = ({
 }: BlogCardProps) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const newSlug = formatBlogSlug(slug);
-
   const defaultImage = "/images/placeholder.png";
 
   const slideDownVariants = {
@@ -45,7 +43,7 @@ const BlogCard = ({
   };
 
   return (
-    <Link href={`/blog/${newSlug}?id=${id}`}>
+    <Link href={`/blog/${slug}?id=${id}`}>
       <Card
         className="group relative flex flex-col border dark:border-neutral-800 shadow-sm rounded-lg h-[400px] w-full"
         onMouseEnter={() => setIsHovered(true)}
