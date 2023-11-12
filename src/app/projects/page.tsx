@@ -5,20 +5,15 @@ import { useState } from "react";
 
 import Container from "@/common/components/elements/Container";
 import PageHeading from "@/common/components/elements/PageHeading";
-import { ProjectItemProps } from "@/common/types/projects";
 import Projects from "@/modules/projects";
 
 import { PROJECTS } from "@/common/constant/project";
-
-interface ProjectsPageProps {
-  projects: ProjectItemProps[];
-}
 
 const PAGE_TITLE = "Projects";
 const PAGE_DESCRIPTION =
   "Several projects that I have worked on, both private and open source.";
 
-const ProjectsPage: NextPage<ProjectsPageProps> = () => {
+const ProjectsPage: NextPage = () => {
   const [visibleProjects, setVisibleProjects] = useState(6);
 
   const loadMore = () => setVisibleProjects((prev) => prev + 2);
