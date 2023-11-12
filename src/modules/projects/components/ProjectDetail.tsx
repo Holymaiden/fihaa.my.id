@@ -6,9 +6,6 @@ import { ProjectItemProps } from "@/common/types/projects";
 import ProjectLink from "./ProjectLink";
 import { loadMdxFile } from "@/common/libs/mdx";
 
-import { MDXRemote } from "next-mdx-remote/rsc";
-import useMDXComponents from "@/app/mdx-components";
-
 const ProjectDetail = async ({
   slug,
   title,

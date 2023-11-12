@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -81,7 +81,7 @@ const BlogCard = ({
             )}
           />
           {viewOption === "grid" && (
-            <div className="flex gap-1 absolute top-0 left-0 w-full h-full bg-black opacity-0 transition-opacity duration-300 flex justify-center items-center text-white group-hover:opacity-80 rounded-t-xl text-sm font-medium">
+            <div className="flex gap-1 absolute top-0 left-0 w-full h-full bg-black opacity-0 transition-opacity duration-300 justify-center items-center text-white group-hover:opacity-80 rounded-t-xl text-sm font-medium">
               <span>Read Article</span>
               <ReadIcon size={20} />
             </div>
