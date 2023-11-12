@@ -1,22 +1,23 @@
-"use client";
-
+import clsx from "clsx";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaRegEye as ViewIcon } from "react-icons/fa";
-import { HiOutlineArrowSmRight as ReadIcon } from "react-icons/hi";
-import { TbMessage2 as CommentIcon } from "react-icons/tb";
-import { useWindowSize } from "usehooks-ts";
+import { HiOutlineClock as ClockIcon } from "react-icons/hi";
+import {
+  TbCalendarBolt as DateIcon,
+  TbMessage2 as CommentIcon,
+} from "react-icons/tb";
 
+import Breakline from "@/common/components/elements/Breakline";
 import Card from "@/common/components/elements/Card";
 import Image from "@/common/components/elements/Image";
+import Tooltip from "@/common/components/elements/Tooltip";
 import { formatBlogSlug, formatDate } from "@/common/helpers";
-import clsxm from "@/common/libs/clsxm";
 import { BlogItemProps } from "@/common/types/blog";
 
 interface BlogCardProps extends BlogItemProps {
-  view?: string;
   isExcerpt?: boolean;
-  isCarousel?: boolean;
 }
 
 const BlogCard = ({
@@ -26,99 +27,130 @@ const BlogCard = ({
   published_at,
   description,
   total_views_count,
+  reading_time_minutes,
   slug,
+  tag_list,
   comments_count,
-  view = "list",
   isExcerpt = true,
-  isCarousel = false,
 }: BlogCardProps) => {
-  const [viewOption, setViewOption] = useState<string>(view);
-
-  const { width } = useWindowSize();
-  const isMobile = width < 468;
+  const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const newSlug = formatBlogSlug(slug);
 
-  const trimmedTitle =
-    viewOption === "grid"
-      ? title.slice(0, 70) + (title.length > 70 ? "..." : "")
-      : title;
-  const trimmedContent =
-    description.slice(0, 100) + (description.length > 100 ? "..." : "");
-
   const defaultImage = "/images/placeholder.png";
 
-  const contentContainerClasses = clsxm(
-    "flex flex-col self-center w-full sm:w-4/5 flex-grow space-y-3 px-5 sm:p-0 mb-5 sm:mb-0",
-    view === "grid" ? "sm:w-full sm:!px-6" : ""
-  );
-
-  useEffect(() => {
-    isMobile ? setViewOption("grid") : setViewOption(view);
-  }, [isMobile, view]);
+  const slideDownVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   return (
     <Link href={`/blog/${newSlug}?id=${id}`}>
       <Card
-        className={clsxm(
-          "group relative flex items-center sm:flex-row gap-6 cursor-pointer border border-neutral-300 dark:border-neutral-900 lg:hover:scale-[102%] w-full",
-          viewOption === "grid"
-            ? "!flex-col sm:h-[400px] w-full"
-            : "!flex-row sm:p-5 sm:px-6",
-          isCarousel && "min-w-[350px]",
-          !isExcerpt && "sm:h-[320px]"
-        )}
+        className="group relative flex flex-col border dark:border-neutral-800 shadow-sm rounded-lg h-[400px] w-full"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="w-fit relative">
+        <div
+          className="duration-500 relative rounded-xl"
+          style={{
+            height: "400px",
+            overflow: "hidden",
+          }}
+        >
           <Image
             src={cover_image || defaultImage}
-            width={isMobile || viewOption === "grid" ? 400 : 240}
-            height={100}
             alt={title}
-            className={clsxm(
-              "sm:rounded-xl sm:h-[8.5rem] object-cover",
-              viewOption === "grid" ? "!rounded-t-xl !rounded-b-none !h-48" : ""
-            )}
+            fill={true}
+            className="object-cover object-left w-full h-full transform transition-transform duration-300 group-hover:scale-105 group-hover:blur-sm"
           />
-          {viewOption === "grid" && (
-            <div className="flex gap-1 absolute top-0 left-0 w-full h-full bg-black opacity-0 transition-opacity duration-300 justify-center items-center text-white group-hover:opacity-80 rounded-t-xl text-sm font-medium">
-              <span>Read Article</span>
-              <ReadIcon size={20} />
-            </div>
-          )}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black opacity-80 transition-opacity duration-300"></div>
         </div>
-        <article className={contentContainerClasses}>
-          <h3 className="md:text-[17px] font-medium text-neutral-600 dark:text-neutral-200 lg:group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-all duration-300">
-            {trimmedTitle}
-          </h3>
-          <div className="flex gap-4 text-neutral-600 dark:text-neutral-400">
-            <div className="flex gap-1 items-center ">
-              <span className="text-xs">
-                {formatDate(published_at, "MMM dd, yyyy")}
-              </span>
+
+        <div className="absolute flex flex-col justify-between p-5 space-y-4 h-full">
+          <div className="flex flex-wrap gap-2">
+            {tag_list?.map((tag) => (
+              <div
+                key={tag}
+                className="px-2.5 py-1 rounded-full font-mono text-xs text-neutral-400 bg-neutral-900/50"
+              >
+                <span className="font-semibold mr-1">#</span>
+                {tag.charAt(0).toUpperCase() + tag.slice(1)}
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col justify-end">
+            <div className="flex flex-col space-y-3">
+              <h3 className="font-sora text-lg font-medium text-neutral-100 group-hover:underline group-hover:underline-offset-4 ">
+                {title}
+              </h3>
+              <div className="flex gap-1 items-center text-neutral-400">
+                <DateIcon size={14} />
+                <span className="text-xs ml-0.5">
+                  {formatDate(published_at)}
+                </span>
+              </div>
+              {isExcerpt && (
+                <p className="leading-relaxed text-sm text-neutral-400">
+                  {description}
+                </p>
+              )}
             </div>
-            <div className="flex gap-1 items-center">
-              <ViewIcon size={14} />
-              <span className="text-xs ml-0.5">{total_views_count} Views</span>
-            </div>
-            <div className="flex gap-1 items-center">
-              <CommentIcon size={16} />
-              <span className="text-xs">
-                <div className="flex gap-1">
-                  <span>{comments_count}</span>
-                  <span className="hidden lg:block">
-                    Comment{comments_count > 1 && "s"}
+            <Breakline className="!border-neutral-700" />
+            <div className="flex justify-between gap-4 text-neutral-400 px-0.5">
+              <Tooltip title="by fihaa">
+                <Image
+                  src="/images/fihaa.png"
+                  alt="Ryan Aulia"
+                  width={25}
+                  height={25}
+                  rounded="rounded-full"
+                />
+              </Tooltip>
+
+              <motion.div
+                variants={slideDownVariants}
+                initial="visible"
+                animate={isHovered ? "hidden" : "visible"}
+                className={clsx(
+                  "flex justify-between gap-4 ",
+                  isHovered && "hidden"
+                )}
+              >
+                <div className="flex gap-1 items-center">
+                  <ViewIcon size={14} />
+                  <span className="text-xs ml-0.5">
+                    {total_views_count.toLocaleString()} Views
                   </span>
                 </div>
-              </span>
+                <div className="flex gap-1 items-center">
+                  <CommentIcon size={16} />
+                  <span className="text-xs">
+                    <div className="flex gap-1">
+                      <span>{comments_count}</span>
+                      <span>Comment{comments_count > 1 && "s"}</span>
+                    </div>
+                  </span>
+                </div>
+              </motion.div>
+              <motion.div
+                variants={slideDownVariants}
+                initial="hidden"
+                animate={isHovered ? "visible" : "hidden"}
+                className={clsx(
+                  "flex gap-1 items-center",
+                  !isHovered && "hidden"
+                )}
+              >
+                <ClockIcon size={16} />
+                <span className="text-xs ml-0.5">
+                  {reading_time_minutes.toLocaleString()} Minutes Read
+                </span>
+              </motion.div>
             </div>
           </div>
-          {isExcerpt && (
-            <p className="hidden sm:block leading-relaxed text-sm text-neutral-600 dark:text-neutral-400">
-              {trimmedContent}
-            </p>
-          )}
-        </article>
+        </div>
       </Card>
     </Link>
   );

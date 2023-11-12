@@ -3,12 +3,12 @@ import Skeleton from "react-loading-skeleton";
 import Card from "../elements/Card";
 import SkeletonLoader from "../elements/SkeletonLoader";
 
-const BlogCardSkeleton = () => {
+const BlogFeaturedHeroSkeleton = () => {
   return (
     <SkeletonLoader>
       <Card className="border border-neutral-200 dark:border-neutral-800 min-w-[326px] dark:bg-neutral-800">
         <Skeleton
-          height={398}
+          height={400}
           containerClassName="flex"
           className="!rounded-xl"
         />
@@ -17,4 +17,4 @@ const BlogCardSkeleton = () => {
   );
 };
 
-export default BlogCardSkeleton;
+export default BlogFeaturedHeroSkeleton;

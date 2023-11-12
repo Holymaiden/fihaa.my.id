@@ -2,18 +2,13 @@
 
 import Link from "next/link";
 import { BsArrowRightShort as ViewAllIcon } from "react-icons/bs";
-import { useWindowSize } from "usehooks-ts";
 
 import SectionHeading from "@/common/components/elements/SectionHeading";
 import SectionSubHeading from "@/common/components/elements/SectionSubHeading";
-import BlogList from "@/modules/blog/components/BlogList";
 
 import BlogCarousel from "./BlogCarousel";
 
 const BlogPreview = () => {
-  const { width } = useWindowSize();
-  const isMobile = width < 480;
-
   return (
     <section className="space-y-6 font-sora">
       <div className="flex items-center justify-between">
@@ -29,11 +24,7 @@ const BlogPreview = () => {
           </Link>
         </SectionSubHeading>
       </div>
-      {isMobile ? (
-        <BlogList perPage={2} showHeader={false} showPagination={false} />
-      ) : (
-        <BlogCarousel />
-      )}
+      <BlogCarousel />
     </section>
   );
 };

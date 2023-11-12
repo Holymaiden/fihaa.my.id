@@ -27,6 +27,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   const isFullPageHeader =
     pageName === "playground" ||
+    pageName === "blog" ||
     pathname.startsWith("/blog/") ||
     pathname.startsWith("/learn/");
 
@@ -38,7 +39,7 @@ const Layout = ({ children }: LayoutProps) => {
           "max-w-6xl mx-auto lg:px-8",
           isDarkTheme ? "dark:text-darkText" : ""
         )}
-      > 
+      >
         {isFullPageHeader ? (
           <div className="flex flex-col xl:pb-8">
             <HeaderTop />
