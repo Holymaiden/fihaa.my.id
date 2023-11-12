@@ -9,7 +9,6 @@ import ProjectDetail from "@/modules/projects/components/ProjectDetail";
 import { PROJECTS } from "@/common/constant/project";
 
 interface ProjectsDetailPageProps {
-  project: ProjectItemProps;
   params: {
     slug: string;
   };
