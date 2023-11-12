@@ -14,9 +14,9 @@ import {
   FiPocket as HomeIcon,
   FiRss as BlogIcon,
   FiUser as ProfileIcon,
+  FiX as CloseIcon,
 } from "react-icons/fi";
-import { PiChatCircleDotsBold as ChatIcon } from "react-icons/pi";
-import { SiJavascript } from "react-icons/si";
+import { PiBooks as BooksIcon } from "react-icons/pi";
 
 import { MenuItemProps } from "../types/menu";
 
@@ -69,6 +69,15 @@ export const MENU_ITEMS: MenuItemProps[] = [
     type: "Pages",
   },
   {
+    title: "Novel",
+    href: "/novel",
+    icon: <BooksIcon size={iconSize} />,
+    isShow: true,
+    isExternal: false,
+    eventName: "Pages: Novel",
+    type: "Pages",
+  },
+  {
     title: "About",
     href: "/about",
     icon: <ProfileIcon size={iconSize} />,
@@ -84,24 +93,6 @@ export const MENU_ITEMS: MenuItemProps[] = [
     isShow: true,
     isExternal: false,
     eventName: "Pages: Contact",
-    type: "Pages",
-  },
-  {
-    title: "Guestbook",
-    href: "/guestbook",
-    icon: <ChatIcon size={iconSize} />,
-    isShow: true,
-    isExternal: false,
-    eventName: "Pages: Chat",
-    type: "Pages",
-  },
-  {
-    title: "Playground",
-    href: "/playground",
-    icon: <SiJavascript size={iconSize} />,
-    isShow: true,
-    isExternal: false,
-    eventName: "Pages: Playground",
     type: "Pages",
   },
 ];
