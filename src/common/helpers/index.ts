@@ -2,6 +2,7 @@ import { format, parseISO } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
 import { ChapterGroupProps, MdxFileContentProps } from "../types/learn";
+import { ProjectGroupProps, MdxFileProjectProps } from "../types/projects";
 
 interface ParsedUrlProps {
   parentSlug: string;
@@ -39,6 +40,29 @@ export const groupContentByChapter = (
 
     return acc;
   }, {} as Record<string, ChapterGroupProps>);
+};
+
+export const getListProjects = (
+  contents: MdxFileProjectProps[]
+): Record<string, ProjectGroupProps> => {
+  return contents.reduce((acc, content) => {
+    const { frontMatter } = content;
+
+    const id = frontMatter.id ?? 0;
+    const title = frontMatter.title || "ungrouped";
+
+    if (!acc[id]) {
+      acc[id] = {
+        id,
+        title,
+        contents: [],
+      };
+    }
+
+    acc[id].contents.push(content);
+
+    return acc;
+  }, {} as Record<string, ProjectGroupProps>);
 };
 
 export const parseUrl = (url: string): ParsedUrlProps => {

@@ -1,4 +1,5 @@
 export interface ProjectItemProps {
+  id: number;
   title: string;
   slug: string;
   description: string;
@@ -14,4 +15,16 @@ export interface ProjectItemProps {
 
 export interface ProjectsProps {
   projects: ProjectItemProps[];
+}
+
+export interface MdxFileProjectProps {
+  slug: string;
+  frontMatter: ProjectItemProps;
+  content: string;
+}
+
+export interface ProjectGroupProps {
+  id: number | undefined;
+  title: string;
+  contents: MdxFileProjectProps[];
 }
