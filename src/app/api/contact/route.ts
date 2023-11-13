@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const updatedFormData = new FormData();
     updatedFormData.append("access_key", FORM_API_KEY);
 
-    for (const key in data) {
+    for (const key in data["formData"]) {
       updatedFormData.append(key, data[key]);
     }
 
@@ -18,6 +18,7 @@ export async function POST(req: Request) {
       status: 200,
     });
   } catch (error) {
+    console.log(error);
     return new Response(JSON.stringify(error), {
       status: 500,
     });
