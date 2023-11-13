@@ -16,7 +16,7 @@ import { fetcher } from "@/services/fetcher";
 import BlogCard from "./BlogCard";
 import BlogFeaturedSection from "./BlogFeaturedSection";
 
-const BlogListNew = () => {
+const BlogList = () => {
   const [page, setPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter();
@@ -42,7 +42,9 @@ const BlogListNew = () => {
 
   const handlePageChange = async (newPage: number) => {
     await mutate();
-    router.push(`/blog?page=${newPage}&search=${debouncedSearchTerm}`);
+    router.push(`/blog?page=${newPage}&search=${debouncedSearchTerm}`, {
+      scroll: false,
+    });
     setPage(newPage);
   };
 
@@ -51,14 +53,14 @@ const BlogListNew = () => {
     setSearchTerm(searchValue);
     setPage(1);
 
-    router.push(`/blog?page=1&search=${searchValue || ""}`);
+    router.push(`/blog?page=1&search=${searchValue || ""}`, { scroll: false });
   };
 
   const handleClearSearch = () => {
     setSearchTerm("");
     setPage(1);
 
-    router.push("/blog?page=1");
+    router.push("/blog?page=1", { scroll: false });
   };
 
   useEffect(() => {
@@ -141,4 +143,4 @@ const BlogListNew = () => {
   );
 };
 
-export default BlogListNew;
+export default BlogList;

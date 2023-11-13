@@ -1,13 +1,13 @@
 import { NextPage } from "next";
 
 import Container from "@/common/components/elements/Container";
-import BlogListNew from "@/modules/blog/components/BlogList";
+import BlogList from "@/modules/blog";
 
 const BlogPage: NextPage = () => {
   return (
     <>
       <Container className="xl:!-mt-5" data-aos="fade-up">
-        <BlogListNew />
+        <BlogList />
       </Container>
     </>
   );
