@@ -7,14 +7,17 @@ import { useDraggable } from "react-use-draggable-scroll";
 import BlogCardNewSkeleton from "@/common/components/skeleton/BlogCardSkeleton";
 import { BlogItemProps } from "@/common/types/blog";
 import BlogCard from "@/modules/blog/components/BlogCard";
-import { BLOG_ITEMS } from "@/common/constant/blog";
+import useSWR from "swr";
+import { fetcher } from "@/services/fetcher";
 
 const BlogCarousel = () => {
-  const data = BLOG_ITEMS;
-  const isLoading = false;
+  const { data, isLoading } = useSWR(`/api/blog?page=1&per_page=4`, fetcher, {
+    revalidateOnFocus: false,
+    refreshInterval: 0,
+  });
 
   const blogData: BlogItemProps[] = useMemo(() => {
-    return data || [];
+    return data?.data?.posts || [];
   }, [data]);
 
   const ref =
