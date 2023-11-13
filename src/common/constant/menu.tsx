@@ -4,7 +4,7 @@ import {
   BsGithub as GithubIcon,
   BsInstagram as InstagramIcon,
   BsLinkedin as LinkedinIcon,
-  BsTwitter as TwitterIcon,
+  BsFacebook as FacebookIcon,
 } from "react-icons/bs";
 import {
   FiBookOpen as LearnIcon,
@@ -100,7 +100,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
 export const SOCIAL_MEDIA: MenuItemProps[] = [
   {
     title: "Email",
-    href: "mailto:aulianza.dev@gmail.com",
+    href: "mailto:haikalwatampone3@gmail.com",
     icon: <EmailIcon size={iconSize} />,
     isShow: true,
     isExternal: true,
@@ -111,7 +111,7 @@ export const SOCIAL_MEDIA: MenuItemProps[] = [
 
   {
     title: "Linkedin",
-    href: "https://www.linkedin.com/in/aulianza/",
+    href: "https://www.linkedin.com/in/m-fiqri-haikhar-anwar-999116163/",
     icon: <LinkedinIcon size={iconSize} />,
     isShow: true,
     isExternal: true,
@@ -120,18 +120,18 @@ export const SOCIAL_MEDIA: MenuItemProps[] = [
     type: "Link",
   },
   {
-    title: "Twitter",
-    href: "https://twitter.com/aulianzaa",
-    icon: <TwitterIcon size={iconSize} />,
+    title: "Facebook",
+    href: "https://www.facebook.com/fiqri.haikar",
+    icon: <FacebookIcon size={iconSize} />,
     isShow: true,
     isExternal: true,
-    eventName: "Social: Twitter",
-    className: "!bg-sky-500 border border dark:border-neutral-700",
+    eventName: "Social: Facebook",
+    className: "!bg-blue-700 border border dark:border-neutral-700",
     type: "Link",
   },
   {
     title: "Instagram",
-    href: "https://instagram.com/aulianza",
+    href: "https://www.instagram.com/fiqri_haikhar",
     icon: <InstagramIcon size={iconSize} />,
     isShow: true,
     isExternal: true,
@@ -141,7 +141,7 @@ export const SOCIAL_MEDIA: MenuItemProps[] = [
   },
   {
     title: "Github",
-    href: "https://github.com/aulianza",
+    href: "https://github.com/Holymaiden",
     icon: <GithubIcon size={iconSize} />,
     isShow: true,
     isExternal: true,
