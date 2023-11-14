@@ -10,6 +10,7 @@ import { SubContentMetaProps } from "@/common/types/learn";
 import { fetcher } from "@/services/fetcher";
 
 import ContentBody from "./ContentBody";
+import Loading from "@/common/components/elements/Loading";
 
 interface ContentListItemProps {
   id: number;
@@ -62,10 +63,12 @@ const ContentDetail = ({
   };
 
   useEffect(() => {
+    console.log("hehe");
     resContentData && setContentList(resContentData?.data);
   }, [resContentData]);
 
   useEffect(() => {
+    if (!contentList) return;
     const getId = contentList?.find(
       (item: ContentListItemProps) => item.slug === contentSlug
     );
@@ -80,6 +83,8 @@ const ContentDetail = ({
       nextContent && setNextTitle(nextContent?.title);
     }
   }, [contentList, contentSlug, getNextOrPreviousContent]);
+
+  if (!resContentData) return <Loading />;
 
   return (
     <>

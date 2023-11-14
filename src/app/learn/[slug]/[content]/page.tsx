@@ -19,9 +19,11 @@ const LearnContentDetailPage: NextPage = async ({ params }: any) => {
   return (
     <>
       <Container data-aos="fade-up">
+        <BackButton url={`/learn/${slug}`} />
         <Suspense fallback={<Loading />}>
-          <BackButton url={`/learn/${slug}`} />
           <ContentDetailHeader {...frontMatter} />
+        </Suspense>
+        <Suspense fallback={<Loading />}>
           <ContentDetail
             content={mdx}
             frontMatter={frontMatter}
