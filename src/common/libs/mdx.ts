@@ -10,10 +10,10 @@ interface MdxFileProps {
   content: string;
 }
 
-export const loadMdxFiles = (
+export const loadMdxFiles = async (
   type: string,
   slug: string
-): MdxFileProps[] | any => {
+): Promise<MdxFileProps[] | any> => {
   const dirPath = path.join(process.cwd(), "src", "contents", type, slug);
 
   if (!fs.existsSync(dirPath)) {
@@ -22,22 +22,29 @@ export const loadMdxFiles = (
 
   const files = fs.readdirSync(dirPath);
 
-  const contents = files.map(async (file) => {
-    const filePath = path.join(dirPath, file);
-    const source = fs.readFileSync(filePath, "utf-8");
+  const contents: MdxFileProps[] = [];
 
-    const { content, frontmatter } = await compileMDX<{ title: string }>({
-      source: source,
-      options: { parseFrontmatter: true },
-      components: useMDXComponents,
-    });
+  await Promise.all(
+    files.map(async (file) => {
+      const filePath = path.join(dirPath, file);
+      const source = fs.readFileSync(filePath, "utf-8");
 
-    return {
-      slug: file.replace(".mdx", ""),
-      frontMatter: frontmatter,
-      content: content,
-    };
-  });
+      const { content, frontmatter }: any = await compileMDX<{
+        title: string;
+      }>({
+        source: source,
+        options: { parseFrontmatter: true },
+        components: useMDXComponents,
+      });
+
+      // add to contents
+      contents.push({
+        slug: file.replace(".mdx", ""),
+        frontMatter: frontmatter,
+        content: content,
+      });
+    })
+  );
 
   return contents;
 };
@@ -60,7 +67,6 @@ export const loadMdxFile = async (
   if (!file) {
     return { content: "Not Found" };
   }
-
   const filePath = path.join(dirPath, file);
   const source = fs.readFileSync(filePath, "utf-8");
 

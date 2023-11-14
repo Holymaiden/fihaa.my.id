@@ -3,10 +3,10 @@ import createMDX from "@next/mdx";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
-  webpack(config, { nextRuntime }) {
-    if (typeof nextRuntime === "undefined") {
+
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
       config.resolve.fallback = {
-        ...config.resolve.fallback,
         fs: false,
       };
     }
