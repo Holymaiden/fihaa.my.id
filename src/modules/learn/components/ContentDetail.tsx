@@ -42,7 +42,11 @@ const ContentDetail = ({
 
   const { data: resContentData } = useSWR(
     `/api/content?category=${parentSlug}`,
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      refreshInterval: 0,
+    }
   );
 
   const getNextOrPreviousContent = useCallback(
