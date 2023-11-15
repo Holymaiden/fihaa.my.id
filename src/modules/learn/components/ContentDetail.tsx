@@ -67,7 +67,6 @@ const ContentDetail = ({
   };
 
   useEffect(() => {
-    console.log("hehe");
     resContentData && setContentList(resContentData?.data);
   }, [resContentData]);
 

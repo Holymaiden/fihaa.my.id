@@ -7,7 +7,15 @@ import useMDXComponents from "@/app/mdx-components";
 interface MdxFileProps {
   slug: string;
   frontMatter: Record<string, unknown>;
-  content: string;
+  content?: string;
+}
+
+interface MdxFileNovelProps {
+  slug: string;
+  frontMatter: Record<string, unknown>;
+  content?: string;
+  nextContent?: MdxFileProps | any;
+  previousContent?: MdxFileProps | any;
 }
 
 export const loadMdxFiles = async (
@@ -49,6 +57,51 @@ export const loadMdxFiles = async (
   return contents;
 };
 
+export const loadMdxNovelFiles = async (
+  type: string,
+  slug: string
+): Promise<MdxFileProps[] | any> => {
+  const dirPath = path.join(process.cwd(), "src", "contents", type, slug);
+
+  if (!fs.existsSync(dirPath)) {
+    return [];
+  }
+
+  const files = fs.readdirSync(dirPath);
+
+  const contents: MdxFileProps[] = [];
+
+  await Promise.all(
+    files.map(async (file) => {
+      const filePath = path.join(dirPath, file);
+      const source = fs.readFileSync(filePath, "utf-8");
+
+      const fileNumber = file.split(" - ")[1];
+      const fileName = file.split(" - ")[2].split("(")[0];
+
+      // const { content, frontmatter }: any = await compileMDX<{
+      //   title: string;
+      // }>({
+      //   source: source,
+      //   options: { parseFrontmatter: true },
+      //   components: useMDXComponents,
+      // });
+
+      // add to contents
+      contents.push({
+        slug: fileNumber + "-" + fileName.replaceAll(" ", "-"),
+        frontMatter: {
+          id: fileNumber,
+          title: fileNumber + " - " + fileName,
+        },
+        // content: content,
+      });
+    })
+  );
+
+  return contents;
+};
+
 export const loadMdxFile = async (
   type: string,
   slug: string
@@ -80,6 +133,94 @@ export const loadMdxFile = async (
     slug: file.replace(".mdx", ""),
     frontMatter: frontmatter,
     content: content,
+  };
+};
+
+export const loadMdxNovelFile = async (
+  type: string,
+  slug: string
+): Promise<MdxFileNovelProps | { content: string | any }> => {
+  const dirPath = path.join(process.cwd(), "src", "contents", type);
+
+  if (!fs.existsSync(dirPath)) {
+    return { content: "Not Found" };
+  }
+
+  const files = fs.readdirSync(dirPath);
+
+  // get file by slug
+  const file = files.find(
+    (file) =>
+      file.split(" - ")[1] +
+        "-" +
+        file.split(" - ")[2].split("(")[0].replaceAll(" ", "-") ===
+      slug
+  );
+
+  const numberId = file?.split(" - ")[1];
+
+  if (!file) {
+    return { content: "Not Found" };
+  }
+  const filePath = path.join(dirPath, file);
+  const source = fs.readFileSync(filePath, "utf-8");
+
+  const fileNumber = file.split(" - ")[1];
+  const fileName = file.split(" - ")[2].split("(")[0];
+
+  const { content, frontmatter } = await compileMDX<{ title: string }>({
+    source: source,
+    options: { parseFrontmatter: true },
+    components: useMDXComponents,
+  });
+
+  return {
+    slug: fileNumber + "-" + fileName.replaceAll(" ", "-"),
+    frontMatter: {
+      id: fileNumber,
+      title: fileNumber + " - " + fileName,
+    },
+    content: content,
+    nextContent: await loadMdxNovelNextOrPrevious(
+      type,
+      String(Number(numberId) + 1)
+    ),
+    previousContent: await loadMdxNovelNextOrPrevious(
+      type,
+      String(Number(numberId) - 1)
+    ),
+  };
+};
+
+export const loadMdxNovelNextOrPrevious = async (
+  type: string,
+  slug: string
+): Promise<MdxFileProps | { content: string | any }> => {
+  const dirPath = path.join(process.cwd(), "src", "contents", type);
+
+  if (!fs.existsSync(dirPath)) {
+    return { content: "Not Found" };
+  }
+
+  const files = fs.readdirSync(dirPath);
+
+  // get file by slug
+  const file = files.find((file) => file.split(" - ")[1] === slug);
+
+  if (!file) {
+    return { content: "Not Found" };
+  }
+  const filePath = path.join(dirPath, file);
+
+  const fileNumber = file.split(" - ")[1];
+  const fileName = file.split(" - ")[2].split("(")[0];
+
+  return {
+    slug: fileNumber + "-" + fileName.replaceAll(" ", "-"),
+    frontMatter: {
+      id: fileNumber,
+      title: fileNumber + " - " + fileName,
+    },
   };
 };
 
