@@ -1,32 +1,24 @@
 import React, { useMemo } from "react";
-import useSWR from "swr";
 
 import BlogFeaturedHeroSkeleton from "@/common/components/skeleton/BlogFeaturedHeroSkeleton";
 import { BlogItemProps } from "@/common/types/blog";
-import { fetcher } from "@/services/fetcher";
 
 import BlogFeaturedHero from "./BlogFeaturedHero";
+import { BLOG_ITEMS } from "@/common/constant/blog";
 
 const BlogFeaturedSection = () => {
-  const { data, isLoading } = useSWR(
-    `/api/blog?page=1&per_page=4&categories=`,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      refreshInterval: 0,
-    }
-  );
+  const data = BLOG_ITEMS.slice(0, 3);
 
   const featuredData: BlogItemProps[] = useMemo(() => {
-    if (data?.status && data?.data?.posts && Array.isArray(data?.data?.posts)) {
-      return data?.data?.posts;
+    if (data && Array.isArray(data)) {
+      return data;
     }
     return [];
   }, [data]);
 
   return (
     <>
-      {!isLoading ? (
+      {!data || data.length !== 0 ? (
         <BlogFeaturedHero data={featuredData} />
       ) : (
         <BlogFeaturedHeroSkeleton />

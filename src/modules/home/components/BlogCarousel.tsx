@@ -7,17 +7,13 @@ import { useDraggable } from "react-use-draggable-scroll";
 import BlogCardNewSkeleton from "@/common/components/skeleton/BlogCardSkeleton";
 import { BlogItemProps } from "@/common/types/blog";
 import BlogCard from "@/modules/blog/components/BlogCard";
-import useSWR from "swr";
-import { fetcher } from "@/services/fetcher";
+import { BLOG_ITEMS } from "@/common/constant/blog";
 
 const BlogCarousel = () => {
-  const { data, isLoading } = useSWR(`/api/blog?page=1&per_page=4`, fetcher, {
-    revalidateOnFocus: false,
-    refreshInterval: 0,
-  });
+  const data = BLOG_ITEMS.slice(0, 4);
 
   const blogData: BlogItemProps[] = useMemo(() => {
-    return data?.data?.posts || [];
+    return data || [];
   }, [data]);
 
   const ref =
@@ -25,7 +21,7 @@ const BlogCarousel = () => {
   const { events } = useDraggable(ref);
 
   const renderBlogCards = () => {
-    if (isLoading) {
+    if (!blogData || blogData.length === 0) {
       return Array.from({ length: 3 }, (_, index) => (
         <BlogCardNewSkeleton key={index} />
       ));

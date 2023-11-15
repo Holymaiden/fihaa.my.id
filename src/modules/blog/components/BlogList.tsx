@@ -15,6 +15,7 @@ import { fetcher } from "@/services/fetcher";
 
 import BlogCard from "./BlogCard";
 import BlogFeaturedSection from "./BlogFeaturedSection";
+import { BLOG_ITEMS } from "@/common/constant/blog";
 
 const BlogList = () => {
   const [page, setPage] = useState<number>(1);
@@ -25,23 +26,19 @@ const BlogList = () => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const { data, error, mutate, isValidating } = useSWR(
-    `/api/blog?page=${page}&per_page=6&search=${debouncedSearchTerm}`,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      refreshInterval: 0,
+  const data = BLOG_ITEMS.filter((item) => {
+    if (debouncedSearchTerm) {
+      return item.title.rendered
+        .toLowerCase()
+        .includes(debouncedSearchTerm.toLowerCase());
     }
-  );
+    return true;
+  }).slice((page - 1) * 6, page * 6);
 
-  const {
-    posts: blogData = [],
-    total_pages: totalPages = 1,
-    total_posts = 0,
-  } = data?.data || {};
+  const total_pages = Math.ceil(BLOG_ITEMS.length / 6);
+  const total_posts = BLOG_ITEMS.length;
 
   const handlePageChange = async (newPage: number) => {
-    await mutate();
     router.push(`/blog?page=${newPage}&search=${debouncedSearchTerm}`, {
       scroll: false,
     });
@@ -71,10 +68,7 @@ const BlogList = () => {
   }, [page, pageNumber, searchTerm]);
 
   const renderEmptyState = () =>
-    !isValidating &&
-    (!data?.status || blogData.length === 0) && (
-      <EmptyState message={error ? "Error loading posts" : "No Post Found."} />
-    );
+    (!data || data.length === 0) && <EmptyState message={"No Post Found."} />;
 
   return (
     <div className="space-y-10">
@@ -107,9 +101,9 @@ const BlogList = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-          {!isValidating ? (
+          {!data || data.length !== 0 ? (
             <>
-              {blogData.map((item: BlogItemProps, index: number) => (
+              {data.map((item: BlogItemProps, index: number) => (
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -122,16 +116,17 @@ const BlogList = () => {
             </>
           ) : (
             <>
-              {new Array(3).fill(0).map((_, index) => (
-                <BlogCardSkeleton key={index} />
-              ))}
+              {data.length !== 0 &&
+                new Array(3)
+                  .fill(0)
+                  .map((_, index) => <BlogCardSkeleton key={index} />)}
             </>
           )}
         </div>
 
-        {!isValidating && data?.status && page > 1 && (
+        {data && page > 1 && (
           <Pagination
-            totalPages={totalPages}
+            totalPages={total_pages}
             currentPage={page}
             onPageChange={handlePageChange}
           />

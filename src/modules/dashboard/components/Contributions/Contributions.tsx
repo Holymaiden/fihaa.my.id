@@ -10,6 +10,7 @@ import { fetcher } from "@/services/fetcher";
 
 import Calendar from "./Calendar";
 import Overview from "./Overview";
+import Loading from "@/common/components/elements/Loading";
 
 type ContributionsProps = {
   username: string;
@@ -43,7 +44,7 @@ const Contributions = ({ username, endpoint }: ContributionsProps) => {
         </Link>
       </SectionSubHeading>
 
-      {!data && <div className="dark:text-neutral-400">No Data</div>}
+      {!data && <Loading />}
 
       {data && (
         <div className="space-y-3">

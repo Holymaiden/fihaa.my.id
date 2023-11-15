@@ -6,6 +6,8 @@ import { SWRConfig } from "swr";
 import Container from "@/common/components/elements/Container";
 import PageHeading from "@/common/components/elements/PageHeading";
 import Dashboard from "@/modules/dashboard";
+import { Suspense } from "react";
+import Loading from "@/common/components/elements/Loading";
 
 const PAGE_TITLE = "Dashboard";
 const PAGE_DESCRIPTION =
@@ -15,8 +17,10 @@ const DashboardPage: NextPage = () => {
   return (
     <SWRConfig>
       <Container data-aos="fade-up">
-        <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
-        <Dashboard />
+        <Suspense fallback={<Loading />}>
+          <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
+          <Dashboard />
+        </Suspense>
       </Container>
     </SWRConfig>
   );
