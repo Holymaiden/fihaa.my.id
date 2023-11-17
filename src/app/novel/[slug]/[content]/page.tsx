@@ -22,7 +22,6 @@ const NovelContentPage: NextPage<NovelContentPageProps> = async ({
 }: NovelContentPageProps) => {
   const { slug, content } = params;
 
-  //   const slug = `blog/${blogData?.slug}?id=${blogData?.id}`;
   const novelData = await loadMdxNovelFile("novels/" + slug, content);
   const novelContent: ContentProps | any = NOVEL_CONTENTS.find(
     (content) => String(content.slug) === String(slug)

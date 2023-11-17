@@ -1,9 +1,7 @@
 import Breakline from "@/common/components/elements/Breakline";
-import { calculateReadingTime } from "@/common/helpers";
 
 import BlogHeader from "./BlogHeader";
-import { MdxFileProps, strToMdx } from "@/common/libs/mdx";
-import { BLOG_ITEMS } from "@/common/constant/blog";
+import { MdxFileProps } from "@/common/libs/mdx";
 
 const BlogDetail = async ({
   slug,

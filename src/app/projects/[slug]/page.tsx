@@ -7,6 +7,7 @@ import { ProjectItemProps } from "@/common/types/projects";
 import ProjectDetail from "@/modules/projects/components/ProjectDetail";
 
 import { PROJECTS } from "@/common/constant/project";
+import { MdxFileProps, loadMdxFile } from "@/common/libs/mdx";
 
 interface ProjectsDetailPageProps {
   params: {
@@ -14,24 +15,27 @@ interface ProjectsDetailPageProps {
   };
 }
 
-const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = ({
+const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = async ({
   params,
 }: {
   params: { slug: string };
 }) => {
-  const project: ProjectItemProps | undefined = PROJECTS.find(
-    (project) => project.slug === params.slug
+  const project: MdxFileProps | any = await loadMdxFile(
+    "projects",
+    params.slug
   );
 
-  const PAGE_TITLE = project?.title || "Default Title";
-  const PAGE_DESCRIPTION = project?.description;
+  console.log(project);
+
+  const PAGE_TITLE = project?.frontMatter?.title || "Default Title";
+  const PAGE_DESCRIPTION = project?.frontMatter?.description;
 
   return (
     <>
       <Container data-aos="fade-up">
         <BackButton url="/projects" />
         <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
-        <ProjectDetail {...project} />
+        <ProjectDetail {...project?.frontMatter} content={project?.content} />
       </Container>
     </>
   );

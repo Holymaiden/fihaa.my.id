@@ -1,33 +1,31 @@
-"use client";
-
 import { NextPage } from "next";
-import { useState } from "react";
 
 import Container from "@/common/components/elements/Container";
 import PageHeading from "@/common/components/elements/PageHeading";
 import Projects from "@/modules/projects";
 
-import { PROJECTS } from "@/common/constant/project";
+import { loadMdxFiles } from "@/common/libs/mdx";
+import { Suspense } from "react";
+import Loading from "@/common/components/elements/Loading";
 
 const PAGE_TITLE = "Projects";
 const PAGE_DESCRIPTION =
   "Several projects that I have worked on, both private and open source.";
 
-const ProjectsPage: NextPage = () => {
-  const [visibleProjects, setVisibleProjects] = useState(6);
+const ProjectsPage: NextPage = async () => {
+  const content = await loadMdxFiles("projects", "");
 
-  const loadMore = () => setVisibleProjects((prev) => prev + 2);
-  const hasMore = visibleProjects < PROJECTS.length;
+  const sortedContents = content.sort(
+    (a: any, b: any) => b.frontMatter.id - a.frontMatter.id
+  );
 
   return (
     <>
       <Container data-aos="fade-up">
-        <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
-        <Projects
-          projects={PROJECTS.slice(0, visibleProjects)}
-          loadMore={loadMore}
-          hasMore={hasMore}
-        />
+        <Suspense fallback={<Loading />}>
+          <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
+          <Projects content={sortedContents} />
+        </Suspense>
       </Container>
     </>
   );

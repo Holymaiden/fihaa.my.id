@@ -4,20 +4,16 @@ import { STACKS } from "@/common/constant/stacks";
 import { ProjectItemProps } from "@/common/types/projects";
 
 import ProjectLink from "./ProjectLink";
-import { loadMdxFile } from "@/common/libs/mdx";
 
 const ProjectDetail = async ({
   slug,
   title,
-  image,
+  cover_url,
   stacks,
   link_demo,
   link_github,
+  content,
 }: ProjectItemProps | any) => {
-  const stacksArray = JSON.parse(stacks);
-
-  const project = await loadMdxFile("projects", slug);
-
   return (
     <div className="space-y-8 font-sora">
       <div className="flex flex-col lg:flex-row items-start lg:items-center sm:flex-row gap-5 justify-between">
@@ -26,7 +22,7 @@ const ProjectDetail = async ({
             Tech Stack :
           </span>
           <div className="flex flex-wrap items-center gap-3">
-            {stacksArray?.map((stack: string, index: number) => (
+            {stacks?.map((stack: string, index: number) => (
               <div key={index}>
                 <Tooltip title={stack}>{STACKS[stack]}</Tooltip>
               </div>
@@ -40,15 +36,15 @@ const ProjectDetail = async ({
         />
       </div>
       <Image
-        src={image}
+        src={cover_url}
         width={800}
         height={400}
         alt={title}
         className="hover:scale-105"
       />
-      {project && (
+      {content && (
         <div className="space-y-6 leading-[1.8] dark:text-neutral-300 mt-5">
-          {project.content}
+          {content}
         </div>
       )}
     </div>

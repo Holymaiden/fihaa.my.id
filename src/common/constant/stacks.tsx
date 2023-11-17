@@ -39,7 +39,7 @@ export const STACKS: stacksProps = {
   PHP: <SiPhp size={iconSize} className="text-blue-500" />,
   Golang: <SiGo size={iconSize} className="text-blue-500" />,
   "C++": <SiCplusplus size={iconSize} className="text-blue-700" />,
-  Kotlin: <SiKotlin size={iconSize} className="text-orange-400" />,
+  Kotlin: <SiKotlin size={iconSize} className="text-blue-500" />,
   JavaScript: <SiJavascript size={iconSize} className="text-yellow-400" />,
   TypeScript: <SiTypescript size={iconSize} className="text-blue-400" />,
   "Next.js": <SiNextdotjs size={iconSize} />,
