@@ -25,8 +25,6 @@ const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = async ({
     params.slug
   );
 
-  console.log(project);
-
   const PAGE_TITLE = project?.frontMatter?.title || "Default Title";
   const PAGE_DESCRIPTION = project?.frontMatter?.description;
 
