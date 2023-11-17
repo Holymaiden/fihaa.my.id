@@ -72,7 +72,7 @@ const BlogList = ({ content }: MdxFileProps | any) => {
 
   return (
     <div className="space-y-10">
-      <BlogFeaturedSection />
+      <BlogFeaturedSection content={content} />
 
       <div className="space-y-5">
         <div className="flex flex-col sm:flex-row gap-3 justify-between items-center mb-6">

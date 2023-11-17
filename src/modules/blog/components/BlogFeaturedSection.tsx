@@ -1,24 +1,21 @@
 import React, { useMemo } from "react";
 
 import BlogFeaturedHeroSkeleton from "@/common/components/skeleton/BlogFeaturedHeroSkeleton";
-import { BlogItemProps } from "@/common/types/blog";
 
 import BlogFeaturedHero from "./BlogFeaturedHero";
-import { BLOG_ITEMS } from "@/common/constant/blog";
+import { MdxFileProps } from "@/common/libs/mdx";
 
-const BlogFeaturedSection = () => {
-  const data = BLOG_ITEMS.slice(0, 3);
-
-  const featuredData: BlogItemProps[] = useMemo(() => {
-    if (data && Array.isArray(data)) {
-      return data;
+const BlogFeaturedSection = ({ content }: MdxFileProps[] | any) => {
+  const featuredData: MdxFileProps[] = useMemo(() => {
+    if (content && Array.isArray(content)) {
+      return content;
     }
     return [];
-  }, [data]);
+  }, [content]);
 
   return (
     <>
-      {!data || data.length !== 0 ? (
+      {!content || content.length !== 0 ? (
         <BlogFeaturedHero data={featuredData} />
       ) : (
         <BlogFeaturedHeroSkeleton />
