@@ -6,11 +6,13 @@ import SectionSubHeading from "@/common/components/elements/SectionSubHeading";
 
 import BlogCarousel from "./BlogCarousel";
 import { loadMdxFiles } from "@/common/libs/mdx";
-import Loading from "@/common/components/elements/Loading";
 
 const BlogPreview = async () => {
   const content = await loadMdxFiles("blogs", "");
 
+  const sortedContents = content.sort(
+    (a: any, b: any) => b.frontMatter.id - a.frontMatter.id
+  );
   return (
     <section className="space-y-6 font-sora">
       <div className="flex items-center justify-between">
@@ -26,7 +28,7 @@ const BlogPreview = async () => {
           </Link>
         </SectionSubHeading>
       </div>
-      {content && <BlogCarousel content={content} />}
+      {sortedContents && <BlogCarousel content={sortedContents} />}
     </section>
   );
 };
