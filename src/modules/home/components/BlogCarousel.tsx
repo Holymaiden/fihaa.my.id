@@ -5,16 +5,12 @@ import { useMemo, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 
 import BlogCardNewSkeleton from "@/common/components/skeleton/BlogCardSkeleton";
-import { BlogItemProps } from "@/common/types/blog";
 import BlogCard from "@/modules/blog/components/BlogCard";
-import { BLOG_ITEMS } from "@/common/constant/blog";
 
-const BlogCarousel = () => {
-  const data = BLOG_ITEMS.slice(0, 4);
-
-  const blogData: BlogItemProps[] = useMemo(() => {
-    return data || [];
-  }, [data]);
+const BlogCarousel = ({ content }: any) => {
+  const blogData = useMemo(() => {
+    return content || [];
+  }, [content]);
 
   const ref =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
@@ -27,9 +23,9 @@ const BlogCarousel = () => {
       ));
     }
 
-    return blogData.map((item, index) => (
+    return blogData.map((item: any) => (
       <motion.div
-        key={index}
+        key={item.slug}
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -100 }}

@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { BsArrowRightShort as ViewAllIcon } from "react-icons/bs";
 
@@ -7,8 +5,12 @@ import SectionHeading from "@/common/components/elements/SectionHeading";
 import SectionSubHeading from "@/common/components/elements/SectionSubHeading";
 
 import BlogCarousel from "./BlogCarousel";
+import { loadMdxFiles } from "@/common/libs/mdx";
+import Loading from "@/common/components/elements/Loading";
 
-const BlogPreview = () => {
+const BlogPreview = async () => {
+  const content = await loadMdxFiles("blogs", "");
+
   return (
     <section className="space-y-6 font-sora">
       <div className="flex items-center justify-between">
@@ -24,7 +26,7 @@ const BlogPreview = () => {
           </Link>
         </SectionSubHeading>
       </div>
-      <BlogCarousel />
+      {content && <BlogCarousel content={content} />}
     </section>
   );
 };

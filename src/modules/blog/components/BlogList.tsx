@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
 import { useDebounce } from "usehooks-ts";
 
 import EmptyState from "@/common/components/elements/EmptyState";
@@ -11,7 +10,6 @@ import Pagination from "@/common/components/elements/Pagination";
 import SearchBar from "@/common/components/elements/SearchBar";
 import BlogCardSkeleton from "@/common/components/skeleton/BlogCardSkeleton";
 import { BlogItemProps } from "@/common/types/blog";
-import { fetcher } from "@/services/fetcher";
 
 import BlogCard from "./BlogCard";
 import BlogFeaturedSection from "./BlogFeaturedSection";

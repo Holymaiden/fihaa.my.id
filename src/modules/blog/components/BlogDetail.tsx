@@ -1,50 +1,39 @@
-import useSWR from "swr";
-
 import Breakline from "@/common/components/elements/Breakline";
 import { calculateReadingTime } from "@/common/helpers";
-import { fetcher } from "@/services/fetcher";
 
 import BlogHeader from "./BlogHeader";
-import { strToMdx } from "@/common/libs/mdx";
+import { MdxFileProps, strToMdx } from "@/common/libs/mdx";
 import { BLOG_ITEMS } from "@/common/constant/blog";
 
-const BlogDetail = async ({ slug }: { slug: string }) => {
-  // const { data: viewsData } = useSWR(
-  //   `/api/views?slug=${slug}&id=${id}`,
-  //   fetcher
-  // );
-
-  const blog: any = BLOG_ITEMS.find((item) => item.slug === slug) || {};
-
-  const viewsCount = 0;
-
-  const readingTimeMinutes = calculateReadingTime(blog.content?.rendered) ?? 0;
-
-  const contentMdx = await strToMdx(blog.content?.markdown);
-
+const BlogDetail = async ({
+  slug,
+  content,
+}: {
+  slug: string;
+  content: MdxFileProps | any;
+}) => {
   return (
     <>
       <BlogHeader
-        title={blog.title?.rendered}
-        comments_count={0}
-        reading_time_minutes={readingTimeMinutes}
-        published_at={blog.date}
-        page_views_count={viewsCount}
+        title={content?.frontMatter?.title}
+        language={content?.frontMatter?.language}
+        type={content?.frontMatter?.type}
+        published_at={content?.frontMatter?.date}
       />
-      <div className="space-y-6 leading-[1.8] dark:text-neutral-300 ">
-        {blog.content?.rendered && contentMdx.content}
+      <div className="space-y-6 leading-[1.8] dark:text-neutral-300 font-sora">
+        {content && content.content}
       </div>
-      {blog.tags_list?.length >= 1 && (
+      {content?.frontMatter?.categories?.length >= 1 && (
         <div className="my-10 space-y-2">
           <h6 className="text-lg font-medium">Tags:</h6>
           <div className="flex flex-wrap gap-2 pt-2">
-            {blog.tags_list?.map((tag: any) => (
+            {content?.frontMatter?.categories?.map((tag: any) => (
               <div
-                key={tag?.term_id}
+                key={tag}
                 className="bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-200 rounded-full px-4 py-1 text-[14px] font-medium"
               >
                 <span className="font-semibold mr-1">#</span>
-                {tag?.name.charAt(0).toUpperCase() + tag?.name.slice(1)}
+                {tag.charAt(0).toUpperCase() + tag.slice(1)}
               </div>
             ))}
           </div>

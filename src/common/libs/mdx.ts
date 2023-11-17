@@ -4,9 +4,9 @@ import { compileMDX } from "next-mdx-remote/rsc";
 
 import useMDXComponents from "@/app/mdx-components";
 
-interface MdxFileProps {
+export interface MdxFileProps {
   slug: string;
-  frontMatter: Record<string, unknown>;
+  frontMatter: Record<string, unknown> | any;
   content?: string;
 }
 
@@ -20,7 +20,8 @@ interface MdxFileNovelProps {
 
 export const loadMdxFiles = async (
   type: string,
-  slug: string
+  slug: string,
+  limit?: number
 ): Promise<MdxFileProps[] | any> => {
   const dirPath = path.join(process.cwd(), "src", "contents", type, slug);
 
@@ -33,7 +34,7 @@ export const loadMdxFiles = async (
   const contents: MdxFileProps[] = [];
 
   await Promise.all(
-    files.map(async (file) => {
+    files.slice(0, limit ? limit : files.length).map(async (file) => {
       const filePath = path.join(dirPath, file);
       const source = fs.readFileSync(filePath, "utf-8");
 
