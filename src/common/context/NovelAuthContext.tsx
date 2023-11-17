@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, ReactNode, useState } from "react";
+import { useCookies } from "next-client-cookies";
 
 interface NovelAuthContextType {
   isOpen: boolean;
@@ -23,15 +24,12 @@ interface NovelAuthProviderProps {
 }
 
 export const NovelAuthProvider = ({ children }: NovelAuthProviderProps) => {
-  const getCookie: () => boolean = () => {
-    const cookies = document.cookie.split("; ");
-    const novelAuth = cookies.find((cookie) => cookie.startsWith("novelAuth="));
-    if (novelAuth) {
-      const expires = new Date(novelAuth.split("=")[1]);
-      if (expires < new Date()) {
-        return false;
-      }
-      return novelAuth.split("=")[1] === "true";
+  const cookies = useCookies();
+
+  const getCookie = () => {
+    const cookieNovel = cookies.get("novelAuth");
+    if (cookieNovel) {
+      return cookieNovel === "true";
     }
     return false;
   };
@@ -45,16 +43,13 @@ export const NovelAuthProvider = ({ children }: NovelAuthProviderProps) => {
 
   const setCookie = (key: string) => {
     if (key === "Fihaa") {
-      // expired 1 day
-      const expires = new Date();
-      expires.setDate(expires.getDate() + 1);
-      document.cookie = `novelAuth=true; expires=${expires.toUTCString()};`;
+      cookies.set("novelAuth", "true", { expires: 60 * 60 * 24 });
       setError(null);
       setOpen(false);
       return;
     }
 
-    document.cookie = "novelAuth=false";
+    cookies.set("novelAuth", "false", { expires: 60 * 60 * 24 });
     setError("Invalid Key");
   };
 

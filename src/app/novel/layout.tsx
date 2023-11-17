@@ -1,5 +1,6 @@
 import NovelAuth from "@/common/components/elements/NovelAuth";
 import { NovelAuthProvider } from "@/common/context/NovelAuthContext";
+import { CookiesProvider } from "next-client-cookies/server";
 
 export default function NovelLayout({
   children,
@@ -7,9 +8,11 @@ export default function NovelLayout({
   children: React.ReactNode;
 }) {
   return (
-    <NovelAuthProvider>
-      <NovelAuth />
-      {children}
-    </NovelAuthProvider>
+    <CookiesProvider>
+      <NovelAuthProvider>
+        <NovelAuth />
+        {children}
+      </NovelAuthProvider>
+    </CookiesProvider>
   );
 }
