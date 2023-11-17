@@ -13,9 +13,9 @@ import { BlogItemProps } from "@/common/types/blog";
 
 import BlogCard from "./BlogCard";
 import BlogFeaturedSection from "./BlogFeaturedSection";
-import { BLOG_ITEMS } from "@/common/constant/blog";
+import { MdxFileProps } from "@/common/libs/mdx";
 
-const BlogList = () => {
+const BlogList = ({ content }: MdxFileProps | any) => {
   const [page, setPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter();
@@ -24,17 +24,19 @@ const BlogList = () => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const data = BLOG_ITEMS.filter((item) => {
-    if (debouncedSearchTerm) {
-      return item.title.rendered
-        .toLowerCase()
-        .includes(debouncedSearchTerm.toLowerCase());
-    }
-    return true;
-  }).slice((page - 1) * 6, page * 6);
+  const data = content
+    .filter((item: any) => {
+      if (debouncedSearchTerm) {
+        return item.title
+          .toLowerCase()
+          .includes(debouncedSearchTerm.toLowerCase());
+      }
+      return true;
+    })
+    .slice((page - 1) * 6, page * 6);
 
-  const total_pages = Math.ceil(BLOG_ITEMS.length / 6);
-  const total_posts = BLOG_ITEMS.length;
+  const total_pages = Math.ceil(content.length / 6);
+  const total_posts = content.length;
 
   const handlePageChange = async (newPage: number) => {
     router.push(`/blog?page=${newPage}&search=${debouncedSearchTerm}`, {
@@ -101,9 +103,9 @@ const BlogList = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
           {!data || data.length !== 0 ? (
             <>
-              {data.map((item: BlogItemProps, index: number) => (
+              {data.map((item: MdxFileProps, index: number) => (
                 <motion.div
-                  key={item.id}
+                  key={item.slug}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
