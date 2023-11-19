@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { NextPage, Metadata } from "next";
 
 import BackButton from "@/common/components/elements/BackButton";
 import Container from "@/common/components/elements/Container";
@@ -13,6 +13,28 @@ import { Suspense } from "react";
 interface ContentPageProps {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const content: ContentProps | undefined = LEARN_CONTENTS.find(
+    (content) => content.slug === params.slug
+  );
+
+  if (!content) {
+    return {
+      title: "Learn | Fihaa Portfolio",
+      description: "Learn | Fihaa Portfolio",
+    };
+  }
+
+  return {
+    title: `${content.title} | Fihaa Portfolio`,
+    description: content.description,
   };
 }
 

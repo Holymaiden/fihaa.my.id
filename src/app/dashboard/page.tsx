@@ -1,7 +1,4 @@
-"use client";
-
-import { NextPage } from "next";
-import { SWRConfig } from "swr";
+import { NextPage, Metadata } from "next";
 
 import Container from "@/common/components/elements/Container";
 import PageHeading from "@/common/components/elements/PageHeading";
@@ -13,16 +10,19 @@ const PAGE_TITLE = "Dashboard";
 const PAGE_DESCRIPTION =
   "This is my personal dashboard, built with Next.js API routes deployed as serverless functions.";
 
+export const metadata: Metadata = {
+  title: `${PAGE_TITLE} | Fihaa Portfolio`,
+  description: PAGE_DESCRIPTION,
+};
+
 const DashboardPage: NextPage = () => {
   return (
-    <SWRConfig>
-      <Container data-aos="fade-up">
-        <Suspense fallback={<Loading />}>
-          <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
-          <Dashboard />
-        </Suspense>
-      </Container>
-    </SWRConfig>
+    <Container data-aos="fade-up">
+      <Suspense fallback={<Loading />}>
+        <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
+        <Dashboard />
+      </Suspense>
+    </Container>
   );
 };
 

@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { Metadata, NextPage } from "next";
 
 import BackButton from "@/common/components/elements/BackButton";
 import Container from "@/common/components/elements/Container";
@@ -13,6 +13,28 @@ import { MdxFileContentProps, ContentProps } from "@/common/types/novel";
 interface NovelPageProps {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const content: ContentProps | undefined = NOVEL_CONTENTS.find(
+    (content) => String(content.slug) === String(params.slug)
+  );
+
+  if (!content) {
+    return {
+      title: "Novel | Fihaa Portfolio",
+      description: "Novel | Fihaa Portfolio",
+    };
+  }
+
+  return {
+    title: `${content.title} | Fihaa Portfolio`,
+    description: content.description,
   };
 }
 

@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { NextPage, Metadata } from "next";
 
 import Container from "@/common/components/elements/Container";
 import BlogDetail from "@/modules/blog/components/BlogDetail";
@@ -9,6 +9,26 @@ import Loading from "@/common/components/elements/Loading";
 interface BlogDetailPageProps {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const content: any = await loadMdxFile("blogs/", params.slug);
+
+  if (!content) {
+    return {
+      title: "Blog | Fihaa Portfolio",
+      description: "Blog | Fihaa Portfolio",
+    };
+  }
+
+  return {
+    title: `${content.frontMatter.title} | Fihaa Portfolio`,
+    description: content.frontMatter.title,
   };
 }
 

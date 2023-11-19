@@ -1,3 +1,5 @@
+"use client";
+
 import { HiOutlineBriefcase as CareerIcon } from "react-icons/hi";
 
 import SectionHeading from "@/common/components/elements/SectionHeading";

@@ -1,17 +1,38 @@
-import { NextPage } from "next";
+import { NextPage, Metadata } from "next";
 
 import BackButton from "@/common/components/elements/BackButton";
 import Container from "@/common/components/elements/Container";
 import PageHeading from "@/common/components/elements/PageHeading";
-import { ProjectItemProps } from "@/common/types/projects";
 import ProjectDetail from "@/modules/projects/components/ProjectDetail";
 
-import { PROJECTS } from "@/common/constant/project";
 import { MdxFileProps, loadMdxFile } from "@/common/libs/mdx";
 
 interface ProjectsDetailPageProps {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const project: MdxFileProps | any = await loadMdxFile(
+    "projects",
+    params.slug
+  );
+
+  if (!project) {
+    return {
+      title: "Project | Fihaa Portfolio",
+      description: "Project | Fihaa Portfolio",
+    };
+  }
+
+  return {
+    title: `${project?.frontMatter?.title} | Fihaa Portfolio`,
+    description: project?.frontMatter?.description,
   };
 }
 

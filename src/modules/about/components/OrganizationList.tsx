@@ -1,3 +1,5 @@
+"use client";
+
 import { GiOrganigram as OrganizationIcon } from "react-icons/gi";
 
 import SectionHeading from "@/common/components/elements/SectionHeading";

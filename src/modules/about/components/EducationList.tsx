@@ -1,3 +1,5 @@
+"use client";
+
 import { TbSchool as EducationIcon } from "react-icons/tb";
 
 import SectionHeading from "@/common/components/elements/SectionHeading";

@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { Metadata, NextPage } from "next";
 import { Suspense } from "react";
 
 import BackButton from "@/common/components/elements/BackButton";
@@ -14,6 +14,32 @@ interface NovelContentPageProps {
   params: {
     slug: string;
     content: string;
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string; content: string };
+}): Promise<Metadata> {
+  const novelData: any = await loadMdxNovelFile(
+    "novels/" + params.slug,
+    params.content
+  );
+  const novelContent: ContentProps | any = NOVEL_CONTENTS.find(
+    (content) => String(content.slug) === String(params.slug)
+  );
+
+  if (!novelData) {
+    return {
+      title: "Novel | Fihaa Portfolio",
+      description: "Novel | Fihaa Portfolio",
+    };
+  }
+
+  return {
+    title: `${novelData.frontMatter?.title} | ${novelContent.title}`,
+    description: novelContent.description,
   };
 }
 
