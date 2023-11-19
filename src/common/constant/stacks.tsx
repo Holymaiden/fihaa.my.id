@@ -27,6 +27,7 @@ import {
   SiChakraui,
   SiLivewire,
   SiMarkdown,
+  SiFlask,
 } from "react-icons/si";
 
 export type stacksProps = {
@@ -37,6 +38,7 @@ const iconSize = 24;
 
 export const STACKS: stacksProps = {
   PHP: <SiPhp size={iconSize} className="text-blue-500" />,
+  Flask: <SiFlask size={iconSize} className="text-green-500" />,
   Golang: <SiGo size={iconSize} className="text-blue-500" />,
   "C++": <SiCplusplus size={iconSize} className="text-blue-700" />,
   Kotlin: <SiKotlin size={iconSize} className="text-blue-500" />,
