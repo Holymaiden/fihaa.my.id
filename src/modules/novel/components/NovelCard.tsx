@@ -89,7 +89,7 @@ const NovelCard = ({
               <Tooltip title="by fihaa">
                 <Image
                   src="/images/fihaa.png"
-                  alt="Ryan Aulia"
+                  alt="Fihaa"
                   width={25}
                   height={25}
                   rounded="rounded-full"

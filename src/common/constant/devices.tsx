@@ -16,31 +16,31 @@ export const PAIR_DEVICES: Record<string, DeviceInfoProps> = {
   Computer: {
     icon: <BsLaptop className={iconClassName} size={iconSize} />,
     model: "MacBook Pro M1",
-    id: "aulianza-mac",
+    id: "fihaa-mac",
   },
   Smartphone: {
     icon: <BsPhone className={iconClassName} size={iconSize} />,
     model: "iPhone 13 Pro",
-    id: "aulianza-iphone",
+    id: "fihaa-iphone",
   },
   Tablet: {
     icon: <BsTablet className={iconClassName} size={iconSize} />,
     model: "iPad Mini 6",
-    id: "aulianza-ipad",
+    id: "fihaa-ipad",
   },
   Smartwatch: {
     icon: <BsSmartwatch className={iconClassName} size={iconSize} />,
     model: "Apple Watch Series 7",
-    id: "aulianza-iwatch",
+    id: "fihaa-iwatch",
   },
   Speaker: {
     icon: <BsSpeaker className={iconClassName} size={iconSize} />,
     model: "Sony",
-    id: "aulianza-speaker",
+    id: "fihaa-speaker",
   },
   TV: {
     icon: <BsTv className={iconClassName} size={iconSize} />,
     model: "Android TV",
-    id: "aulianza-tv",
+    id: "fihaa-tv",
   },
 };
