@@ -24,6 +24,7 @@ const ProjectCard = ({ slug, frontMatter }: MdxFileProps | any) => {
             width={400}
             height={200}
             alt={slug}
+            priority={true}
             className="rounded-t-xl h-48 object-cover object-left"
           />
           <div className="flex gap-1 absolute top-0 left-0 w-full h-full bg-black opacity-0 transition-opacity duration-300 justify-center items-center text-white group-hover:opacity-80 rounded-t-xl text-sm font-medium">
