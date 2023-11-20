@@ -17,7 +17,7 @@ const Navigation = () => {
   return (
     <div>
       <Menu list={filterdMenu} />
-      <div className="pt-1">
+      {/* <div className="pt-1">
         <MenuItem
           title={isMobile ? "Command" : "cmd + k"}
           href="#"
@@ -29,7 +29,7 @@ const Navigation = () => {
             <span>AI Powered</span>
           </div>
         </MenuItem>
-      </div>
+      </div> */}
     </div>
   );
 };

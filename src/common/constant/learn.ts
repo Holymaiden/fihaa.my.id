@@ -11,15 +11,4 @@ export const LEARN_CONTENTS: ContentProps[] = [
     level: "Beginner",
     is_show: true,
   },
-  {
-    id: 2,
-    title: "Problem Solving",
-    slug: "problem-solving",
-    description:
-      "Learn problem solving in JavaScript with detailed explanations.",
-    image: "/images/placeholder.png",
-    is_new: false,
-    level: "All Levels",
-    is_show: true,
-  },
 ];
