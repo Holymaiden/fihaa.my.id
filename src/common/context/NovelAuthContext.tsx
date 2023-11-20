@@ -43,13 +43,13 @@ export const NovelAuthProvider = ({ children }: NovelAuthProviderProps) => {
 
   const setCookie = (key: string) => {
     if (key === "Fihaa") {
-      cookies.set("novelAuth", "true", { expires: 60 * 60 * 24 });
+      cookies.set("novelAuth", "true", { expires: 1 * 24 });
       setError(null);
       setOpen(false);
       return;
     }
 
-    cookies.set("novelAuth", "false", { expires: 60 * 60 * 24 });
+    cookies.set("novelAuth", "false", { expires: 1 * 24 });
     setError("Invalid Key");
   };
 
