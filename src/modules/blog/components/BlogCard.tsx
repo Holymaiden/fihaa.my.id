@@ -46,7 +46,7 @@ const BlogCard = ({ slug, frontMatter }: MdxFileProps) => {
             alt={frontMatter?.title}
             fill={true}
             sizes="100vw"
-            className="object-cover object-left w-full h-full transform transition-transform duration-300 group-hover:scale-105 group-hover:blur-sm"
+            className="object-cover object-left h-full transform transition-transform duration-300 group-hover:scale-105 group-hover:blur-sm"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black opacity-80 transition-opacity duration-300"></div>
         </div>
