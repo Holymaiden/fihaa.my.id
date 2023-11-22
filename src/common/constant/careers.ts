@@ -2,6 +2,18 @@ import { CareerProps } from "../types/careers";
 
 export const CAREERS: CareerProps[] = [
   {
+    position: "Freelance Software Developer",
+    company: "Freelance",
+    logo: "/images/careers/freelance.png",
+    location: "Makassar",
+    location_type: "Remote",
+    type: "Freelance",
+    start_date: "2021-9",
+    end_date: null,
+    industry: "",
+    link: "https://fihaa.my.id/projects",
+  },
+  {
     position: "Documentation Engineer Intern",
     company: "eFishery",
     logo: "/images/careers/eFishery.png",
