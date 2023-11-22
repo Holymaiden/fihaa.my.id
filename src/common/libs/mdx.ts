@@ -10,7 +10,7 @@ export interface MdxFileProps {
   content?: string;
 }
 
-interface MdxFileNovelProps {
+interface MdxFileNextPrevProps {
   slug: string;
   frontMatter: Record<string, unknown>;
   content?: string;
@@ -137,10 +137,87 @@ export const loadMdxFile = async (
   };
 };
 
+export const loadMdxFileById = async (
+  type: string,
+  slug: string
+): Promise<MdxFileProps | { content: string | any }> => {
+  const dirPath = path.join(process.cwd(), "src", "contents", type);
+
+  if (!fs.existsSync(dirPath)) {
+    return { content: "Not Found" };
+  }
+
+  const files = fs.readdirSync(dirPath);
+
+  // get file by slug
+  const file = files.find((file) => file.split("-")[0] === slug);
+
+  if (!file) {
+    return { content: "Not Found" };
+  }
+  const filePath = path.join(dirPath, file);
+  const source = fs.readFileSync(filePath, "utf-8");
+
+  const { content, frontmatter } = await compileMDX<{ title: string }>({
+    source: source,
+    options: { parseFrontmatter: true },
+    components: useMDXComponents,
+  });
+
+  return {
+    slug: file.replace(".mdx", ""),
+    frontMatter: frontmatter,
+    content: content,
+  };
+};
+
+export const loadMdxNextPrevFile = async (
+  type: string,
+  slug: string
+): Promise<MdxFileNextPrevProps | { content: string | any }> => {
+  const dirPath = path.join(process.cwd(), "src", "contents", type);
+
+  if (!fs.existsSync(dirPath)) {
+    return { content: "Not Found" };
+  }
+
+  const files = fs.readdirSync(dirPath);
+
+  // get file by slug
+  const file = files.find((file) => file.replace(".mdx", "") === slug);
+
+  if (!file) {
+    return { content: "Not Found" };
+  }
+
+  const filePath = path.join(dirPath, file);
+  const source = fs.readFileSync(filePath, "utf-8");
+
+  const { content, frontmatter } = await compileMDX({
+    source: source,
+    options: { parseFrontmatter: true },
+    components: useMDXComponents,
+  });
+
+  return {
+    slug: file.replace(".mdx", ""),
+    frontMatter: frontmatter,
+    content: content,
+    nextContent: await loadMdxFileById(
+      type,
+      String(Number(frontmatter.id) + 1)
+    ),
+    previousContent: await loadMdxFileById(
+      type,
+      String(Number(frontmatter.id) - 1)
+    ),
+  };
+};
+
 export const loadMdxNovelFile = async (
   type: string,
   slug: string
-): Promise<MdxFileNovelProps | { content: string | any }> => {
+): Promise<MdxFileNextPrevProps | { content: string | any }> => {
   const dirPath = path.join(process.cwd(), "src", "contents", type);
 
   if (!fs.existsSync(dirPath)) {

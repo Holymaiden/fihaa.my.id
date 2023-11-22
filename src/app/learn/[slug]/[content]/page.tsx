@@ -2,7 +2,11 @@ import { NextPage, Metadata } from "next";
 
 import BackButton from "@/common/components/elements/BackButton";
 import Container from "@/common/components/elements/Container";
-import { loadMdxFile } from "@/common/libs/mdx";
+import {
+  getMdxFileCount,
+  loadMdxFile,
+  loadMdxNextPrevFile,
+} from "@/common/libs/mdx";
 import ContentDetail from "@/modules/learn/components/ContentDetail";
 import ContentDetailHeader from "@/modules/learn/components/ContentDetailHeader";
 import Loading from "@/common/components/elements/Loading";
@@ -34,23 +38,25 @@ export async function generateMetadata({
 const LearnContentDetailPage: NextPage = async ({ params }: any) => {
   const { slug, content } = params;
 
-  const { content: mdx, frontMatter }: any = await loadMdxFile(
+  const contentLearn: any = await loadMdxNextPrevFile(
     "learns/" + slug,
     content
   );
+
+  const learnLength = await getMdxFileCount("learns", slug);
 
   return (
     <>
       <Container data-aos="fade-up">
         <BackButton url={`/learn/${slug}`} />
         <Suspense fallback={<Loading />}>
-          <ContentDetailHeader {...frontMatter} />
+          <ContentDetailHeader {...contentLearn.frontMatter} />
         </Suspense>
         <Suspense fallback={<Loading />}>
           <ContentDetail
-            content={mdx}
-            frontMatter={frontMatter}
+            {...contentLearn}
             params={params}
+            learnLength={learnLength}
           />
         </Suspense>
       </Container>
