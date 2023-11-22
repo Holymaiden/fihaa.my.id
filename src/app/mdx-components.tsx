@@ -13,6 +13,11 @@ const useMDXComponents = {
     </a>
   ),
   p: (props: any) => <div {...props}> {props.children} </div>,
+  h1: (props: any) => (
+    <h1 className="text-xl font-bold dark:text-neutral-300" {...props}>
+      {props.children}
+    </h1>
+  ),
   h2: (props: any) => (
     <h2 className="text-xl font-medium dark:text-neutral-300" {...props}>
       {props.children}

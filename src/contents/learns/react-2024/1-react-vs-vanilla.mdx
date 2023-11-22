@@ -1,0 +1,50 @@
+---
+id: 1
+chapter_id: 0
+chapter_title: 'What is React?'
+title: 'React vs Vanilla JavaScript'
+slug: '1-react-vs-vanilla'
+category: 'JavaScript Fundamental'
+language: 'JavaScript'
+difficulty: 'Easy'
+---
+
+In this chapter, we delve deeper into the differences between React and Vanilla JavaScript by comparing two implementations of the same application. This comparison will highlight how React streamlines the process of keeping the user interface in sync with the application's state.
+
+## The Comparison Setup
+
+We have two versions of an advice app: one built with React and the other with Vanilla JavaScript. Both are designed to perform the same function, but the underlying implementation differs significantly.
+
+**Vanilla JavaScript Implementation**
+
+In the Vanilla JavaScript version, the application is structured with HTML at its core, incorporating JavaScript for functionality. This approach requires manual selection and manipulation of the DOM elements. For instance, elements like advice text and buttons are selected using class identifiers.
+
+JavaScript is responsible for handling events, like attaching event listeners to buttons. The state, such as advice and count values, is managed within the JavaScript code. However, updating these values doesn't automatically reflect in the UI. Developers must manually manipulate the DOM to reflect these changes, making the code more verbose and complex.
+
+<center>![Vanilla JS!](/images/learn/react-2024/content-1/vanilla-js.png "Vanilla JS")</center>
+
+**React Implementation**
+
+In contrast, the React version encapsulates both the structure (JSX) and the functionality within JavaScript, giving JavaScript full control. JSX, which resembles HTML, is used within JavaScript, illustrating a fundamental shift in philosophy.
+
+React's major advantage is its automatic synchronization of the UI with the application state. When state values like advice and count are updated, React handles the UI updates seamlessly. This abstraction frees developers from the complexities of manual DOM manipulation, leading to more concise and maintainable code.
+
+
+<center>![Vanilla JS!](/images/learn/react-2024/content-1/react.png "Vanilla JS")</center>
+
+## The Core Difference
+
+The fundamental difference lies in how each approach handles the synchronization between data (state) and the UI:
+
+- **Vanilla JavaScript**: Requires explicit, manual updates to the DOM whenever the state changes, making the code more cumbersome and error-prone.
+- **React**: Automates UI updates in response to state changes, significantly simplifying code management and reducing the potential for bugs.
+
+## Practical Implications
+
+For small applications, the difference might seem trivial, but as applications grow in complexity, the manual DOM manipulation in Vanilla JavaScript becomes unmanageable. React, with its automatic state-to-UI synchronization, shines in these scenarios, enabling developers to handle complex states and UI changes more efficiently.
+
+**Conclusion and Next Steps**
+
+Understanding these differences is crucial in appreciating the value React brings to modern web development. While Vanilla JavaScript can be sufficient for simple applications, React's approach is far more scalable for larger, more dynamic applications.
+
+In the next chapter, we will dive deeper into what React is and explore its features in more detail. Join us in the next lecture to expand your understanding of React and its place in modern web development.

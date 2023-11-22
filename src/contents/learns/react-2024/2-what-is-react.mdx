@@ -1,0 +1,44 @@
+---
+id: 2
+chapter_id: 0
+chapter_title: 'What is React?'
+title: 'What is React?'
+slug: '2-what-is-react'
+category: 'JavaScript Fundamental'
+language: 'JavaScript'
+difficulty: 'Easy'
+---
+
+Having understood the need for JavaScript frameworks, let's focus on React, arguably the most popular framework in use today. This chapter aims to provide a high-level overview of React, its core concepts, and why it's so widely used.
+
+# Introduction to React
+React, as described in its official documentation, is a JavaScript library for building user interfaces. But this simple definition barely scratches the surface. To better understand React, we can expand this definition: React is a highly popular, declarative, component-based, state-driven JavaScript library created by Facebook for building user interfaces.
+
+## Key Concepts of React
+
+1. **Component-Based Architecture**
+        - React's core philosophy revolves around components, which are the building blocks of any React application. Components can range from simple elements like buttons and input fields to complex structures like navigation bars and entire sections of a webpage.
+        - React encourages building user interfaces by assembling these components, much like LEGO bricks. This modular approach not only streamlines development but also enables component reusability.
+
+<center>![Component!](/images/learn/react-2024/content-2/component.png "Component")</center>
+2. **JSX (JavaScript XML)**
+        - JSX is a syntax extension for JavaScript that allows writing HTML in React. It's a declarative syntax, meaning you describe what the UI should look like for a given state, and React takes care of rendering it.
+        - JSX is a significant abstraction from the DOM, meaning developers don't have to interact directly with the DOM as they would with Vanilla JavaScript.
+3. **State-Driven UI**
+        - React keeps the user interface in sync with the application's state. When the state changes (due to user actions, data fetching, etc.), React automatically updates the UI to reflect these changes.
+        - This process, where React reacts to state changes and updates the UI, is central to React's functionality and is a key reason for its name.
+
+<center>![Render!](/images/learn/react-2024/content-2/render.png "Render")</center>
+
+## React: A Library or a Framework?
+
+While often referred to as a framework, React is technically a library focusing primarily on the view layer of an application. For a complete application, other libraries for routing, state management, and data fetching might be needed. To address this, frameworks like Next.js and Remix have been built on top of React, offering a more comprehensive solution.
+
+## The Popularity of React
+React's popularity is one of its strongest selling points. It's widely used by both large and small companies, creating a huge demand for React developers. This popularity has also fostered a vibrant community, an extensive ecosystem of third-party libraries, and abundant learning resources.
+
+## React's Origin and Impact
+Created in 2011 by Jordan Walke at Facebook, React was first used in Facebook's newsfeed and chat applications. It was open-sourced in 2013, leading to widespread adoption and significant influence on the front-end development landscape. React's impact extends beyond its own usage, as it has inspired the creation and evolution of other modern frameworks.
+
+---
+In summary, React excels in rendering components based on their state and maintaining the UI in sync with this state. Throughout this course, we will explore React's virtual DOM, Fiber architecture, one-way data flow, and other advanced techniques that make it a powerful tool for modern web development.

@@ -42,7 +42,7 @@ const ContentDetailHeader = ({
     <>
       {!isScrolled ? (
         <motion.h1
-          className="text-2xl font-semibold"
+          className="text-2xl font-semibold font-sora"
           initial="initial"
           animate="animate"
           variants={titleVariants}
@@ -52,7 +52,7 @@ const ContentDetailHeader = ({
         </motion.h1>
       ) : (
         <motion.div
-          className="lg:sticky top-0 bg-light dark:bg-dark py-6 z-10 shadow-bottom backdrop-blur border-b border-neutral-300 dark:border-neutral-600"
+          className="lg:sticky top-0 bg-light dark:bg-dark py-6 z-10 shadow-bottom backdrop-blur border-b border-neutral-300 dark:border-neutral-600 font-sora"
           initial="initial"
           animate="animate"
           variants={titleVariants}
@@ -61,7 +61,7 @@ const ContentDetailHeader = ({
           <h1 className="text-lg lg:text-xl font-semibold">{title}</h1>
         </motion.div>
       )}
-      <div className="flex flex-col sm:flex-row items-start lg:items-center gap-2 justify-between mb-6 pt-3 pb-6 border-b border-dashed border-neutral-600 text-neutral-600 dark:text-neutral-400 text-[14px]">
+      <div className="flex flex-col sm:flex-row items-start lg:items-center gap-2 justify-between mb-6 pt-3 pb-6 border-b border-dashed border-neutral-600 text-neutral-600 dark:text-neutral-400 text-[14px] font-sora">
         <div># {category}</div>
         <div className="flex gap-4 items-center mt-1">
           {source && source_url && (

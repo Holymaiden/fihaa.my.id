@@ -68,7 +68,7 @@ const LearnContentPage: NextPage<ContentPageProps> = async ({
           <PageHeading title={title} description={description} />
           <ContentList
             sortedSubContents={sortedSubContents}
-            content={content}
+            slug={params.slug}
             title={title}
           />
         </Container>

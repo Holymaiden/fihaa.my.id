@@ -12,7 +12,7 @@ interface LearnModuleProps {
 
 const LearnModule = ({ contents }: LearnModuleProps) => {
   return (
-    <div className="grid sm:grid-cols-2 gap-5 pt-2">
+    <div className="grid sm:grid-cols-2 gap-5 pt-2 font-sora">
       {contents?.map((content, index) => (
         <motion.div
           key={index}

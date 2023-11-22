@@ -15,16 +15,12 @@ import LearnSubContentItem from "./LearnSubContentItem";
 
 interface ContentListProps {
   sortedSubContents: MdxFileContentProps[];
-  content: ContentProps | null;
+  slug: string;
   title: string;
 }
 
-const ContentList = ({
-  sortedSubContents,
-  content,
-  title,
-}: ContentListProps) => {
-  const contentSlug: string = content?.slug ?? "";
+const ContentList = ({ sortedSubContents, slug, title }: ContentListProps) => {
+  const contentSlug: string = slug ?? "";
 
   const groupedContent: Record<string, ChapterGroupProps> =
     groupContentByChapter(sortedSubContents);
