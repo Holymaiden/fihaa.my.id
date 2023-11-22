@@ -4,9 +4,8 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: "/",
-      disallow: "/private/",
     },
     sitemap: "https://fihaa.my.id/sitemap.xml",
+    host: "https://fihaa.my.id",
   };
 }
