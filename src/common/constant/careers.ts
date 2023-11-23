@@ -2,7 +2,7 @@ import { CareerProps } from "../types/careers";
 
 export const CAREERS: CareerProps[] = [
   {
-    position: "Freelance Software Developer",
+    position: "Freelance Software Engineer",
     company: "Freelance",
     logo: "/images/careers/freelance.png",
     location: "Makassar",
