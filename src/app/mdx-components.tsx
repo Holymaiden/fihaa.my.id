@@ -1,4 +1,4 @@
-import type { MDXComponents } from "mdx/types";
+import Image from "next/image";
 
 const Table = ({ children }: any) => (
   <div className="table-container">
@@ -59,6 +59,11 @@ const useMDXComponents = {
     <td className="border dark:border-neutral-600  py-1 px-3">
       {props.children}
     </td>
+  ),
+  img: (props: any) => (
+    <Image className="w-full" alt={props.alt} {...props}>
+      {props.children}
+    </Image>
   ),
 };
 
