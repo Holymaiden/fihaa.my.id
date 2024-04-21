@@ -1,13 +1,12 @@
-"use client";
+'use client';
 
-import clsx from "clsx";
+import clsx from 'clsx';
+import Link from 'next/link';
 
-import Button from "@/common/components/elements/Button";
-import { SOCIAL_MEDIA } from "@/common/constant/menu";
+import Button from '@/common/components/elements/Button';
+import { SOCIAL_MEDIA } from '@/common/constant/menu';
 
 const SocialMediaList = () => {
-  const handleAction = (link: string) => window.open(link, "_blank");
-
   return (
     <div className="space-y-5 pb-2">
       <h3 className="text-lg font-medium">Find me on social media</h3>
@@ -15,15 +14,16 @@ const SocialMediaList = () => {
         {SOCIAL_MEDIA?.map((item, index: number) => (
           <Button
             className={clsx(
-              "w-full md:w-1/5 flex justify-center items-center hover:scale-105 transition-all duration-300",
-              item?.className
+              'w-full md:w-1/5 flex justify-center items-center hover:scale-105 transition-all duration-300',
+              item?.className,
             )}
             key={index}
-            onClick={() => handleAction(item?.href)}
             icon={item?.icon}
             data-umami-event={item?.eventName}
           >
-            {item?.title}
+            <Link href={item?.href} key={index} passHref target="_blank">
+              {item?.title}
+            </Link>
           </Button>
         ))}
       </div>

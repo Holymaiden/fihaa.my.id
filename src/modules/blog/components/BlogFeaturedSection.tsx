@@ -1,12 +1,17 @@
-import React, { useMemo } from "react";
+import React, { useMemo } from 'react';
 
-import BlogFeaturedHeroSkeleton from "@/common/components/skeleton/BlogFeaturedHeroSkeleton";
+import BlogFeaturedHeroSkeleton from '@/common/components/skeleton/BlogFeaturedHeroSkeleton';
+import type { MdxFileProps } from '@/common/libs/mdx';
+import { type BlogDetailProps } from '@/common/types/blog';
 
-import BlogFeaturedHero from "./BlogFeaturedHero";
-import { MdxFileProps } from "@/common/libs/mdx";
+import BlogFeaturedHero from './BlogFeaturedHero';
 
-const BlogFeaturedSection = ({ content }: MdxFileProps[] | any) => {
-  const featuredData: MdxFileProps[] = useMemo(() => {
+type BlogFeaturedHeroProps = {
+  content: MdxFileProps<BlogDetailProps>[];
+};
+
+const BlogFeaturedSection = ({ content }: BlogFeaturedHeroProps) => {
+  const featuredData: MdxFileProps<BlogDetailProps>[] = useMemo(() => {
     if (content && Array.isArray(content)) {
       return content;
     }

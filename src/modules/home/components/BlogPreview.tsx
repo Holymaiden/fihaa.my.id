@@ -1,17 +1,18 @@
-import Link from "next/link";
-import { BsArrowRightShort as ViewAllIcon } from "react-icons/bs";
+import Link from 'next/link';
+import { BsArrowRightShort as ViewAllIcon } from 'react-icons/bs';
 
-import SectionHeading from "@/common/components/elements/SectionHeading";
-import SectionSubHeading from "@/common/components/elements/SectionSubHeading";
+import SectionHeading from '@/common/components/elements/SectionHeading';
+import SectionSubHeading from '@/common/components/elements/SectionSubHeading';
+import { loadMdxFiles } from '@/common/libs/mdx';
+import { type BlogItemProps } from '@/common/types/blog';
 
-import BlogCarousel from "./BlogCarousel";
-import { loadMdxFiles } from "@/common/libs/mdx";
+import BlogCarousel from './BlogCarousel';
 
 const BlogPreview = async () => {
-  const content = await loadMdxFiles("blogs", "");
+  const content = await loadMdxFiles<BlogItemProps>('blogs', '');
 
   const sortedContents = content.sort(
-    (a: any, b: any) => b.frontMatter.id - a.frontMatter.id
+    (a, b) => b.frontMatter.id - a.frontMatter.id,
   );
   return (
     <section className="space-y-6 font-sora">

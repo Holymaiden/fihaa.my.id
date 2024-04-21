@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { ReactNode } from "react";
+import styled from '@emotion/styled';
+import type { ReactNode } from 'react';
 
 interface InfiniteLoopSliderProps {
   children: ReactNode;
@@ -23,5 +23,5 @@ const InfiniteLoopSlider = ({
 export default InfiniteLoopSlider;
 
 const StyledSlider = styled.div<{ isReverse: boolean }>`
-  animation-direction: ${({ isReverse }) => (isReverse ? "reverse" : "normal")};
+  animation-direction: ${({ isReverse }) => (isReverse ? 'reverse' : 'normal')};
 `;

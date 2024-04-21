@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const useLoading = () => {
   const [isLoading, setIsLoading] = useState(true);

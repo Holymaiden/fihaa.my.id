@@ -1,4 +1,4 @@
-import Sidebar from "../partials/Sidebar";
+import Sidebar from '../partials/Sidebar';
 
 const HeaderSidebar = () => {
   return (

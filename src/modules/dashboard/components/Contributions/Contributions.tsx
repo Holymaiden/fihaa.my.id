@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { BsGithub as GithubIcon } from "react-icons/bs";
-import useSWR from "swr";
+import Link from 'next/link';
+import { BsGithub as GithubIcon } from 'react-icons/bs';
+import useSWR from 'swr';
 
-import SectionHeading from "@/common/components/elements/SectionHeading";
-import SectionSubHeading from "@/common/components/elements/SectionSubHeading";
-import { fetcher } from "@/services/fetcher";
+import Loading from '@/common/components/elements/Loading';
+import SectionHeading from '@/common/components/elements/SectionHeading';
+import SectionSubHeading from '@/common/components/elements/SectionSubHeading';
+import { type CalendarResponse } from '@/common/types/github';
+import { fetcher } from '@/services/fetcher';
 
-import Calendar from "./Calendar";
-import Overview from "./Overview";
-import Loading from "@/common/components/elements/Loading";
+import Calendar from './Calendar';
+import Overview from './Overview';
 
 type ContributionsProps = {
   username: string;
@@ -19,10 +20,12 @@ type ContributionsProps = {
 };
 
 const Contributions = ({ username, endpoint }: ContributionsProps) => {
-  const { data } = useSWR(endpoint, fetcher);
+  const { data } = useSWR<CalendarResponse, Error>(endpoint, fetcher);
 
   const contributionCalendar =
-    data?.contributionsCollection?.contributionCalendar;
+    data?.contributionsCollection.contributionCalendar;
+
+  if (!contributionCalendar) return null;
 
   return (
     <section className="flex flex-col gap-y-2">

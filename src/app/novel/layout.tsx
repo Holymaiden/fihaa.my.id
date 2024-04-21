@@ -1,6 +1,7 @@
-import NovelAuth from "@/common/components/elements/NovelAuth";
-import { NovelAuthProvider } from "@/common/context/NovelAuthContext";
-import { CookiesProvider } from "next-client-cookies/server";
+import { CookiesProvider } from 'next-client-cookies/server';
+
+import NovelAuth from '@/common/components/elements/NovelAuth';
+import { NovelAuthProvider } from '@/common/context/NovelAuthContext';
 
 export default function NovelLayout({
   children,

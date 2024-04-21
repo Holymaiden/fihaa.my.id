@@ -1,15 +1,14 @@
-import Breakline from "@/common/components/elements/Breakline";
+import Breakline from '@/common/components/elements/Breakline';
+import type { MdxFileProps } from '@/common/libs/mdx';
+import type { BlogDetailProps as BlogDetailTypes } from '@/common/types/blog';
 
-import BlogHeader from "./BlogHeader";
-import { MdxFileProps } from "@/common/libs/mdx";
+import BlogHeader from './BlogHeader';
 
-const BlogDetail = async ({
-  slug,
-  content,
-}: {
-  slug: string;
-  content: MdxFileProps | any;
-}) => {
+type BlogDetailProps = {
+  content: MdxFileProps<BlogDetailTypes>;
+};
+
+const BlogDetail = ({ content }: BlogDetailProps) => {
   return (
     <>
       <BlogHeader
@@ -25,7 +24,7 @@ const BlogDetail = async ({
         <div className="my-10 space-y-2">
           <h6 className="text-lg font-medium">Tags:</h6>
           <div className="flex flex-wrap gap-2 pt-2">
-            {content?.frontMatter?.categories?.map((tag: any) => (
+            {content?.frontMatter?.categories?.map((tag) => (
               <div
                 key={tag}
                 className="bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-200 rounded-full px-4 py-1 text-[14px] font-medium"

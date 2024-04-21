@@ -1,22 +1,22 @@
-import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import '@/common/styles/globals.css';
+import 'aos/dist/aos.css';
 
-import { Providers } from "./providers";
-import Layout from "@/common/components/layouts";
+import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 
-import "@/common/styles/globals.css";
-import "aos/dist/aos.css";
+import Layout from '@/common/components/layouts';
+import { firaCode, jakartaSans, soraSans } from '@/common/styles/fonts';
 
-import { firaCode, jakartaSans, soraSans } from "@/common/styles/fonts";
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
-  title: "Porfolio - Fihaa",
-  description: "Porfolio - M. Fiqri Haikhar Anwar",
+  title: 'Porfolio - Fihaa',
+  description: 'Porfolio - M. Fiqri Haikhar Anwar',
 };
 
 const ProgressBar = dynamic(
-  () => import("@/common/components/elements/ProgressBar"),
-  { ssr: false }
+  () => import('@/common/components/elements/ProgressBar'),
+  { ssr: false },
 );
 
 export default function RootLayout({

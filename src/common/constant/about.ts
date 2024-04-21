@@ -7,8 +7,8 @@ export const ABOUT = `
   Hello! My name is M. Fiqri Haikhar Anwar, known professionally as Developer, a versatile software engineer specializing in backend development. I bring ${
     currentYear - workStart
   } years of professional experience and a total of ${
-  currentYear - codingStart
-} years in software development since ${codingStart}. My expertise lies in Javascript, Go, and PHP, complemented by extensive knowledge in server-side technologies and database management.
+    currentYear - codingStart
+  } years in software development since ${codingStart}. My expertise lies in Javascript, Go, and PHP, complemented by extensive knowledge in server-side technologies and database management.
 </p>
 <p>
   In my career, I've consistently delivered robust and scalable backend solutions, adept at integrating complex databases and ensuring seamless data flow across systems. My focus on optimizing performance and security has led to significant improvements in application efficiency and reliability.

@@ -1,4 +1,4 @@
-import { BiSearchAlt as SearchIcon, BiX as ClearIcon } from "react-icons/bi";
+import { BiSearchAlt as SearchIcon, BiX as ClearIcon } from 'react-icons/bi';
 
 interface SearchBarProps {
   searchTerm: string;

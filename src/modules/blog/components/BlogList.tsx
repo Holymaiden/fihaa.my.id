@@ -1,34 +1,38 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDebounce } from "usehooks-ts";
+import { motion } from 'framer-motion';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useDebounce } from 'usehooks-ts';
 
-import EmptyState from "@/common/components/elements/EmptyState";
-import Pagination from "@/common/components/elements/Pagination";
-import SearchBar from "@/common/components/elements/SearchBar";
-import BlogCardSkeleton from "@/common/components/skeleton/BlogCardSkeleton";
-import { BlogItemProps } from "@/common/types/blog";
+import EmptyState from '@/common/components/elements/EmptyState';
+import Pagination from '@/common/components/elements/Pagination';
+import SearchBar from '@/common/components/elements/SearchBar';
+import BlogCardSkeleton from '@/common/components/skeleton/BlogCardSkeleton';
+import type { MdxFileProps } from '@/common/libs/mdx';
+import { type BlogDetailProps } from '@/common/types/blog';
 
-import BlogCard from "./BlogCard";
-import BlogFeaturedSection from "./BlogFeaturedSection";
-import { MdxFileProps } from "@/common/libs/mdx";
+import BlogCard from './BlogCard';
+import BlogFeaturedSection from './BlogFeaturedSection';
 
-const BlogList = ({ content }: MdxFileProps | any) => {
+type BlogListProps = {
+  content: MdxFileProps<BlogDetailProps>[];
+};
+
+const BlogList = ({ content }: BlogListProps) => {
   const [page, setPage] = useState<number>(1);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pageNumber = searchParams.get("page") || "1";
+  const pageNumber = searchParams.get('page') || '1';
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const data = content
-    .filter((item: any) => {
+    .filter((item: MdxFileProps<BlogDetailProps>) => {
       if (debouncedSearchTerm) {
-        return item.title
-          .toLowerCase()
+        return item?.frontMatter?.title
+          ?.toLowerCase()
           .includes(debouncedSearchTerm.toLowerCase());
       }
       return true;
@@ -38,7 +42,7 @@ const BlogList = ({ content }: MdxFileProps | any) => {
   const total_pages = Math.ceil(content.length / 6);
   const total_posts = content.length;
 
-  const handlePageChange = async (newPage: number) => {
+  const handlePageChange = (newPage: number) => {
     router.push(`/blog?page=${newPage}&search=${debouncedSearchTerm}`, {
       scroll: false,
     });
@@ -50,14 +54,14 @@ const BlogList = ({ content }: MdxFileProps | any) => {
     setSearchTerm(searchValue);
     setPage(1);
 
-    router.push(`/blog?page=1&search=${searchValue || ""}`, { scroll: false });
+    router.push(`/blog?page=1&search=${searchValue || ''}`, { scroll: false });
   };
 
   const handleClearSearch = () => {
-    setSearchTerm("");
+    setSearchTerm('');
     setPage(1);
 
-    router.push("/blog?page=1", { scroll: false });
+    router.push('/blog?page=1', { scroll: false });
   };
 
   useEffect(() => {
@@ -68,7 +72,7 @@ const BlogList = ({ content }: MdxFileProps | any) => {
   }, [page, pageNumber, searchTerm]);
 
   const renderEmptyState = () =>
-    (!data || data.length === 0) && <EmptyState message={"No Post Found."} />;
+    (!data || data.length === 0) && <EmptyState message={'No Post Found.'} />;
 
   return (
     <div className="space-y-10">
@@ -103,16 +107,18 @@ const BlogList = ({ content }: MdxFileProps | any) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
           {!data || data.length !== 0 ? (
             <>
-              {data.map((item: MdxFileProps, index: number) => (
-                <motion.div
-                  key={item.slug}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
-                  <BlogCard {...item} />
-                </motion.div>
-              ))}
+              {data.map(
+                (item: MdxFileProps<BlogDetailProps>, index: number) => (
+                  <motion.div
+                    key={item.slug}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <BlogCard {...item} />
+                  </motion.div>
+                ),
+              )}
             </>
           ) : (
             <>

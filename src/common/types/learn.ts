@@ -1,32 +1,35 @@
-export interface ContentLanguage {
+import { type MdxFileProps } from '../libs/mdx';
+
+export type ContentLanguage = {
   id: string;
   title: string;
-}
+};
 
-export interface ContentProps {
+export type ContentProps = {
   id: number;
   title: string;
   slug: string;
   description: string;
   image: string;
   is_new: boolean;
-  level: "Beginner" | "Intermediate" | "Advanced" | "All Levels";
+  level: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
   is_show: boolean;
-}
+};
 
-export interface SubContentProps {
+export type SubContentProps = {
   parent: string;
   contentSlug: string;
   subContentSlug: string;
   title: string;
   language?: string;
   difficulty?: string;
-}
+};
 
-export interface SubContentMetaProps {
+export type SubContentMetaProps = {
   id: number;
   chapter_id?: number;
   chapter_title?: string;
+  slug: string;
   title: string;
   category: string;
   language?: string;
@@ -39,16 +42,14 @@ export interface SubContentMetaProps {
   is_playground: boolean;
   is_comment: boolean;
   initial_code?: string;
-}
+};
 
-export interface MdxFileContentProps {
-  slug: string;
-  frontMatter: SubContentMetaProps;
-  content: string;
-}
-
-export interface ChapterGroupProps {
+export type ChapterGroupProps = {
   chapter_id: number | undefined;
   chapter_title: string;
-  contents: MdxFileContentProps[];
-}
+  contents: MdxFileProps<SubContentMetaProps>[];
+};
+
+export type LearnResponse = {
+  count: number;
+};

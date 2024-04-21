@@ -1,8 +1,8 @@
-import { useTheme } from "next-themes";
-import { ReactNode } from "react";
-import { SkeletonTheme } from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 
-import "react-loading-skeleton/dist/skeleton.css";
+import { useTheme } from 'next-themes';
+import type { ReactNode } from 'react';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 type SkeletonLoaderProps = {
   children: ReactNode;
@@ -10,8 +10,8 @@ type SkeletonLoaderProps = {
 
 const SkeletonLoader = ({ children }: SkeletonLoaderProps) => {
   const { resolvedTheme } = useTheme();
-  const baseColor = resolvedTheme === "light" ? "#ebebeb" : "#202020";
-  const highlightColor = resolvedTheme === "light" ? "#f5f5f5" : "#2e2e2e";
+  const baseColor = resolvedTheme === 'light' ? '#ebebeb' : '#202020';
+  const highlightColor = resolvedTheme === 'light' ? '#f5f5f5' : '#2e2e2e';
 
   return (
     <SkeletonTheme baseColor={baseColor} highlightColor={highlightColor}>

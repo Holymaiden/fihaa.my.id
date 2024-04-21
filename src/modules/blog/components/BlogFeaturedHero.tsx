@@ -1,43 +1,48 @@
-import clsx from "clsx";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import clsx from 'clsx';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import {
   BiChevronLeft as PrevIcon,
   BiChevronRight as NextIcon,
   BiStar as StarIcon,
-} from "react-icons/bi";
-import { FaFlag as FlagIcon } from "react-icons/fa";
-import { TbCalendarBolt as DateIcon } from "react-icons/tb";
+} from 'react-icons/bi';
+import { FaFlag as FlagIcon } from 'react-icons/fa';
+import { TbCalendarBolt as DateIcon } from 'react-icons/tb';
 
-import Image from "@/common/components/elements/Image";
-import { formatDate, formatExcerpt } from "@/common/helpers";
-import { MdxFileProps } from "@/common/libs/mdx";
+import Image from '@/common/components/elements/Image';
+import { formatDate } from '@/common/helpers';
+import type { MdxFileProps } from '@/common/libs/mdx';
+import { type BlogDetailProps } from '@/common/types/blog';
 
-const BlogFeaturedHero = ({ data }: MdxFileProps[] | any) => {
+type BlogFeaturedHeroProps = {
+  data: MdxFileProps<BlogDetailProps>[];
+};
+
+const BlogFeaturedHero = ({ data }: BlogFeaturedHeroProps) => {
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState<number>(0);
 
   const currentFeatured = data[currentFeaturedIndex].frontMatter;
 
   const featuredData = data.slice(0, 4);
 
-  const defaultImage = "/images/placeholder.png";
+  const defaultImage = '/images/placeholder.png';
 
   const nextFeatured = () => {
     setCurrentFeaturedIndex((prevIndex) =>
-      prevIndex === featuredData.length - 1 ? 0 : prevIndex + 1
+      prevIndex === featuredData.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
   const prevFeatured = () => {
     setCurrentFeaturedIndex((prevIndex) =>
-      prevIndex === 0 ? featuredData.length - 1 : prevIndex - 1
+      prevIndex === 0 ? featuredData.length - 1 : prevIndex - 1,
     );
   };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentFeaturedIndex((prevIndex) =>
-        prevIndex === featuredData.length - 1 ? 0 : prevIndex + 1
+        prevIndex === featuredData.length - 1 ? 0 : prevIndex + 1,
       );
     }, 5000);
 
@@ -55,8 +60,8 @@ const BlogFeaturedHero = ({ data }: MdxFileProps[] | any) => {
       <div
         className="duration-500 relative group"
         style={{
-          height: "400px",
-          overflow: "hidden",
+          height: '400px',
+          overflow: 'hidden',
         }}
       >
         <Image
@@ -120,15 +125,15 @@ const BlogFeaturedHero = ({ data }: MdxFileProps[] | any) => {
         </div>
 
         <div className="hidden sm:flex flex-col space-y-5 items-center justify-center px-8 border-l border-solid border-[#ffffff1a]">
-          {featuredData?.map((item: any, index: number) => (
+          {featuredData?.map((item, index: number) => (
             <button
               key={item.frontMatter.id}
               onClick={() => setCurrentFeaturedIndex(index)}
               className={clsx(
-                "relative w-16 h-16 overflow-hidden cursor-pointer mb-2 border-2 bg-black transition-all duration-300 hover:scale-105",
-                index === currentFeaturedIndex && "border-sky-300 scale-105"
+                'relative w-16 h-16 overflow-hidden cursor-pointer mb-2 border-2 bg-black transition-all duration-300 hover:scale-105',
+                index === currentFeaturedIndex && 'border-sky-300 scale-105',
               )}
-              style={{ borderRadius: "50%" }}
+              style={{ borderRadius: '50%' }}
             >
               <Image
                 src={item?.frontMatter?.featured_image_url || defaultImage}

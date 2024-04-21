@@ -1,6 +1,6 @@
-import { memo } from "react";
+import { memo } from 'react';
 
-import ButtonNavigation from "./ButtonNavigation";
+import ButtonNavigation from './ButtonNavigation';
 
 interface NavigationSectionProps {
   currentIndex: number;

@@ -1,13 +1,7 @@
-"use client";
+'use client';
 
-import BackButton from "@/common/components/elements/BackButton";
-const BlogContainer = ({
-  children,
-  slug,
-}: {
-  children: React.ReactNode;
-  slug: string;
-}) => {
+import BackButton from '@/common/components/elements/BackButton';
+const BlogContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <BackButton url="/blog" />

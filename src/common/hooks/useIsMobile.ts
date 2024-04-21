@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useWindowSize } from "usehooks-ts";
+import { useEffect, useState } from 'react';
+import { useWindowSize } from 'usehooks-ts';
 
 const useIsMobile = () => {
   const { width } = useWindowSize();

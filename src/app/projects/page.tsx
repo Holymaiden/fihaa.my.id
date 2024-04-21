@@ -1,16 +1,16 @@
-import { NextPage, Metadata } from "next";
+import type { Metadata, NextPage } from 'next';
+import { Suspense } from 'react';
 
-import Container from "@/common/components/elements/Container";
-import PageHeading from "@/common/components/elements/PageHeading";
-import Projects from "@/modules/projects";
+import Container from '@/common/components/elements/Container';
+import Loading from '@/common/components/elements/Loading';
+import PageHeading from '@/common/components/elements/PageHeading';
+import { loadMdxFiles } from '@/common/libs/mdx';
+import { type ProjectItemProps } from '@/common/types/projects';
+import Projects from '@/modules/projects';
 
-import { loadMdxFiles } from "@/common/libs/mdx";
-import { Suspense } from "react";
-import Loading from "@/common/components/elements/Loading";
-
-const PAGE_TITLE = "Projects";
+const PAGE_TITLE = 'Projects';
 const PAGE_DESCRIPTION =
-  "Several projects that I have worked on, both private and open source.";
+  'Several projects that I have worked on, both private and open source.';
 
 export const metadata: Metadata = {
   title: `${PAGE_TITLE} | Fihaa Portfolio`,
@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 };
 
 const ProjectsPage: NextPage = async () => {
-  const content = await loadMdxFiles("projects", "");
+  const content = await loadMdxFiles<ProjectItemProps>('projects', '');
 
   const sortedContents = content.sort(
-    (a: any, b: any) => b.frontMatter.id - a.frontMatter.id
+    (a, b) => b.frontMatter.id - a.frontMatter.id,
   );
 
   return (

@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { sql } from "@vercel/postgres";
+import { sql } from '@vercel/postgres';
+import { NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const result =
       await sql`CREATE TABLE views ( id SERIAL PRIMARY KEY, blog_id INTEGER, slug TEXT );`;

@@ -1,7 +1,7 @@
-import Skeleton from "react-loading-skeleton";
+import Skeleton from 'react-loading-skeleton';
 
-import Card from "../elements/Card";
-import SkeletonLoader from "../elements/SkeletonLoader";
+import Card from '../elements/Card';
+import SkeletonLoader from '../elements/SkeletonLoader';
 
 const BlogCardSkeleton = () => {
   return (

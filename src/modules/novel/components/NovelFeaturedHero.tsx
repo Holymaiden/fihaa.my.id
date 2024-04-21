@@ -1,17 +1,17 @@
-import clsx from "clsx";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import clsx from 'clsx';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import {
   BiChevronLeft as PrevIcon,
   BiChevronRight as NextIcon,
   BiStar as StarIcon,
-} from "react-icons/bi";
-import { FaRegEye as ViewIcon } from "react-icons/fa";
-import { TbCalendarBolt as DateIcon } from "react-icons/tb";
+} from 'react-icons/bi';
+import { FaRegEye as ViewIcon } from 'react-icons/fa';
+import { TbCalendarBolt as DateIcon } from 'react-icons/tb';
 
-import Image from "@/common/components/elements/Image";
-import { formatDate } from "@/common/helpers";
-import { NovelFeaturedProps } from "@/common/types/novel";
+import Image from '@/common/components/elements/Image';
+import { formatDate } from '@/common/helpers';
+import type { NovelFeaturedProps } from '@/common/types/novel';
 
 const NovelFeaturedHero = ({ data }: NovelFeaturedProps) => {
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState<number>(0);
@@ -20,24 +20,24 @@ const NovelFeaturedHero = ({ data }: NovelFeaturedProps) => {
 
   const featuredData = data.slice(0, 4);
 
-  const defaultImage = "/images/placeholder.png";
+  const defaultImage = '/images/placeholder.png';
 
   const nextFeatured = () => {
     setCurrentFeaturedIndex((prevIndex) =>
-      prevIndex === featuredData.length - 1 ? 0 : prevIndex + 1
+      prevIndex === featuredData.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
   const prevFeatured = () => {
     setCurrentFeaturedIndex((prevIndex) =>
-      prevIndex === 0 ? featuredData.length - 1 : prevIndex - 1
+      prevIndex === 0 ? featuredData.length - 1 : prevIndex - 1,
     );
   };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentFeaturedIndex((prevIndex) =>
-        prevIndex === featuredData.length - 1 ? 0 : prevIndex + 1
+        prevIndex === featuredData.length - 1 ? 0 : prevIndex + 1,
       );
     }, 5000);
 
@@ -55,8 +55,8 @@ const NovelFeaturedHero = ({ data }: NovelFeaturedProps) => {
       <div
         className="duration-500 relative group"
         style={{
-          height: "400px",
-          overflow: "hidden",
+          height: '400px',
+          overflow: 'hidden',
         }}
       >
         <Image
@@ -73,7 +73,7 @@ const NovelFeaturedHero = ({ data }: NovelFeaturedProps) => {
         <div className="flex flex-col justify-between gap-6 p-6 sm:p-8">
           <div className="flex items-center gap-x-1 w-fit px-2.5 py-1.5 rounded-full text-xs font-sora text-black dark:text-white bg-red-500">
             <StarIcon size={16} />
-            <span>{currentFeatured.is_new ? "New" : ""}</span>
+            <span>{currentFeatured.is_new ? 'New' : ''}</span>
           </div>
           <div className="flex flex-col justify-end gap-6">
             <div className="flex flex-col space-y-2 text-white">
@@ -126,10 +126,10 @@ const NovelFeaturedHero = ({ data }: NovelFeaturedProps) => {
               key={item.id}
               onClick={() => setCurrentFeaturedIndex(index)}
               className={clsx(
-                "relative w-16 h-16 overflow-hidden cursor-pointer mb-2 border-2 bg-black transition-all duration-300 hover:scale-105",
-                index === currentFeaturedIndex && "border-sky-300 scale-105"
+                'relative w-16 h-16 overflow-hidden cursor-pointer mb-2 border-2 bg-black transition-all duration-300 hover:scale-105',
+                index === currentFeaturedIndex && 'border-sky-300 scale-105',
               )}
-              style={{ borderRadius: "50%" }}
+              style={{ borderRadius: '50%' }}
             >
               <Image
                 src={item.image || defaultImage}

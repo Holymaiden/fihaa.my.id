@@ -1,22 +1,22 @@
-import styled from "@emotion/styled";
-import { useTheme } from "next-themes";
+import styled from '@emotion/styled';
+import { useTheme } from 'next-themes';
 
 const ThemeToggleButton = () => {
   const { resolvedTheme, setTheme } = useTheme();
 
   const toggleTheme = () =>
-    setTheme(resolvedTheme === "light" ? "dark" : "light");
+    setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
 
   return (
     <StyledToggle className="flex">
       <input
-        checked={resolvedTheme === "dark"}
+        checked={resolvedTheme === 'dark'}
         type="checkbox"
         className="mode-toggle"
         onChange={toggleTheme}
         id="switch-theme"
         data-umami-event={`Switch to ${
-          resolvedTheme === "light" ? "Dark" : "Light"
+          resolvedTheme === 'light' ? 'Dark' : 'Light'
         } Mode`}
       />
       <label className="mode-toggle-label" htmlFor="switch-theme">
@@ -64,7 +64,7 @@ const ThemeToggleButton = () => {
             cy="0"
             r="70"
             fill="#ffffff"
-            style={{ filter: "url(#glow)" }}
+            style={{ filter: 'url(#glow)' }}
           />
           <g className="stars">
             <circle
@@ -73,7 +73,7 @@ const ThemeToggleButton = () => {
               cy="50"
               r="4"
               fill="#ffffff"
-              style={{ filter: "url(#glow-mini)" }}
+              style={{ filter: 'url(#glow-mini)' }}
             />
             <circle
               className="star-2"
@@ -81,7 +81,7 @@ const ThemeToggleButton = () => {
               cy="70"
               r="4"
               fill="#ffffff"
-              style={{ filter: "url(#glow-mini)" }}
+              style={{ filter: 'url(#glow-mini)' }}
             />
             <circle
               className="star-3"
@@ -89,7 +89,7 @@ const ThemeToggleButton = () => {
               cy="130"
               r="6"
               fill="#ffffff"
-              style={{ filter: "url(#glow-mini)" }}
+              style={{ filter: 'url(#glow-mini)' }}
             />
           </g>
         </svg>
@@ -116,7 +116,7 @@ const StyledToggle = styled.div`
   }
 
   .mode-toggle + label::after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     top: 0;
@@ -132,7 +132,9 @@ const StyledToggle = styled.div`
   }
 
   .mode-toggle + label .source {
-    transition: fill, transform 250ms ease-in-out;
+    transition:
+      fill,
+      transform 250ms ease-in-out;
   }
 
   .mode-toggle + label .bg-stop-start,

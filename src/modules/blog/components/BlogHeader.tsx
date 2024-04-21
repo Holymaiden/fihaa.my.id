@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { HiFlag as FlagIcon, HiChartPie as StatsIcon } from "react-icons/hi";
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { HiChartPie as StatsIcon, HiFlag as FlagIcon } from 'react-icons/hi';
 
-import { formatDate } from "@/common/helpers";
+import { formatDate } from '@/common/helpers';
 
 interface BlogHeaderProps {
   title: string;
@@ -27,14 +27,14 @@ const BlogHeader = ({
       setIsScrolled(scrollTop > 250);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  const transition = { duration: 0.3, ease: "easeInOut" };
+  const transition = { duration: 0.3, ease: 'easeInOut' };
   const titleVariants = {
     initial: { opacity: 0, y: -20 },
     animate: { opacity: 1, y: 0 },
@@ -68,7 +68,7 @@ const BlogHeader = ({
         <div>
           Published on
           <span className="px-1 font-medium">
-            {published_at ? formatDate(published_at) : ""}
+            {published_at ? formatDate(published_at) : ''}
           </span>
         </div>
 

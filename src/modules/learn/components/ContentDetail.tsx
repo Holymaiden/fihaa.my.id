@@ -1,23 +1,19 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
+import { type ReactElement, useEffect, useState } from 'react';
 
-import NavigationSection from "@/common/components/elements/NavigationSection";
-import { SubContentMetaProps } from "@/common/types/learn";
+import Loading from '@/common/components/elements/Loading';
+import NavigationSection from '@/common/components/elements/NavigationSection';
+import type { MdxFileNextPrevProps, MdxFileProps } from '@/common/libs/mdx';
+import type { SubContentMetaProps } from '@/common/types/learn';
 
-import ContentBody from "./ContentBody";
-import Loading from "@/common/components/elements/Loading";
+import ContentBody from './ContentBody';
 
-interface ContentDetailProps {
-  slug: string;
-  content: any;
-  frontMatter: SubContentMetaProps;
-  params: string;
-  nextContent: any;
-  previousContent: any;
+type ContentDetailProps = {
+  params: { slug: string };
   learnLength: number;
-}
+} & MdxFileNextPrevProps<SubContentMetaProps>;
 
 const ContentDetail = ({
   slug,
@@ -32,25 +28,26 @@ const ContentDetail = ({
   const [nextTitle, setNextTitle] = useState<string | null>(null);
   const [previousTitle, setPreviousTitle] = useState<string | null>(null);
 
-  const { slug: parentSlug }: any = params;
+  const { slug: parentSlug } = params;
 
   const router = useRouter();
 
   const handleNavigation = (step: string) => {
-    const { slug: targetSlug } =
-      step === "next" ? nextContent : previousContent;
+    const { slug: targetSlug } = (
+      step === 'next' ? nextContent : previousContent
+    ) as MdxFileProps<SubContentMetaProps>;
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     router.push(`/learn/${parentSlug}/${targetSlug}`);
   };
 
   useEffect(() => {
-    setCurrentId(frontMatter.id as number);
+    setCurrentId(frontMatter.id);
     if (frontMatter.id > 0) {
-      setPreviousTitle(previousContent?.frontMatter?.title);
+      setPreviousTitle(previousContent?.frontMatter?.title as string);
     }
     if (frontMatter.id < learnLength - 1) {
-      setNextTitle(nextContent?.frontMatter?.title);
+      setNextTitle(nextContent?.frontMatter?.title as string);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
@@ -59,12 +56,12 @@ const ContentDetail = ({
 
   return (
     <>
-      {content && <ContentBody content={content} />}
+      {content && <ContentBody content={content as ReactElement} />}
       <NavigationSection
         currentIndex={currentId}
         totalItems={learnLength}
-        handleNext={() => handleNavigation("next")}
-        handlePrevious={() => handleNavigation("previous")}
+        handleNext={() => handleNavigation('next')}
+        handlePrevious={() => handleNavigation('previous')}
         previousTitle={previousTitle}
         nextTitle={nextTitle}
       />

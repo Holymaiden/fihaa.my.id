@@ -1,6 +1,6 @@
-import { MenuItemProps } from "@/common/types/menu";
+import type { MenuItemProps } from '@/common/types/menu';
 
-import MenuItem from "./MenuItem";
+import MenuItem from './MenuItem';
 
 type MenuProps = {
   title?: string;

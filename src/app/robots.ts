@@ -1,11 +1,11 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
-      userAgent: "*",
+      userAgent: '*',
     },
-    sitemap: "https://fihaa.my.id/sitemap.xml",
-    host: "https://fihaa.my.id",
+    sitemap: 'https://fihaa.my.id/sitemap.xml',
+    host: 'https://fihaa.my.id',
   };
 }

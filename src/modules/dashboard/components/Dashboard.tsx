@@ -1,7 +1,6 @@
-import Breakline from "@/common/components/elements/Breakline";
-import { GITHUB_ACCOUNTS } from "@/common/constant/github";
+import { GITHUB_ACCOUNTS } from '@/common/constant/github';
 
-import Contributions from "./Contributions";
+import Contributions from './Contributions';
 
 const Dashboard = () => {
   return (
@@ -15,7 +14,7 @@ const Dashboard = () => {
               type={account?.type}
               endpoint={account?.endpoint}
             />
-          )
+          ),
         )}
       </div>
     </>

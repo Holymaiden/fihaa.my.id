@@ -1,13 +1,19 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useMemo, useRef } from "react";
-import { useDraggable } from "react-use-draggable-scroll";
+import { motion } from 'framer-motion';
+import { useMemo, useRef } from 'react';
+import { useDraggable } from 'react-use-draggable-scroll';
 
-import BlogCardNewSkeleton from "@/common/components/skeleton/BlogCardSkeleton";
-import BlogCard from "@/modules/blog/components/BlogCard";
+import BlogCardNewSkeleton from '@/common/components/skeleton/BlogCardSkeleton';
+import { type MdxFileProps } from '@/common/libs/mdx';
+import { type BlogItemProps } from '@/common/types/blog';
+import BlogCard from '@/modules/blog/components/BlogCard';
 
-const BlogCarousel = ({ content }: any) => {
+type BlogCarouselProps = {
+  content: MdxFileProps<BlogItemProps>[];
+};
+
+const BlogCarousel = ({ content }: BlogCarouselProps) => {
   const blogData = useMemo(() => {
     return content || [];
   }, [content]);
@@ -23,7 +29,7 @@ const BlogCarousel = ({ content }: any) => {
       ));
     }
 
-    return blogData.map((item: any) => (
+    return blogData.map((item: MdxFileProps<BlogItemProps>) => (
       <motion.div
         key={item.slug}
         initial={{ opacity: 0, x: 100 }}

@@ -1,11 +1,11 @@
-import { NextPage, Metadata } from "next";
+import type { Metadata, NextPage } from 'next';
 
-import BackButton from "@/common/components/elements/BackButton";
-import Container from "@/common/components/elements/Container";
-import PageHeading from "@/common/components/elements/PageHeading";
-import ProjectDetail from "@/modules/projects/components/ProjectDetail";
-
-import { MdxFileProps, loadMdxFile } from "@/common/libs/mdx";
+import BackButton from '@/common/components/elements/BackButton';
+import Container from '@/common/components/elements/Container';
+import PageHeading from '@/common/components/elements/PageHeading';
+import { loadMdxFile } from '@/common/libs/mdx';
+import { type ProjectItemProps } from '@/common/types/projects';
+import ProjectDetail from '@/modules/projects/components/ProjectDetail';
 
 interface ProjectsDetailPageProps {
   params: {
@@ -18,15 +18,12 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const project: MdxFileProps | any = await loadMdxFile(
-    "projects",
-    params.slug
-  );
+  const project = await loadMdxFile<ProjectItemProps>('projects', params.slug);
 
   if (!project) {
     return {
-      title: "Project | Fihaa Portfolio",
-      description: "Project | Fihaa Portfolio",
+      title: 'Project | Fihaa Portfolio',
+      description: 'Project | Fihaa Portfolio',
     };
   }
 
@@ -41,12 +38,9 @@ const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = async ({
 }: {
   params: { slug: string };
 }) => {
-  const project: MdxFileProps | any = await loadMdxFile(
-    "projects",
-    params.slug
-  );
+  const project = await loadMdxFile<ProjectItemProps>('projects', params.slug);
 
-  const PAGE_TITLE = project?.frontMatter?.title || "Default Title";
+  const PAGE_TITLE = project?.frontMatter?.title || 'Default Title';
   const PAGE_DESCRIPTION = project?.frontMatter?.description;
 
   return (

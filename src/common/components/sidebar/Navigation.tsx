@@ -1,18 +1,14 @@
-import { BiCommand as CommandIcon } from "react-icons/bi";
-import { useWindowSize } from "usehooks-ts";
+import { MENU_ITEMS } from '@/common/constant/menu';
 
-import { MENU_ITEMS } from "@/common/constant/menu";
-
-import Menu from "./Menu";
-import MenuItem from "./MenuItem";
+import Menu from './Menu';
 
 const Navigation = () => {
-  const { width } = useWindowSize();
-  const isMobile = width < 480;
+  // const { width } = useWindowSize();
+  // const isMobile = width < 480;
 
   const filterdMenu = MENU_ITEMS?.filter((item) => item?.isShow);
 
-  const cn = "group-hover:-rotate-12 transition-all duration-300";
+  // const cn = 'group-hover:-rotate-12 transition-all duration-300';
 
   return (
     <div>

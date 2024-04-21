@@ -1,14 +1,17 @@
-import { Metadata, NextPage } from "next";
-import { Suspense } from "react";
+import type { Metadata, NextPage } from 'next';
+import { Suspense } from 'react';
 
-import BackButton from "@/common/components/elements/BackButton";
-import Container from "@/common/components/elements/Container";
-import ContentDetail from "@/modules/novel/components/ContentDetail";
-import Loading from "@/common/components/elements/Loading";
-
-import { getMdxFileCount, loadMdxNovelFile } from "@/common/libs/mdx";
-import { NOVEL_CONTENTS } from "@/common/constant/novel";
-import { ContentProps } from "@/common/types/novel";
+import BackButton from '@/common/components/elements/BackButton';
+import Container from '@/common/components/elements/Container';
+import Loading from '@/common/components/elements/Loading';
+import { NOVEL_CONTENTS } from '@/common/constant/novel';
+import {
+  getMdxFileCount,
+  loadMdxNovelFile,
+  type MdxFileProps,
+} from '@/common/libs/mdx';
+import type { ContentProps } from '@/common/types/novel';
+import ContentDetail from '@/modules/novel/components/ContentDetail';
 
 interface NovelContentPageProps {
   params: {
@@ -22,24 +25,24 @@ export async function generateMetadata({
 }: {
   params: { slug: string; content: string };
 }): Promise<Metadata> {
-  const novelData: any = await loadMdxNovelFile(
-    "novels/" + params.slug,
-    params.content
-  );
-  const novelContent: ContentProps | any = NOVEL_CONTENTS.find(
-    (content) => String(content.slug) === String(params.slug)
+  const novelData = (await loadMdxNovelFile<ContentProps>(
+    'novels/' + params.slug,
+    params.content,
+  )) as MdxFileProps<ContentProps>;
+  const novelContent = NOVEL_CONTENTS.find(
+    (content) => String(content.slug) === String(params.slug),
   );
 
   if (!novelData) {
     return {
-      title: "Novel | Fihaa Portfolio",
-      description: "Novel | Fihaa Portfolio",
+      title: 'Novel | Fihaa Portfolio',
+      description: 'Novel | Fihaa Portfolio',
     };
   }
 
   return {
-    title: `${novelData.frontMatter?.title} | ${novelContent.title}`,
-    description: novelContent.description,
+    title: `${novelData.frontMatter?.title} | ${novelContent?.title}`,
+    description: novelContent?.description,
   };
 }
 
@@ -48,12 +51,15 @@ const NovelContentPage: NextPage<NovelContentPageProps> = async ({
 }: NovelContentPageProps) => {
   const { slug, content } = params;
 
-  const novelData = await loadMdxNovelFile("novels/" + slug, content);
-  const novelContent: ContentProps | any = NOVEL_CONTENTS.find(
-    (content) => String(content.slug) === String(slug)
+  const novelData = await loadMdxNovelFile<ContentProps>(
+    'novels/' + slug,
+    content,
   );
+  const novelContent = NOVEL_CONTENTS.find(
+    (content) => String(content.slug) === String(slug),
+  ) as ContentProps;
 
-  const novelLength = await getMdxFileCount("novels", slug);
+  const novelLength = getMdxFileCount('novels', slug);
 
   return (
     <>

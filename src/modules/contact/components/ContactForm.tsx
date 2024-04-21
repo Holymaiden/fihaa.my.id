@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import clsx from "clsx";
-import { useState } from "react";
-import { FiClock as ClockIcon } from "react-icons/fi";
+import axios from 'axios';
+import clsx from 'clsx';
+import { useState } from 'react';
+import { FiClock as ClockIcon } from 'react-icons/fi';
 
-import Button from "@/common/components/elements/Button";
+import Button from '@/common/components/elements/Button';
 
 interface FormDataProps {
   name: string;
@@ -14,9 +14,9 @@ interface FormDataProps {
 }
 
 const formInitialState: FormDataProps = {
-  name: "",
-  email: "",
-  message: "",
+  name: '',
+  email: '',
+  message: '',
 };
 
 const ContactForm = () => {
@@ -26,7 +26,7 @@ const ContactForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData({
@@ -47,9 +47,9 @@ const ContactForm = () => {
     if (!hasErrors) {
       setIsLoading(true);
       try {
-        const response = await axios.post("/api/contact", { formData });
+        const response = await axios.post('/api/contact', { formData });
         if (response.status === 200) {
-          alert("Message sent!");
+          alert('Message sent!');
           setFormData(formInitialState);
         }
       } catch (error) {
@@ -57,13 +57,14 @@ const ContactForm = () => {
       }
       setIsLoading(false);
     } else {
-      alert("Error!");
+      alert('Error!');
     }
   };
 
   const isSubmitDisabled = Object.values(formErrors).some((error) => error);
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col flex-grow gap-5">
         <div className="flex flex-col md:flex-row gap-5">
@@ -97,14 +98,14 @@ const ContactForm = () => {
         />
         <Button
           className={clsx(
-            "py-2.5 bg-neutral-800 dark:bg-neutral-50 dark:text-neutral-950 flex justify-center hover:dark:bg-neutral-50 hover:bg-neutral-900 hover:scale-[101%]"
+            'py-2.5 bg-neutral-800 dark:bg-neutral-50 dark:text-neutral-950 flex justify-center hover:dark:bg-neutral-50 hover:bg-neutral-900 hover:scale-[101%]',
           )}
           type="submit"
           icon={<></>}
           data-umami-event="Send Contact Message"
           disabled={isSubmitDisabled}
         >
-          {isLoading ? "Sending Message..." : "Send Message"}
+          {isLoading ? 'Sending Message...' : 'Send Message'}
         </Button>
       </div>
 

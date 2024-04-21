@@ -1,31 +1,13 @@
-"use client";
+'use client';
 
-import clsx from "clsx";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import clsx from 'clsx';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
-interface Contribution {
-  date: string;
-  contributionCount: number;
-  color: string;
-}
-
-interface Month {
-  name: string;
-  firstDay: string;
-  totalWeeks: number;
-  contributionsCount: number;
-}
+import { type CalendarProps as CalendarDataProps } from '@/common/types/github';
 
 interface CalendarProps {
-  data?: {
-    weeks: {
-      firstDay: string;
-      contributionDays: Contribution[];
-    }[];
-    months: Month[];
-    colors: string[];
-  };
+  data?: CalendarDataProps;
 }
 
 const Calendar = ({ data }: CalendarProps) => {
@@ -39,17 +21,17 @@ const Calendar = ({ data }: CalendarProps) => {
 
   const weeks = data?.weeks ?? [];
   const months =
-    data?.months?.map((month: Month) => {
+    data?.months?.map((month) => {
       const filterContributionDay = weeks
         .filter(
-          (week) => week.firstDay.slice(0, 7) === month.firstDay.slice(0, 7)
+          (week) => week.firstDay.slice(0, 7) === month.firstDay.slice(0, 7),
         )
         .map((item) => item.contributionDays)
         .flat(1);
       const getContributionsByMonth = filterContributionDay.reduce(
         (previousValue, currentValue) =>
           previousValue + currentValue.contributionCount,
-        0
+        0,
       );
 
       return {
@@ -67,7 +49,7 @@ const Calendar = ({ data }: CalendarProps) => {
           {months.map((month) => (
             <li
               key={month.firstDay}
-              className={clsx(`${month.totalWeeks < 2 ? "invisible" : ""}`)}
+              className={clsx(`${month.totalWeeks < 2 ? 'invisible' : ''}`)}
               style={{ minWidth: 14.3 * month.totalWeeks }}
             >
               {month.name}
@@ -144,11 +126,11 @@ const Calendar = ({ data }: CalendarProps) => {
 
         <div
           className={clsx(
-            `${selectContribution?.date ? "opacity-100" : "opacity-0"}`,
-            "rounded bg-neutral-200 px-2 text-sm dark:bg-neutral-700"
+            `${selectContribution?.date ? 'opacity-100' : 'opacity-0'}`,
+            'rounded bg-neutral-200 px-2 text-sm dark:bg-neutral-700',
           )}
         >
-          {selectContribution?.count} contributions on{" "}
+          {selectContribution?.count} contributions on{' '}
           {selectContribution?.date}
         </div>
       </div>

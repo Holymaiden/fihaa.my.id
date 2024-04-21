@@ -1,4 +1,4 @@
-import { TbMoodSadSquint as MoodIcon } from "react-icons/tb";
+import { TbMoodSadSquint as MoodIcon } from 'react-icons/tb';
 
 type EmptyStatePageProps = {
   message: string;

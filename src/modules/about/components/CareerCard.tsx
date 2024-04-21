@@ -1,9 +1,9 @@
-import { differenceInMonths, differenceInYears, format } from "date-fns";
-import { BsBuildings as CompanyIcon } from "react-icons/bs";
+import { differenceInMonths, differenceInYears, format } from 'date-fns';
+import { BsBuildings as CompanyIcon } from 'react-icons/bs';
 
-import Card from "@/common/components/elements/Card";
-import Image from "@/common/components/elements/Image";
-import { CareerProps } from "@/common/types/careers";
+import Card from '@/common/components/elements/Card';
+import Image from '@/common/components/elements/Image';
+import type { CareerProps } from '@/common/types/careers';
 
 const CareerCard = ({
   position,
@@ -20,12 +20,12 @@ const CareerCard = ({
   const durationYears = differenceInYears(endDate, startDate);
   const durationMonths = differenceInMonths(endDate, startDate) % 12;
 
-  let durationText = "";
+  let durationText = '';
   if (durationYears > 0) {
-    durationText += `${durationYears} Year${durationYears > 1 ? "s" : ""} `;
+    durationText += `${durationYears} Year${durationYears > 1 ? 's' : ''} `;
   }
   if (durationMonths > 0 || durationYears === 0) {
-    durationText += `${durationMonths} Month${durationMonths > 1 ? "s" : ""}`;
+    durationText += `${durationMonths} Month${durationMonths > 1 ? 's' : ''}`;
   }
 
   return (
@@ -41,7 +41,7 @@ const CareerCard = ({
         <div className="text-sm text-neutral-600 dark:text-neutral-400 space-y-2">
           <div className="flex items-center gap-1 md:gap-2">
             <a
-              href={link || "#"}
+              href={link || '#'}
               target="_blank"
               data-umami-event={`Click Career Company Name: ${company}`}
             >
@@ -54,8 +54,8 @@ const CareerCard = ({
           </div>
           <div className="flex flex-col md:text-[13px]">
             <div className="flex gap-1">
-              <span>{format(startDate, "MMM yyyy")}</span> -{" "}
-              <span>{end_date ? format(endDate, "MMM yyyy") : "Present"}</span>
+              <span>{format(startDate, 'MMM yyyy')}</span> -{' '}
+              <span>{end_date ? format(endDate, 'MMM yyyy') : 'Present'}</span>
             </div>
             <span className="text-neutral-500 dark:text-neutral-500">
               ~ {durationText}

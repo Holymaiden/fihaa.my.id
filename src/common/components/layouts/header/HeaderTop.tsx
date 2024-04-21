@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import clsx from "clsx";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { BiCommand as CommandIcon } from "react-icons/bi";
-import { FiMenu as MenuIcon } from "react-icons/fi";
+import clsx from 'clsx';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { BiCommand as CommandIcon } from 'react-icons/bi';
+import { FiMenu as MenuIcon } from 'react-icons/fi';
 import {
   MdClose as CloseIcon,
   MdVerified as VerifiedIcon,
-} from "react-icons/md";
+} from 'react-icons/md';
 
-import { MENU_ITEMS } from "@/common/constant/menu";
+import { MENU_ITEMS } from '@/common/constant/menu';
 
-import Image from "../../elements/Image";
-import ThemeToggleButton from "../../elements/ThemeToggleButton";
-import Tooltip from "../../elements/Tooltip";
-import Profile from "../../sidebar/Profile";
+import Image from '../../elements/Image';
+import ThemeToggleButton from '../../elements/ThemeToggleButton';
+import Tooltip from '../../elements/Tooltip';
+import Profile from '../../sidebar/Profile';
 
 const HeaderTop = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -24,7 +24,7 @@ const HeaderTop = () => {
   const pathname = usePathname();
 
   const menus = MENU_ITEMS.filter(
-    (item) => item.isShow && item.title !== "Home"
+    (item) => item.isShow && item.title !== 'Home',
   );
 
   return (
@@ -66,9 +66,9 @@ const HeaderTop = () => {
                   href={menu.href}
                   passHref
                   className={clsx(
-                    "text-neutral-700 hover:text-neutral-800 dark:text-neutral-400 hover:dark:text-neutral-100",
+                    'text-neutral-700 hover:text-neutral-800 dark:text-neutral-400 hover:dark:text-neutral-100',
                     pathname === menu?.href &&
-                      "!text-neutral-800 dark:!text-neutral-100"
+                      '!text-neutral-800 dark:!text-neutral-100',
                   )}
                 >
                   <div>{menu.title}</div>

@@ -1,4 +1,4 @@
-import { ABOUT } from "@/common/constant/about";
+import { ABOUT } from '@/common/constant/about';
 
 const Story = () => {
   return (

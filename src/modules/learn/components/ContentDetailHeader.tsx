@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { FiExternalLink as LinkIcon } from "react-icons/fi";
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { FiExternalLink as LinkIcon } from 'react-icons/fi';
 
-import Tooltip from "@/common/components/elements/Tooltip";
-import { STACKS } from "@/common/constant/stacks";
-import { SubContentMetaProps } from "@/common/types/learn";
+import Tooltip from '@/common/components/elements/Tooltip';
+import { STACKS } from '@/common/constant/stacks';
+import type { SubContentMetaProps } from '@/common/types/learn';
 
 const ContentDetailHeader = ({
   title,
@@ -25,14 +25,14 @@ const ContentDetailHeader = ({
       setIsScrolled(scrollTop > 250);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  const transition = { duration: 0.3, ease: "easeInOut" };
+  const transition = { duration: 0.3, ease: 'easeInOut' };
   const titleVariants = {
     initial: { opacity: 0, y: -20 },
     animate: { opacity: 1, y: 0 },

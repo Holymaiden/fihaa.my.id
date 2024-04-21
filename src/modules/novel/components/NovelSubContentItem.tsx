@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { BiFile as SubContentIcon } from "react-icons/bi";
+import Link from 'next/link';
+import { BiFile as SubContentIcon } from 'react-icons/bi';
 
-import Card from "@/common/components/elements/Card";
-import clsxm from "@/common/libs/clsxm";
-import { SubContentProps } from "@/common/types/novel";
+import Card from '@/common/components/elements/Card';
+import clsxm from '@/common/libs/clsxm';
+import type { SubContentProps } from '@/common/types/novel';
 
 const NovelSubContentItem = ({
   contentSlug,
@@ -14,7 +14,7 @@ const NovelSubContentItem = ({
     <Link href={`/novel/${contentSlug}/${subContentSlug}`}>
       <Card
         className={clsxm(
-          "flex items-center flex-row justify-between cursor-pointer border border-neutral-300 dark:border-neutral-900 lg:hover:scale-[102%] w-full py-4 px-5"
+          'flex items-center flex-row justify-between cursor-pointer border border-neutral-300 dark:border-neutral-900 lg:hover:scale-[102%] w-full py-4 px-5',
         )}
       >
         <div className="flex gap-3 items-center">

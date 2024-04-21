@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 interface ContainerProps {
   children: ReactNode;
@@ -6,7 +6,7 @@ interface ContainerProps {
   [propName: string]: ReactNode | string | undefined;
 }
 
-const Container = ({ children, className = "", ...others }: ContainerProps) => {
+const Container = ({ children, className = '', ...others }: ContainerProps) => {
   return (
     <div className={`mt-20 mb-10 lg:mt-0 p-8 ${className} `} {...others}>
       {children}

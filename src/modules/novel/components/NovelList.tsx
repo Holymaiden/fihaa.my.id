@@ -1,37 +1,37 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { useDebounce } from "usehooks-ts";
+import { motion } from 'framer-motion';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+import { useDebounce } from 'usehooks-ts';
 
-import EmptyState from "@/common/components/elements/EmptyState";
-import Pagination from "@/common/components/elements/Pagination";
-import SearchBar from "@/common/components/elements/SearchBar";
-import BlogCardSkeleton from "@/common/components/skeleton/BlogCardSkeleton";
-import { ContentProps } from "@/common/types/novel";
-import { fetcher } from "@/services/fetcher";
+import EmptyState from '@/common/components/elements/EmptyState';
+import Pagination from '@/common/components/elements/Pagination';
+import SearchBar from '@/common/components/elements/SearchBar';
+import BlogCardSkeleton from '@/common/components/skeleton/BlogCardSkeleton';
+import type { ContentProps, NovelResponse } from '@/common/types/novel';
+import { fetcher } from '@/services/fetcher';
 
-import NovelCard from "./NovelCard";
-import NovelFeaturedSection from "./NovelFeaturedSection";
+import NovelCard from './NovelCard';
+import NovelFeaturedSection from './NovelFeaturedSection';
 
 const NovelList = () => {
   const [page, setPage] = useState<number>(1);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pageNumber = searchParams.get("page") || "1";
+  const pageNumber = searchParams.get('page') || '1';
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const { data, error, mutate, isValidating } = useSWR(
+  const { data, error, mutate, isValidating } = useSWR<NovelResponse, Error>(
     `/api/novel?page=${page}&per_page=6&search=${debouncedSearchTerm}`,
     fetcher,
     {
       revalidateOnFocus: false,
       refreshInterval: 0,
-    }
+    },
   );
 
   const {
@@ -42,7 +42,7 @@ const NovelList = () => {
 
   const handlePageChange = async (newPage: number) => {
     await mutate();
-    router.push("/novel?page=" + newPage + "&search=" + debouncedSearchTerm, {
+    router.push('/novel?page=' + newPage + '&search=' + debouncedSearchTerm, {
       scroll: false,
     });
     setPage(newPage);
@@ -53,16 +53,16 @@ const NovelList = () => {
     setSearchTerm(searchValue);
     setPage(1);
 
-    router.push(`/novel?page=1&search=${searchValue || ""}`, {
+    router.push(`/novel?page=1&search=${searchValue || ''}`, {
       scroll: false,
     });
   };
 
   const handleClearSearch = () => {
-    setSearchTerm("");
+    setSearchTerm('');
     setPage(1);
 
-    router.push("/novel?page=1", {
+    router.push('/novel?page=1', {
       scroll: false,
     });
   };
@@ -77,7 +77,7 @@ const NovelList = () => {
   const renderEmptyState = () =>
     !isValidating &&
     (!data?.status || novelData.length === 0) && (
-      <EmptyState message={error ? "Error loading posts" : "No Post Found."} />
+      <EmptyState message={error ? 'Error loading posts' : 'No Post Found.'} />
     );
 
   return (
@@ -137,6 +137,7 @@ const NovelList = () => {
           <Pagination
             totalPages={totalPages}
             currentPage={page}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onPageChange={handlePageChange}
           />
         )}

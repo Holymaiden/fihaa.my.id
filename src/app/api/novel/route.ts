@@ -1,15 +1,16 @@
-import { NOVEL_CONTENTS } from "@/common/constant/novel";
+import { NOVEL_CONTENTS } from '@/common/constant/novel';
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const page: string = searchParams.get("page") || "1";
-    const per_page: string = searchParams.get("per_page") || "9";
-    const is_new = searchParams.get("new");
-    const search = searchParams.get("search");
+    const page: string = searchParams.get('page') || '1';
+    const per_page: string = searchParams.get('per_page') || '9';
+    const is_new = searchParams.get('new');
+    const search = searchParams.get('search');
 
     const filteredItems = NOVEL_CONTENTS.filter((item) => {
-      if (String(is_new) === "true") {
+      if (String(is_new) === 'true') {
         return String(item.is_new) === String(is_new);
       }
       return true;
@@ -25,7 +26,7 @@ export async function GET(req: Request) {
     // Pagination
     const items = filteredItems.slice(
       (parseInt(page) - 1) * parseInt(per_page),
-      parseInt(page) * parseInt(per_page)
+      parseInt(page) * parseInt(per_page),
     );
 
     return new Response(
@@ -41,17 +42,19 @@ export async function GET(req: Request) {
       }),
       {
         status: 200,
-      }
+      },
     );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return new Response(
       JSON.stringify({
         status: 500,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         error: error.message,
       }),
       {
         status: 500,
-      }
+      },
     );
   }
 }

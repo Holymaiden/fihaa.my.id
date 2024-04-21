@@ -1,14 +1,14 @@
-import Loading from "@/common/components/elements/Loading";
-import { strToMdx } from "@/common/libs/mdx";
-import { MDXComponents } from "mdx/types";
+import type { ReactElement } from 'react';
 
-interface ContentBodyProps {
-  content: MDXComponents | string;
-}
+import { strToMdx } from '@/common/libs/mdx';
+
+type ContentBodyProps = {
+  content: ReactElement;
+};
 
 const ContentBody = async ({ content }: ContentBodyProps) => {
-  let contentMdx: any = {};
-  if (typeof content === "string") {
+  let contentMdx: ReactElement;
+  if (typeof content === 'string') {
     contentMdx = (await strToMdx(content)).content;
   } else {
     contentMdx = content;

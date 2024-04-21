@@ -1,26 +1,23 @@
-import clsx from "clsx";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useState } from "react";
-import { BsArrowRight as MoreIcon } from "react-icons/bs";
-import { HiFlag as FlagIcon, HiChartPie as StatsIcon } from "react-icons/hi";
-import { TbCalendarBolt as DateIcon } from "react-icons/tb";
+import clsx from 'clsx';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useState } from 'react';
+import { BsArrowRight as MoreIcon } from 'react-icons/bs';
+import { HiChartPie as StatsIcon, HiFlag as FlagIcon } from 'react-icons/hi';
+import { TbCalendarBolt as DateIcon } from 'react-icons/tb';
 
-import Breakline from "@/common/components/elements/Breakline";
-import Card from "@/common/components/elements/Card";
-import Image from "@/common/components/elements/Image";
-import Tooltip from "@/common/components/elements/Tooltip";
-import { formatDate } from "@/common/helpers";
+import Breakline from '@/common/components/elements/Breakline';
+import Card from '@/common/components/elements/Card';
+import Image from '@/common/components/elements/Image';
+import Tooltip from '@/common/components/elements/Tooltip';
+import { formatDate } from '@/common/helpers';
+import { type MdxFileProps } from '@/common/libs/mdx';
+import { type BlogItemProps } from '@/common/types/blog';
 
-interface MdxFileProps {
-  slug: string;
-  frontMatter: any;
-}
-
-const BlogCard = ({ slug, frontMatter }: MdxFileProps) => {
+const BlogCard = ({ slug, frontMatter }: MdxFileProps<BlogItemProps>) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const defaultImage = "/images/placeholder.png";
+  const defaultImage = '/images/placeholder.png';
 
   const slideDownVariants = {
     hidden: { opacity: 0, y: -10 },
@@ -37,8 +34,8 @@ const BlogCard = ({ slug, frontMatter }: MdxFileProps) => {
         <div
           className="duration-500 relative rounded-xl"
           style={{
-            height: "400px",
-            overflow: "hidden",
+            height: '400px',
+            overflow: 'hidden',
           }}
         >
           <Image
@@ -53,7 +50,7 @@ const BlogCard = ({ slug, frontMatter }: MdxFileProps) => {
 
         <div className="absolute flex flex-col justify-between p-5 space-y-4 h-full">
           <div className="flex flex-wrap gap-2">
-            {frontMatter?.categories?.map((tag: any) => (
+            {frontMatter?.categories?.map((tag) => (
               <div
                 key={tag}
                 className="px-2.5 py-1 rounded-full font-mono text-xs text-neutral-400 bg-neutral-900/50"
@@ -91,10 +88,10 @@ const BlogCard = ({ slug, frontMatter }: MdxFileProps) => {
               <motion.div
                 variants={slideDownVariants}
                 initial="visible"
-                animate={isHovered ? "hidden" : "visible"}
+                animate={isHovered ? 'hidden' : 'visible'}
                 className={clsx(
-                  "flex justify-between gap-4 ",
-                  isHovered && "hidden"
+                  'flex justify-between gap-4 ',
+                  isHovered && 'hidden',
                 )}
               >
                 <div className="flex gap-1 items-center">
@@ -113,10 +110,10 @@ const BlogCard = ({ slug, frontMatter }: MdxFileProps) => {
               <motion.div
                 variants={slideDownVariants}
                 initial="hidden"
-                animate={isHovered ? "visible" : "hidden"}
+                animate={isHovered ? 'visible' : 'hidden'}
                 className={clsx(
-                  "flex gap-1 items-center",
-                  !isHovered && "hidden"
+                  'flex gap-1 items-center',
+                  !isHovered && 'hidden',
                 )}
               >
                 <span className="text-xs font-medium mr-0.5">READ MORE</span>

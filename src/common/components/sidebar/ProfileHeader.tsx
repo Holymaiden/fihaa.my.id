@@ -1,9 +1,9 @@
-import clsx from "clsx";
-import Link from "next/link";
-import { MdVerified as VerifiedIcon } from "react-icons/md";
+import clsx from 'clsx';
+import Link from 'next/link';
+import { MdVerified as VerifiedIcon } from 'react-icons/md';
 
-import Image from "../elements/Image";
-import Tooltip from "../elements/Tooltip";
+import Image from '../elements/Image';
+import Tooltip from '../elements/Tooltip';
 
 interface ProfileHeaderProps {
   expandMenu: boolean;
@@ -15,8 +15,8 @@ const ProfileHeader = ({ expandMenu, imageSize }: ProfileHeaderProps) => {
   return (
     <div
       className={clsx(
-        "flex items-center lg:items-start gap-4 lg:gap-0.5 flex-grow lg:flex-col w-full",
-        expandMenu && "flex-col !items-start"
+        'flex items-center lg:items-start gap-4 lg:gap-0.5 flex-grow lg:flex-col w-full',
+        expandMenu && 'flex-col !items-start',
       )}
     >
       <Image

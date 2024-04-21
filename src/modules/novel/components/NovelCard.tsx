@@ -1,17 +1,17 @@
-import clsx from "clsx";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useState } from "react";
-import { BsArrowRight as MoreIcon } from "react-icons/bs";
-import { FaRegEye as ViewIcon } from "react-icons/fa";
-import { TbCalendarBolt as DateIcon } from "react-icons/tb";
+import clsx from 'clsx';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useState } from 'react';
+import { BsArrowRight as MoreIcon } from 'react-icons/bs';
+import { FaRegEye as ViewIcon } from 'react-icons/fa';
+import { TbCalendarBolt as DateIcon } from 'react-icons/tb';
 
-import Breakline from "@/common/components/elements/Breakline";
-import Card from "@/common/components/elements/Card";
-import Image from "@/common/components/elements/Image";
-import Tooltip from "@/common/components/elements/Tooltip";
-import { formatDate } from "@/common/helpers";
-import { ContentProps } from "@/common/types/novel";
+import Breakline from '@/common/components/elements/Breakline';
+import Card from '@/common/components/elements/Card';
+import Image from '@/common/components/elements/Image';
+import Tooltip from '@/common/components/elements/Tooltip';
+import { formatDate } from '@/common/helpers';
+import type { ContentProps } from '@/common/types/novel';
 
 const NovelCard = ({
   id,
@@ -19,15 +19,13 @@ const NovelCard = ({
   slug,
   description,
   image,
-  is_new,
   level,
-  is_show,
   date,
   tags,
 }: ContentProps) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const defaultImage = "/images/placeholder.png";
+  const defaultImage = '/images/placeholder.png';
 
   const slideDownVariants = {
     hidden: { opacity: 0, y: -10 },
@@ -44,8 +42,8 @@ const NovelCard = ({
         <div
           className="duration-500 relative rounded-xl"
           style={{
-            height: "400px",
-            overflow: "hidden",
+            height: '400px',
+            overflow: 'hidden',
           }}
         >
           <Image
@@ -99,10 +97,10 @@ const NovelCard = ({
               <motion.div
                 variants={slideDownVariants}
                 initial="visible"
-                animate={isHovered ? "hidden" : "visible"}
+                animate={isHovered ? 'hidden' : 'visible'}
                 className={clsx(
-                  "flex justify-between gap-4 ",
-                  isHovered && "hidden"
+                  'flex justify-between gap-4 ',
+                  isHovered && 'hidden',
                 )}
               >
                 <div className="flex gap-1 items-center">
@@ -113,10 +111,10 @@ const NovelCard = ({
               <motion.div
                 variants={slideDownVariants}
                 initial="hidden"
-                animate={isHovered ? "visible" : "hidden"}
+                animate={isHovered ? 'visible' : 'hidden'}
                 className={clsx(
-                  "flex gap-1 items-center",
-                  !isHovered && "hidden"
+                  'flex gap-1 items-center',
+                  !isHovered && 'hidden',
                 )}
               >
                 <span className="text-xs font-medium mr-0.5">READ MORE</span>

@@ -3,7 +3,7 @@ interface DifficultyColorProps {
 }
 
 export const DIFFICULTY_COLORS: DifficultyColorProps = {
-  Easy: "green",
-  Medium: "blue",
-  Hard: "red",
+  Easy: 'green',
+  Medium: 'blue',
+  Hard: 'red',
 };

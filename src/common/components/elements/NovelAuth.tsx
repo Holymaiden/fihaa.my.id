@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Combobox, Dialog, Transition } from "@headlessui/react";
-import { Fragment, useContext, useEffect, useState } from "react";
-import { BiKey as KeyIcon, BiArrowFromLeft as LoginIcon } from "react-icons/bi";
+import { Combobox, Dialog, Transition } from '@headlessui/react';
+import clsx from 'clsx';
+import { Fragment, useContext, useEffect, useState } from 'react';
+import { BiArrowFromLeft as LoginIcon, BiKey as KeyIcon } from 'react-icons/bi';
 
-import { NovelAuthContext } from "@/common/context/NovelAuthContext";
-import clsx from "clsx";
+import { NovelAuthContext } from '@/common/context/NovelAuthContext';
 
 const NovelAuth = () => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   const { isOpen, setIsOpen, error, setCookie, getCookie } =
     useContext(NovelAuthContext);
@@ -63,8 +63,8 @@ const NovelAuth = () => {
             >
               <div
                 className={clsx(
-                  "flex gap-3 items-center border-b border-neutral-300 dark:border-neutral-800 px-4",
-                  error && "!border-red-500"
+                  'flex gap-3 items-center border-b border-neutral-300 dark:border-neutral-800 px-4',
+                  error && '!border-red-500',
                 )}
               >
                 <KeyIcon size={22} />
@@ -72,12 +72,12 @@ const NovelAuth = () => {
                 <Combobox.Input
                   onChange={handleSearch}
                   className={clsx(
-                    "h-14 w-full border-0 bg-transparent text-neutral-800 placeholder-neutral-500 focus:outline-none focus:ring-0 dark:text-neutral-200 font-sora",
-                    error && " !placeholder-red-500"
+                    'h-14 w-full border-0 bg-transparent text-neutral-800 placeholder-neutral-500 focus:outline-none focus:ring-0 dark:text-neutral-200 font-sora',
+                    error && ' !placeholder-red-500',
                   )}
-                  placeholder={error ? error : "Enter your key here..."}
+                  placeholder={error ? error : 'Enter your key here...'}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === 'Enter') {
                       handleSubmit();
                     }
                   }}

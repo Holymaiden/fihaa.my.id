@@ -1,21 +1,22 @@
-import { NextPage, Metadata } from "next";
+import type { Metadata, NextPage } from 'next';
+import { Suspense } from 'react';
 
-import Container from "@/common/components/elements/Container";
-import BlogList from "@/modules/blog";
-import { loadMdxFiles } from "@/common/libs/mdx";
-import { Suspense } from "react";
-import Loading from "@/common/components/elements/Loading";
+import Container from '@/common/components/elements/Container';
+import Loading from '@/common/components/elements/Loading';
+import { loadMdxFiles } from '@/common/libs/mdx';
+import { type BlogDetailProps } from '@/common/types/blog';
+import BlogList from '@/modules/blog';
 
 export const metadata: Metadata = {
-  title: "Blog - Fihaa Portfolio",
-  description: "Blog - Fihaa Portfolio",
+  title: 'Blog - Fihaa Portfolio',
+  description: 'Blog - Fihaa Portfolio',
 };
 
 const BlogPage: NextPage = async () => {
-  const content = await loadMdxFiles("blogs", "");
+  const content = await loadMdxFiles<BlogDetailProps>('blogs', '');
 
   const sortedContents = content.sort(
-    (a: any, b: any) => b.frontMatter.id - a.frontMatter.id
+    (a, b) => b.frontMatter.id - a.frontMatter.id,
   );
 
   return (

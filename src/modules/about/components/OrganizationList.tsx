@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { GiOrganigram as OrganizationIcon } from "react-icons/gi";
+import { GiOrganigram as OrganizationIcon } from 'react-icons/gi';
 
-import SectionHeading from "@/common/components/elements/SectionHeading";
-import SectionSubHeading from "@/common/components/elements/SectionSubHeading";
-import { ORGANIZATION } from "@/common/constant/organization";
+import SectionHeading from '@/common/components/elements/SectionHeading';
+import SectionSubHeading from '@/common/components/elements/SectionSubHeading';
+import { ORGANIZATION } from '@/common/constant/organization';
 
-import OrganizationCard from "./OrganizationCard";
+import OrganizationCard from './OrganizationCard';
 
 const OrganizationList = () => {
   return (

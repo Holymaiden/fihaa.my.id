@@ -1,8 +1,8 @@
-import { BsGrid as GridIcon, BsListUl as ListIcon } from "react-icons/bs";
+import { BsGrid as GridIcon, BsListUl as ListIcon } from 'react-icons/bs';
 
-import SectionHeading from "@/common/components/elements/SectionHeading";
+import SectionHeading from '@/common/components/elements/SectionHeading';
 
-import ViewOptions from "./ViewOptions";
+import ViewOptions from './ViewOptions';
 
 interface BlogListHeaderProps {
   viewOption: string;
@@ -19,7 +19,7 @@ const BlogListHeader = ({ viewOption, setViewOption }: BlogListHeaderProps) => {
           setViewOption={setViewOption}
           type="list"
           icon={<ListIcon size={24} className="p-0.5" />}
-        />{" "}
+        />{' '}
         <ViewOptions
           option={viewOption}
           setViewOption={setViewOption}

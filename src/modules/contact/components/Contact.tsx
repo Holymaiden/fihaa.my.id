@@ -1,7 +1,7 @@
-import Breakline from "@/common/components/elements/Breakline";
+import Breakline from '@/common/components/elements/Breakline';
 
-import ContactForm from "./ContactForm";
-import SocialMediaList from "./SocialMediaList";
+import ContactForm from './ContactForm';
+import SocialMediaList from './SocialMediaList';
 
 const Contact = () => {
   return (

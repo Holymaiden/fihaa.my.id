@@ -1,12 +1,11 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { FaRegEye as ViewIcon } from "react-icons/fa";
-import { HiOutlineClock as ClockIcon } from "react-icons/hi";
-import { MdNewReleases } from "react-icons/md";
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { FaRegEye as ViewIcon } from 'react-icons/fa';
+import { MdNewReleases } from 'react-icons/md';
 
-import { formatDate } from "@/common/helpers";
+import { formatDate } from '@/common/helpers';
 
 interface ContentHeaderProps {
   title: string;
@@ -24,19 +23,19 @@ const ContentHeader = ({
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll: any = () => {
+    const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       setIsScrolled(scrollTop > 250);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  const transition = { duration: 0.3, ease: "easeInOut" };
+  const transition = { duration: 0.3, ease: 'easeInOut' };
   const titleVariants = {
     initial: { opacity: 0, y: -20 },
     animate: { opacity: 1, y: 0 },
@@ -69,7 +68,7 @@ const ContentHeader = ({
         <div>
           Published on
           <span className="px-1 font-medium">
-            {published_at ? formatDate(published_at) : ""}
+            {published_at ? formatDate(published_at) : ''}
           </span>
         </div>
 
@@ -83,7 +82,7 @@ const ContentHeader = ({
           <div className="flex gap-1 items-center font-medium">
             <MdNewReleases size={16} />
             <div className="flex gap-1 ml-0.5">
-              <span>{is_new ? "New" : ""}</span>
+              <span>{is_new ? 'New' : ''}</span>
             </div>
           </div>
         </div>

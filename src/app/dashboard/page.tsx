@@ -1,14 +1,14 @@
-import { NextPage, Metadata } from "next";
+import type { Metadata, NextPage } from 'next';
+import { Suspense } from 'react';
 
-import Container from "@/common/components/elements/Container";
-import PageHeading from "@/common/components/elements/PageHeading";
-import Dashboard from "@/modules/dashboard";
-import { Suspense } from "react";
-import Loading from "@/common/components/elements/Loading";
+import Container from '@/common/components/elements/Container';
+import Loading from '@/common/components/elements/Loading';
+import PageHeading from '@/common/components/elements/PageHeading';
+import Dashboard from '@/modules/dashboard';
 
-const PAGE_TITLE = "Dashboard";
+const PAGE_TITLE = 'Dashboard';
 const PAGE_DESCRIPTION =
-  "This is my personal dashboard, built with Next.js API routes deployed as serverless functions.";
+  'This is my personal dashboard, built with Next.js API routes deployed as serverless functions.';
 
 export const metadata: Metadata = {
   title: `${PAGE_TITLE} | Fihaa Portfolio`,

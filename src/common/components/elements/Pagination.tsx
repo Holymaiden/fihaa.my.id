@@ -1,8 +1,8 @@
-import clsx from "clsx";
+import clsx from 'clsx';
 import {
   BiChevronLeft as PrevIcon,
   BiChevronRight as NextIcon,
-} from "react-icons/bi";
+} from 'react-icons/bi';
 
 interface PaginationProps {
   totalPages: number;
@@ -20,10 +20,10 @@ const Pagination: React.FC<PaginationProps> = ({
     const firstPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
     const lastPage = Math.min(totalPages, firstPage + visiblePages - 1);
 
-    const pageNumbers: (number | "...")[] = [];
+    const pageNumbers: (number | '...')[] = [];
 
     if (firstPage > 1) {
-      pageNumbers.push(1, "...");
+      pageNumbers.push(1, '...');
     }
 
     for (let i = firstPage; i <= lastPage; i++) {
@@ -31,21 +31,21 @@ const Pagination: React.FC<PaginationProps> = ({
     }
 
     if (lastPage < totalPages) {
-      pageNumbers.push("...", totalPages);
+      pageNumbers.push('...', totalPages);
     }
 
     return pageNumbers.map((page, index) => (
       <button
         key={index}
         onClick={() =>
-          onPageChange(typeof page === "number" ? page : currentPage)
+          onPageChange(typeof page === 'number' ? page : currentPage)
         }
         className={clsx(
-          "mx-1 px-4 py-1.5 rounded items-center",
-          page === "..." && "!bg-transparent !cursor-default",
+          'mx-1 px-4 py-1.5 rounded items-center',
+          page === '...' && '!bg-transparent !cursor-default',
           currentPage === page
-            ? "bg-sky-600 text-white"
-            : "bg-neutral-200 text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200"
+            ? 'bg-sky-600 text-white'
+            : 'bg-neutral-200 text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200',
         )}
       >
         {page}

@@ -1,14 +1,14 @@
-import { NextPage, Metadata } from "next";
+import type { Metadata, NextPage } from 'next';
+import { Suspense } from 'react';
 
-import BackButton from "@/common/components/elements/BackButton";
-import Container from "@/common/components/elements/Container";
-import Loading from "@/common/components/elements/Loading";
-import PageHeading from "@/common/components/elements/PageHeading";
-import { LEARN_CONTENTS } from "@/common/constant/learn";
-import { loadMdxFiles } from "@/common/libs/mdx";
-import { ContentProps, MdxFileContentProps } from "@/common/types/learn";
-import ContentList from "@/modules/learn/components/ContentList";
-import { Suspense } from "react";
+import BackButton from '@/common/components/elements/BackButton';
+import Container from '@/common/components/elements/Container';
+import Loading from '@/common/components/elements/Loading';
+import PageHeading from '@/common/components/elements/PageHeading';
+import { LEARN_CONTENTS } from '@/common/constant/learn';
+import { loadMdxFiles } from '@/common/libs/mdx';
+import type { ContentProps, SubContentMetaProps } from '@/common/types/learn';
+import ContentList from '@/modules/learn/components/ContentList';
 
 interface ContentPageProps {
   params: {
@@ -16,19 +16,20 @@ interface ContentPageProps {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
   const content: ContentProps | undefined = LEARN_CONTENTS.find(
-    (content) => content.slug === params.slug
+    (content) => content.slug === params.slug,
   );
 
   if (!content) {
     return {
-      title: "Learn | Fihaa Portfolio",
-      description: "Learn | Fihaa Portfolio",
+      title: 'Learn | Fihaa Portfolio',
+      description: 'Learn | Fihaa Portfolio',
     };
   }
 
@@ -44,7 +45,7 @@ const LearnContentPage: NextPage<ContentPageProps> = async ({
   params: { slug: string };
 }) => {
   const content: ContentProps | undefined = LEARN_CONTENTS.find(
-    (content) => content.slug === params.slug
+    (content) => content.slug === params.slug,
   );
 
   if (!content) {
@@ -53,11 +54,13 @@ const LearnContentPage: NextPage<ContentPageProps> = async ({
 
   const { title, description } = content;
 
-  const subContents = await loadMdxFiles("learns", params.slug);
+  const subContents = await loadMdxFiles<SubContentMetaProps>(
+    'learns',
+    params.slug,
+  );
 
   const sortedSubContents = subContents.sort(
-    (a: MdxFileContentProps, b: MdxFileContentProps) =>
-      a.frontMatter.id - b.frontMatter.id
+    (a, b) => a.frontMatter.id - b.frontMatter.id,
   );
 
   return (

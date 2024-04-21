@@ -1,34 +1,35 @@
-import { Metadata, NextPage } from "next";
+import type { Metadata, NextPage } from 'next';
+import { Suspense } from 'react';
 
-import BackButton from "@/common/components/elements/BackButton";
-import Container from "@/common/components/elements/Container";
-import Loading from "@/common/components/elements/Loading";
-import PageHeading from "@/common/components/elements/PageHeading";
-import { loadMdxNovelFiles } from "@/common/libs/mdx";
-import ContentList from "@/modules/novel/components/ContentList";
-import { Suspense } from "react";
-import { NOVEL_CONTENTS } from "@/common/constant/novel";
-import { MdxFileContentProps, ContentProps } from "@/common/types/novel";
+import BackButton from '@/common/components/elements/BackButton';
+import Container from '@/common/components/elements/Container';
+import Loading from '@/common/components/elements/Loading';
+import PageHeading from '@/common/components/elements/PageHeading';
+import { NOVEL_CONTENTS } from '@/common/constant/novel';
+import { loadMdxNovelFiles } from '@/common/libs/mdx';
+import type { ContentProps } from '@/common/types/novel';
+import ContentList from '@/modules/novel/components/ContentList';
 
-interface NovelPageProps {
+type NovelPageProps = {
   params: {
     slug: string;
   };
-}
+};
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
   const content: ContentProps | undefined = NOVEL_CONTENTS.find(
-    (content) => String(content.slug) === String(params.slug)
+    (content) => String(content.slug) === String(params.slug),
   );
 
   if (!content) {
     return {
-      title: "Novel | Fihaa Portfolio",
-      description: "Novel | Fihaa Portfolio",
+      title: 'Novel | Fihaa Portfolio',
+      description: 'Novel | Fihaa Portfolio',
     };
   }
 
@@ -44,7 +45,7 @@ const NovelContentPage: NextPage<NovelPageProps> = async ({
   params: { slug: string };
 }) => {
   const content: ContentProps | undefined = NOVEL_CONTENTS.find(
-    (content) => String(content.slug) === String(params.slug)
+    (content) => String(content.slug) === String(params.slug),
   );
 
   if (!content) {
@@ -53,11 +54,13 @@ const NovelContentPage: NextPage<NovelPageProps> = async ({
 
   const { title, description } = content;
 
-  const subContents = await loadMdxNovelFiles("novels", params.slug);
+  const subContents = await loadMdxNovelFiles<ContentProps>(
+    'novels',
+    params.slug,
+  );
 
   const sortedSubContents = subContents.sort(
-    (a: MdxFileContentProps, b: MdxFileContentProps) =>
-      a.frontMatter.id - b.frontMatter.id
+    (a, b) => a.frontMatter.id - b.frontMatter.id,
   );
 
   return (
@@ -71,7 +74,6 @@ const NovelContentPage: NextPage<NovelPageProps> = async ({
           <ContentList
             sortedSubContents={sortedSubContents}
             content={content}
-            title={title}
           />
         </Suspense>
       </Container>

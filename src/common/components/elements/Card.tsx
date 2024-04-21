@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { ReactNode } from "react";
+import styled from '@emotion/styled';
+import type { ReactNode } from 'react';
 
 interface CardProps {
   children: ReactNode;
@@ -7,7 +7,7 @@ interface CardProps {
   [propName: string]: unknown;
 }
 
-const Card = ({ children, className = "", ...others }: CardProps) => {
+const Card = ({ children, className = '', ...others }: CardProps) => {
   return (
     <StyledCard
       className={`bg-white rounded-xl transition-all duration-300 shadow-sm ${className} `}

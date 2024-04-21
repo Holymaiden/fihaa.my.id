@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 interface SectionHeadingProps {
   title: string;
@@ -9,7 +9,7 @@ interface SectionHeadingProps {
 const SectionHeading = ({
   title,
   icon,
-  className = "",
+  className = '',
 }: SectionHeadingProps) => {
   return (
     <div

@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import clsx from "clsx";
+import styled from '@emotion/styled';
+import clsx from 'clsx';
 
 interface MobileMenuButtonProps {
   expandMenu: boolean;
@@ -22,8 +22,8 @@ const MobileMenuButton = ({
         <StyledMenuSpan
           key={item.index}
           className={clsx(
-            "bg-neutral-950 dark:bg-neutral-100 ",
-            expandMenu && "active"
+            'bg-neutral-950 dark:bg-neutral-100 ',
+            expandMenu && 'active',
           )}
         />
       ))}

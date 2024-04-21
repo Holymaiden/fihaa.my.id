@@ -16,9 +16,9 @@ export type BlogItemProps = {
   slug: string;
   status: string;
   link: string;
-  title: {
-    rendered: string;
-  };
+  title: string;
+  type: string;
+  language: string;
   content: {
     rendered: string;
     markdown: string;
@@ -38,7 +38,7 @@ export type BlogItemProps = {
   meta: {
     footnotes: string;
   };
-  categories: number[];
+  categories: string[];
   tags: number[];
   tags_list: {
     term_id: number;
@@ -67,9 +67,7 @@ export type BlogDetailProps = {
   status: string;
   type: string;
   link: string;
-  title: {
-    rendered: string;
-  };
+  title: string;
   content: {
     rendered: string;
     markdown: string;
@@ -89,7 +87,8 @@ export type BlogDetailProps = {
   meta: {
     footnotes: string;
   };
-  categories: number[];
+  categories: string[];
+  language: string;
   tags: number[];
   tags_list: {
     term_id: number;

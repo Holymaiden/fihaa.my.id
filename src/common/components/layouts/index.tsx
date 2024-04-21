@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import clsx from "clsx";
-import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { ReactNode } from "react";
+import clsx from 'clsx';
+import { usePathname } from 'next/navigation';
+import { useTheme } from 'next-themes';
+import type { ReactNode } from 'react';
 
-import useHasMounted from "@/common/hooks/useHasMounted";
+import useHasMounted from '@/common/hooks/useHasMounted';
 
-import HeaderSidebar from "./header/HeaderSidebar";
-import HeaderTop from "./header/HeaderTop";
-import TopBar from "../elements/TopBar";
+import TopBar from '../elements/TopBar';
+import HeaderSidebar from './header/HeaderSidebar';
+import HeaderTop from './header/HeaderTop';
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,25 +20,25 @@ const Layout = ({ children }: LayoutProps) => {
   const hasMounted = useHasMounted();
 
   const isDarkTheme =
-    hasMounted && (resolvedTheme === "dark" || resolvedTheme === "system");
+    hasMounted && (resolvedTheme === 'dark' || resolvedTheme === 'system');
 
   const pathname = usePathname();
-  const pageName = pathname.split("/")[1];
+  const pageName = pathname.split('/')[1];
 
   const isFullPageHeader =
-    pageName === "novel" ||
-    pageName === "blog" ||
-    pathname.startsWith("/blog/") ||
-    pathname.startsWith("/novel/") ||
-    pathname.startsWith("/learn/");
+    pageName === 'novel' ||
+    pageName === 'blog' ||
+    pathname.startsWith('/blog/') ||
+    pathname.startsWith('/novel/') ||
+    pathname.startsWith('/learn/');
 
   return (
     <>
       <TopBar />
       <div
         className={clsx(
-          "max-w-6xl mx-auto lg:px-8",
-          isDarkTheme ? "dark:text-darkText" : ""
+          'max-w-6xl mx-auto lg:px-8',
+          isDarkTheme ? 'dark:text-darkText' : '',
         )}
       >
         {isFullPageHeader ? (

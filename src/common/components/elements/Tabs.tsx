@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 interface TabProps {
   label: string;
@@ -28,8 +28,8 @@ export const Tabs = ({ children }: TabsProps) => {
             key={index}
             className={`py-3 px-4 flex-1 text-center ${
               activeTab === index
-                ? "bg-neutral-500 dark:bg-neutral-400 text-neutral-100 dark:text-neutral-900"
-                : "bg-neutral-200 dark:bg-neutral-800 darktext-neutral-100"
+                ? 'bg-neutral-500 dark:bg-neutral-400 text-neutral-100 dark:text-neutral-900'
+                : 'bg-neutral-200 dark:bg-neutral-800 darktext-neutral-100'
             }`}
             onClick={() => handleTabClick(index)}
           >

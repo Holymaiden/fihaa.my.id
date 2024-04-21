@@ -1,31 +1,33 @@
-import { NextPage, Metadata } from "next";
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
-import BackButton from "@/common/components/elements/BackButton";
-import Container from "@/common/components/elements/Container";
+import BackButton from '@/common/components/elements/BackButton';
+import Container from '@/common/components/elements/Container';
+import Loading from '@/common/components/elements/Loading';
 import {
   getMdxFileCount,
   loadMdxFile,
   loadMdxNextPrevFile,
-} from "@/common/libs/mdx";
-import ContentDetail from "@/modules/learn/components/ContentDetail";
-import ContentDetailHeader from "@/modules/learn/components/ContentDetailHeader";
-import Loading from "@/common/components/elements/Loading";
-import { Suspense } from "react";
+} from '@/common/libs/mdx';
+import { type SubContentMetaProps } from '@/common/types/learn';
+import { type ContentProps } from '@/common/types/novel';
+import ContentDetail from '@/modules/learn/components/ContentDetail';
+import ContentDetailHeader from '@/modules/learn/components/ContentDetailHeader';
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string; content: string };
 }): Promise<Metadata> {
-  const { content: mdx, frontMatter }: any = await loadMdxFile(
-    "learns/" + params.slug,
-    params.content
+  const { frontMatter } = await loadMdxFile<ContentProps>(
+    'learns/' + params.slug,
+    params.content,
   );
 
   if (!frontMatter) {
     return {
-      title: "Blog | Fihaa Portfolio",
-      description: "Blog | Fihaa Portfolio",
+      title: 'Blog | Fihaa Portfolio',
+      description: 'Blog | Fihaa Portfolio',
     };
   }
 
@@ -35,15 +37,24 @@ export async function generateMetadata({
   };
 }
 
-const LearnContentDetailPage: NextPage = async ({ params }: any) => {
+type LearnContentDetailPageProps = {
+  params: {
+    slug: string;
+    content: string;
+  };
+};
+
+const LearnContentDetailPage = async ({
+  params,
+}: LearnContentDetailPageProps) => {
   const { slug, content } = params;
 
-  const contentLearn: any = await loadMdxNextPrevFile(
-    "learns/" + slug,
-    content
+  const contentLearn = await loadMdxNextPrevFile<SubContentMetaProps>(
+    'learns/' + slug,
+    content,
   );
 
-  const learnLength = await getMdxFileCount("learns", slug);
+  const learnLength = getMdxFileCount('learns', slug);
 
   return (
     <>

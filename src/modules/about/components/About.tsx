@@ -1,11 +1,11 @@
-import Breakline from "@/common/components/elements/Breakline";
+import Breakline from '@/common/components/elements/Breakline';
 
-import CareerList from "./CareerList";
-import EducationList from "./EducationList";
-import OrganizationList from "./OrganizationList";
-import Resume from "./Resume";
-import Skills from "./Skills";
-import Story from "./Story";
+import CareerList from './CareerList';
+import EducationList from './EducationList';
+import OrganizationList from './OrganizationList';
+import Resume from './Resume';
+import Skills from './Skills';
+import Story from './Story';
 
 const About = () => {
   return (

@@ -1,8 +1,8 @@
-import { BsBuildings as CompanyIcon } from "react-icons/bs";
+import { BsBuildings as CompanyIcon } from 'react-icons/bs';
 
-import Card from "@/common/components/elements/Card";
-import Image from "@/common/components/elements/Image";
-import { OrganizationProps } from "@/common/types/organization";
+import Card from '@/common/components/elements/Card';
+import Image from '@/common/components/elements/Image';
+import type { OrganizationProps } from '@/common/types/organization';
 
 const OrganizationCard = ({
   name,
@@ -23,7 +23,7 @@ const OrganizationCard = ({
 
       <div className="space-y-1">
         <a
-          href={link || "#"}
+          href={link || '#'}
           target="_blank"
           data-umami-event={`Click Organization: ${name}`}
         >
@@ -39,7 +39,7 @@ const OrganizationCard = ({
           </div>
           <div className="flex flex-col md:text-[13px]">
             <div className="flex gap-1">
-              <span>{start_year}</span> - <span>{end_year || "Present"}</span>
+              <span>{start_year}</span> - <span>{end_year || 'Present'}</span>
             </div>
           </div>
         </div>

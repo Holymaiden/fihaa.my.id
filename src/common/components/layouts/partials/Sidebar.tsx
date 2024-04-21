@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import useIsMobile from "@/common/hooks/useIsMobile";
+import useIsMobile from '@/common/hooks/useIsMobile';
 
-import Copyright from "./Copyright";
-import Breakline from "../../elements/Breakline";
-import Navigation from "../../sidebar/Navigation";
-import Profile from "../../sidebar/Profile";
+import Breakline from '../../elements/Breakline';
+import Navigation from '../../sidebar/Navigation';
+import Profile from '../../sidebar/Profile';
+import Copyright from './Copyright';
 
 const Sidebar = () => {
   const isMobile = useIsMobile();
@@ -21,10 +21,10 @@ const Sidebar = () => {
       setIsScrolled(scrollTop > 0);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 

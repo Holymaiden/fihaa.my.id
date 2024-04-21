@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { BiRocket as RocketIcon } from "react-icons/bi";
+import { useRouter } from 'next/navigation';
+import { BiRocket as RocketIcon } from 'react-icons/bi';
 
-import Button from "@/common/components/elements/Button";
-import Card from "@/common/components/elements/Card";
-import SectionHeading from "@/common/components/elements/SectionHeading";
+import Button from '@/common/components/elements/Button';
+import Card from '@/common/components/elements/Card';
+import SectionHeading from '@/common/components/elements/SectionHeading';
 
 const Services = () => {
   const Router = useRouter();
@@ -31,7 +31,7 @@ const Services = () => {
         </p>
         <Button
           data-umami-event="Click Contact Button"
-          onClick={() => Router.push("/contact")}
+          onClick={() => Router.push('/contact')}
         >
           Contact me
         </Button>

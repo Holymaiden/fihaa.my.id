@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { ThemeProvider } from "next-themes";
-import AOS from "aos";
-import { useEffect } from "react";
+import AOS from 'aos';
+import { ThemeProvider } from 'next-themes';
+import { useEffect } from 'react';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {

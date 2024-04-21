@@ -1,10 +1,10 @@
-import { NextPage, Metadata } from "next";
+import type { Metadata, NextPage } from 'next';
 
-import Container from "@/common/components/elements/Container";
-import PageHeading from "@/common/components/elements/PageHeading";
-import Contact from "@/modules/contact";
+import Container from '@/common/components/elements/Container';
+import PageHeading from '@/common/components/elements/PageHeading';
+import Contact from '@/modules/contact';
 
-const PAGE_TITLE = "Contact";
+const PAGE_TITLE = 'Contact';
 const PAGE_DESCRIPTION =
   "Feel free to get in touch and let's have a discussion about how we can work together.";
 

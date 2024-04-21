@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 
-import { ContentProps } from "@/common/types/learn";
+import type { ContentProps } from '@/common/types/learn';
 
-import LearnCard from "./components/LearnCard";
+import LearnCard from './components/LearnCard';
 
 interface LearnModuleProps {
   contents: ContentProps[];

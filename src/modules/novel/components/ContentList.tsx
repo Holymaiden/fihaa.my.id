@@ -1,30 +1,22 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
-import { groupContentSlice25 } from "@/common/helpers";
-import {
-  ChapterGroupProps,
-  ContentProps,
-  MdxFileContentProps,
-} from "@/common/types/novel";
+import { groupContentSlice25 } from '@/common/helpers';
+import { type MdxFileProps } from '@/common/libs/mdx';
+import type { ChapterGroupProps, ContentProps } from '@/common/types/novel';
 
-import ChapterCard from "./ChapterCard";
-import NovelSubContentItem from "./NovelSubContentItem";
+import ChapterCard from './ChapterCard';
+import NovelSubContentItem from './NovelSubContentItem';
 
 interface ContentListProps {
-  sortedSubContents: MdxFileContentProps[];
+  sortedSubContents: MdxFileProps<ContentProps>[];
   content: ContentProps | null;
-  title: string;
 }
 
-const ContentList = ({
-  sortedSubContents,
-  content,
-  title,
-}: ContentListProps) => {
-  const contentSlug: string = content?.slug ?? "";
+const ContentList = ({ sortedSubContents, content }: ContentListProps) => {
+  const contentSlug: string = content?.slug ?? '';
 
   const groupedContent: Record<string, ChapterGroupProps> =
     groupContentSlice25(sortedSubContents);
@@ -38,7 +30,7 @@ const ContentList = ({
     setOpenAccordions((prev) =>
       prev.includes(chapterId)
         ? prev.filter((id) => id !== chapterId)
-        : [...prev, chapterId]
+        : [...prev, chapterId],
     );
   };
 
@@ -54,7 +46,7 @@ const ContentList = ({
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: key * 0.1 }}
               >
-                {chapter_title !== "ungrouped" && (
+                {chapter_title !== 'ungrouped' && (
                   <ChapterCard
                     chapterId={chapterId}
                     chapterTitle={chapter_title}
@@ -75,14 +67,14 @@ const ContentList = ({
                         <NovelSubContentItem
                           contentSlug={contentSlug}
                           subContentSlug={item?.slug}
-                          title={item?.frontMatter?.title as string}
+                          title={item?.frontMatter?.title}
                         />
                       </motion.div>
                     ))}
                   </div>
                 )}
               </motion.div>
-            )
+            ),
           )}
         </div>
       ) : (

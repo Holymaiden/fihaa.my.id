@@ -1,12 +1,17 @@
-"use client";
+'use client';
 
-import Breakline from "@/common/components/elements/Breakline";
-import { ContentProps, MdxFileContentProps } from "@/common/types/novel";
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import ContentHeader from "./ContentHeader";
-import NavigationSection from "@/common/components/elements/NavigationSection";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import Breakline from '@/common/components/elements/Breakline';
+import NavigationSection from '@/common/components/elements/NavigationSection';
+import {
+  type MdxFileNextPrevProps,
+  type MdxFileProps,
+} from '@/common/libs/mdx';
+import type { ContentProps } from '@/common/types/novel';
+
+import ContentHeader from './ContentHeader';
 
 const ContentDetail = ({
   slug,
@@ -20,10 +25,8 @@ const ContentDetail = ({
   nextContent,
   previousContent,
 }: ContentProps &
-  MdxFileContentProps & {
+  MdxFileNextPrevProps<ContentProps> & {
     novelLength: number;
-    nextContent: any;
-    previousContent: any;
   }) => {
   const router = useRouter();
 
@@ -31,20 +34,21 @@ const ContentDetail = ({
   const [nextTitle, setNextTitle] = useState<string | null>(null);
   const [previousTitle, setPreviousTitle] = useState<string | null>(null);
 
-  const handleNavigation = async (step: string) => {
-    const { slug: targetSlug } =
-      step === "next" ? nextContent : previousContent;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const handleNavigation = (step: string) => {
+    const { slug: targetSlug } = (
+      step === 'next' ? nextContent : previousContent
+    ) as MdxFileProps<ContentProps>;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     router.push(`/novel/${slug}/${targetSlug}`);
   };
 
   useEffect(() => {
-    setCurrentId(frontMatter.id as number);
+    setCurrentId(frontMatter.id);
     if (frontMatter.id > 0) {
-      setPreviousTitle(previousContent?.frontMatter?.title);
+      setPreviousTitle(previousContent?.frontMatter?.title as string);
     }
     if (frontMatter.id < novelLength - 1) {
-      setNextTitle(nextContent?.frontMatter?.title);
+      setNextTitle(nextContent?.frontMatter?.title as string);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
@@ -80,8 +84,8 @@ const ContentDetail = ({
       <NavigationSection
         currentIndex={currentId}
         totalItems={novelLength}
-        handleNext={() => handleNavigation("next")}
-        handlePrevious={() => handleNavigation("previous")}
+        handleNext={() => handleNavigation('next')}
+        handlePrevious={() => handleNavigation('previous')}
         previousTitle={previousTitle}
         nextTitle={nextTitle}
       />

@@ -1,14 +1,15 @@
-import Link from "next/link";
-import { AiFillPushpin as PinIcon } from "react-icons/ai";
-import { HiOutlineArrowSmRight as ViewIcon } from "react-icons/hi";
+import Link from 'next/link';
+import { AiFillPushpin as PinIcon } from 'react-icons/ai';
+import { HiOutlineArrowSmRight as ViewIcon } from 'react-icons/hi';
 
-import Card from "@/common/components/elements/Card";
-import Image from "@/common/components/elements/Image";
-import Tooltip from "@/common/components/elements/Tooltip";
-import { STACKS } from "@/common/constant/stacks";
-import { MdxFileProps } from "@/common/libs/mdx";
+import Card from '@/common/components/elements/Card';
+import Image from '@/common/components/elements/Image';
+import Tooltip from '@/common/components/elements/Tooltip';
+import { STACKS } from '@/common/constant/stacks';
+import type { MdxFileProps } from '@/common/libs/mdx';
+import { type ProjectItemProps } from '@/common/types/projects';
 
-const ProjectCard = ({ slug, frontMatter }: MdxFileProps | any) => {
+const ProjectCard = ({ slug, frontMatter }: MdxFileProps<ProjectItemProps>) => {
   return (
     <Link href={`/projects/${frontMatter?.slug}`}>
       <Card className="group relative border border-neutral-200 dark:border-neutral-900 lg:hover:scale-[102%] cursor-pointer">
@@ -20,11 +21,12 @@ const ProjectCard = ({ slug, frontMatter }: MdxFileProps | any) => {
         )}
         <div className="relative">
           <Image
-            src={frontMatter?.cover_url}
+            src={frontMatter?.cover_url || ''}
             width={400}
             height={200}
             alt={slug}
             priority={true}
+            loading="eager"
             className="rounded-t-xl h-48 object-cover object-left"
           />
           <div className="flex gap-1 absolute top-0 left-0 w-full h-full bg-black opacity-0 transition-opacity duration-300 justify-center items-center text-white group-hover:opacity-80 rounded-t-xl text-sm font-medium">

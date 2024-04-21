@@ -1,10 +1,10 @@
-import { NextPage, Metadata } from "next";
+import type { Metadata, NextPage } from 'next';
 
-import Container from "@/common/components/elements/Container";
-import HomePage from "@/modules/home";
+import Container from '@/common/components/elements/Container';
+import HomePage from '@/modules/home';
 
 export const metadata: Metadata = {
-  title: "M. Fiqri Haikhar Anwar - Personal Portfolio",
+  title: 'M. Fiqri Haikhar Anwar - Personal Portfolio',
 };
 
 const Home: NextPage = () => {

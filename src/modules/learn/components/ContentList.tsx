@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
-import { groupContentByChapter } from "@/common/helpers";
-import {
+import { groupContentByChapter } from '@/common/helpers';
+import { type MdxFileProps } from '@/common/libs/mdx';
+import type {
   ChapterGroupProps,
-  ContentProps,
-  MdxFileContentProps,
-} from "@/common/types/learn";
+  SubContentMetaProps,
+} from '@/common/types/learn';
 
-import ChapterCard from "./ChapterCard";
-import LearnSubContentItem from "./LearnSubContentItem";
+import ChapterCard from './ChapterCard';
+import LearnSubContentItem from './LearnSubContentItem';
 
 interface ContentListProps {
-  sortedSubContents: MdxFileContentProps[];
+  sortedSubContents: MdxFileProps<SubContentMetaProps>[];
   slug: string;
   title: string;
 }
 
 const ContentList = ({ sortedSubContents, slug, title }: ContentListProps) => {
-  const contentSlug: string = slug ?? "";
+  const contentSlug: string = slug ?? '';
 
   const groupedContent: Record<string, ChapterGroupProps> =
     groupContentByChapter(sortedSubContents);
@@ -34,7 +34,7 @@ const ContentList = ({ sortedSubContents, slug, title }: ContentListProps) => {
     setOpenAccordions((prev) =>
       prev.includes(chapterId)
         ? prev.filter((id) => id !== chapterId)
-        : [...prev, chapterId]
+        : [...prev, chapterId],
     );
   };
 
@@ -50,7 +50,7 @@ const ContentList = ({ sortedSubContents, slug, title }: ContentListProps) => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: key * 0.1 }}
               >
-                {chapter_title !== "ungrouped" && (
+                {chapter_title !== 'ungrouped' && (
                   <ChapterCard
                     chapterId={chapterId}
                     chapterTitle={chapter_title}
@@ -72,7 +72,7 @@ const ContentList = ({ sortedSubContents, slug, title }: ContentListProps) => {
                           parent={title}
                           contentSlug={contentSlug}
                           subContentSlug={item?.slug}
-                          title={item?.frontMatter?.title as string}
+                          title={item?.frontMatter?.title}
                           language={item?.frontMatter?.language as string}
                           difficulty={item?.frontMatter?.difficulty as string}
                         />
@@ -81,7 +81,7 @@ const ContentList = ({ sortedSubContents, slug, title }: ContentListProps) => {
                   </div>
                 )}
               </motion.div>
-            )
+            ),
           )}
         </div>
       ) : (
