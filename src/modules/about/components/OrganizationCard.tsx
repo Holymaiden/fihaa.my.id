@@ -16,7 +16,13 @@ const OrganizationCard = ({
   return (
     <Card className="flex items-center gap-5 py-4 px-6 border border-neutral-300 dark:border-neutral-900">
       {logo ? (
-        <Image src={logo} width={55} height={55} alt={name} />
+        <Image
+          src={logo}
+          width={55}
+          height={55}
+          alt={name}
+          className="h-14 w-14 rounded bg-neutral-50 p-1 hover:scale-110 hover:bg-transparent"
+        />
       ) : (
         <CompanyIcon size={50} />
       )}
