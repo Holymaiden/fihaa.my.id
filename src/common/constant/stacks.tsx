@@ -1,9 +1,9 @@
-import { BsFillBootstrapFill, BsRobot } from 'react-icons/bs';
+import { BsFillBootstrapFill } from 'react-icons/bs';
 import {
-  SiAngular,
   SiChakraui,
   SiCplusplus,
   SiCss3,
+  SiExpo,
   SiExpress,
   SiFirebase,
   SiFlask,
@@ -20,6 +20,7 @@ import {
   SiPhp,
   SiPrisma,
   SiReact,
+  SiReactquery,
   SiRedux,
   SiSocketdotio,
   SiStorybook,
@@ -59,10 +60,6 @@ export const STACKS: stacksProps = {
   Vite: <SiVite size={iconSize} className="text-purple-500" />,
   Prisma: <SiPrisma size={iconSize} className="text-emerald-500" />,
   Firebase: <SiFirebase size={iconSize} className="text-yellow-500" />,
-  'Artificial Intelligence': (
-    <BsRobot size={iconSize} className="text-rose-500" />
-  ),
-  Angular: <SiAngular size={iconSize} className="text-red-500" />,
   'Node.js': <SiNodedotjs size={iconSize} className="text-green-600" />,
   Redux: <SiRedux size={iconSize} className="text-purple-500" />,
   'Styled Components': (
@@ -74,4 +71,6 @@ export const STACKS: stacksProps = {
   Express: <SiExpress size={iconSize} />,
   Jquery: <SiJquery size={iconSize} />,
   Markdown: <SiMarkdown size={iconSize} className="text-pink-500" />,
+  'TanStack Query': <SiReactquery size={iconSize} className="text-amber-500" />,
+  Expo: <SiExpo size={iconSize} />,
 };

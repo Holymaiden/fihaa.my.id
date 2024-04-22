@@ -13,6 +13,8 @@ const CareerCard = ({
   start_date,
   end_date,
   link,
+  type,
+  location_type,
 }: CareerProps) => {
   const startDate = new Date(start_date);
   const endDate = end_date ? new Date(end_date) : new Date();
@@ -31,7 +33,13 @@ const CareerCard = ({
   return (
     <Card className="flex items-center gap-5 py-4 px-6 border border-neutral-300 dark:border-neutral-900">
       {logo ? (
-        <Image src={logo} width={55} height={55} alt={company} />
+        <Image
+          src={logo}
+          width={55}
+          height={55}
+          alt={company}
+          className="h-14 w-14 rounded bg-neutral-50 p-1 hover:scale-110 hover:bg-transparent"
+        />
       ) : (
         <CompanyIcon size={50} />
       )}
@@ -57,9 +65,19 @@ const CareerCard = ({
               <span>{format(startDate, 'MMM yyyy')}</span> -{' '}
               <span>{end_date ? format(endDate, 'MMM yyyy') : 'Present'}</span>
             </div>
-            <span className="text-neutral-500 dark:text-neutral-500">
-              ~ {durationText}
-            </span>
+            <div className="flex gap-1">
+              <span className="text-neutral-500 dark:text-neutral-500">
+                ~ {durationText}
+              </span>
+              <span className="hidden md:flex text-neutral-300 dark:text-neutral-700">
+                •
+              </span>
+              <span>{type}</span>
+              <span className="hidden md:flex text-neutral-300 dark:text-neutral-700">
+                •
+              </span>
+              <span>{location_type}</span>
+            </div>
           </div>
         </div>
       </div>
