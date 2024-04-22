@@ -2,7 +2,7 @@ import type { EducationProps } from '../types/education';
 
 export const EDUCATION: EducationProps[] = [
   {
-    school: 'Universitas Dipa Makassar',
+    school: 'Dipa Makassar University',
     major: 'Informatics Engineering, (S.Kom)',
     logo: '/images/education/undipa.svg',
     location: 'Makassar',
