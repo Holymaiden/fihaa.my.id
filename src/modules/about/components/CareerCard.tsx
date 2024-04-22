@@ -60,20 +60,20 @@ const CareerCard = ({
             <span className="text-neutral-300 dark:text-neutral-700">•</span>
             <span>{location}</span>
           </div>
-          <div className="flex flex-col md:text-[13px]">
+          <div className="flex flex-col md:text-[12px]">
             <div className="flex gap-1">
               <span>{format(startDate, 'MMM yyyy')}</span> -{' '}
               <span>{end_date ? format(endDate, 'MMM yyyy') : 'Present'}</span>
             </div>
             <div className="flex gap-1">
               <span className="text-neutral-500 dark:text-neutral-500">
-                ~ {durationText}
+                {durationText}
               </span>
-              <span className="hidden md:flex text-neutral-300 dark:text-neutral-700">
+              <span className="hidden text-neutral-300 dark:text-neutral-700 md:block">
                 •
               </span>
               <span>{type}</span>
-              <span className="hidden md:flex text-neutral-300 dark:text-neutral-700">
+              <span className="hidden text-neutral-300 dark:text-neutral-700 md:block">
                 •
               </span>
               <span>{location_type}</span>
