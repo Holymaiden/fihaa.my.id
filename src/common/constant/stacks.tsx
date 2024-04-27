@@ -27,6 +27,7 @@ import {
   SiStyledcomponents,
   SiTailwindcss,
   SiTypescript,
+  SiVercel,
   SiVite,
   SiWordpress,
 } from 'react-icons/si';
@@ -73,4 +74,5 @@ export const STACKS: stacksProps = {
   Markdown: <SiMarkdown size={iconSize} className="text-pink-500" />,
   'TanStack Query': <SiReactquery size={iconSize} className="text-amber-500" />,
   Expo: <SiExpo size={iconSize} />,
+  Vercel: <SiVercel size={iconSize} />,
 };

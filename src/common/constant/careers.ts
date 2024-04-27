@@ -61,4 +61,16 @@ export const CAREERS: CareerProps[] = [
     industry: '',
     link: 'https://fihaa.my.id/projects',
   },
+  {
+    position: 'IT Support Intern',
+    company: 'BNNK Bone',
+    logo: '/images/careers/bnn-bone.png',
+    location: 'Bone',
+    location_type: 'Onsite',
+    type: 'Fulltime',
+    start_date: '2018-4',
+    end_date: '2018-8',
+    industry: '',
+    link: 'https://bonekab.bnn.go.id/',
+  },
 ];
