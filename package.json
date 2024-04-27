@@ -21,7 +21,7 @@
     "@vercel/postgres": "^0.5.1",
     "aos": "^2.3.4",
     "axios": "^1.6.1",
-    "clsx": "^2.0.0",
+    "clsx": "^2.1.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "framer-motion": "^10.16.4",
