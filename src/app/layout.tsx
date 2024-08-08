@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 
 import Layout from '@/common/components/layouts';
+import GoogleAdsense from '@/common/libs/googl-adsense';
 import { firaCode, jakartaSans, soraSans } from '@/common/styles/fonts';
 
 import { Providers } from './providers';
@@ -36,6 +37,7 @@ export default function RootLayout({
           </Layout>
         </Providers>
       </body>
+      <GoogleAdsense pId="4893424345889965" />
     </html>
   );
 }
