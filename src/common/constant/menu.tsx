@@ -14,7 +14,6 @@ import {
   FiRss as BlogIcon,
   FiUser as ProfileIcon,
 } from 'react-icons/fi';
-import { PiBooks as BooksIcon } from 'react-icons/pi';
 
 import type { MenuItemProps } from '../types/menu';
 
@@ -66,15 +65,15 @@ export const MENU_ITEMS: MenuItemProps[] = [
     eventName: 'Pages: Learn',
     type: 'Pages',
   },
-  {
-    title: 'Novel',
-    href: '/novel',
-    icon: <BooksIcon size={iconSize} />,
-    isShow: true,
-    isExternal: false,
-    eventName: 'Pages: Novel',
-    type: 'Pages',
-  },
+  // {
+  //   title: 'Novel',
+  //   href: '/novel',
+  //   icon: <BooksIcon size={iconSize} />,
+  //   isShow: true,
+  //   isExternal: false,
+  //   eventName: 'Pages: Novel',
+  //   type: 'Pages',
+  // },
   {
     title: 'About',
     href: '/about',
