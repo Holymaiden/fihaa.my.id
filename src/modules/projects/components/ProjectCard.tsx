@@ -22,7 +22,7 @@ const ProjectCard = ({ slug, frontMatter }: MdxFileProps<ProjectItemProps>) => {
         <div className="relative">
           <Image
             src={frontMatter?.cover_url || ''}
-            width={400}
+            width={450}
             height={200}
             alt={slug}
             priority={true}

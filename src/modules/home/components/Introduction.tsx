@@ -8,7 +8,7 @@ const Introduction = () => {
     <section className="bg-cover bg-no-repeat">
       <div className="space-y-8">
         <div className="space-y-4">
-          <div className="flex gap-2 text-3xl lg:text-4xl font-bold font-sora bg-gradient-to-r text-neutral-800 dark:text-neutral-300 bg-clip-text text-transparent">
+          <div className="flex gap-2 text-3xl lg:text-4xl font-bold font-sora bg-gradient-to-r text-neutral-800 dark:text-neutral-300 bg-clip-text">
             <h1>Hi, I&apos;m Fihaa</h1>
             <div className="ml-1 animate-waving-hand">👋</div>
           </div>
@@ -31,7 +31,7 @@ const Introduction = () => {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="group p-6 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:shadow-lg">
+          <Card className="group p-6 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:shadow-lg border dark:border-none">
             <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
               💻
             </div>
@@ -43,7 +43,7 @@ const Introduction = () => {
             </p>
           </Card>
 
-          <Card className="group p-6 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:shadow-lg">
+          <Card className="group p-6 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:shadow-lg border dark:border-none">
             <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
               💼
             </div>
@@ -56,7 +56,7 @@ const Introduction = () => {
             </p>
           </Card>
 
-          <Card className="group p-6 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:shadow-lg sm:col-span-2 lg:col-span-1">
+          <Card className="group p-6 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:shadow-lg sm:col-span-2 lg:col-span-1 border dark:border-none">
             <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
               🌱
             </div>

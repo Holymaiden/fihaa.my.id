@@ -13,11 +13,14 @@ import Copyright from './Copyright';
 const Sidebar = () => {
   const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   // Enable keyboard navigation for accessibility
   useKeyboardNavigation();
 
   useEffect(() => {
+    setIsClient(true);
+
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       setIsScrolled(scrollTop > 0);
@@ -36,7 +39,7 @@ const Sidebar = () => {
       className="sticky transition-all duration-300 top-0 z-10 flex flex-col lg:py-8"
     >
       <Profile isScrolled={isScrolled} />
-      {!isMobile && (
+      {isClient && !isMobile && (
         <>
           <Breakline />
           <Navigation />

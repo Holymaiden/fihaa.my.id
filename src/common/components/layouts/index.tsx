@@ -37,7 +37,7 @@ const Layout = ({ children }: LayoutProps) => {
       <TopBar />
       <div
         className={clsx(
-          'max-w-6xl mx-auto lg:px-8',
+          'max-w-7xl mx-auto lg:px-8',
           isDarkTheme ? 'dark:text-darkText' : '',
         )}
       >

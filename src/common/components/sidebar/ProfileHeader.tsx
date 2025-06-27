@@ -12,6 +12,8 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader = ({ expandMenu, imageSize }: ProfileHeaderProps) => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 429;
+
   return (
     <div
       className={clsx(
@@ -30,7 +32,7 @@ const ProfileHeader = ({ expandMenu, imageSize }: ProfileHeaderProps) => {
       <div className="flex gap-2 items-center mt-1 lg:mt-4">
         <Link href="/" passHref>
           <h2 className="flex-grow text-lg lg:text-xl font-sora font-medium">
-            M. Fiqri Haikhar Anwar
+            {isMobile ? 'Fihaa' : 'M. Fiqri Haikhar Anwar'}
           </h2>
         </Link>
         <Tooltip title="Verified">
