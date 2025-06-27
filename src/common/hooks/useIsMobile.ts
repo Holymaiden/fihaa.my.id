@@ -1,17 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useWindowSize } from 'usehooks-ts';
 
 const useIsMobile = () => {
-  const { width } = useWindowSize();
-  const [isMobile, setIsMobile] = useState(width < 1024);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsMobile(width < 1024);
-  }, [width]);
+    setIsClient(true);
 
-  return isMobile;
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
+    };
+  }, []);
+
+  // Return false during SSR to match initial client state
+  return isClient ? isMobile : false;
 };
 
 export default useIsMobile;
