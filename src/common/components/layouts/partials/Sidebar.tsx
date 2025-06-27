@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import useIsMobile from '@/common/hooks/useIsMobile';
+import { useKeyboardNavigation } from '@/common/hooks/useKeyboardNavigation';
 
 import Breakline from '../../elements/Breakline';
 import Navigation from '../../sidebar/Navigation';
@@ -13,10 +14,11 @@ const Sidebar = () => {
   const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
 
+  // Enable keyboard navigation for accessibility
+  useKeyboardNavigation();
+
   useEffect(() => {
     const handleScroll = () => {
-      // const scrollTop =
-      //   window.pageYOffset || document.documentElement.scrollTop;
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       setIsScrolled(scrollTop > 0);
     };

@@ -42,7 +42,7 @@ const HeaderTop = () => {
           {!showMenu && (
             <div className="flex items-center gap-3">
               <Link href="/" passHref>
-                <h2 className="flex-grow text-lg lg:text-xl font-sora font-medium">
+                <h2 className="flex-grow text-lg lg:text-xl font-sora font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-neutral-900 rounded">
                   M. Fiqri Haikhar Anwar
                 </h2>
               </Link>
@@ -66,7 +66,7 @@ const HeaderTop = () => {
                   href={menu.href}
                   passHref
                   className={clsx(
-                    'text-neutral-700 hover:text-neutral-800 dark:text-neutral-400 hover:dark:text-neutral-100',
+                    'text-neutral-700 hover:text-neutral-800 dark:text-neutral-400 hover:dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-neutral-900 rounded px-2 py-1',
                     pathname === menu?.href &&
                       '!text-neutral-800 dark:!text-neutral-100',
                   )}
@@ -85,8 +85,11 @@ const HeaderTop = () => {
           )}
 
           <button
-            className="flex items-center gap-2 dark:bg-neutral-900 backdrop-blur border dark:border-neutral-700 rounded-md p-2"
+            className="flex items-center gap-2 dark:bg-neutral-900 backdrop-blur border dark:border-neutral-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-neutral-900"
             onClick={() => setShowMenu(!showMenu)}
+            aria-expanded={showMenu}
+            aria-label={showMenu ? 'Close menu' : 'Open menu'}
+            type="button"
           >
             {showMenu ? <CloseIcon size={18} /> : <MenuIcon size={18} />}
           </button>
