@@ -1,0 +1,75 @@
+{
+  "name": "Fihaa Portfolio - M. Fiqri Haikhar Anwar",
+  "short_name": "Fihaa Portfolio",
+  "description": "Personal portfolio website showcasing projects, blogs, and learning resources by M. Fiqri Haikhar Anwar",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "categories": ["portfolio", "developer", "programming"],
+  "lang": "en",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon.ico",
+      "sizes": "16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "apple-touch-icon"
+    },
+    {
+      "src": "/images/fihaa.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/fihaa.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Blog Posts",
+      "short_name": "Blog",
+      "url": "/blog",
+      "icons": [
+        {
+          "src": "/icon.ico",
+          "sizes": "16x16"
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "url": "/projects",
+      "icons": [
+        {
+          "src": "/icon.ico",
+          "sizes": "16x16"
+        }
+      ]
+    },
+    {
+      "name": "Learning Resources",
+      "short_name": "Learn",
+      "url": "/learn",
+      "icons": [
+        {
+          "src": "/icon.ico",
+          "sizes": "16x16"
+        }
+      ]
+    }
+  ]
+}

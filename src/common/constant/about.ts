@@ -1,20 +1,21 @@
 const currentYear = new Date().getFullYear();
-const workStart = 2021;
-const codingStart = 2019;
+export const workStart = 2021;
+export const codingStart = 2019;
+export const professionalYears = currentYear - workStart;
+export const totalYears = currentYear - codingStart;
 
 export const ABOUT = `
 <p>
-  Hello! My name is M. Fiqri Haikhar Anwar, known professionally as Developer, a versatile software engineer specializing in backend development. I bring ${
-    currentYear - workStart
-  } years of professional experience and a total of ${
-    currentYear - codingStart
-  } years in software development since ${codingStart}. My expertise lies in TypeScript, Go, and PHP, complemented by extensive knowledge in server-side technologies and database management.
+  Hello! My name is M. Fiqri Haikhar Anwar, known professionally as Fihaa, a versatile Software Engineer with ${professionalYears}+ years of professional experience and a total of ${totalYears} years in software development since ${codingStart}. I specialize in full-stack development with expertise in React, Next.js, Node.js, Golang, Laravel, React Native, and Elysia.js.
 </p>
 <p>
-  In my career, I've consistently delivered robust and scalable backend solutions, adept at integrating complex databases and ensuring seamless data flow across systems. My focus on optimizing performance and security has led to significant improvements in application efficiency and reliability.
+  Currently working as a Software Engineer at Ayola, I have previously contributed to innovative projects at eFishery, one of Indonesia's leading aqua-tech startups. My experience spans across various roles including backend development, documentation engineering, and IT consulting, giving me a comprehensive understanding of the software development lifecycle.
 </p>
 <p>
-  Keeping up with evolving technology trends and practices is a priority for me. I am dedicated to creating innovative solutions that not only align with but also propel the strategic goals of an organization forward. My analytical approach and meticulous attention to system architecture have been pivotal in solving intricate problems and fostering technological advancement in every project I partake in.
+  Throughout my career, I've consistently delivered robust and scalable solutions, ranging from enterprise web applications to mobile apps and API services. I have expertise in integrating complex databases, optimizing application performance, and ensuring security best practices. My work has led to significant improvements in system efficiency and user experience across multiple projects.
+</p>
+<p>
+  I'm passionate about staying current with evolving technology trends and best practices. Whether working with startups or established companies, I focus on creating innovative solutions that align with business objectives and drive technological advancement. My analytical approach and attention to system architecture have been instrumental in solving complex problems and delivering high-quality software solutions.
 </p>
 
 `;
