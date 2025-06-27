@@ -7,7 +7,7 @@ const Table = ({ children }: { children: ReactElement }) => (
   </div>
 );
 
-const useMDXComponents = {
+const mdxComponents = {
   a: (props: React.ComponentProps<'a'>) => (
     <a className="text-teal-500 hover:text-teal-400 hover:underline cursor-pointer">
       {props.children}
@@ -67,4 +67,11 @@ const useMDXComponents = {
   ),
 } as MDXComponents;
 
-export default useMDXComponents;
+export default function getMDXComponents(
+  components: MDXComponents,
+): MDXComponents {
+  return {
+    ...mdxComponents,
+    ...components,
+  };
+}

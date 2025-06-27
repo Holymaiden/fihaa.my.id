@@ -3,7 +3,7 @@ import { compileMDX } from 'next-mdx-remote/rsc';
 import path from 'path';
 import { type ReactElement } from 'react';
 
-import useMDXComponents from '@/app/mdx-components';
+import getMDXComponents from '@/app/mdx-components';
 
 export type MdxFileProps<T> = {
   slug: string;
@@ -42,7 +42,7 @@ export const loadMdxFiles = async <T>(
       const { content, frontmatter } = await compileMDX<T>({
         source: source,
         options: { parseFrontmatter: true },
-        components: useMDXComponents,
+        components: getMDXComponents({}),
       });
 
       // add to contents
@@ -118,7 +118,7 @@ export const loadMdxFile = async <T>(
   const { content, frontmatter } = await compileMDX<T>({
     source: source,
     options: { parseFrontmatter: true },
-    components: useMDXComponents,
+    components: getMDXComponents({}),
   });
 
   return {
@@ -152,7 +152,7 @@ export const loadMdxFileById = async <T>(
   const { content, frontmatter } = await compileMDX<T>({
     source: source,
     options: { parseFrontmatter: true },
-    components: useMDXComponents,
+    components: getMDXComponents({}),
   });
 
   return {
@@ -187,7 +187,7 @@ export const loadMdxNextPrevFile = async <T>(
   const { content, frontmatter } = await compileMDX<T & { id: number }>({
     source: source,
     options: { parseFrontmatter: true },
-    components: useMDXComponents,
+    components: getMDXComponents({}),
   });
 
   return {
@@ -240,7 +240,7 @@ export const loadMdxNovelFile = async <T>(
   const { content } = await compileMDX<{ id: number }>({
     source: source,
     options: { parseFrontmatter: true },
-    components: useMDXComponents,
+    components: getMDXComponents({}),
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -312,7 +312,7 @@ export const strToMdx = async (str: string) => {
   const { content, frontmatter } = await compileMDX<{ title: string }>({
     source: str,
     options: { parseFrontmatter: true },
-    components: useMDXComponents,
+    components: getMDXComponents({}),
   });
 
   return {

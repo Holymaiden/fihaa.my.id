@@ -2,9 +2,9 @@ import '@/common/styles/globals.css';
 import 'aos/dist/aos.css';
 
 import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 
 import ContactWidget from '@/common/components/elements/ContactWidget';
+import ProgressBar from '@/common/components/elements/ProgressBar';
 import Layout from '@/common/components/layouts';
 import AnalyticsProvider from '@/common/components/providers/AnalyticsProvider';
 import GoogleAdsense from '@/common/libs/google-adsense';
@@ -72,10 +72,10 @@ export const metadata: Metadata = {
   },
 };
 
-const ProgressBar = dynamic(
-  () => import('@/common/components/elements/ProgressBar'),
-  { ssr: false },
-);
+// const ProgressBar = dynamic(
+//   () => import('@/common/components/elements/ProgressBar'),
+//   { ssr: false },
+// );
 
 export default function RootLayout({
   children,
