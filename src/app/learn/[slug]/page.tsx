@@ -11,19 +11,19 @@ import type { ContentProps, SubContentMetaProps } from '@/common/types/learn';
 import ContentList from '@/modules/learn/components/ContentList';
 
 interface ContentPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const { slug } = await params;
   const content: ContentProps | undefined = LEARN_CONTENTS.find(
-    (content) => content.slug === params.slug,
+    (content) => content.slug === slug,
   );
 
   if (!content) {
@@ -42,10 +42,11 @@ export async function generateMetadata({
 const LearnContentPage: NextPage<ContentPageProps> = async ({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) => {
+  const { slug } = await params;
   const content: ContentProps | undefined = LEARN_CONTENTS.find(
-    (content) => content.slug === params.slug,
+    (content) => content.slug === slug,
   );
 
   if (!content) {
@@ -54,10 +55,7 @@ const LearnContentPage: NextPage<ContentPageProps> = async ({
 
   const { title, description } = content;
 
-  const subContents = await loadMdxFiles<SubContentMetaProps>(
-    'learns',
-    params.slug,
-  );
+  const subContents = await loadMdxFiles<SubContentMetaProps>('learns', slug);
 
   const sortedSubContents = subContents.sort(
     (a, b) => a.frontMatter.id - b.frontMatter.id,
@@ -71,7 +69,7 @@ const LearnContentPage: NextPage<ContentPageProps> = async ({
           <PageHeading title={title} description={description} />
           <ContentList
             sortedSubContents={sortedSubContents}
-            slug={params.slug}
+            slug={slug}
             title={title}
           />
         </Container>
