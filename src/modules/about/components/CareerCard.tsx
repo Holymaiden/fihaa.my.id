@@ -16,8 +16,13 @@ const CareerCard = ({
   type,
   location_type,
 }: CareerProps) => {
-  const startDate = new Date(start_date);
-  const endDate = end_date ? new Date(end_date) : new Date();
+  const parseYearMonth = (dateStr: string): Date => {
+    const [year, month] = dateStr.split('-').map(Number);
+    return new Date(year, month - 1);
+  };
+
+  const startDate = parseYearMonth(start_date);
+  const endDate = end_date ? parseYearMonth(end_date) : new Date();
 
   const durationYears = differenceInYears(endDate, startDate);
   const durationMonths = differenceInMonths(endDate, startDate) % 12;
