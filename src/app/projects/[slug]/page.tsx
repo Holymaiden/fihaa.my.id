@@ -8,17 +8,18 @@ import { type ProjectItemProps } from '@/common/types/projects';
 import ProjectDetail from '@/modules/projects/components/ProjectDetail';
 
 interface ProjectsDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const project = await loadMdxFile<ProjectItemProps>('projects', params.slug);
+  const { slug } = await params;
+  const project = await loadMdxFile<ProjectItemProps>('projects', slug);
 
   if (!project) {
     return {
@@ -36,9 +37,10 @@ export async function generateMetadata({
 const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = async ({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) => {
-  const project = await loadMdxFile<ProjectItemProps>('projects', params.slug);
+  const { slug } = await params;
+  const project = await loadMdxFile<ProjectItemProps>('projects', slug);
 
   const PAGE_TITLE = project?.frontMatter?.title || 'Default Title';
   const PAGE_DESCRIPTION = project?.frontMatter?.description;

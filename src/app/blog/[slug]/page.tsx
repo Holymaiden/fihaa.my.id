@@ -8,17 +8,18 @@ import BlogContainer from '@/modules/blog/components/BlogContainer';
 import BlogDetail from '@/modules/blog/components/BlogDetail';
 
 interface BlogDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const content = await loadMdxFile<BlogDetailProps>('blogs/', params.slug);
+  const { slug } = await params;
+  const content = await loadMdxFile<BlogDetailProps>('blogs/', slug);
 
   if (!content) {
     return {
@@ -36,9 +37,10 @@ export async function generateMetadata({
 const BlogDetailPage: NextPage<BlogDetailPageProps> = async ({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) => {
-  const content = await loadMdxFile<BlogDetailProps>('blogs/', params.slug);
+  const { slug } = await params;
+  const content = await loadMdxFile<BlogDetailProps>('blogs/', slug);
 
   if (!content) {
     return <Loading />;

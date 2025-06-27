@@ -11,19 +11,19 @@ import type { ContentProps } from '@/common/types/novel';
 import ContentList from '@/modules/novel/components/ContentList';
 
 type NovelPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const { slug } = await params;
   const content: ContentProps | undefined = NOVEL_CONTENTS.find(
-    (content) => String(content.slug) === String(params.slug),
+    (content) => String(content.slug) === String(slug),
   );
 
   if (!content) {
@@ -42,10 +42,11 @@ export async function generateMetadata({
 const NovelContentPage: NextPage<NovelPageProps> = async ({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) => {
+  const { slug } = await params;
   const content: ContentProps | undefined = NOVEL_CONTENTS.find(
-    (content) => String(content.slug) === String(params.slug),
+    (content) => String(content.slug) === String(slug),
   );
 
   if (!content) {
@@ -54,10 +55,7 @@ const NovelContentPage: NextPage<NovelPageProps> = async ({
 
   const { title, description } = content;
 
-  const subContents = await loadMdxNovelFiles<ContentProps>(
-    'novels',
-    params.slug,
-  );
+  const subContents = await loadMdxNovelFiles<ContentProps>('novels', slug);
 
   const sortedSubContents = subContents.sort(
     (a, b) => a.frontMatter.id - b.frontMatter.id,

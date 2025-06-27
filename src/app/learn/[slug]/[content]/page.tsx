@@ -17,11 +17,12 @@ import ContentDetailHeader from '@/modules/learn/components/ContentDetailHeader'
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string; content: string };
+  params: Promise<{ slug: string; content: string }>;
 }): Promise<Metadata> {
+  const { slug, content } = await params;
   const { frontMatter } = await loadMdxFile<ContentProps>(
-    'learns/' + params.slug,
-    params.content,
+    'learns/' + slug,
+    content,
   );
 
   if (!frontMatter) {
@@ -38,16 +39,16 @@ export async function generateMetadata({
 }
 
 type LearnContentDetailPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
     content: string;
-  };
+  }>;
 };
 
 const LearnContentDetailPage = async ({
   params,
 }: LearnContentDetailPageProps) => {
-  const { slug, content } = params;
+  const { slug, content } = await params;
 
   const contentLearn = await loadMdxNextPrevFile<SubContentMetaProps>(
     'learns/' + slug,
@@ -66,7 +67,7 @@ const LearnContentDetailPage = async ({
         <Suspense fallback={<Loading />}>
           <ContentDetail
             {...contentLearn}
-            params={params}
+            params={{ slug }}
             learnLength={learnLength}
           />
         </Suspense>

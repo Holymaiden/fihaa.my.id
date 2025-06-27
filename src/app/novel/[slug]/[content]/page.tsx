@@ -14,23 +14,24 @@ import type { ContentProps } from '@/common/types/novel';
 import ContentDetail from '@/modules/novel/components/ContentDetail';
 
 interface NovelContentPageProps {
-  params: {
+  params: Promise<{
     slug: string;
     content: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string; content: string };
+  params: Promise<{ slug: string; content: string }>;
 }): Promise<Metadata> {
+  const { slug, content } = await params;
   const novelData = (await loadMdxNovelFile<ContentProps>(
-    'novels/' + params.slug,
-    params.content,
+    'novels/' + slug,
+    content,
   )) as MdxFileProps<ContentProps>;
   const novelContent = NOVEL_CONTENTS.find(
-    (content) => String(content.slug) === String(params.slug),
+    (content) => String(content.slug) === String(slug),
   );
 
   if (!novelData) {
@@ -49,7 +50,7 @@ export async function generateMetadata({
 const NovelContentPage: NextPage<NovelContentPageProps> = async ({
   params,
 }: NovelContentPageProps) => {
-  const { slug, content } = params;
+  const { slug, content } = await params;
 
   const novelData = await loadMdxNovelFile<ContentProps>(
     'novels/' + slug,
