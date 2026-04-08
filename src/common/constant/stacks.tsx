@@ -1,8 +1,9 @@
+import type { JSX } from 'react';
 import { BsFillBootstrapFill } from 'react-icons/bs';
 import {
   SiChakraui,
   SiCplusplus,
-  SiCss3,
+  SiCss,
   SiExpo,
   SiExpress,
   SiFirebase,
@@ -22,6 +23,7 @@ import {
   SiReact,
   SiReactquery,
   SiRedux,
+  SiShadcnui,
   SiSocketdotio,
   SiStorybook,
   SiStyledcomponents,
@@ -67,7 +69,7 @@ export const STACKS: stacksProps = {
     <SiStyledcomponents size={iconSize} className="text-pink-500" />
   ),
   Storybook: <SiStorybook size={iconSize} className="text-amber-500" />,
-  CSS: <SiCss3 size={iconSize} className="text-blue-300" />,
+  CSS: <SiCss size={iconSize} className="text-blue-300" />,
   Socket: <SiSocketdotio size={iconSize} />,
   Express: <SiExpress size={iconSize} />,
   Jquery: <SiJquery size={iconSize} />,
@@ -75,4 +77,5 @@ export const STACKS: stacksProps = {
   'TanStack Query': <SiReactquery size={iconSize} className="text-amber-500" />,
   Expo: <SiExpo size={iconSize} />,
   Vercel: <SiVercel size={iconSize} />,
+  Shadcnui: <SiShadcnui size={iconSize} />,
 };

@@ -1,5 +1,5 @@
 import { format, parseISO } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { toZonedTime } from 'date-fns-tz';
 
 import { type MdxFileProps } from '../libs/mdx';
 import type { ChapterGroupProps, SubContentMetaProps } from '../types/learn';
@@ -20,7 +20,7 @@ export const formatDate = (date: string, type = 'MMMM dd, yyyy') => {
   }
 
   const formattedDate = format(
-    utcToZonedTime(parseISO(date), 'Asia/Makassar'),
+    toZonedTime(parseISO(date), 'Asia/Makassar'),
     type,
   );
   return formattedDate;

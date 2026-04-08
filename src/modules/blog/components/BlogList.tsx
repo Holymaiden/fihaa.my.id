@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useDebounce } from 'usehooks-ts';
+import { useDebounceValue } from 'usehooks-ts';
 
 import EmptyState from '@/common/components/elements/EmptyState';
 import Pagination from '@/common/components/elements/Pagination';
@@ -26,7 +26,7 @@ const BlogList = ({ content }: BlogListProps) => {
   const searchParams = useSearchParams();
   const pageNumber = searchParams.get('page') || '1';
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [debouncedSearchTerm] = useDebounceValue(searchTerm, 500);
 
   const data = content
     .filter((item: MdxFileProps<BlogDetailProps>) => {
