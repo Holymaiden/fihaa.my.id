@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'tailwind-scrollbar-hide/v4';
+@config "../../../tailwind.config.ts";
 
 :root {
   --color-dark: #121212;
