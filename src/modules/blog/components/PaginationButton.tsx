@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react';
+import type { JSX, MouseEvent } from 'react';
 
 type PaginationButtonProps = {
   onClick: (event: MouseEvent<HTMLDivElement>) => void;

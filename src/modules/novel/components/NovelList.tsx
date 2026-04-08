@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
-import { useDebounce } from 'usehooks-ts';
+import { useDebounceValue } from 'usehooks-ts';
 
 import EmptyState from '@/common/components/elements/EmptyState';
 import Pagination from '@/common/components/elements/Pagination';
@@ -23,7 +23,7 @@ const NovelList = () => {
   const searchParams = useSearchParams();
   const pageNumber = searchParams.get('page') || '1';
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [debouncedSearchTerm] = useDebounceValue(searchTerm, 500);
 
   const { data, error, mutate, isValidating } = useSWR<NovelResponse, Error>(
     `/api/novel?page=${page}&per_page=6&search=${debouncedSearchTerm}`,
