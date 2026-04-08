@@ -11,6 +11,7 @@ import {
 } from '@/common/libs/mdx';
 import { type SubContentMetaProps } from '@/common/types/learn';
 import { type ContentProps } from '@/common/types/novel';
+import ContentBody from '@/modules/learn/components/ContentBody';
 import ContentDetail from '@/modules/learn/components/ContentDetail';
 import ContentDetailHeader from '@/modules/learn/components/ContentDetailHeader';
 
@@ -69,7 +70,11 @@ const LearnContentDetailPage = async ({
             {...contentLearn}
             params={{ slug }}
             learnLength={learnLength}
-          />
+          >
+            <ContentBody
+              content={contentLearn.content as import('react').ReactElement}
+            />
+          </ContentDetail>
         </Suspense>
       </Container>
     </>

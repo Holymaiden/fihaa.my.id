@@ -2,17 +2,17 @@
 
 import { useRouter } from 'next/navigation';
 import { type ReactElement, useEffect, useState } from 'react';
+import React from 'react';
 
 import Loading from '@/common/components/elements/Loading';
 import NavigationSection from '@/common/components/elements/NavigationSection';
 import type { MdxFileNextPrevProps, MdxFileProps } from '@/common/libs/mdx';
 import type { SubContentMetaProps } from '@/common/types/learn';
 
-import ContentBody from './ContentBody';
-
 type ContentDetailProps = {
   params: { slug: string };
   learnLength: number;
+  children?: React.ReactNode;
 } & MdxFileNextPrevProps<SubContentMetaProps>;
 
 const ContentDetail = ({
@@ -23,6 +23,7 @@ const ContentDetail = ({
   previousContent,
   params,
   learnLength,
+  children,
 }: ContentDetailProps) => {
   const [currentId, setCurrentId] = useState<number>(0);
   const [nextTitle, setNextTitle] = useState<string | null>(null);
@@ -56,7 +57,7 @@ const ContentDetail = ({
 
   return (
     <>
-      {content && <ContentBody content={content as ReactElement} />}
+      {content && children}
       <NavigationSection
         currentIndex={currentId}
         totalItems={learnLength}
