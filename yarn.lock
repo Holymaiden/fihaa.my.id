@@ -4041,12 +4041,10 @@ react-icons@^5.6.0:
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.6.0.tgz#27bcc4acbc836e762548d76041cf9b9fef4e3837"
   integrity sha512-RH93p5ki6LfOiIt0UtDyNg/cee+HLVR6cHHtW3wALfo+eOHTp8RnU2kRkI6E+H19zMIs03DyxUG/GfZMOGvmiA==
 
-react-infinite-scroll-component@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-7.0.0.tgz#0e0fa7013d61e154f98f4ae9a458a172657c1012"
-  integrity sha512-WBnGiIZjGFC82FRRbq7wgGit7G/UH5XtyR8+qfpKaw2RyvGz3C+AF88Ck/L6MlHOlGEk/dt3D7hLGdWKj+BISA==
-  dependencies:
-    throttle-debounce "^2.1.0"
+react-infinite-scroll-component@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-7.1.0.tgz#b3bee729362e37df0730e35f2c06a3dc94cefde3"
+  integrity sha512-EPUMyOnpmJDqI1aoUi9uR/TSUfJCUN77ZkpzYSshGwrC2NTaH6p+rxaP/2DZJWygOZmZcAieZk4VciF8q9H/tw==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
@@ -4589,11 +4587,6 @@ tapable@^2.3.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.3.2.tgz#86755feabad08d82a26b891db044808c6ad00f15"
   integrity sha512-1MOpMXuhGzGL5TTCZFItxCc0AARf1EZFQkGqMm7ERKj8+Hgr5oLvJOVFcC+lRmR8hCe2S3jC4T5D7Vg/d7/fhA==
-
-throttle-debounce@^2.1.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-2.3.0.tgz#fd31865e66502071e411817e241465b3e9c372e2"
-  integrity sha512-H7oLPV0P7+jgvrk+6mwwwBDmxTaxnu9HMXmloNLXwnNO0ZxZ31Orah2n8lU1eMPvsaowP2CX+USCgyovXfdOFQ==
 
 tinyglobby@^0.2.13, tinyglobby@^0.2.15:
   version "0.2.16"
