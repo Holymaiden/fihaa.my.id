@@ -1,6 +1,7 @@
 'use client';
 
 import type { ThreeEvent } from '@react-three/fiber';
+import { useThree } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import type { BufferGeometry, InstancedMesh, Material, Mesh } from 'three';
 import { Color, Matrix4, Quaternion, Vector3 } from 'three';
@@ -61,6 +62,7 @@ const InstancedPart = ({
   ...events
 }: InstancedPartProps) => {
   const meshRef = useRef<InstancedMesh>(null);
+  const invalidate = useThree((state) => state.invalidate);
 
   useLayoutEffect(() => {
     const mesh = meshRef.current;
@@ -82,7 +84,9 @@ const InstancedPart = ({
       }
     }
     mesh.computeBoundingSphere();
-  }, [matrices, part, colors]);
+    // Needed with frameloop="demand".
+    invalidate();
+  }, [matrices, part, colors, invalidate]);
 
   return (
     <instancedMesh

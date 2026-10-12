@@ -1,5 +1,6 @@
 'use client';
 
+import { useThree } from '@react-three/fiber';
 import { useLayoutEffect } from 'react';
 import type { Material, Mesh, MeshStandardMaterial } from 'three';
 
@@ -17,6 +18,7 @@ const SUFFIXES = Object.entries(MATERIAL_RECOLOR);
 // Clones and instances share these materials, so this covers every copy.
 const KitRecolor = ({ palette }: KitRecolorProps) => {
   const { scene } = useKit('core');
+  const invalidate = useThree((state) => state.invalidate);
 
   useLayoutEffect(() => {
     const seen = new Set<Material>();
@@ -41,7 +43,9 @@ const KitRecolor = ({ palette }: KitRecolorProps) => {
         }
       }
     });
-  }, [scene, palette]);
+    // Needed with frameloop="demand".
+    invalidate();
+  }, [scene, palette, invalidate]);
 
   return null;
 };

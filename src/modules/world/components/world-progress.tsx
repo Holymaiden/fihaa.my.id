@@ -1,6 +1,7 @@
 'use client';
 
 import { useProgress } from '@react-three/drei';
+import { useEffect } from 'react';
 
 interface WorldProgressProps {
   label: string;
@@ -8,7 +9,14 @@ interface WorldProgressProps {
 
 // Shown over the canvas while models are loading.
 const WorldProgress = ({ label }: WorldProgressProps) => {
-  const { active, progress } = useProgress();
+  const { active, progress, loaded } = useProgress();
+
+  // Performance mark for load-time measurements (see 14-rilis.md).
+  useEffect(() => {
+    if (!active && loaded > 0) {
+      performance.mark('world:assets-ready');
+    }
+  }, [active, loaded]);
 
   if (!active) {
     return null;
