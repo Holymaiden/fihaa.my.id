@@ -6,7 +6,6 @@ import { WORLD_MODE_COOKIE, WORLD_MODE_COOKIE_MAX_AGE } from './cookie';
 import type { WorldMode } from './types';
 
 interface WorldModeState {
-  /** Pilihan pada sesi ini; `null` = belum memilih di sesi ini. */
   mode: WorldMode | null;
   setMode: (mode: WorldMode) => void;
 }

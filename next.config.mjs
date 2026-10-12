@@ -1,7 +1,6 @@
 import createMDX from '@next/mdx';
 
-// Bagian portfolio 2D yang dulu berada di root dan kini di bawah /2d.
-// Daftar URL lama: docs/migrasi/00-audit.md §8.
+// Sections that used to live at the root and now live under /2d.
 const LEGACY_2D_SECTIONS = [
   'about',
   'blog',
@@ -16,7 +15,7 @@ const LEGACY_2D_SECTIONS = [
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
 
-  // Redirect permanen (308) URL lama → /2d/...; query string ikut terbawa.
+  // Keep old links working.
   async redirects() {
     return LEGACY_2D_SECTIONS.map((section) => ({
       source: `/${section}/:path*`,

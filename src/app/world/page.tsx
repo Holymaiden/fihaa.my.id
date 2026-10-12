@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Dunia 3D | Fihaa Portfolio',
 };
 
-// Placeholder Fase 3; scene diisi di Fase 4.
+// Placeholder until the 3D scene lands.
 const WorldPage: NextPage = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-8 font-sora">
