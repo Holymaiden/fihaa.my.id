@@ -3,8 +3,7 @@ import type { Metadata, NextPage } from 'next';
 import BackButton from '@/common/components/elements/BackButton';
 import Container from '@/common/components/elements/Container';
 import PageHeading from '@/common/components/elements/PageHeading';
-import { loadMdxFile } from '@/common/libs/mdx';
-import { type ProjectItemProps } from '@/common/types/projects';
+import { getProjectBySlug } from '@/lib/content/projects';
 import ProjectDetail from '@/modules/projects/components/ProjectDetail';
 
 interface ProjectsDetailPageProps {
@@ -19,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = await loadMdxFile<ProjectItemProps>('projects', slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     return {
@@ -40,7 +39,7 @@ const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const project = await loadMdxFile<ProjectItemProps>('projects', slug);
+  const project = await getProjectBySlug(slug);
 
   const PAGE_TITLE = project?.frontMatter?.title || 'Default Title';
   const PAGE_DESCRIPTION = project?.frontMatter?.description;
@@ -50,7 +49,10 @@ const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = async ({
       <Container data-aos="fade-up">
         <BackButton url="/projects" />
         <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
-        <ProjectDetail {...project?.frontMatter} content={project?.content} />
+        <ProjectDetail
+          {...project?.frontMatter}
+          content={project ? project.content : 'Not Found'}
+        />
       </Container>
     </>
   );

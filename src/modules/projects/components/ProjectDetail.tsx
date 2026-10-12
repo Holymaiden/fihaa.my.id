@@ -1,7 +1,7 @@
 import Image from '@/common/components/elements/Image';
 import Tooltip from '@/common/components/elements/Tooltip';
 import { STACKS } from '@/common/constant/stacks';
-import type { ProjectItemProps } from '@/common/types/projects';
+import type { ProjectEntry, ProjectFrontmatter } from '@/lib/content/types';
 
 import ProjectLink from './ProjectLink';
 
@@ -12,7 +12,7 @@ const ProjectDetail = ({
   link_demo,
   link_github,
   content,
-}: ProjectItemProps) => {
+}: Partial<ProjectFrontmatter> & Pick<ProjectEntry, 'content'>) => {
   return (
     <div className="space-y-8 font-sora">
       <div className="flex flex-col lg:flex-row items-start lg:items-center sm:flex-row gap-5 justify-between">
@@ -38,7 +38,7 @@ const ProjectDetail = ({
         src={cover_url || ''}
         width={800}
         height={400}
-        alt={title}
+        alt={title ?? ''}
         className="hover:scale-105"
       />
       {content && (

@@ -5,13 +5,12 @@ import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import EmptyState from '@/common/components/elements/EmptyState';
-import type { MdxFileProps } from '@/common/libs/mdx';
-import { type ProjectItemProps } from '@/common/types/projects';
+import type { ProjectEntry } from '@/lib/content/types';
 
 import ProjectCard from './ProjectCard';
 
 type ProjectsProps = {
-  content: MdxFileProps<ProjectItemProps>[];
+  content: ProjectEntry[];
 };
 const Projects = ({ content }: ProjectsProps) => {
   const [visibleProjects, setVisibleProjects] = useState(6);
@@ -33,18 +32,16 @@ const Projects = ({ content }: ProjectsProps) => {
       style={{ overflow: 'hidden' }}
     >
       <div className="grid sm:grid-cols-2 gap-5 pt-2 px-1 font-sora">
-        {projects.map(
-          (project: MdxFileProps<ProjectItemProps>, index: number) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-            >
-              <ProjectCard {...project} />
-            </motion.div>
-          ),
-        )}
+        {projects.map((project: ProjectEntry, index: number) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+          >
+            <ProjectCard {...project} />
+          </motion.div>
+        ))}
       </div>
     </InfiniteScroll>
   );

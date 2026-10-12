@@ -4,8 +4,7 @@ import { Suspense } from 'react';
 import Container from '@/common/components/elements/Container';
 import Loading from '@/common/components/elements/Loading';
 import PageHeading from '@/common/components/elements/PageHeading';
-import { loadMdxFiles } from '@/common/libs/mdx';
-import { type ProjectItemProps } from '@/common/types/projects';
+import { getProjects } from '@/lib/content/projects';
 import Projects from '@/modules/projects';
 
 const PAGE_TITLE = 'Projects';
@@ -18,11 +17,7 @@ export const metadata: Metadata = {
 };
 
 const ProjectsPage: NextPage = async () => {
-  const content = await loadMdxFiles<ProjectItemProps>('projects', '');
-
-  const sortedContents = content.sort(
-    (a, b) => b.frontMatter.id - a.frontMatter.id,
-  );
+  const sortedContents = await getProjects();
 
   return (
     <>

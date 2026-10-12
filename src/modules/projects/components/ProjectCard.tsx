@@ -6,10 +6,9 @@ import Card from '@/common/components/elements/Card';
 import Image from '@/common/components/elements/Image';
 import Tooltip from '@/common/components/elements/Tooltip';
 import { STACKS } from '@/common/constant/stacks';
-import type { MdxFileProps } from '@/common/libs/mdx';
-import { type ProjectItemProps } from '@/common/types/projects';
+import type { ProjectEntry } from '@/lib/content/types';
 
-const ProjectCard = ({ slug, frontMatter }: MdxFileProps<ProjectItemProps>) => {
+const ProjectCard = ({ slug, frontMatter }: ProjectEntry) => {
   return (
     <Link href={`/projects/${frontMatter?.slug}`}>
       <Card className="group relative border border-neutral-200 dark:border-neutral-900 lg:hover:scale-[102%] cursor-pointer">
