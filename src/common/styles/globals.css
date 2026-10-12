@@ -1,10 +1,132 @@
-@import 'tailwindcss';
+@import 'tailwindcss' source(none);
 @import 'tailwind-scrollbar-hide/v4';
-@config "../../../tailwind.config.ts";
+@source '../../**/*.{js,ts,jsx,tsx,mdx}';
 
-:root {
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Design tokens. Values match what the site already used. */
+
+/* next/font sets these variables on <body>, so inline them instead of
+   resolving them on :root. */
+@theme inline {
+  --font-sans: var(--jakartaSans-font);
+  --font-sora: var(--soraSans-font);
+  /* Points at a variable that next/font never defines (it sets
+     --font-fira-code), so font-code falls back to the inherited font.
+     Kept as-is to avoid a visual change. */
+  --font-code: var(--firaCode-font);
+  --font-emoji: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+/* static: keep every variable, some are only read via var() in components. */
+@theme static {
+  --color-darkText: #e4e6eb;
   --color-dark: #121212;
   --color-light: #fafafa;
+
+  --color-accent: #15b8a6;
+  --color-accent-glow: rgb(45 212 191 / 15%);
+  --color-loader: #36d7b7;
+  --color-hairline: #ffffff1a;
+  --color-panel-dark: #1b1b1b80;
+
+  --color-skeleton-base-light: #ebebeb;
+  --color-skeleton-highlight-light: #f5f5f5;
+  --color-skeleton-base-dark: #202020;
+  --color-skeleton-highlight-dark: #2e2e2e;
+
+  --color-toggle-sun: #f7f7e7;
+  --color-toggle-day-start: #93d4cc;
+  --color-toggle-day-end: #c7dfc3;
+  --color-toggle-night-start: #173754;
+  --color-toggle-night-end: #388296;
+
+  --text-2xs: 12px;
+  --text-caption: 13px;
+  --text-meta: 14px;
+  --text-body-sm: 15px;
+  --text-subheading: 18px;
+
+  --leading-prose: 1.8;
+
+  --container-content: 1024px;
+  --container-footer: 790px;
+  --container-card: 326px;
+
+  --spacing-hero: 400px;
+
+  --radius-scrollbar: 3px;
+
+  --animate-waving-hand: wave 2s linear infinite;
+  --animate-flying-card: flying 3s infinite normal;
+  --animate-badge-pulse: badge 1.5s ease-out infinite;
+  --animate-looping-tag: loop 100s linear infinite;
+
+  @keyframes wave {
+    0% {
+      transform: rotate(0deg);
+    }
+    10% {
+      transform: rotate(14deg);
+    }
+    20% {
+      transform: rotate(-8deg);
+    }
+    30% {
+      transform: rotate(14deg);
+    }
+    40% {
+      transform: rotate(-4deg);
+    }
+    50% {
+      transform: rotate(10deg);
+    }
+    60% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes flying {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(0.5rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes badge {
+    100% {
+      transform: scaleY(1.7) scaleX(1.25);
+      opacity: 0;
+    }
+  }
+
+  @keyframes loop {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@utility bg-gradient-radial {
+  background-image: radial-gradient(var(--tw-gradient-stops));
+}
+
+@utility bg-gradient-conic {
+  background-image: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--tw-gradient-stops)
+  );
 }
 
 html {
@@ -15,7 +137,7 @@ html {
 body {
   background: radial-gradient(
     ellipse 60% 50% at 50% -30%,
-    rgb(45 212 191 / 15%) 0%,
+    var(--color-accent-glow) 0%,
     rgb(8 0 0 / 0%)
   );
 }
@@ -40,7 +162,7 @@ a {
 }
 
 #nprogress .bar {
-  background: #15b8a6 !important;
+  background: var(--color-accent) !important;
   height: 3px !important;
   z-index: 9999999 !important;
 }
@@ -54,9 +176,9 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  @apply rounded-[3px] bg-transparent;
+  @apply rounded-scrollbar bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-[3px] border-2 border-neutral-300 bg-neutral-600 dark:bg-neutral-400;
+  @apply rounded-scrollbar border-2 border-neutral-300 bg-neutral-600 dark:bg-neutral-400;
 }
