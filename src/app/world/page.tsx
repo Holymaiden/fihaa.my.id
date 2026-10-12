@@ -2,17 +2,23 @@ import type { Metadata, NextPage } from 'next';
 import Link from 'next/link';
 
 import { to2d } from '@/lib/routes';
+import WorldCanvas from '@/modules/world';
 
 export const metadata: Metadata = {
   title: 'Dunia 3D | Fihaa Portfolio',
 };
 
-// Placeholder Fase 3; scene diisi di Fase 4.
 const WorldPage: NextPage = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-8 font-sora">
-      <h1 className="text-2xl font-bold">Dunia 3D sedang dibangun</h1>
-      <Link href={to2d()} className="underline">
+    <main className="relative font-sora">
+      <h1 className="sr-only">Dunia 3D</h1>
+      <WorldCanvas />
+      {/* Tanpa prefetch agar /world tidak ikut memuat aset halaman 2D. */}
+      <Link
+        href={to2d()}
+        prefetch={false}
+        className="absolute left-4 top-4 rounded-md border border-neutral-300 px-3 py-1.5 text-sm dark:border-neutral-700"
+      >
         Ke Dunia 2D
       </Link>
     </main>
