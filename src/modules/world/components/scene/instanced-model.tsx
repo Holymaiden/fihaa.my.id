@@ -1,15 +1,14 @@
 'use client';
 
-import type { ThreeEvent } from '@react-three/fiber';
 import { useThree } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import type { BufferGeometry, InstancedMesh, Material, Mesh } from 'three';
-import { Color, Matrix4, Quaternion, Vector3 } from 'three';
+import { Matrix4, Quaternion, Vector3 } from 'three';
 
 import type { KitId } from '../../assets/kits.generated';
 import type { ModelName } from '../../assets/use-kit';
 import { getModelNode, useKit } from '../../assets/use-kit';
-import type { Vec3 } from '../../config/layout';
+import type { Vec3 } from '../../config/island';
 
 export interface InstanceTransform {
   position: Vec3;
@@ -20,12 +19,9 @@ export interface InstanceTransform {
 interface InstancedModelProps<K extends KitId> {
   kit: K;
   model: ModelName<K>;
-  // World-space transforms, one per copy.
+  // One transform per copy, in the parent's space.
   instances: InstanceTransform[];
-  // Optional tint per copy (multiplies the material color); null = none.
-  instanceColors?: (string | null)[];
-  onInstanceClick?: (index: number) => void;
-  onInstanceHover?: (index: number | null) => void;
+  castShadow?: boolean;
 }
 
 interface Part {
@@ -44,23 +40,13 @@ const toMatrix = ({ position, rotationY = 0, scale = 1 }: InstanceTransform) =>
     new Vector3(scale, scale, scale),
   );
 
-const NO_TINT = new Color('white');
-
 interface InstancedPartProps {
   part: Part;
   matrices: Matrix4[];
-  colors?: (string | null)[];
-  onClick?: (event: ThreeEvent<MouseEvent>) => void;
-  onPointerMove?: (event: ThreeEvent<PointerEvent>) => void;
-  onPointerOut?: () => void;
+  castShadow: boolean;
 }
 
-const InstancedPart = ({
-  part,
-  matrices,
-  colors,
-  ...events
-}: InstancedPartProps) => {
+const InstancedPart = ({ part, matrices, castShadow }: InstancedPartProps) => {
   const meshRef = useRef<InstancedMesh>(null);
   const invalidate = useThree((state) => state.invalidate);
 
@@ -74,25 +60,17 @@ const InstancedPart = ({
       mesh.setMatrixAt(index, matrix.multiplyMatrices(placement, part.local));
     });
     mesh.instanceMatrix.needsUpdate = true;
-    if (colors) {
-      const color = new Color();
-      colors.forEach((tint, index) => {
-        mesh.setColorAt(index, tint ? color.set(tint) : NO_TINT);
-      });
-      if (mesh.instanceColor) {
-        mesh.instanceColor.needsUpdate = true;
-      }
-    }
     mesh.computeBoundingSphere();
     // Needed with frameloop="demand".
     invalidate();
-  }, [matrices, part, colors, invalidate]);
+  }, [matrices, part, invalidate]);
 
   return (
     <instancedMesh
       ref={meshRef}
       args={[part.geometry, part.material, matrices.length]}
-      {...events}
+      castShadow={castShadow}
+      receiveShadow
     />
   );
 };
@@ -102,9 +80,7 @@ const InstancedModel = <K extends KitId>({
   kit,
   model,
   instances,
-  instanceColors,
-  onInstanceClick,
-  onInstanceHover,
+  castShadow = false,
 }: InstancedModelProps<K>) => {
   const { scene } = useKit(kit);
 
@@ -128,24 +104,6 @@ const InstancedModel = <K extends KitId>({
 
   const matrices = useMemo(() => instances.map(toMatrix), [instances]);
 
-  const events = {
-    onClick: onInstanceClick
-      ? (event: ThreeEvent<MouseEvent>) => {
-          event.stopPropagation();
-          if (event.instanceId !== undefined) {
-            onInstanceClick(event.instanceId);
-          }
-        }
-      : undefined,
-    onPointerMove: onInstanceHover
-      ? (event: ThreeEvent<PointerEvent>) => {
-          event.stopPropagation();
-          onInstanceHover(event.instanceId ?? null);
-        }
-      : undefined,
-    onPointerOut: onInstanceHover ? () => onInstanceHover(null) : undefined,
-  };
-
   return (
     <>
       {parts.map((part, index) => (
@@ -153,8 +111,7 @@ const InstancedModel = <K extends KitId>({
           key={index}
           part={part}
           matrices={matrices}
-          colors={instanceColors}
-          {...events}
+          castShadow={castShadow}
         />
       ))}
     </>

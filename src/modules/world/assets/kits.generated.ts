@@ -11,7 +11,6 @@ export const KIT_URLS = {
 export type KitId = keyof typeof KIT_URLS;
 
 export const CORE_MODELS = [
-  'hex_grass',
   'building_castle_blue',
   'building_tower_A_blue',
   'building_tavern_blue',
@@ -43,7 +42,6 @@ export type CoreModelName = (typeof CORE_MODELS)[number];
 
 export type CoreKitGLTF = GLTF & {
   nodes: {
-    hex_grass_1: THREE.Mesh;
     building_castle_blue_1: THREE.Mesh;
     building_tower_A_top_blue: THREE.Mesh;
     building_tower_A_blue_2: THREE.Mesh;

@@ -49,12 +49,6 @@
   ],
   "models": [
     {
-      "name": "hex_grass",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/tiles/base/hex_grass.gltf",
-      "kit": "core"
-    },
-    {
       "name": "building_castle_blue",
       "pack": "kaykit-medieval-hexagon",
       "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_castle_blue.gltf",

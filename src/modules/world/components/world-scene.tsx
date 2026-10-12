@@ -6,18 +6,25 @@ import { Suspense, useState } from 'react';
 
 import type { WorldStation } from '@/lib/content/types';
 
+import { NARROW_MAX_WIDTH } from '../config/camera';
+import type { SurfaceStationId } from '../config/island';
 import { VISUAL } from '../config/visual';
 import { useEffectsEnabled } from '../hooks/use-effects-enabled';
 import { useWorldPalette } from '../hooks/use-world-palette';
 import { useWorldStore } from '../store/world-store';
-import CameraRig from './scene/camera-rig';
+import CameraDirector from './scene/camera-director';
 import GuildHall from './scene/guild-hall';
+import IslandDecor from './scene/island-decor';
+import IslandRig from './scene/island-rig';
+import IslandStation from './scene/island-station';
+import IslandTerrain from './scene/island-terrain';
 import KitRecolor from './scene/kit-recolor';
+import { endedDragJustNow } from './scene/pointer';
+import ShadowUpdater from './scene/shadow-updater';
 import type { StationCounts } from './scene/station-extras';
-import StationObject from './scene/station-object';
+import VaultLedge from './scene/vault-ledge';
 import WorldAtmosphere from './scene/world-atmosphere';
 import WorldClouds from './scene/world-clouds';
-import WorldIslands from './scene/world-islands';
 import WorldProgress from './world-progress';
 import {
   isStatsEnabled,
@@ -48,6 +55,16 @@ const WorldScene = ({
     Math.min(window.devicePixelRatio, VISUAL.dpr[1]),
   );
   const [dpr, setDpr] = useState(maxDpr);
+  const [shadows, setShadows] = useState(true);
+  const [shadowMapSize] = useState(() =>
+    window.innerWidth < NARROW_MAX_WIDTH
+      ? VISUAL.shadows.narrowMapSize
+      : VISUAL.shadows.mapSize,
+  );
+  const surfaceStations = stations
+    .map((station) => station.id)
+    .filter((id): id is SurfaceStationId => id !== 'secret');
+  const hasVault = stations.some((station) => station.id === 'secret');
 
   // Fill rate dominates on phones (2x pixels ~ 2.2x frame time, see
   // 14-rilis.md), so lower the pixel ratio while frames are slow.
@@ -64,11 +81,18 @@ const WorldScene = ({
       <Canvas
         camera={{ fov: 45, near: 0.5, far: 400 }}
         dpr={dpr}
-        flat={VISUAL.flat}
+        shadows="soft"
+        gl={{ toneMappingExposure: VISUAL.exposure }}
+        style={{ touchAction: 'none' }}
         // Nothing moves when effects are off, so only render on change.
         frameloop={effects ? 'always' : 'demand'}
-        // Clicking empty sky goes back to the overview.
-        onPointerMissed={closeStation}
+        // Clicking empty sky goes back to the overview (but not the click
+        // that ends a drag).
+        onPointerMissed={() => {
+          if (!endedDragJustNow()) {
+            closeStation();
+          }
+        }}
         aria-hidden
         onCreated={({ gl }) =>
           gl.domElement.addEventListener('webglcontextlost', onContextLost, {
@@ -81,27 +105,37 @@ const WorldScene = ({
           step={0.2}
           flipflops={3}
           onChange={handlePerformance}
-          onFallback={() => setDpr(VISUAL.dpr[0])}
+          onFallback={() => {
+            // Still slow at the lowest pixel ratio: drop the shadows too.
+            setDpr(VISUAL.dpr[0]);
+            setShadows(false);
+          }}
         />
-        <WorldAtmosphere palette={palette} />
+        <WorldAtmosphere
+          palette={palette}
+          shadows={shadows}
+          shadowMapSize={shadowMapSize}
+        />
+        {shadows && <ShadowUpdater palette={palette} />}
         <Suspense fallback={null}>
           <KitRecolor palette={palette} />
           <WorldClouds />
-          <WorldIslands
-            stations={stations.map((station) => station.id)}
-            palette={palette}
-          />
-          <GuildHall />
-          {stations.map((station) => (
-            <StationObject
-              key={station.id}
-              id={station.id}
-              palette={palette}
-              counts={counts}
-            />
-          ))}
+          <IslandRig>
+            <IslandTerrain palette={palette} />
+            <GuildHall />
+            <IslandDecor />
+            {surfaceStations.map((id) => (
+              <IslandStation
+                key={id}
+                id={id}
+                palette={palette}
+                counts={counts}
+              />
+            ))}
+            {hasVault && <VaultLedge palette={palette} />}
+          </IslandRig>
         </Suspense>
-        <CameraRig />
+        <CameraDirector />
         {showStats && <WorldStatsProbe />}
       </Canvas>
       <WorldProgress label={loadingLabel} />

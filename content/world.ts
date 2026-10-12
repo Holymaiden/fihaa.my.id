@@ -75,6 +75,9 @@ export const WORLD_COPY: WorldCopy = {
   fallbackHint:
     'You can still browse every place from the list, or switch to the 2D site.',
   fallbackCta: 'Open the 2D site',
+  previousPlace: 'Previous place',
+  nextPlace: 'Next place',
+  turnHint: 'Drag the island or use ← → to look around',
 };
 
 // How many projects the hidden vault shows (see getVaultProjects).

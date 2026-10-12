@@ -50,6 +50,9 @@ export interface WorldCopy {
   fallbackError: string;
   fallbackHint: string;
   fallbackCta: string;
+  previousPlace: string;
+  nextPlace: string;
+  turnHint: string;
 }
 
 // One asset pack used in the 3D world (from content/world-assets.json).

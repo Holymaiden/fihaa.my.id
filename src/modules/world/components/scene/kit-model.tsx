@@ -27,6 +27,8 @@ const KitModel = <K extends KitId>({ kit, placement }: KitModelProps<K>) => {
       position={placement.position}
       rotation-y={placement.rotationY ?? 0}
       scale={placement.scale ?? 1}
+      castShadow
+      receiveShadow
     />
   );
 };

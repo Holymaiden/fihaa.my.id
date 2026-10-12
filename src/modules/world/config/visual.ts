@@ -2,17 +2,27 @@
 // (--color-world-*, see globals.css); everything else is here.
 
 export const VISUAL = {
-  // Flat colors: no tone mapping, so model colors stay as authored.
-  flat: true,
+  // Filmic tone mapping plus soft shadows gives the smooth look; the
+  // terrain itself stays flat-colored (vertex colors, no textures).
+  exposure: 1.05,
   dpr: [1, 2] as [number, number],
-  // Far enough that the zoomed-out phone view (about 100 units away) stays clear.
-  fog: { near: 90, far: 260 },
+  // Far enough that the zoomed-out phone view stays clear.
+  fog: { near: 70, far: 220 },
   sky: { radius: 280 },
   light: {
-    day: { hemisphere: 1.5, sun: 1.7 },
-    night: { hemisphere: 1.2, sun: 0.9 },
-    sunPosition: [20, 30, 15] as const,
+    day: { hemisphere: 1.3, sun: 2.6 },
+    night: { hemisphere: 1.1, sun: 1.3 },
+    sunPosition: [18, 28, 12] as const,
   },
+  // Soft shadows from the sun; switched off when frames stay slow.
+  shadows: { mapSize: 2048, narrowMapSize: 1024, radius: 4, bias: -0.0005 },
+  island: {
+    // Radians per dragged pixel.
+    dragSpeed: 0.008,
+    // Higher = snappier turn (MathUtils.damp lambda).
+    turnDamping: 5,
+  },
+  camera: { damping: 4 },
   vault: {
     // A small coloured light so the vault reads as its own place.
     lightIntensity: 18,
@@ -33,7 +43,7 @@ export const VISUAL = {
 export const MATERIAL_RECOLOR = {
   _Green: 'foliage',
   _Wood: 'trunk',
-  _Rock: 'rock',
+  _Rock: 'stone',
   _Berry: 'berry',
   _Cyan: 'flowerA',
   _Yellow: 'flowerB',

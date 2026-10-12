@@ -8,10 +8,12 @@ import {
   useEffectsEnabled,
   useEffectsPreferenceStorage,
 } from '../hooks/use-effects-enabled';
+import { useStationTurn } from '../hooks/use-station-turn';
 import { useWorldStore } from '../store/world-store';
 import StationBody, { stationHasContent } from './panels/station-body';
 import WorldCredits from './world-credits';
 import WorldSwitchLink from './world-switch-link';
+import WorldTurnControls from './world-turn-controls';
 
 interface WorldHudProps {
   content: WorldContent;
@@ -31,6 +33,8 @@ const WorldHud = ({ content }: WorldHudProps) => {
   const effectsEnabled = useEffectsEnabled();
   useEffectsPreferenceStorage();
 
+  const turn = useStationTurn();
+
   const headingRef = useRef<HTMLHeadingElement>(null);
   const buttonRefs = useRef(new Map<WorldStationId, HTMLButtonElement>());
   const lastStation = useRef<WorldStationId | null>(null);
@@ -48,14 +52,19 @@ const WorldHud = ({ content }: WorldHudProps) => {
 
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
-      // Esc inside the credits dialog only closes the dialog.
-      if (event.key === 'Escape' && !document.querySelector('dialog[open]')) {
+      if (document.querySelector('dialog[open]')) {
+        // Esc inside the credits dialog only closes the dialog.
+        return;
+      }
+      if (event.key === 'Escape') {
         closeStation();
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        turn(event.key === 'ArrowLeft' ? -1 : 1);
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [closeStation]);
+  }, [closeStation, turn]);
 
   const station = stations.find((item) => item.id === activeStation);
 
@@ -145,6 +154,7 @@ const WorldHud = ({ content }: WorldHudProps) => {
       >
         {effectsEnabled ? copy.effectsOn : copy.effectsOff}
       </button>
+      <WorldTurnControls copy={copy} hidden={Boolean(station)} />
       <WorldCredits credits={content.credits} copy={copy} />
     </>
   );

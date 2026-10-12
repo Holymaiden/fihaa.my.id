@@ -12,11 +12,15 @@ const TOKENS = {
   fog: '--color-world-fog',
   sun: '--color-world-sun',
   groundLight: '--color-world-ground-light',
-  islandSide: '--color-world-island-side',
-  grassTint: '--color-world-grass-tint',
+  grassLight: '--color-world-grass-light',
+  grass: '--color-world-grass',
+  sand: '--color-world-sand',
+  cliff: '--color-world-cliff',
+  rock: '--color-world-rock',
+  rockDeep: '--color-world-rock-deep',
   foliage: '--color-world-foliage',
   trunk: '--color-world-trunk',
-  rock: '--color-world-rock',
+  stone: '--color-world-stone',
   berry: '--color-world-berry',
   flowerA: '--color-world-flower-a',
   flowerB: '--color-world-flower-b',
@@ -29,7 +33,6 @@ const TOKENS = {
   crystal: '--color-world-crystal',
   crystalGlow: '--color-world-crystal-glow',
   secret: '--color-world-secret',
-  secretTile: '--color-world-secret-tile',
 } as const;
 
 export type WorldPaletteKey = keyof typeof TOKENS;
