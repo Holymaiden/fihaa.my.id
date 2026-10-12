@@ -135,3 +135,10 @@ Sebelum merge PR Holymaiden/fihaa.my.id#216:
 5. Teks baru ada di `content/world.ts`; tidak ada `any`; komentar kode berbahasa Inggris.
 6. type-check, lint, build hijau; `/` dan `/2d/*` bebas three.
 7. Tidak ada merge, deploy, atau perubahan pengaturan Vercel.
+
+## Perbaikan build Vercel (2026-10-12)
+
+- Gejala: deployment Vercel PR Holymaiden/fihaa.my.id#216 gagal. `yarn build` lokal (Node 20, 22, 24) dan clone bersih dengan `yarn install --frozen-lockfile` di Node 22 tetap berhasil, dan ukuran trace function hanya ±5 MB.
+- Penyebab (direproduksi): dengan **Node 20**, `yarn install --frozen-lockfile` berhenti dengan `error camera-controls@3.1.2: The engine "node" is incompatible with this module. Expected version ">=22.0.0"`. `camera-controls` adalah dependensi `@react-three/drei` (sudah di lockfile sejak Fase 4), dan yarn v1 menolak paket yang `engines`-nya tidak cocok.
+- Perbaikan tanpa mengubah pengaturan Vercel: `"engines": { "node": "22.x" }` di `package.json` (menurut dokumentasi Vercel, field ini diprioritaskan di atas pengaturan Node.js Version proyek) + `.nvmrc` berisi `22` untuk build lokal.
+- Uji: clone bersih + Node 22 → install & build hijau. Node 20 kini langsung memberi pesan jelas bahwa proyek butuh 22.x.
