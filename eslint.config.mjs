@@ -1,4 +1,4 @@
-// Flat config (ESLint 9+/10). Replikasi aturan dari .eslintrc.json lama.
+// Flat config port of the old .eslintrc.json.
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
@@ -67,8 +67,8 @@ const config = [
       'max-lines-per-function': ['error', 150],
       'react/destructuring-assignment': 'off', // Vscode doesn't support automatically destructuring, it's a pain to add a new variable
       'react/require-default-props': 'off', // Allow non-defined react props as undefined
-      // Aturan React Compiler baru (eslint-plugin-react-hooks v7). Pelanggaran yang ada
-      // butuh refactor perilaku; diturunkan ke warn sampai dibereskan (lihat docs/migrasi/01-stabilisasi.md).
+      // New React Compiler rules from react-hooks v7. Existing violations need
+      // real refactors, so keep them as warnings for now.
       'react-hooks/set-state-in-effect': 'warn',
       'react-hooks/static-components': 'warn',
       '@typescript-eslint/consistent-type-imports': 'error', // Ensure `import type` is used when it's necessary
