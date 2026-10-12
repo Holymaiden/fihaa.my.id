@@ -1,5 +1,7 @@
 # Ringkasan Dunia 3D (Fase 6–10)
 
+> **Diperbarui**: setelah umpan balik pemilik, dunia didesain ulang menjadi **satu pulau yang diputar** (`16-evaluasi-ulang.md`, `17-satu-pulau.md`). Bagian di bawah yang menyebut beberapa pulau, petak hex, atau kamera terbang sudah digantikan oleh laporan 17. Angka terbaru: 72 draw call / 75 rb segitiga, aset 0,70 MB.
+
 Branch: `claude/clever-albattani-e7tn9x` · PR Holymaiden/fihaa.my.id#216 · tidak di-merge, tidak di-deploy.
 
 ## Apa yang sudah jadi

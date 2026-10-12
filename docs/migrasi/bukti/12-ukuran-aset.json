@@ -3,10 +3,10 @@
     {
       "kit": "core",
       "file": "public/world/models/core.glb",
-      "bytes": 572824,
-      "models": 26,
-      "rawBytes": 1545516,
-      "gzipBytes": 372302
+      "bytes": 570608,
+      "models": 25,
+      "rawBytes": 1524311,
+      "gzipBytes": 371588
     },
     {
       "kit": "vault",
@@ -18,11 +18,6 @@
     }
   ],
   "models": [
-    {
-      "name": "hex_grass",
-      "kit": "core",
-      "rawBytes": 21205
-    },
     {
       "name": "building_castle_blue",
       "kit": "core",
