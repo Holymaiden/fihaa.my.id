@@ -24,6 +24,7 @@ Tanggal: 2026-10-12 · Basis: `main` @ `a8a640a` · Tidak ada push ke `main`, me
 | Fase 9 Visual | ✅ | `13-visual.md` | Flat color (tanpa tone mapping), palet siang/malam mengikuti tema dari token `--color-world-*`, langit gradien prosedural, cahaya murah, misteri hanya di vault, efek bisa dimatikan + `prefers-reduced-motion`. |
 | Fase 10 Rilis | ✅ (menunggu checklist manual) | `14-rilis.md`, `15-ringkasan-3d.md` | Ukur nyata (78 draw call, 0,70 MB aset, aset siap 0,8/3,4 dtk), DPR adaptif + render on-demand (terbukti), fallback WebGL/error boundary, metadata/OG/sitemap, alias `/3d`. fps nyata menunggu uji perangkat. |
 | Desain ulang satu pulau | ✅ (menunggu checklist manual) | `16-evaluasi-ulang.md`, `17-satu-pulau.md` | Umpan balik "jelek/membingungkan" → satu pulau organik prosedural, diputar dengan drag/←→ dan snap ke stasiun, vault di ceruk bawah pulau, bayangan lembut + ACES; 72 draw call, aset 0,70 MB. |
+| Label & kartu | ✅ | `18-label-dan-kartu.md` | Label melayang di atas tiap tempat, klik → zoom + kartu callout dengan ringkasan, panel lengkap via "View details", dock bawah + menu semua tempat, kastel = Profile, perbaikan aria-hidden untuk Html. |
 
 Hasil akhir di `feat/profil-dan-pembersihan`: `yarn type-check` hijau, `yarn lint` 0 masalah, `yarn build` hijau.
 
