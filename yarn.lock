@@ -3652,10 +3652,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-next-client-cookies@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/next-client-cookies/-/next-client-cookies-2.1.1.tgz#89fc55c775b8d92d0cbb520141b80488cece7694"
-  integrity sha512-iQZtX/aRuqXigmKDs6jQbGGFrnfJrnqtmxoDgbkyp5ikLKIASZwlmOW8GKedR+OkLWTcngg9AwN7H2lb2b8b/g==
+next-client-cookies@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/next-client-cookies/-/next-client-cookies-2.1.2.tgz#e00e90322ed5b27696896b5f5d086da3bfc7159a"
+  integrity sha512-f5XvIrOuO9koiCHZsKdRO60qMC6IQCpsHfIjQ0O/witwYewPQrNf+0XG2r0EiYVeiiRaImSBiqxNvadoUDCmhA==
   dependencies:
     js-cookie "^3.0.5"
 
