@@ -36,7 +36,7 @@ const NovelCard = ({
   return (
     <Link href={to2d(`/novel/${slug}?id=${id}`)}>
       <Card
-        className="group relative flex flex-col border dark:border-neutral-800 shadow-sm rounded-lg h-[400px] w-full"
+        className="group relative flex flex-col border dark:border-neutral-800 shadow-sm rounded-lg h-hero w-full"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

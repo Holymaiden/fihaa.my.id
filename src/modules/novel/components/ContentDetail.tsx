@@ -62,7 +62,7 @@ const ContentDetail = ({
         is_new={is_new}
         level={level}
       />
-      <div className="space-y-6 leading-[1.8] dark:text-neutral-300 font-sora">
+      <div className="space-y-6 leading-prose dark:text-neutral-300 font-sora">
         {content && content}
       </div>
       {tags?.length >= 1 && (
@@ -72,7 +72,7 @@ const ContentDetail = ({
             {tags?.map((tag) => (
               <div
                 key={tag}
-                className="bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-200 rounded-full px-4 py-1 text-[14px] font-medium"
+                className="bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-200 rounded-full px-4 py-1 text-meta font-medium"
               >
                 <span className="font-semibold mr-1">#</span>
                 {tag.charAt(0).toUpperCase() + tag.slice(1)}

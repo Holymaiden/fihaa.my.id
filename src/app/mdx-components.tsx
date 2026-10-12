@@ -28,7 +28,7 @@ const mdxComponents = {
   ),
   h3: (props: React.ComponentProps<'h3'>) => (
     <h3
-      className="text-[18px] leading-snug pt-4 font-medium dark:text-neutral-300"
+      className="text-subheading leading-snug pt-4 font-medium dark:text-neutral-300"
       {...props}
     >
       {props.children}

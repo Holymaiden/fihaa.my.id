@@ -98,7 +98,7 @@ const NovelFeaturedHero = ({ data }: NovelFeaturedProps) => {
                 </div>
                 <div className="flex gap-1 items-center">
                   <ViewIcon size={15} />
-                  <span className="text-[13px] ml-0.5">
+                  <span className="text-caption ml-0.5">
                     {currentFeatured?.level}
                   </span>
                 </div>
@@ -123,7 +123,7 @@ const NovelFeaturedHero = ({ data }: NovelFeaturedProps) => {
           </div>
         </div>
 
-        <div className="hidden sm:flex flex-col space-y-5 items-center justify-center px-8 border-l border-solid border-[#ffffff1a]">
+        <div className="hidden sm:flex flex-col space-y-5 items-center justify-center px-8 border-l border-solid border-hairline">
           {featuredData?.map((item, index: number) => (
             <button
               key={item.id}

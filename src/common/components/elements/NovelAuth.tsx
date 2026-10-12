@@ -42,7 +42,7 @@ const NovelAuth = () => {
       <div className="fixed inset-0 overflow-y-auto p-4 pt-[45vh]">
         <DialogPanel
           transition
-          className="relative mx-auto max-w-xl overflow-hidden rounded-xl border-2 border-neutral-100 bg-white shadow-3xl ring-1 ring-black/5 dark:divide-neutral-600 dark:border-neutral-800 dark:bg-[#1b1b1b80] backdrop-blur transition-all duration-200 ease-out data-[closed]:opacity-0 data-[closed]:scale-95"
+          className="relative mx-auto max-w-xl overflow-hidden rounded-xl border-2 border-neutral-100 bg-white shadow-3xl ring-1 ring-black/5 dark:divide-neutral-600 dark:border-neutral-800 dark:bg-panel-dark backdrop-blur transition-all duration-200 ease-out data-[closed]:opacity-0 data-[closed]:scale-95"
         >
           <div
             className={clsx(

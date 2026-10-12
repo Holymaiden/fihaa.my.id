@@ -102,7 +102,7 @@ const BlogFeaturedHero = ({ data }: BlogFeaturedHeroProps) => {
                 </div>
                 <div className="flex gap-1 items-center">
                   <FlagIcon size={15} />
-                  <span className="text-[13px] ml-0.5">
+                  <span className="text-caption ml-0.5">
                     {currentFeatured?.language}
                   </span>
                 </div>
@@ -127,7 +127,7 @@ const BlogFeaturedHero = ({ data }: BlogFeaturedHeroProps) => {
           </div>
         </div>
 
-        <div className="hidden sm:flex flex-col space-y-5 items-center justify-center px-8 border-l border-solid border-[#ffffff1a]">
+        <div className="hidden sm:flex flex-col space-y-5 items-center justify-center px-8 border-l border-solid border-hairline">
           {featuredData?.map((item, index: number) => (
             <button
               key={item.frontMatter.id}

@@ -43,7 +43,7 @@ const OrganizationCard = ({
             </span>
             <span>{focus}</span>
           </div>
-          <div className="flex flex-col md:text-[13px]">
+          <div className="flex flex-col md:text-caption">
             <div className="flex gap-1">
               <span>{start_year}</span> - <span>{end_year || 'Present'}</span>
             </div>

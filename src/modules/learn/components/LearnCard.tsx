@@ -30,7 +30,7 @@ const LearnCard = ({
     <Link href={to2d(`/learn/${slug}`)}>
       <Card className="group relative border border-neutral-200 dark:border-neutral-900 lg:hover:scale-[102%] cursor-pointer">
         {is_new && (
-          <div className="flex items-center gap-1 absolute top-0 right-0 bg-yellow-300 text-emerald-950 text-[13px] font-medium py-1 px-2 rounded-bl-xl rounded-tr-xl z-[2]">
+          <div className="flex items-center gap-1 absolute top-0 right-0 bg-yellow-300 text-emerald-950 text-caption font-medium py-1 px-2 rounded-bl-xl rounded-tr-xl z-[2]">
             <NewIcon size={15} />
             <span>New</span>
           </div>
@@ -55,7 +55,7 @@ const LearnCard = ({
                 {title}
               </div>
             </div>
-            <p className="text-neutral-700 dark:text-neutral-400 text-[.9375rem] leading-relaxed">
+            <p className="text-neutral-700 dark:text-neutral-400 text-body-sm leading-relaxed">
               {description}
             </p>
           </div>
