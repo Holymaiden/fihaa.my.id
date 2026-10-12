@@ -59,7 +59,7 @@ Metode (Playwright, build produksi): untuk setiap elemen di `<body>` dicatat 23 
 | `rgb(8 0 0 / 0%)` | gradien `body` | Ujung transparan gradien. |
 | `--font-code: var(--firaCode-font)` | `globals.css` | **Bug lama dipertahankan**: `next/font` mendefinisikan `--font-fira-code`, jadi `font-code` (dipakai di `Contributions.tsx:44`) tidak pernah tampil sebagai Fira Code. Memperbaikinya mengubah tampilan → menunggu keputusan. |
 | Satu kali pakai: `w-[10px]`, `h-[10px]`, `w-[12px]`, `h-[12px]`, `gap-[3px]`, `my-[2px]`, `h-[164px]`, `h-[120px]`, `pt-[45vh]`, `min-h-[60vh]`, `border-l-[5px]`, `w-[-webkit-fill-available]`, `z-[2]`, `z-[999]`, `scale-[1.02]`, `scale-[101%]`, `scale-[102%]` | berbagai | Nilai tata letak lokal satu kali pakai; token tidak menambah konsistensi. |
-| `font-[15px]` ×2 | `ChapterCard.tsx` (learn & novel) | Kelas tidak valid (ukuran di utilitas `font-*`); tidak berefek. Dibiarkan agar tampilan tidak berubah; sebaiknya dihapus. |
+| `font-[15px]` ×2 | `LearnSubContentItem.tsx:27`, `NovelSubContentItem.tsx:23` | Kemungkinan salah ketik (maksudnya `text-[15px]`); ukuran di utilitas `font-*`. Dibiarkan agar computed style tidak berubah; perlu konfirmasi. |
 | Palet bawaan Tailwind (`neutral-*`, `gray-*`, `blue-*`, `teal-*`) dan warna merek ikon (`stacks.tsx`, `CONTACT_PRESENTATION`) | seluruh 2D | Sudah berupa token Tailwind. Lapisan token semantik (mis. `--color-surface`, `--color-text-muted`) sebaiknya dibuat bersamaan dengan keputusan palet. |
 | Warna di dunia 3D | `world-scene.tsx` | Memakai `meshNormalMaterial` (tanpa warna). |
 
