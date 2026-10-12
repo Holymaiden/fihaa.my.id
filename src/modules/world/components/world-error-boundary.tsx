@@ -6,6 +6,7 @@ import { Component } from 'react';
 interface WorldErrorBoundaryProps {
   fallback: ReactNode;
   children: ReactNode;
+  onError?: () => void;
 }
 
 interface WorldErrorBoundaryState {
@@ -26,6 +27,7 @@ class WorldErrorBoundary extends Component<
 
   componentDidCatch(error: unknown) {
     console.error('3D world failed to render', error);
+    this.props.onError?.();
   }
 
   render() {

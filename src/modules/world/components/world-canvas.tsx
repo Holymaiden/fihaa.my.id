@@ -24,6 +24,7 @@ const WorldScene = dynamic(() => import('./world-scene'), {
 const WorldCanvas = ({ content }: WorldCanvasProps) => {
   const webgl = useWebGLSupport();
   const [contextLost, setContextLost] = useState(false);
+  const [sceneFailed, setSceneFailed] = useState(false);
   const errorFallback = <WorldFallback reason="error" copy={content.copy} />;
 
   const renderScene = () => {
@@ -37,14 +38,12 @@ const WorldCanvas = ({ content }: WorldCanvasProps) => {
       return errorFallback;
     }
     return (
-      <WorldErrorBoundary fallback={errorFallback}>
+      <WorldErrorBoundary
+        fallback={errorFallback}
+        onError={() => setSceneFailed(true)}
+      >
         <WorldScene
-          stations={content.stations}
-          counts={{
-            projects: content.projects.length,
-            skillGroups: content.skillGroups.length,
-          }}
-          loadingLabel={content.copy.loadingAssets}
+          content={content}
           onContextLost={() => setContextLost(true)}
         />
       </WorldErrorBoundary>
@@ -55,7 +54,10 @@ const WorldCanvas = ({ content }: WorldCanvasProps) => {
     <div className="relative h-dvh w-full overflow-hidden">
       {renderScene()}
       {/* The HTML layer works without the scene, so it always renders. */}
-      <WorldHud content={content} />
+      <WorldHud
+        content={content}
+        sceneShown={webgl === true && !contextLost && !sceneFailed}
+      />
     </div>
   );
 };

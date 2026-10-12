@@ -2,6 +2,7 @@ import type { WorldContent, WorldStationId } from '@/lib/content/types';
 
 import ContactLinks from './contact-links';
 import JournalSections from './journal-sections';
+import ProfileStory from './profile-story';
 import ProjectList from './project-list';
 import SkillGroups from './skill-groups';
 
@@ -16,6 +17,8 @@ export const stationHasContent = (
   content: WorldContent,
 ): boolean => {
   switch (id) {
+    case 'profile':
+      return content.profile.story.length > 0;
     case 'projects':
       return content.projects.length > 0;
     case 'skills':
@@ -33,6 +36,8 @@ const StationBody = ({ id, content }: StationBodyProps) => {
   const { copy } = content;
 
   switch (id) {
+    case 'profile':
+      return <ProfileStory profile={content.profile} />;
     case 'projects':
       return <ProjectList projects={content.projects} copy={copy} />;
     case 'skills':

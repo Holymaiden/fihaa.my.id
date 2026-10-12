@@ -5,7 +5,9 @@ import type { WorldStationId } from '@/lib/content/types';
 
 export type Vec3 = readonly [number, number, number];
 
-export type SurfaceStationId = Exclude<WorldStationId, 'secret'>;
+// Stations around the rim; 'profile' is the castle in the middle and
+// 'secret' hangs under the island.
+export type SurfaceStationId = Exclude<WorldStationId, 'secret' | 'profile'>;
 
 export const ISLAND = {
   radius: 14,
@@ -51,7 +53,7 @@ export const STATION_ANGLES: Record<SurfaceStationId, number> = {
 
 export const STATION_DISTANCE = 8.2;
 
-// Clicking or dragging snaps to these, in this order (used by ← / →).
+// Dragging snaps to these, in this order.
 export const STATION_ORDER: SurfaceStationId[] = [
   'projects',
   'skills',
@@ -88,5 +90,57 @@ export const vaultAnchor = (): Vec3 => {
 // Island turn (around y) that brings a direction to the front.
 export const facingRotation = (angle: number): number => -angle;
 
-export const stationRotation = (id: WorldStationId): number =>
-  facingRotation(id === 'secret' ? VAULT.angle : STATION_ANGLES[id]);
+// ← / → walk through these (the vault is not on the way).
+export const TURN_ORDER: WorldStationId[] = ['profile', ...STATION_ORDER];
+
+// Island turn for a station; null for the castle, which is seen from any
+// side.
+export const stationRotation = (id: WorldStationId): number | null => {
+  if (id === 'profile') {
+    return null;
+  }
+  return facingRotation(id === 'secret' ? VAULT.angle : STATION_ANGLES[id]);
+};
+
+// Where a station's floating label and info card hang (island frame).
+export const LABEL_LIFT = 4.2;
+// Cards hang to the right of the station (in its own frame), about at its
+// mid height, so they don't cover it.
+const CARD_LIFT = 2.2;
+const CARD_SIDE = 3;
+const VAULT_CARD_LIFT = 1.6;
+const VAULT_CARD_SIDE = 2.6;
+export const CASTLE_LABEL: Vec3 = [0, 11.5, 0];
+export const CASTLE_CARD: Vec3 = [4.2, 5.5, 2];
+
+// Point `side` units to the right of a spot that faces `angle`.
+const toRight = (
+  [x, y, z]: Vec3,
+  { angle, side, lift }: { angle: number; side: number; lift: number },
+): Vec3 => [x + Math.cos(angle) * side, y + lift, z - Math.sin(angle) * side];
+
+export const labelAnchor = (id: WorldStationId): Vec3 => {
+  if (id === 'profile') {
+    return CASTLE_LABEL;
+  }
+  const [x, y, z] = id === 'secret' ? vaultAnchor() : stationAnchor(id);
+  return [x, y + LABEL_LIFT, z];
+};
+
+export const cardAnchor = (id: WorldStationId): Vec3 => {
+  if (id === 'profile') {
+    return CASTLE_CARD;
+  }
+  if (id === 'secret') {
+    return toRight(vaultAnchor(), {
+      angle: VAULT.angle,
+      side: VAULT_CARD_SIDE,
+      lift: VAULT_CARD_LIFT,
+    });
+  }
+  return toRight(stationAnchor(id), {
+    angle: STATION_ANGLES[id],
+    side: CARD_SIDE,
+    lift: CARD_LIFT,
+  });
+};

@@ -1,8 +1,11 @@
 'use client';
 
 import { useRef } from 'react';
+import { LuInfo } from 'react-icons/lu';
 
 import type { WorldCopy, WorldCredit } from '@/lib/content/types';
+
+import { ICON_BUTTON } from './ui/styles';
 
 interface WorldCreditsProps {
   credits: WorldCredit[];
@@ -21,9 +24,11 @@ const WorldCredits = ({ credits, copy }: WorldCreditsProps) => {
       <button
         type="button"
         onClick={() => dialogRef.current?.showModal()}
-        className="absolute right-4 top-4 z-10 rounded-md border border-neutral-300 bg-light/90 px-3 py-1.5 text-2xs hover:border-accent dark:border-neutral-700 dark:bg-dark/90 md:bottom-4 md:left-4 md:right-auto md:top-auto"
+        aria-label={copy.credits}
+        title={copy.credits}
+        className={ICON_BUTTON}
       >
-        {copy.credits}
+        <LuInfo aria-hidden />
       </button>
       <dialog
         ref={dialogRef}

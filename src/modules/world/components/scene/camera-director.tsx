@@ -10,6 +10,7 @@ import {
   NARROW_ZOOM,
   OVERVIEW,
   PANEL_SHIFT,
+  PROFILE_VIEW,
   shiftView,
   STATION_VIEW,
   VAULT_VIEW,
@@ -35,9 +36,11 @@ const CameraDirector = () => {
     let shot: CameraView =
       activeStation === 'secret'
         ? VAULT_VIEW
-        : activeStation
-          ? STATION_VIEW
-          : OVERVIEW;
+        : activeStation === 'profile'
+          ? PROFILE_VIEW
+          : activeStation
+            ? STATION_VIEW
+            : OVERVIEW;
     if (isNarrow) {
       shot = zoomView(
         shot,

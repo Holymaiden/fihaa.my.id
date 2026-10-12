@@ -6,7 +6,13 @@ import { useEffect, useRef } from 'react';
 import type { Group } from 'three';
 import { MathUtils } from 'three';
 
-import { STATION_ORDER, stationRotation } from '../../config/island';
+import type { SurfaceStationId } from '../../config/island';
+import {
+  facingRotation,
+  STATION_ANGLES,
+  STATION_ORDER,
+  stationRotation,
+} from '../../config/island';
 import { VISUAL } from '../../config/visual';
 import { useEffectsEnabled } from '../../hooks/use-effects-enabled';
 import { useWorldStore } from '../../store/world-store';
@@ -52,11 +58,9 @@ const IslandRig = ({ children }: IslandRigProps) => {
 
   // Picking a station turns it to the front.
   useEffect(() => {
-    if (activeStation) {
-      target.current = closestTurn(
-        stationRotation(activeStation),
-        target.current,
-      );
+    const rotation = activeStation ? stationRotation(activeStation) : null;
+    if (rotation !== null) {
+      target.current = closestTurn(rotation, target.current);
       invalidate();
     }
   }, [activeStation, invalidate]);
@@ -96,12 +100,14 @@ const IslandRig = ({ children }: IslandRigProps) => {
         return;
       }
       lastDrag.endedAt = performance.now();
+      const turnOf = (id: SurfaceStationId) =>
+        facingRotation(STATION_ANGLES[id]);
       const nearest = [...STATION_ORDER].sort(
         (a, b) =>
-          angularDistance(stationRotation(a), target.current) -
-          angularDistance(stationRotation(b), target.current),
+          angularDistance(turnOf(a), target.current) -
+          angularDistance(turnOf(b), target.current),
       )[0];
-      target.current = closestTurn(stationRotation(nearest), target.current);
+      target.current = closestTurn(turnOf(nearest), target.current);
       openStation(nearest);
       invalidate();
     };

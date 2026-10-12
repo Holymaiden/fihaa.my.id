@@ -116,6 +116,7 @@ const StationExtras = ({ id, palette, counts }: StationExtrasProps) => {
     case 'secret':
       return <VaultMood palette={palette} />;
     case 'experience':
+    case 'profile':
       return null;
   }
 };

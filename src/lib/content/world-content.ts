@@ -2,7 +2,7 @@ import { SKILL_CATEGORY_LABELS } from '@content/skills';
 
 import { getContactLinks, getResumeUrl } from './contact';
 import { getCareers, getEducation, getOrganizations } from './experience';
-import { getProfile } from './profile';
+import { getProfile, getProfileIntro, getProfileStory } from './profile';
 import { getProjects, getVaultProjects, isPublicUrl } from './projects';
 import { getSkillsByCategory } from './skills';
 import type {
@@ -60,12 +60,18 @@ export const getWorldContent = async (): Promise<WorldContent> => {
   const copy = getWorldCopy();
   const projects = await getProjects();
   const byCategory = getSkillsByCategory();
-  const { name, role } = getProfile();
+  const { name, role, location } = getProfile();
 
   return {
     stations: getWorldStations(),
     copy,
-    profile: { name, role },
+    profile: {
+      name,
+      role,
+      location,
+      intro: getProfileIntro(),
+      story: getProfileStory(),
+    },
     projects: projects.map(toWorldProject),
     vaultProjects: getVaultProjects(projects, getWorldVaultSize()).map(
       toWorldProject,

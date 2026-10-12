@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+import { LuMonitor } from 'react-icons/lu';
 
 import { getWorldContent } from '@/lib/content/world-content';
 import { ROUTE_WORLD } from '@/lib/routes';
 import WorldCanvas from '@/modules/world';
+import { PILL_BUTTON } from '@/modules/world/components/ui/styles';
 import WorldSwitchLink from '@/modules/world/components/world-switch-link';
 
 const TITLE = '3D World | Fihaa Portfolio';
@@ -44,8 +46,9 @@ const WorldPage = async () => {
       {/* Always visible, also when WebGL fails. */}
       <WorldSwitchLink
         to="2d"
-        className="absolute left-4 top-4 z-30 rounded-md border border-neutral-300 bg-light/90 px-3 py-1.5 text-sm hover:border-accent dark:border-neutral-700 dark:bg-dark/90"
+        className={`${PILL_BUTTON} absolute left-4 top-4 z-30`}
       >
+        <LuMonitor aria-hidden />
         {content.copy.switchTo2d}
       </WorldSwitchLink>
       <WorldCanvas content={content} />

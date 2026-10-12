@@ -14,28 +14,35 @@ export const OVERVIEW: CameraView = {
   target: [0, -1, 0],
 };
 
-// Close-up on the station that faces the camera.
+// Close-up on the station that faces the camera, leaving room above it for
+// the info card.
 export const STATION_VIEW: CameraView = {
-  position: [0, 7, STATION_DISTANCE + 13],
-  target: [0, 1.2, STATION_DISTANCE - 1],
+  position: [0, 7.5, STATION_DISTANCE + 14],
+  target: [0, 2.4, STATION_DISTANCE - 1],
+};
+
+// The castle (profile), from the front.
+export const PROFILE_VIEW: CameraView = {
+  position: [0, 9, 21],
+  target: [0, 5, 0],
 };
 
 // Just under the rim, looking down a little at the vault ledge.
 export const VAULT_VIEW: CameraView = {
-  position: [0, VAULT.height + 3.5, VAULT.distance + 10],
-  target: [0, VAULT.height + 1, VAULT.distance],
+  position: [0, VAULT.height + 4, VAULT.distance + 11],
+  target: [0, VAULT.height + 2.2, VAULT.distance],
 };
 
 // Narrow (portrait) screens see less, so the camera backs off: a lot for
 // the whole island, less for close-ups.
-export const NARROW_ZOOM = { overview: 2.3, closeUp: 1.6 } as const;
+export const NARROW_ZOOM = { overview: 2.05, closeUp: 1.6 } as const;
 // Same breakpoint as Tailwind's md, where the panel moves to the side.
 export const NARROW_MAX_WIDTH = 768;
 
-// Moves the framed point so it isn't hidden behind the station panel
-// (right side on wide screens, bottom sheet on narrow ones).
+// Moves the framed point so the open place sits beside its card (card to
+// the right on wide screens, bottom sheet on narrow ones).
 export const PANEL_SHIFT: Record<'wide' | 'narrow', Vec3> = {
-  wide: [3.2, 0, 0],
+  wide: [5.5, 0, 0],
   narrow: [0, -3.4, 0],
 };
 

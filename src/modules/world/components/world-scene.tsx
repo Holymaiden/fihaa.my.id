@@ -4,7 +4,7 @@ import { PerformanceMonitor } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useState } from 'react';
 
-import type { WorldStation } from '@/lib/content/types';
+import type { WorldContent } from '@/lib/content/types';
 
 import { NARROW_MAX_WIDTH } from '../config/camera';
 import type { SurfaceStationId } from '../config/island';
@@ -13,6 +13,7 @@ import { useEffectsEnabled } from '../hooks/use-effects-enabled';
 import { useWorldPalette } from '../hooks/use-world-palette';
 import { useWorldStore } from '../store/world-store';
 import CameraDirector from './scene/camera-director';
+import FloatingCard from './scene/floating-card';
 import GuildHall from './scene/guild-hall';
 import IslandDecor from './scene/island-decor';
 import IslandRig from './scene/island-rig';
@@ -22,6 +23,7 @@ import KitRecolor from './scene/kit-recolor';
 import { endedDragJustNow } from './scene/pointer';
 import ShadowUpdater from './scene/shadow-updater';
 import type { StationCounts } from './scene/station-extras';
+import StationLabels from './scene/station-labels';
 import VaultLedge from './scene/vault-ledge';
 import WorldAtmosphere from './scene/world-atmosphere';
 import WorldClouds from './scene/world-clouds';
@@ -33,18 +35,16 @@ import {
 } from './world-stats';
 
 interface WorldSceneProps {
-  stations: WorldStation[];
-  counts: StationCounts;
-  loadingLabel: string;
+  content: WorldContent;
   onContextLost: () => void;
 }
 
-const WorldScene = ({
-  stations,
-  counts,
-  loadingLabel,
-  onContextLost,
-}: WorldSceneProps) => {
+const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
+  const { stations } = content;
+  const counts: StationCounts = {
+    projects: content.projects.length,
+    skillGroups: content.skillGroups.length,
+  };
   const palette = useWorldPalette();
   const closeStation = useWorldStore((state) => state.closeStation);
   // Read once; the scene is client only, so window is available.
@@ -63,7 +63,9 @@ const WorldScene = ({
   );
   const surfaceStations = stations
     .map((station) => station.id)
-    .filter((id): id is SurfaceStationId => id !== 'secret');
+    .filter(
+      (id): id is SurfaceStationId => id !== 'secret' && id !== 'profile',
+    );
   const hasVault = stations.some((station) => station.id === 'secret');
 
   // Fill rate dominates on phones (2x pixels ~ 2.2x frame time, see
@@ -93,12 +95,14 @@ const WorldScene = ({
             closeStation();
           }
         }}
-        aria-hidden
-        onCreated={({ gl }) =>
+        onCreated={({ gl }) => {
+          // Only the <canvas> is decorative: labels and cards rendered by
+          // drei's Html live in the same wrapper and must stay accessible.
+          gl.domElement.setAttribute('aria-hidden', 'true');
           gl.domElement.addEventListener('webglcontextlost', onContextLost, {
             once: true,
-          })
-        }
+          });
+        }}
       >
         <PerformanceMonitor
           factor={1}
@@ -133,12 +137,14 @@ const WorldScene = ({
               />
             ))}
             {hasVault && <VaultLedge palette={palette} />}
+            <StationLabels stations={stations} />
+            <FloatingCard content={content} />
           </IslandRig>
         </Suspense>
         <CameraDirector />
         {showStats && <WorldStatsProbe />}
       </Canvas>
-      <WorldProgress label={loadingLabel} />
+      <WorldProgress label={content.copy.loadingAssets} />
       {showStats && <WorldStatsOverlay />}
     </>
   );

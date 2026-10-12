@@ -1,54 +1,72 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { LuSparkles } from 'react-icons/lu';
 
-import type { WorldContent, WorldStationId } from '@/lib/content/types';
+import type { WorldContent } from '@/lib/content/types';
 
 import {
   useEffectsEnabled,
   useEffectsPreferenceStorage,
 } from '../hooks/use-effects-enabled';
+import { useNarrowScreen } from '../hooks/use-narrow-screen';
 import { useStationTurn } from '../hooks/use-station-turn';
 import { useWorldStore } from '../store/world-store';
-import StationBody, { stationHasContent } from './panels/station-body';
+import StationCard, { CARD_TITLE_ID } from './station-card';
+import { ICON_BUTTON } from './ui/styles';
 import WorldCredits from './world-credits';
-import WorldSwitchLink from './world-switch-link';
-import WorldTurnControls from './world-turn-controls';
+import WorldDetails, { DETAILS_TITLE_ID } from './world-details';
+import WorldDock from './world-dock';
 
 interface WorldHudProps {
   content: WorldContent;
+  // False when WebGL is missing or the scene failed: the card then shows
+  // here instead of floating in the world.
+  sceneShown: boolean;
 }
 
-// HTML layer over the canvas: station list, station panel and keyboard
-// handling. Works even before (or without) the 3D scene.
-const WorldHud = ({ content }: WorldHudProps) => {
+// Focus an element that may mount a frame or two later (the floating card
+// renders through drei's Html).
+const focusWhenReady = (id: string) => {
+  let tries = 0;
+  const attempt = () => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.focus({ preventScroll: true });
+    } else if (tries++ < 20) {
+      requestAnimationFrame(attempt);
+    }
+  };
+  requestAnimationFrame(attempt);
+};
+
+// HTML layer over the canvas: dock, card, details panel, settings and
+// keyboard handling. Works even before (or without) the 3D scene.
+const WorldHud = ({ content, sceneShown }: WorldHudProps) => {
   const { stations, copy } = content;
   const activeStation = useWorldStore((state) => state.activeStation);
-  const openStation = useWorldStore((state) => state.openStation);
+  const detailsOpen = useWorldStore((state) => state.detailsOpen);
   const closeStation = useWorldStore((state) => state.closeStation);
-  const setHoveredStation = useWorldStore((state) => state.setHoveredStation);
+  const closeDetails = useWorldStore((state) => state.closeDetails);
   const setEffectsPreference = useWorldStore(
     (state) => state.setEffectsPreference,
   );
   const effectsEnabled = useEffectsEnabled();
   useEffectsPreferenceStorage();
-
+  const isNarrow = useNarrowScreen();
   const turn = useStationTurn();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const hadStation = useRef(false);
 
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const buttonRefs = useRef(new Map<WorldStationId, HTMLButtonElement>());
-  const lastStation = useRef<WorldStationId | null>(null);
-
-  // Move focus into the panel when it opens, and back to the station's
-  // button when it closes.
+  // Focus follows what opens: card → details → back to card → dock.
   useEffect(() => {
     if (activeStation) {
-      headingRef.current?.focus();
-    } else if (lastStation.current) {
-      buttonRefs.current.get(lastStation.current)?.focus();
+      focusWhenReady(detailsOpen ? DETAILS_TITLE_ID : CARD_TITLE_ID);
+    } else if (hadStation.current) {
+      menuButtonRef.current?.focus();
     }
-    lastStation.current = activeStation;
-  }, [activeStation]);
+    hadStation.current = activeStation !== null;
+  }, [activeStation, detailsOpen]);
 
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
@@ -57,105 +75,51 @@ const WorldHud = ({ content }: WorldHudProps) => {
         return;
       }
       if (event.key === 'Escape') {
-        closeStation();
+        if (useWorldStore.getState().detailsOpen) {
+          closeDetails();
+        } else {
+          closeStation();
+        }
       } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         turn(event.key === 'ArrowLeft' ? -1 : 1);
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [closeStation, turn]);
+  }, [closeStation, closeDetails, turn]);
 
   const station = stations.find((item) => item.id === activeStation);
+  const showSheetCard = station && !detailsOpen && (isNarrow || !sceneShown);
 
   return (
     <>
-      <nav
-        aria-label={copy.stationListLabel}
-        className={`absolute inset-x-4 bottom-4 z-10 md:inset-x-auto md:bottom-auto md:left-4 md:top-16 ${
-          station ? 'hidden md:block' : ''
-        }`}
-      >
-        <ul className="flex flex-wrap gap-2 md:flex-col">
-          {stations.map((item) => (
-            <li key={item.id}>
-              <button
-                type="button"
-                ref={(node) => {
-                  if (node) {
-                    buttonRefs.current.set(item.id, node);
-                  } else {
-                    buttonRefs.current.delete(item.id);
-                  }
-                }}
-                aria-current={item.id === activeStation ? 'true' : undefined}
-                onClick={() => openStation(item.id)}
-                onPointerEnter={() => setHoveredStation(item.id)}
-                onPointerLeave={() => setHoveredStation(null)}
-                onFocus={() => setHoveredStation(item.id)}
-                onBlur={() => setHoveredStation(null)}
-                className="rounded-md border border-neutral-300 bg-light/90 px-3 py-1.5 text-sm hover:border-accent aria-[current=true]:border-accent aria-[current=true]:text-accent dark:border-neutral-700 dark:bg-dark/90"
-              >
-                {item.label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {station && (
-        <section
-          aria-labelledby="world-panel-title"
-          className="absolute inset-x-0 bottom-0 z-20 max-h-[65vh] overflow-y-auto rounded-t-lg border-t border-neutral-300 bg-light/95 p-4 dark:border-neutral-700 dark:bg-dark/95 md:inset-y-4 md:left-auto md:right-4 md:max-h-none md:w-96 md:rounded-lg md:border"
-        >
+      <div className="absolute right-4 top-4 z-30 flex gap-2">
+        {sceneShown && (
           <button
             type="button"
-            onClick={closeStation}
-            className="text-sm text-neutral-600 underline underline-offset-2 hover:text-accent dark:text-neutral-400"
+            aria-pressed={effectsEnabled}
+            aria-label={effectsEnabled ? copy.effectsOn : copy.effectsOff}
+            title={effectsEnabled ? copy.effectsOn : copy.effectsOff}
+            onClick={() => setEffectsPreference(!effectsEnabled)}
+            className={`${ICON_BUTTON} ${effectsEnabled ? '' : 'opacity-60'}`}
           >
-            ← {copy.back}
+            <LuSparkles aria-hidden />
           </button>
-          <h2
-            id="world-panel-title"
-            ref={headingRef}
-            tabIndex={-1}
-            className="mt-3 text-subheading font-semibold outline-none"
-          >
-            {station.title}
-          </h2>
-          <p className="mt-1 text-meta text-neutral-600 dark:text-neutral-400">
-            {station.summary}
-          </p>
-          <div className="mt-4">
-            {stationHasContent(station.id, content) ? (
-              <StationBody id={station.id} content={content} />
-            ) : (
-              <p className="text-meta italic">{station.emptyMessage}</p>
-            )}
-          </div>
-          <p className="mt-6 flex flex-wrap justify-between gap-2 text-2xs text-neutral-500">
-            <WorldSwitchLink
-              to="2d"
-              path={station.path2d}
-              className="underline underline-offset-2 hover:text-accent"
-            >
-              {copy.openIn2d}
-            </WorldSwitchLink>
-            <span className="hidden md:inline">{copy.escapeHint}</span>
-          </p>
-        </section>
+        )}
+        <WorldCredits credits={content.credits} copy={copy} />
+      </div>
+
+      {showSheetCard && (
+        <div className="absolute inset-x-4 bottom-20 z-20 mx-auto max-h-[55vh] max-w-md overflow-y-auto">
+          <StationCard station={station} content={content} variant="sheet" />
+        </div>
       )}
 
-      <button
-        type="button"
-        aria-pressed={effectsEnabled}
-        onClick={() => setEffectsPreference(!effectsEnabled)}
-        className="absolute right-24 top-4 z-10 rounded-md border border-neutral-300 bg-light/90 px-3 py-1.5 text-2xs hover:border-accent dark:border-neutral-700 dark:bg-dark/90 md:bottom-4 md:left-24 md:right-auto md:top-auto"
-      >
-        {effectsEnabled ? copy.effectsOn : copy.effectsOff}
-      </button>
-      <WorldTurnControls copy={copy} hidden={Boolean(station)} />
-      <WorldCredits credits={content.credits} copy={copy} />
+      {station && detailsOpen && (
+        <WorldDetails station={station} content={content} />
+      )}
+
+      <WorldDock content={content} menuButtonRef={menuButtonRef} />
     </>
   );
 };

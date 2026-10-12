@@ -3,17 +3,20 @@ import type { ReactElement } from 'react';
 // Content shared by the 2D site and the 3D world.
 // Fields marked "3D" are optional and stay empty until the world design is settled.
 
-// 3D: one station per kind of content. 'secret' is the hidden room that
-// shows the hand-picked projects (see getVaultProjects).
+// 3D: one station per kind of content. 'profile' is the guild castle in the
+// middle; 'secret' is the hidden room that shows the hand-picked projects
+// (see getVaultProjects).
 export type WorldStationId =
-  'projects' | 'skills' | 'experience' | 'contact' | 'secret';
+  'profile' | 'projects' | 'skills' | 'experience' | 'contact' | 'secret';
 
 export interface WorldStation {
   id: WorldStationId;
-  // Short name, used in the station list.
+  // Plain name shown on the island label and in the dock.
   label: string;
-  // Heading of the station panel.
+  // Heading of the card and the details panel.
   title: string;
+  // Name of the place in the world, shown under the title.
+  place: string;
   summary: string;
   // Shown when the station has nothing to list.
   emptyMessage: string;
@@ -53,6 +56,11 @@ export interface WorldCopy {
   previousPlace: string;
   nextPlace: string;
   turnHint: string;
+  viewDetails: string;
+  closeCard: string;
+  placesMenu: string;
+  latest: string;
+  now: string;
 }
 
 // One asset pack used in the 3D world (from content/world-assets.json).
@@ -204,7 +212,7 @@ export interface WorldJournalEntry {
 export interface WorldContent {
   stations: WorldStation[];
   copy: WorldCopy;
-  profile: Pick<Profile, 'name' | 'role'>;
+  profile: Pick<Profile, 'name' | 'role' | 'location' | 'intro' | 'story'>;
   projects: WorldProject[];
   vaultProjects: WorldProject[];
   skillGroups: WorldSkillGroup[];
