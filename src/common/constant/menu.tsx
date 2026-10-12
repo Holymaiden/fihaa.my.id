@@ -15,6 +15,9 @@ import {
   FiUser as ProfileIcon,
 } from 'react-icons/fi';
 
+import { getContactLinks } from '@/lib/content/contact';
+import type { ContactChannel } from '@/lib/content/types';
+
 import type { MenuItemProps } from '../types/menu';
 
 const iconSize = 20;
@@ -94,56 +97,41 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
 ];
 
-export const SOCIAL_MEDIA: MenuItemProps[] = [
-  {
-    title: 'Email',
-    href: 'mailto:haikalwatampone3@gmail.com',
+// Presentasi 2D (ikon + warna) per kanal; datanya dari content/contact.ts.
+const CONTACT_PRESENTATION: Record<
+  ContactChannel,
+  Pick<MenuItemProps, 'icon' | 'className'>
+> = {
+  email: {
     icon: <EmailIcon size={iconSize} />,
-    isShow: true,
-    isExternal: true,
-    eventName: 'Contact: Email',
     className: '!bg-green-600 border border dark:border-neutral-700',
-    type: 'Link',
   },
-
-  {
-    title: 'Linkedin',
-    href: 'https://www.linkedin.com/in/m-fiqri-haikhar-anwar-999116163/',
+  linkedin: {
     icon: <LinkedinIcon size={iconSize} />,
-    isShow: true,
-    isExternal: true,
-    eventName: 'Social: Linkedin',
     className: '!bg-blue-500 border border dark:border-neutral-700',
-    type: 'Link',
   },
-  {
-    title: 'Facebook',
-    href: 'https://www.facebook.com/fiqri.haikar',
+  facebook: {
     icon: <FacebookIcon size={iconSize} />,
-    isShow: true,
-    isExternal: true,
-    eventName: 'Social: Facebook',
     className: '!bg-blue-700 border border dark:border-neutral-700',
-    type: 'Link',
   },
-  {
-    title: 'Instagram',
-    href: 'https://www.instagram.com/fiqri_haikhar',
+  instagram: {
     icon: <InstagramIcon size={iconSize} />,
-    isShow: true,
-    isExternal: true,
-    eventName: 'Social: Instagram',
     className: '!bg-orange-700 border border dark:border-neutral-700',
-    type: 'Link',
   },
-  {
-    title: 'Github',
-    href: 'https://github.com/Holymaiden',
+  github: {
     icon: <GithubIcon size={iconSize} />,
+    className: '!bg-black border border dark:border-neutral-700',
+  },
+};
+
+export const SOCIAL_MEDIA: MenuItemProps[] = getContactLinks().map(
+  ({ channel, label, href, eventName }) => ({
+    title: label,
+    href,
+    ...CONTACT_PRESENTATION[channel],
     isShow: true,
     isExternal: true,
-    eventName: 'Social: Github',
-    className: '!bg-black border border dark:border-neutral-700',
+    eventName,
     type: 'Link',
-  },
-];
+  }),
+);
