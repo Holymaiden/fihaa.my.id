@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import type { ReactElement } from 'react';
 import { Suspense } from 'react';
 
@@ -57,6 +58,10 @@ const LearnContentDetailPage = async ({
     'learns/' + slug,
     content,
   );
+
+  if (!contentLearn.frontMatter) {
+    notFound();
+  }
 
   const learnLength = getMdxFileCount('learns', slug);
 

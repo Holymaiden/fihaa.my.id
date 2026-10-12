@@ -1,4 +1,5 @@
 import type { Metadata, NextPage } from 'next';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 import BackButton from '@/common/components/elements/BackButton';
@@ -51,7 +52,7 @@ const LearnContentPage: NextPage<ContentPageProps> = async ({
   );
 
   if (!content) {
-    return null;
+    notFound();
   }
 
   const { title, description } = content;

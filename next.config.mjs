@@ -15,6 +15,11 @@ const LEGACY_2D_SECTIONS = [
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
 
+  // Image.tsx renders with quality={100}; Next 16 only allows listed values.
+  images: {
+    qualities: [75, 100],
+  },
+
   // Keep old links working.
   async redirects() {
     return LEGACY_2D_SECTIONS.map((section) => ({

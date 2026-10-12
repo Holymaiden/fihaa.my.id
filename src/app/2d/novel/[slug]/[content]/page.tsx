@@ -1,4 +1,5 @@
 import type { Metadata, NextPage } from 'next';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 import BackButton from '@/common/components/elements/BackButton';
@@ -59,7 +60,11 @@ const NovelContentPage: NextPage<NovelContentPageProps> = async ({
   );
   const novelContent = NOVEL_CONTENTS.find(
     (content) => String(content.slug) === String(slug),
-  ) as ContentProps;
+  );
+
+  if (!novelData.frontMatter || !novelContent) {
+    notFound();
+  }
 
   const novelLength = getMdxFileCount('novels', slug);
 

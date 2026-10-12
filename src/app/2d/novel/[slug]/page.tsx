@@ -1,4 +1,5 @@
 import type { Metadata, NextPage } from 'next';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 import BackButton from '@/common/components/elements/BackButton';
@@ -51,7 +52,7 @@ const NovelContentPage: NextPage<NovelPageProps> = async ({
   );
 
   if (!content) {
-    return <Loading />;
+    notFound();
   }
 
   const { title, description } = content;
@@ -66,7 +67,7 @@ const NovelContentPage: NextPage<NovelPageProps> = async ({
     <>
       <Container data-aos="fade-up">
         <Suspense fallback={<Loading />}>
-          <BackButton url={to2d('/learn')} />
+          <BackButton url={to2d('/novel')} />
           <PageHeading title={title} description={description} />
         </Suspense>
         <Suspense fallback={<Loading />}>

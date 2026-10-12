@@ -20,7 +20,7 @@ const NovelSubContentItem = ({
       >
         <div className="flex gap-3 items-center">
           <SubContentIcon size={18} className="hidden md:flex" />
-          <h5 className="font-sora font-[15px]">{title}</h5>
+          <h5 className="font-sora text-body-sm">{title}</h5>
         </div>
       </Card>
     </Link>

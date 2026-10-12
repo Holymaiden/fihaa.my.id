@@ -1,7 +1,7 @@
 import type { Metadata, NextPage } from 'next';
+import { notFound } from 'next/navigation';
 
 import Container from '@/common/components/elements/Container';
-import Loading from '@/common/components/elements/Loading';
 import { loadMdxFile } from '@/common/libs/mdx';
 import { type BlogDetailProps } from '@/common/types/blog';
 import BlogContainer from '@/modules/blog/components/BlogContainer';
@@ -42,8 +42,8 @@ const BlogDetailPage: NextPage<BlogDetailPageProps> = async ({
   const { slug } = await params;
   const content = await loadMdxFile<BlogDetailProps>('blogs/', slug);
 
-  if (!content) {
-    return <Loading />;
+  if (!content.frontMatter) {
+    notFound();
   }
 
   return (

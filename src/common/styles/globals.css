@@ -11,10 +11,7 @@
 @theme inline {
   --font-sans: var(--jakartaSans-font);
   --font-sora: var(--soraSans-font);
-  /* Points at a variable that next/font never defines (it sets
-     --font-fira-code), so font-code falls back to the inherited font.
-     Kept as-is to avoid a visual change. */
-  --font-code: var(--firaCode-font);
+  --font-code: var(--font-fira-code);
   --font-emoji: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 

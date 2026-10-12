@@ -1,4 +1,5 @@
 import type { Metadata, NextPage } from 'next';
+import { notFound } from 'next/navigation';
 
 import BackButton from '@/common/components/elements/BackButton';
 import Container from '@/common/components/elements/Container';
@@ -42,18 +43,19 @@ const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = async ({
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
-  const PAGE_TITLE = project?.frontMatter?.title || 'Default Title';
-  const PAGE_DESCRIPTION = project?.frontMatter?.description;
+  if (!project) {
+    notFound();
+  }
+
+  const PAGE_TITLE = project.frontMatter.title;
+  const PAGE_DESCRIPTION = project.frontMatter.description;
 
   return (
     <>
       <Container data-aos="fade-up">
         <BackButton url={to2d('/projects')} />
         <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
-        <ProjectDetail
-          {...project?.frontMatter}
-          content={project ? project.content : 'Not Found'}
-        />
+        <ProjectDetail {...project.frontMatter} content={project.content} />
       </Container>
     </>
   );
