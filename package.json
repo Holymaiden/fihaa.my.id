@@ -20,7 +20,7 @@
     "@types/mdx": "^2.0.10",
     "@vercel/postgres": "^0.10.0",
     "aos": "^2.3.4",
-    "axios": "^1.14.0",
+    "axios": "^1.20.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
@@ -60,7 +60,7 @@
     "eslint-plugin-simple-import-sort": "^13.0.0",
     "eslint-plugin-unicorn": "^64.0.0",
     "eslint-plugin-unused-imports": "^4.4.1",
-    "postcss": "^8.5.9",
+    "postcss": "^8.5.29",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2"
