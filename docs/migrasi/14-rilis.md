@@ -142,3 +142,10 @@ Sebelum merge PR Holymaiden/fihaa.my.id#216:
 - Penyebab (direproduksi): dengan **Node 20**, `yarn install --frozen-lockfile` berhenti dengan `error camera-controls@3.1.2: The engine "node" is incompatible with this module. Expected version ">=22.0.0"`. `camera-controls` adalah dependensi `@react-three/drei` (sudah di lockfile sejak Fase 4), dan yarn v1 menolak paket yang `engines`-nya tidak cocok.
 - Perbaikan tanpa mengubah pengaturan Vercel: `"engines": { "node": "22.x" }` di `package.json` (menurut dokumentasi Vercel, field ini diprioritaskan di atas pengaturan Node.js Version proyek) + `.nvmrc` berisi `22` untuk build lokal.
 - Uji: clone bersih + Node 22 → install & build hijau. Node 20 kini langsung memberi pesan jelas bahwa proyek butuh 22.x.
+
+## Perbaikan build Vercel: Google Fonts (2026-10-12)
+
+- Log Vercel (dilaporkan pemilik): Turbopack *can't resolve* modul `next/font/google`.
+- Penyebab: `next/font/google` mengunduh CSS/berkas font dari `fonts.googleapis.com` **saat build**. Bila unduhan gagal di server build, Turbopack gagal. Direproduksi dengan memutus jaringan: `Error: Turbopack build failed with 3 errors: next/font: error` (exit 1).
+- Perbaikan: font di-*self-host* dengan `next/font/local` (`src/common/styles/fonts/`, variable font Latin dari `@fontsource-variable/*@5.3.0`, lisensi SIL OFL 1.1, keterangan di `fonts/SOURCE.md`). Nama variabel CSS sama (`--jakartaSans-font`, `--soraSans-font`, `--font-fira-code`), jadi tidak ada perubahan di komponen.
+- Bukti: build tanpa jaringan kini hijau. Runtime: `/`, `/2d`, `/world` memuat 3 berkas `.woff2` dari origin sendiri, tanpa request ke Google, dan `font-family` judul/`body` sama dengan versi lama.

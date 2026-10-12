@@ -1,21 +1,25 @@
-import { Fira_Code, Plus_Jakarta_Sans, Sora } from 'next/font/google';
+import localFont from 'next/font/local';
 
-export const jakartaSans = Plus_Jakarta_Sans({
+// Self-hosted (see fonts/SOURCE.md) so builds don't depend on reaching
+// Google Fonts. Variable fonts cover the weights used before.
+
+export const jakartaSans = localFont({
+  src: './fonts/plus-jakarta-sans-latin-wght-normal.woff2',
   variable: '--jakartaSans-font',
-  subsets: ['latin'],
+  weight: '200 800',
   display: 'fallback',
-  weight: ['400', '500', '600', '700', '800'],
 });
 
-export const firaCode = Fira_Code({
+export const firaCode = localFont({
+  src: './fonts/fira-code-latin-wght-normal.woff2',
   variable: '--font-fira-code',
-  subsets: ['latin'],
+  weight: '300 700',
   display: 'swap',
 });
 
-export const soraSans = Sora({
+export const soraSans = localFont({
+  src: './fonts/sora-latin-wght-normal.woff2',
   variable: '--soraSans-font',
-  subsets: ['latin'],
+  weight: '100 800',
   display: 'fallback',
-  weight: ['300', '400', '500', '600', '700', '800'],
 });
