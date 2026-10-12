@@ -21,6 +21,7 @@ Tanggal: 2026-10-12 · Basis: `main` @ `a8a640a` · Tidak ada push ke `main`, me
 | Fase 6 Aset | ✅ disetujui 2026-10-12 | `10-aset.md`, `ASSETS.md` | KayKit (CC0, flat color) utama: 88 kandidat (3,48 MB mentah, 52.870 segitiga), tanpa gereja. Quaternius diperiksa: 3 MegaKit ditolak karena bertekstur; Ultimate Nature (13 model, flat) jadi pelengkap alam/Skill Tree. Celah sisa diisi geometri sendiri. |
 | Fase 7 Greybox | ✅ | `11-greybox.md` | 5 stasiun + kastel guild abu-abu, kamera terbang (CameraControls), panel HTML dari pembaca konten, id `secret` (vault: featured + demo publik, 3 terbaru), Tab/Enter/Esc, `/`·`/2d/*` bebas three. |
 | Fase 8 Integrasi aset | ✅ | `12-integrasi-aset.md` | 32 model dalam 2 kit GLB meshopt (0,70 MB; vault lazy), instancing petak/dekorasi/awan, rakitan papan quest/kotak surat/kristal, kredit otomatis dari `content/world-assets.json`. |
+| Fase 9 Visual | ✅ | `13-visual.md` | Flat color (tanpa tone mapping), palet siang/malam mengikuti tema dari token `--color-world-*`, langit gradien prosedural, cahaya murah, misteri hanya di vault, efek bisa dimatikan + `prefers-reduced-motion`. |
 
 Hasil akhir di `feat/profil-dan-pembersihan`: `yarn type-check` hijau, `yarn lint` 0 masalah, `yarn build` hijau.
 

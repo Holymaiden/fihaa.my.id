@@ -68,6 +68,8 @@ export const WORLD_COPY: WorldCopy = {
     'The 3D models come from these free asset packs. Thank you to their authors.',
   creditsModels: 'models used',
   close: 'Close',
+  effectsOn: 'Effects: on',
+  effectsOff: 'Effects: off',
 };
 
 // How many projects the hidden vault shows (see getVaultProjects).
