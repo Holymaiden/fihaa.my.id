@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 
 import type { WorldStationId } from '@/lib/content/types';
 
-import type { CoreModelName } from '../../assets/kits.generated';
 import type { IslandLayout } from '../../config/layout';
 import {
   GUILD_LAYOUT,
@@ -13,9 +12,10 @@ import {
   STATION_LAYOUT,
 } from '../../config/layout';
 import type { CorePlacement } from '../../config/props';
-import { CLOUDS, DECOR } from '../../config/props';
+import { DECOR } from '../../config/props';
 import type { WorldPalette } from '../../hooks/use-world-palette';
 import { useWorldStore } from '../../store/world-store';
+import { groupByModel } from './group-by-model';
 import type { InstanceTransform } from './instanced-model';
 import InstancedModel from './instanced-model';
 import IslandRock from './island-rock';
@@ -46,15 +46,7 @@ const toWorld = (
   scale,
 });
 
-const groupByModel = (placements: CorePlacement[]) => {
-  const groups = new Map<CoreModelName, InstanceTransform[]>();
-  for (const { model, ...transform } of placements) {
-    groups.set(model, [...(groups.get(model) ?? []), transform]);
-  }
-  return [...groups.entries()];
-};
-
-// Hex tiles, rock undersides, scenery and clouds of every island. Tiles and
+// Hex tiles, rock undersides and scenery of every island. Tiles and
 // scenery are instanced, so the whole lot costs a handful of draw calls.
 const WorldIslands = ({ stations, palette }: WorldIslandsProps) => {
   const openStation = useWorldStore((state) => state.openStation);
@@ -99,7 +91,13 @@ const WorldIslands = ({ stations, palette }: WorldIslandsProps) => {
     [islands],
   );
 
-  const clouds = useMemo(() => groupByModel(CLOUDS), []);
+  const tileColors = useMemo(
+    () =>
+      tileOwners.map((owner) =>
+        owner === 'secret' ? palette.secretTile : palette.grassTint,
+      ),
+    [tileOwners, palette.secretTile, palette.grassTint],
+  );
 
   const handleTileClick = (index: number) => {
     const owner = tileOwners[index];
@@ -121,6 +119,7 @@ const WorldIslands = ({ stations, palette }: WorldIslandsProps) => {
         kit="core"
         model="hex_grass"
         instances={tiles}
+        instanceColors={tileColors}
         onInstanceClick={handleTileClick}
         onInstanceHover={handleTileHover}
       />
@@ -132,7 +131,7 @@ const WorldIslands = ({ stations, palette }: WorldIslandsProps) => {
           color={id === 'secret' ? palette.secret : palette.islandSide}
         />
       ))}
-      {[...decor, ...clouds].map(([model, instances]) => (
+      {decor.map(([model, instances]) => (
         <InstancedModel
           key={model}
           kit="core"

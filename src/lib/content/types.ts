@@ -44,6 +44,8 @@ export interface WorldCopy {
   creditsIntro: string;
   creditsModels: string;
   close: string;
+  effectsOn: string;
+  effectsOff: string;
 }
 
 // One asset pack used in the 3D world (from content/world-assets.json).

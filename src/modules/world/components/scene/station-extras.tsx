@@ -1,9 +1,11 @@
 import type { WorldStationId } from '@/lib/content/types';
 
 import type { WorldPalette } from '../../hooks/use-world-palette';
+import VaultMood from './vault-mood';
 
 // Hand-built pieces the asset packs don't have (see ASSETS.md, "Celah"):
-// the quest board, skill nodes, mailbox and the vault crystal. Counts come
+// the quest board, skill nodes and mailbox (the vault crystal lives in
+// vault-mood.tsx). Counts come
 // from the content, so the board shows one note per project (up to a cap).
 
 export interface StationCounts {
@@ -103,13 +105,6 @@ const Mailbox = ({ palette }: { palette: WorldPalette }) => (
   </group>
 );
 
-export const VaultCrystal = ({ palette }: { palette: WorldPalette }) => (
-  <mesh position={[0, 1.6, 0]} scale={[0.7, 1.2, 0.7]}>
-    <octahedronGeometry args={[0.8, 0]} />
-    <meshStandardMaterial color={palette.crystal} flatShading />
-  </mesh>
-);
-
 const StationExtras = ({ id, palette, counts }: StationExtrasProps) => {
   switch (id) {
     case 'projects':
@@ -119,7 +114,7 @@ const StationExtras = ({ id, palette, counts }: StationExtrasProps) => {
     case 'contact':
       return <Mailbox palette={palette} />;
     case 'secret':
-      return <VaultCrystal palette={palette} />;
+      return <VaultMood palette={palette} />;
     case 'experience':
       return null;
   }

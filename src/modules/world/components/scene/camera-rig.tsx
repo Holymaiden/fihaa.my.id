@@ -11,7 +11,7 @@ import {
   PANEL_FOCAL_OFFSET,
   stationView,
 } from '../../config/layout';
-import { usePrefersReducedMotion } from '../../hooks/use-prefers-reduced-motion';
+import { useEffectsEnabled } from '../../hooks/use-effects-enabled';
 import { useWorldStore } from '../../store/world-store';
 
 // Same breakpoint as Tailwind's md, where the panel moves to the side.
@@ -43,7 +43,8 @@ const flyTo = (
 const CameraRig = () => {
   const controlsRef = useRef<CameraControls>(null);
   const activeStation = useWorldStore((state) => state.activeStation);
-  const reducedMotion = usePrefersReducedMotion();
+  // Off for prefers-reduced-motion or when the visitor turns effects off.
+  const animateFlights = useEffectsEnabled();
   const isNarrow = useThree((state) => state.size.width < NARROW_MAX_WIDTH);
   const hasFlown = useRef(false);
 
@@ -60,13 +61,12 @@ const CameraRig = () => {
     const offset = activeStation
       ? PANEL_FOCAL_OFFSET[isNarrow ? 'narrow' : 'wide']
       : ([0, 0, 0] as const);
-    // Jump straight to the first view; animate later moves unless the user
-    // asked for reduced motion.
-    const animate = hasFlown.current && !reducedMotion;
+    // Jump straight to the first view; animate later moves if allowed.
+    const animate = hasFlown.current && animateFlights;
     void flyTo(controls, view, animate);
     void controls.setFocalOffset(offset[0], offset[1], offset[2], animate);
     hasFlown.current = true;
-  }, [activeStation, isNarrow, reducedMotion]);
+  }, [activeStation, isNarrow, animateFlights]);
 
   return (
     <CameraControls

@@ -1,13 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 // Colors of the 3D world come from the CSS tokens in globals.css
-// (--color-world-*), so 2D and 3D share one source of truth.
+// (--color-world-*), so 2D and 3D share one source of truth. The dark theme
+// swaps in a night palette, so the palette follows the <html> class.
 const TOKENS = {
-  sky: '--color-world-sky',
-  islandTop: '--color-world-island-top',
+  skyTop: '--color-world-sky-top',
+  skyHorizon: '--color-world-sky-horizon',
+  skyBottom: '--color-world-sky-bottom',
+  fog: '--color-world-fog',
+  sun: '--color-world-sun',
+  groundLight: '--color-world-ground-light',
   islandSide: '--color-world-island-side',
+  grassTint: '--color-world-grass-tint',
+  foliage: '--color-world-foliage',
+  trunk: '--color-world-trunk',
+  rock: '--color-world-rock',
+  berry: '--color-world-berry',
+  flowerA: '--color-world-flower-a',
+  flowerB: '--color-world-flower-b',
   stationHover: '--color-world-station-hover',
   stationActive: '--color-world-station-active',
   wood: '--color-world-wood',
@@ -15,21 +27,50 @@ const TOKENS = {
   skillNode: '--color-world-skill-node',
   mailbox: '--color-world-mailbox',
   crystal: '--color-world-crystal',
+  crystalGlow: '--color-world-crystal-glow',
   secret: '--color-world-secret',
+  secretTile: '--color-world-secret-tile',
 } as const;
 
-export type WorldPalette = Record<keyof typeof TOKENS, string>;
+export type WorldPaletteKey = keyof typeof TOKENS;
+
+export type WorldPalette = Record<WorldPaletteKey, string> & {
+  isNight: boolean;
+};
+
+let cachedKey = '';
+let cached: WorldPalette | null = null;
 
 const readPalette = (): WorldPalette => {
-  const styles = getComputedStyle(document.documentElement);
+  const root = document.documentElement;
+  const isNight = root.classList.contains('dark');
+  const key = `${root.className}`;
+  if (cached && key === cachedKey) {
+    return cached;
+  }
+  const styles = getComputedStyle(root);
+  cached = {
+    ...(Object.fromEntries(
+      Object.entries(TOKENS).map(([name, token]) => [
+        name,
+        styles.getPropertyValue(token).trim(),
+      ]),
+    ) as Record<WorldPaletteKey, string>),
+    isNight,
+  };
+  cachedKey = key;
+  return cached;
+};
 
-  return Object.fromEntries(
-    Object.entries(TOKENS).map(([key, token]) => [
-      key,
-      styles.getPropertyValue(token).trim(),
-    ]),
-  ) as WorldPalette;
+const subscribe = (onChange: () => void) => {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class'],
+  });
+  return () => observer.disconnect();
 };
 
 // Only used inside the client-only scene, so document is always there.
-export const useWorldPalette = (): WorldPalette => useState(readPalette)[0];
+export const useWorldPalette = (): WorldPalette =>
+  useSyncExternalStore(subscribe, readPalette, readPalette);

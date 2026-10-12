@@ -4,6 +4,10 @@ import { useEffect, useRef } from 'react';
 
 import type { WorldContent, WorldStationId } from '@/lib/content/types';
 
+import {
+  useEffectsEnabled,
+  useEffectsPreferenceStorage,
+} from '../hooks/use-effects-enabled';
 import { useWorldStore } from '../store/world-store';
 import StationBody, { stationHasContent } from './panels/station-body';
 import WorldCredits from './world-credits';
@@ -21,6 +25,11 @@ const WorldHud = ({ content }: WorldHudProps) => {
   const openStation = useWorldStore((state) => state.openStation);
   const closeStation = useWorldStore((state) => state.closeStation);
   const setHoveredStation = useWorldStore((state) => state.setHoveredStation);
+  const setEffectsPreference = useWorldStore(
+    (state) => state.setEffectsPreference,
+  );
+  const effectsEnabled = useEffectsEnabled();
+  useEffectsPreferenceStorage();
 
   const headingRef = useRef<HTMLHeadingElement>(null);
   const buttonRefs = useRef(new Map<WorldStationId, HTMLButtonElement>());
@@ -128,6 +137,14 @@ const WorldHud = ({ content }: WorldHudProps) => {
         </section>
       )}
 
+      <button
+        type="button"
+        aria-pressed={effectsEnabled}
+        onClick={() => setEffectsPreference(!effectsEnabled)}
+        className="absolute right-24 top-4 z-10 rounded-md border border-neutral-300 bg-light/90 px-3 py-1.5 text-2xs hover:border-accent dark:border-neutral-700 dark:bg-dark/90 md:bottom-4 md:left-24 md:right-auto md:top-auto"
+      >
+        {effectsEnabled ? copy.effectsOn : copy.effectsOff}
+      </button>
       <WorldCredits credits={content.credits} copy={copy} />
     </>
   );

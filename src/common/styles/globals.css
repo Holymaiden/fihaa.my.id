@@ -38,18 +38,34 @@
   --color-toggle-night-start: #173754;
   --color-toggle-night-end: #388296;
 
-  /* 3D world. Interim values; the final palette comes in Phase 9. */
-  --color-world-sky: #c9ced6;
-  --color-world-island-top: #9aa0a8;
-  --color-world-island-side: #6f757d;
-  --color-world-station-hover: #f5f5f5;
+  /* 3D world palette (light theme = day). The dark theme overrides these
+     below (night). Station accents reuse the site accent. */
+  --color-world-sky-top: #79bde8;
+  --color-world-sky-horizon: #fbe3c4;
+  --color-world-sky-bottom: #b9cde6;
+  --color-world-fog: #e6dfd2;
+  --color-world-sun: #fff2dc;
+  --color-world-ground-light: #7d8aa0;
+  --color-world-island-side: #8a7462;
+  /* Multiplied over the olive KayKit grass tiles to make them greener. */
+  --color-world-grass-tint: #b4e3a4;
+  --color-world-foliage: #5ea35b;
+  --color-world-trunk: #7a5236;
+  --color-world-rock: #a3a8ad;
+  --color-world-berry: #d65a4f;
+  --color-world-flower-a: #7fd8e8;
+  --color-world-flower-b: #f2c94c;
+  --color-world-station-hover: #ffffff;
   --color-world-station-active: var(--color-accent);
   --color-world-wood: #8b5a3c;
-  --color-world-paper: #efe6cf;
+  --color-world-paper: #f3ead2;
   --color-world-skill-node: var(--color-accent);
-  --color-world-mailbox: #b94a3e;
-  --color-world-crystal: #7fd8e8;
-  --color-world-secret: #4b5058;
+  --color-world-mailbox: #c0503f;
+  --color-world-crystal: #8ee8f2;
+  --color-world-crystal-glow: var(--color-loader);
+  /* Hidden vault: the only place with a darker, mysterious mood. */
+  --color-world-secret: #3a3352;
+  --color-world-secret-tile: #6d6390;
 
   --text-2xs: 12px;
   --text-caption: 13px;
@@ -191,4 +207,20 @@ a {
 
 ::-webkit-scrollbar-thumb {
   @apply rounded-scrollbar border-2 border-neutral-300 bg-neutral-600 dark:bg-neutral-400;
+}
+
+/* Night palette for the 3D world in the dark theme. */
+.dark {
+  --color-world-sky-top: #0d1733;
+  --color-world-sky-horizon: #3b4778;
+  --color-world-sky-bottom: #151c33;
+  --color-world-fog: #2a3256;
+  --color-world-sun: #c9d5ff;
+  --color-world-ground-light: #222a44;
+  --color-world-island-side: #4f4558;
+  --color-world-grass-tint: #9fd0a4;
+  --color-world-foliage: #3f7f55;
+  --color-world-trunk: #5c3f2d;
+  --color-world-rock: #7d8394;
+  --color-world-station-hover: #e8ecff;
 }

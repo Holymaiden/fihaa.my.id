@@ -10,6 +10,9 @@ interface WorldState {
   hoveredStation: WorldStationId | null;
   // The vault's models load the first time someone heads there.
   vaultRequested: boolean;
+  // null = follow prefers-reduced-motion.
+  effectsPreference: boolean | null;
+  setEffectsPreference: (enabled: boolean) => void;
   openStation: (id: WorldStationId) => void;
   closeStation: () => void;
   setHoveredStation: (id: WorldStationId | null) => void;
@@ -19,6 +22,8 @@ export const useWorldStore = create<WorldState>((set) => ({
   activeStation: null,
   hoveredStation: null,
   vaultRequested: false,
+  effectsPreference: null,
+  setEffectsPreference: (enabled) => set({ effectsPreference: enabled }),
   openStation: (id) =>
     set((state) => ({
       activeStation: id,

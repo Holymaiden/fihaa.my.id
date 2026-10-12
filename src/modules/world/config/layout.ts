@@ -71,7 +71,7 @@ export const NARROW_VIEW_ZOOM = 2;
 // (right side on wide screens, bottom sheet on narrow ones).
 export const PANEL_FOCAL_OFFSET: Record<'wide' | 'narrow', Vec3> = {
   wide: [3.2, 0, 0],
-  narrow: [0, 3, 0],
+  narrow: [0, 4.5, 0],
 };
 
 export const homeView = (zoom = 1): CameraView => ({
