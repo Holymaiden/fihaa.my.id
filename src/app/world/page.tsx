@@ -13,7 +13,7 @@ const WorldPage: NextPage = () => {
     <main className="relative font-sora">
       <h1 className="sr-only">Dunia 3D</h1>
       <WorldCanvas />
-      {/* Tanpa prefetch agar /world tidak ikut memuat aset halaman 2D. */}
+      {/* no prefetch, so /world doesn't pull in the 2D page */}
       <Link
         href={to2d()}
         prefetch={false}

@@ -3,8 +3,7 @@
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 
-// Scene uji kompatibilitas (Fase 4): kubus + kamera + cahaya.
-// Belum ada aset, model, atau desain dunia.
+// Test scene for now: just a cube, a camera and some light.
 const WorldScene = () => {
   return (
     <Canvas camera={{ position: [3, 3, 3], fov: 50 }}>
