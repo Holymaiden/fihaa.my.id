@@ -1,0 +1,9 @@
+/	js_files=22	js_bytes=836456	three_chunk_loaded=false	errors=[]
+/2d	js_files=30	js_bytes=991132	three_chunk_loaded=false	errors=[]
+/2d/about	js_files=30	js_bytes=991132	three_chunk_loaded=false	errors=[]
+/2d/projects	js_files=30	js_bytes=991132	three_chunk_loaded=false	errors=[]
+/2d/projects/ayola	js_files=31	js_bytes=991921	three_chunk_loaded=false	errors=[]
+/2d/blog	js_files=21	js_bytes=809388	three_chunk_loaded=false	errors=[]
+/world	js_files=18	js_bytes=1684850	three_chunk_loaded=true canvas=1 loadingVisible=0	errors=["warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.","warning: [.WebGL-0xa9400135800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels","warning: [.WebGL-0xa9400135800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels","warning: [.WebGL-0xa9400135800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels","warning: [.WebGL-0xa9400135800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)","warning: The resource /_next/static/chunks/17-h6claajh1x.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an app"]
+three loaded on /2d/about before nav: 0
+after landing->world click: three loaded: true canvas: 1
