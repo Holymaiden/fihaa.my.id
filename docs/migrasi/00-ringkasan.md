@@ -15,7 +15,9 @@ Tanggal: 2026-10-12 · Basis: `main` @ `a8a640a` · Tidak ada push ke `main`, me
 
 | Tindak lanjut | ✅ | `06-tindak-lanjut.md` | Yarn saja; `/` redirect otomatis + tombol Switch 2D/3D; UI Inggris; bug lama (404, font, back button, image quality) diperbaiki. |
 
-Hasil akhir di `feat/tindak-lanjut-keputusan`: `yarn type-check` hijau, `yarn lint` 0 error (13 warning React Compiler yang sudah ada), `yarn build` hijau.
+| Keputusan lanjutan | ✅ | `07-keputusan-lanjutan.md` | `@vercel/postgres` & AOS dihapus (framer-motion); 13 peringatan React Compiler diperbaiki; bug hidrasi nama profil & `<main>` bersarang; kategori skill + daftar stasiun 3D. |
+
+Hasil akhir di `refactor/keputusan-lanjutan`: `yarn type-check` hijau, `yarn lint` 0 masalah, `yarn build` hijau.
 
 ## Branch dan commit
 
@@ -29,8 +31,9 @@ Branch bertumpuk (setiap fase bercabang dari fase sebelumnya), semua sudah di-pu
 | `feat/fase-4-r3f` | `513c8df` dependensi R3F · `028ffcd` scene `/world` · `50e83a4` komentar · `81a203f` laporan |
 | `feat/fase-5-token` | `879c86d` `@theme` · `bb07a28` warna komponen → token · `7311f9c` kelas arbitrer → token · `33069a8` laporan · ringkasan |
 | `feat/tindak-lanjut-keputusan` | `32f732b` hapus package-lock · `029e95d` redirect + tombol Switch + UI Inggris · `f4b2868` bug lama · `7f2a186` id duplikat · laporan |
+| `refactor/keputusan-lanjutan` | `6a7cf9b` hapus postgres · `9334e09` AOS → framer-motion · `39425ae` refactor lint · `0e254d1` bug hidrasi & `<main>` · `c5f90da` kategori skill & stasiun · laporan |
 
-Branch sesi `claude/clever-albattani-e7tn9x` di-fast-forward ke ujung `feat/tindak-lanjut-keputusan` (isi sama).
+Branch sesi `claude/clever-albattani-e7tn9x` di-fast-forward ke ujung `refactor/keputusan-lanjutan` (isi sama). Atas permintaan pemilik, seluruh commit digabung dalam **satu PR** dari branch sesi ke `main`.
 
 Catatan: atas permintaan di tengah pekerjaan, komentar kode yang saya tambahkan ditulis ulang ke bahasa Inggris yang ringkas. Perubahan dibuat di branch fase asal lalu di-merge maju (commit merge), tanpa rewrite history.
 
@@ -38,7 +41,7 @@ Saran urutan PR: buka satu PR per branch dengan base branch fase sebelumnya (fas
 
 ## Pertanyaan Terbuka yang butuh keputusan Anda
 
-> **Sudah diputuskan (2026-10-12)**: no. 1 (pakai Yarn), 11 (redirect otomatis + tombol Switch), 13 (UI bahasa Inggris), 16 (arah visual menyesuaikan pulau), 17 (bug lama diperbaiki), 10 (`id` duplikat diperbaiki: persuratan → 19). Detail di `06-tindak-lanjut.md`.
+> **Sudah diputuskan (2026-10-12)**: no. 1 (pakai Yarn), 11 (redirect otomatis + tombol Switch), 13 (UI bahasa Inggris), 16 (arah visual menyesuaikan pulau), 17 (bug lama diperbaiki), 10 (`id` duplikat diperbaiki: persuratan → 19), 2 (postgres dihapus), 3 (AOS → framer-motion), 5 (lint React Compiler diperbaiki), 7 (blog/learn/novel tidak di 3D), 8 & 9 (kategori skill & daftar stasiun, draf). Detail di `07-keputusan-lanjutan.md`. **Masih terbuka: no. 4 (tutup PR Dependabot usang), 6 (entitas Profil), 12 (ambang perangkat lemah), 14 (SEO landing / `/world` di sitemap), 15 (novel dipertahankan?).** Keputusan sebelumnya: `06-tindak-lanjut.md`.
 
 **Infrastruktur & dependensi**
 1. Lockfile: hapus `package-lock.json` yang basi dan resmi pakai Yarn? (konfirmasi pengaturan Vercel)
