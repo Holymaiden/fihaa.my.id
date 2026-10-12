@@ -9,6 +9,7 @@ import InfiniteLoopSlider from '@/common/components/elements/InfiniteLoopSlider'
 import SectionHeading from '@/common/components/elements/SectionHeading';
 import SectionSubHeading from '@/common/components/elements/SectionSubHeading';
 import { STACKS } from '@/common/constant/stacks';
+import { getSkills } from '@/lib/content/skills';
 
 const Tag = ({ icon, title }: { icon: ReactNode; title: string }) => (
   <div className="flex items-center gap-2 mr-3 rounded-full py-2 px-5 w-max bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-50 shadow-sm border border-neutral-300 dark:border-neutral-700">
@@ -23,7 +24,9 @@ const Skills = () => {
   >([]);
 
   useEffect(() => {
-    const skillsArray = Object.entries(STACKS);
+    const skillsArray: Array<[string, ReactNode]> = getSkills().map(
+      ({ name }) => [name, STACKS[name]],
+    );
     const shuffledArray = [...skillsArray].sort(() => Math.random() - 0.5);
     setShuffledSkills(shuffledArray);
   }, []);
