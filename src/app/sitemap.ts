@@ -23,7 +23,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page(to2d('/projects'), 'monthly', 0.8),
     page(to2d('/blog'), 'monthly', 0.5),
     page(to2d('/learn'), 'monthly', 0.8),
-    page(to2d('/novel'), 'monthly', 0.8),
     page(to2d('/about'), 'monthly', 0.8),
     page(to2d('/contact'), 'monthly', 0.8),
   ];

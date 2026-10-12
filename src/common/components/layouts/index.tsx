@@ -27,10 +27,8 @@ const Layout = ({ children }: LayoutProps) => {
   const pageName = pathname.split('/')[1];
 
   const isFullPageHeader =
-    pageName === 'novel' ||
     pageName === 'blog' ||
     pathname.startsWith('/blog/') ||
-    pathname.startsWith('/novel/') ||
     pathname.startsWith('/learn/');
 
   return (

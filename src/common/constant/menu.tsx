@@ -71,15 +71,6 @@ export const MENU_ITEMS: MenuItemProps[] = [
     eventName: 'Pages: Learn',
     type: 'Pages',
   },
-  // {
-  //   title: 'Novel',
-  //   href: to2d('/novel'),
-  //   icon: <BooksIcon size={iconSize} />,
-  //   isShow: true,
-  //   isExternal: false,
-  //   eventName: 'Pages: Novel',
-  //   type: 'Pages',
-  // },
   {
     title: 'About',
     href: to2d('/about'),

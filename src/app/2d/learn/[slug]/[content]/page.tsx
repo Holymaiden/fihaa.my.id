@@ -12,7 +12,6 @@ import {
   loadMdxNextPrevFile,
 } from '@/common/libs/mdx';
 import { type SubContentMetaProps } from '@/common/types/learn';
-import { type ContentProps } from '@/common/types/novel';
 import { to2d } from '@/lib/routes';
 import ContentBody from '@/modules/learn/components/ContentBody';
 import ContentDetail from '@/modules/learn/components/ContentDetail';
@@ -24,7 +23,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string; content: string }>;
 }): Promise<Metadata> {
   const { slug, content } = await params;
-  const { frontMatter } = await loadMdxFile<ContentProps>(
+  const { frontMatter } = await loadMdxFile<SubContentMetaProps>(
     'learns/' + slug,
     content,
   );

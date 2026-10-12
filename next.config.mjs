@@ -7,7 +7,6 @@ const LEGACY_2D_SECTIONS = [
   'contact',
   'dashboard',
   'learn',
-  'novel',
   'projects',
 ];
 
@@ -22,11 +21,19 @@ const nextConfig = {
 
   // Keep old links working.
   async redirects() {
-    return LEGACY_2D_SECTIONS.map((section) => ({
-      source: `/${section}/:path*`,
-      destination: `/2d/${section}/:path*`,
-      permanent: true,
-    }));
+    return [
+      ...LEGACY_2D_SECTIONS.map((section) => ({
+        source: `/${section}/:path*`,
+        destination: `/2d/${section}/:path*`,
+        permanent: true,
+      })),
+      // The novel section was removed; send old links to the 2D home.
+      ...['/novel/:path*', '/2d/novel/:path*'].map((source) => ({
+        source,
+        destination: '/2d',
+        permanent: true,
+      })),
+    ];
   },
 
   webpack: (config, { isServer }) => {
