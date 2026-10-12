@@ -1,6 +1,6 @@
 import type { Skill } from '@/lib/content/types';
 
-/** Urutan mengikuti registri ikon 2D lama (`STACKS`). */
+// Same order as the keys in STACKS.
 export const SKILLS: Skill[] = [
   { name: 'PHP' },
   { name: 'Flask' },

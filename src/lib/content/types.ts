@@ -1,21 +1,17 @@
 import type { ReactElement } from 'react';
 
-/**
- * Skema konten bersama untuk portfolio 2D dan dunia 3D.
- *
- * Field bertanda "3D" bersifat opsional dan sengaja belum diisi:
- * nilainya menunggu keputusan desain dunia 3D.
- */
+// Content shared by the 2D site and the 3D world.
+// Fields marked "3D" are optional and stay empty until the world design is settled.
 
-/** 3D: id lokasi/stasiun di dunia 3D. Daftar nilai belum diputuskan. */
+// 3D: station id in the world. The list of stations isn't decided yet.
 export type WorldStationId = string;
 
 export interface WorldPlacement {
-  /** 3D: stasiun tempat entri ini ditampilkan di dunia 3D. */
+  // 3D
   worldStation?: WorldStationId;
 }
 
-/** Frontmatter file `content/projects/*.mdx`. */
+// Frontmatter of content/projects/*.mdx
 export interface ProjectFrontmatter extends WorldPlacement {
   id: number;
   title: string;
@@ -26,19 +22,19 @@ export interface ProjectFrontmatter extends WorldPlacement {
   link_demo?: string;
   link_github?: string;
   is_featured?: boolean;
-  /** 3D: gambar kecil untuk panel/papan di dunia 3D. */
+  // 3D
   thumbnail?: string;
 }
 
 export interface ProjectEntry {
-  /** Nama file tanpa ekstensi; dipakai sebagai segmen URL detail. */
+  // File name without extension, used in the detail URL.
   slug: string;
   frontMatter: ProjectFrontmatter;
   content?: string | ReactElement;
 }
 
 export interface Skill extends WorldPlacement {
-  /** Nama tampilan; juga kunci ikon di registri ikon 2D (`STACKS`). */
+  // Also the icon key in STACKS.
   name: string;
 }
 
@@ -49,9 +45,9 @@ export interface Career extends WorldPlacement {
   location: string;
   location_type: string;
   type: string;
-  /** Format `YYYY-M` atau `YYYY-MM`. */
+  // YYYY-M or YYYY-MM
   start_date: string;
-  /** `''` atau `null` berarti masih berjalan. */
+  // '' or null means current
   end_date: string | null;
   industry: string;
   link: string | null;
@@ -92,7 +88,7 @@ export interface ContactLink {
   channel: ContactChannel;
   label: string;
   href: string;
-  /** Nama event analitik (atribut `data-umami-event`). */
+  // data-umami-event value
   eventName: string;
 }
 
