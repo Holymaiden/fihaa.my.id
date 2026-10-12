@@ -1,68 +1,27 @@
 import type { Metadata, NextPage } from 'next';
+import { cookies } from 'next/headers';
 
-import Container from '@/common/components/elements/Container';
-import HomePage from '@/modules/home';
+import { SITE_URL } from '@/lib/routes';
+import { WORLD_MODE_COOKIE } from '@/lib/world-mode/cookie';
+import { isWorldMode } from '@/lib/world-mode/types';
+import WorldPicker from '@/modules/landing';
 
 export const metadata: Metadata = {
   title: 'M. Fiqri Haikhar Anwar - Software Engineer Portfolio',
-  description:
-    'Portfolio website of M. Fiqri Haikhar Anwar, a passionate Software Engineer from Makassar, Indonesia. Showcasing projects, blog posts, and learning resources in React, Next.js, TypeScript, Golang, Laravel, React Native, Elysia.js, and modern web technologies.',
-  keywords: [
-    'M. Fiqri Haikhar Anwar',
-    'Fihaa',
-    'Software Engineer',
-    'React Developer',
-    'Next.js Developer',
-    'TypeScript',
-    'Golang',
-    'Laravel',
-    'React Native',
-    'Elysia.js',
-    'Web Developer',
-    'Mobile Developer',
-    'Backend Developer',
-    'Software Engineer',
-    'Portfolio',
-    'Makassar',
-    'Indonesia',
-    'JavaScript',
-    'Node.js',
-    'Frontend',
-    'Backend',
-  ],
-  openGraph: {
-    title: 'M. Fiqri Haikhar Anwar - Software Engineer',
-    description:
-      'Passionate Software Engineer specializing in React, Next.js, Golang, Laravel, React Native, Elysia.js, and modern web technologies. Based in Makassar, Indonesia.',
-    type: 'website',
-    url: 'https://fihaa.my.id',
-    images: [
-      {
-        url: '/images/fihaa.png',
-        width: 1200,
-        height: 630,
-        alt: 'M. Fiqri Haikhar Anwar - Software Engineer Portfolio',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'M. Fiqri Haikhar Anwar - Software Engineer',
-    description:
-      'Passionate Software Engineer specializing in React, Next.js, Golang, Laravel, React Native, Elysia.js, and modern web technologies.',
-    images: ['/images/fihaa.png'],
-  },
   alternates: {
-    canonical: 'https://fihaa.my.id',
+    canonical: SITE_URL,
   },
 };
 
-const Home: NextPage = () => {
+const LandingPage: NextPage = async () => {
+  const cookieStore = await cookies();
+  const lastMode = cookieStore.get(WORLD_MODE_COOKIE)?.value;
+
   return (
-    <Container>
-      <HomePage />
-    </Container>
+    <main id="main-content">
+      <WorldPicker lastMode={isWorldMode(lastMode) ? lastMode : null} />
+    </main>
   );
 };
 
-export default Home;
+export default LandingPage;
