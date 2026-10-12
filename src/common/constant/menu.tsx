@@ -1,4 +1,5 @@
 import { BiRocket as ContactIcon } from 'react-icons/bi';
+import { BsBox as WorldIcon } from 'react-icons/bs';
 import {
   BsEnvelopeAtFill as EmailIcon,
   BsFacebook as FacebookIcon,
@@ -17,7 +18,8 @@ import {
 
 import { getContactLinks } from '@/lib/content/contact';
 import type { ContactChannel } from '@/lib/content/types';
-import { to2d } from '@/lib/routes';
+import { ROUTE_WORLD, to2d } from '@/lib/routes';
+import { rememberWorldMode } from '@/lib/world-mode/world-mode-store';
 
 import type { MenuItemProps } from '../types/menu';
 
@@ -94,6 +96,16 @@ export const MENU_ITEMS: MenuItemProps[] = [
     isShow: true,
     isExternal: false,
     eventName: 'Pages: Contact',
+    type: 'Pages',
+  },
+  {
+    title: 'Switch to 3D',
+    href: ROUTE_WORLD,
+    icon: <WorldIcon size={iconSize} />,
+    isShow: true,
+    isExternal: false,
+    onClick: () => rememberWorldMode('3d'),
+    eventName: 'Switch World: 3d',
     type: 'Pages',
   },
 ];

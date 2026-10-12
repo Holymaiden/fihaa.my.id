@@ -21,3 +21,6 @@ export const useWorldModeStore = create<WorldModeState>((set) => ({
     set({ mode });
   },
 }));
+
+export const rememberWorldMode = (mode: WorldMode) =>
+  useWorldModeStore.getState().setMode(mode);

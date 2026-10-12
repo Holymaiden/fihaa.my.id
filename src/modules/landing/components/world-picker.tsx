@@ -21,65 +21,39 @@ const WORLD_OPTIONS: WorldOption[] = [
   {
     mode: '2d',
     href: to2d(),
-    title: 'Dunia 2D',
-    description: 'Portfolio klasik: ringan, cepat, dan mudah dibaca.',
+    title: '2D World',
+    description: 'The classic portfolio: light, fast and easy to read.',
   },
   {
     mode: '3d',
     href: ROUTE_WORLD,
-    title: 'Dunia 3D',
-    description: 'Jelajahi portfolio sebagai dunia 3D interaktif.',
+    title: '3D World',
+    description: 'Explore the portfolio as an interactive 3D world.',
   },
 ];
 
-interface WorldPickerProps {
-  // From the world-mode cookie
-  lastMode: WorldMode | null;
-}
-
-const WorldPicker = ({ lastMode }: WorldPickerProps) => {
-  const sessionMode = useWorldModeStore((state) => state.mode);
+const WorldPicker = () => {
   const setMode = useWorldModeStore((state) => state.setMode);
   const isLowEndDevice = useLowEndDeviceHint();
-
-  const rememberedMode = sessionMode ?? lastMode;
-  const suggestedMode: WorldMode | null =
-    rememberedMode ?? (isLowEndDevice ? '2d' : null);
-  const rememberedOption = WORLD_OPTIONS.find(
-    (option) => option.mode === rememberedMode,
-  );
+  const suggestedMode: WorldMode | null = isLowEndDevice ? '2d' : null;
 
   return (
     <section className="flex min-h-screen flex-col items-center justify-center gap-8 p-8 font-sora">
       <div className="space-y-3 text-center">
         <h1 className="text-3xl font-bold text-neutral-800 dark:text-neutral-200">
-          Pilih Dunia
+          Choose Your World
         </h1>
         <p className="text-neutral-600 dark:text-neutral-400">
           M. Fiqri Haikhar Anwar — Software Engineer
         </p>
       </div>
 
-      {rememberedOption && (
+      {isLowEndDevice && (
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          Terakhir kali Anda memilih {rememberedOption.title}.{' '}
-          <Link
-            href={rememberedOption.href}
-            onClick={() => setMode(rememberedOption.mode)}
-            className="underline hover:text-neutral-800 hover:dark:text-neutral-200"
-          >
-            Lanjutkan
-          </Link>
+          This device looks a bit limited, so the 2D World is recommended. You
+          can still pick either one.
         </p>
       )}
-
-      {!rememberedOption && isLowEndDevice && (
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          Perangkat ini tampaknya terbatas, Dunia 2D disarankan. Anda tetap
-          bebas memilih.
-        </p>
-      )}
-
       <div className="grid w-full max-w-3xl gap-5 sm:grid-cols-2">
         {WORLD_OPTIONS.map((option) => (
           <Link
@@ -101,7 +75,7 @@ const WorldPicker = ({ lastMode }: WorldPickerProps) => {
                   {option.title}
                 </h2>
                 {suggestedMode === option.mode && (
-                  <span className="text-sm text-neutral-500">Disarankan</span>
+                  <span className="text-sm text-neutral-500">Recommended</span>
                 )}
               </div>
               <p className="text-neutral-600 dark:text-neutral-400">

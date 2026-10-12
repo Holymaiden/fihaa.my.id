@@ -65,6 +65,7 @@ const HeaderTop = () => {
                 <Link
                   key={index}
                   href={menu.href}
+                  onClick={menu.onClick}
                   passHref
                   className={clsx(
                     'text-neutral-700 hover:text-neutral-800 dark:text-neutral-400 hover:dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-neutral-900 rounded px-2 py-1',

@@ -1,26 +1,23 @@
 import type { Metadata, NextPage } from 'next';
-import Link from 'next/link';
 
-import { to2d } from '@/lib/routes';
 import WorldCanvas from '@/modules/world';
+import WorldSwitchLink from '@/modules/world/components/world-switch-link';
 
 export const metadata: Metadata = {
-  title: 'Dunia 3D | Fihaa Portfolio',
+  title: '3D World | Fihaa Portfolio',
 };
 
 const WorldPage: NextPage = () => {
   return (
     <main className="relative font-sora">
-      <h1 className="sr-only">Dunia 3D</h1>
+      <h1 className="sr-only">3D World</h1>
       <WorldCanvas />
-      {/* no prefetch, so /world doesn't pull in the 2D page */}
-      <Link
-        href={to2d()}
-        prefetch={false}
+      <WorldSwitchLink
+        to="2d"
         className="absolute left-4 top-4 rounded-md border border-neutral-300 px-3 py-1.5 text-sm dark:border-neutral-700"
       >
-        Ke Dunia 2D
-      </Link>
+        Switch to 2D
+      </WorldSwitchLink>
     </main>
   );
 };
