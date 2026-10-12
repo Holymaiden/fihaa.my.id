@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import type { ReactElement } from 'react';
 import { Suspense } from 'react';
 
 import BackButton from '@/common/components/elements/BackButton';
@@ -71,9 +72,7 @@ const LearnContentDetailPage = async ({
             params={{ slug }}
             learnLength={learnLength}
           >
-            <ContentBody
-              content={contentLearn.content as import('react').ReactElement}
-            />
+            <ContentBody content={contentLearn.content as ReactElement} />
           </ContentDetail>
         </Suspense>
       </Container>

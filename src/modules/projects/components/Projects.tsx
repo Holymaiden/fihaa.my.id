@@ -13,7 +13,6 @@ import ProjectCard from './ProjectCard';
 type ProjectsProps = {
   content: MdxFileProps<ProjectItemProps>[];
 };
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Projects = ({ content }: ProjectsProps) => {
   const [visibleProjects, setVisibleProjects] = useState(6);
 

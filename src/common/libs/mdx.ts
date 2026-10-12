@@ -60,6 +60,7 @@ export const loadMdxFiles = async <T>(
 export const loadMdxNovelFiles = async <T>(
   type: string,
   slug: string,
+  // eslint-disable-next-line @typescript-eslint/require-await
 ): Promise<MdxFileProps<T>[]> => {
   const dirPath = path.join(process.cwd(), 'src', 'contents', type, slug);
 
@@ -71,25 +72,23 @@ export const loadMdxNovelFiles = async <T>(
 
   const contents: MdxFileProps<T>[] = [];
 
-  await Promise.all(
-    files.map((file) => {
-      const fileNumber = file.split(' - ')[1];
-      const fileName = file.split(' - ')[2].split('(')[0];
+  files.forEach((file) => {
+    const fileNumber = file.split(' - ')[1];
+    const fileName = file.split(' - ')[2].split('(')[0];
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const frontMatter: any = {
-        id: fileNumber,
-        title: fileNumber + ' - ' + fileName,
-      };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const frontMatter: any = {
+      id: fileNumber,
+      title: fileNumber + ' - ' + fileName,
+    };
 
-      contents.push({
-        slug: fileNumber + '-' + fileName.replaceAll(' ', '-'),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        frontMatter: frontMatter,
-        // content: content,
-      });
-    }),
-  );
+    contents.push({
+      slug: fileNumber + '-' + fileName.replaceAll(' ', '-'),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      frontMatter: frontMatter,
+      // content: content,
+    });
+  });
 
   return contents;
 };

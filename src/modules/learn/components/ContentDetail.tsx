@@ -1,8 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { type ReactElement, useEffect, useState } from 'react';
 import React from 'react';
+import { useEffect, useState } from 'react';
 
 import Loading from '@/common/components/elements/Loading';
 import NavigationSection from '@/common/components/elements/NavigationSection';
