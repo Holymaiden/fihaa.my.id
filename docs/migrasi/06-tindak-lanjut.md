@@ -31,6 +31,7 @@ Verifikasi Playwright (build produksi): kunjungan pertama → pilihan; pilih 3D 
 | `font-code` | merujuk `--firaCode-font` (tidak pernah ada) → font warisan | `--font-fira-code` → "Fira Code" (diverifikasi computed style) |
 | Judul bab learn/novel | `font-[15px]` (salah ketik, tidak berefek) | `text-body-sm` (15px) |
 | Peringatan `Image … quality "100"` | Next 16 hanya mengizinkan 75 | `images.qualities: [75, 100]` |
+| `id: 20` duplikat (`dcc`, `persuratan-iain-parepare`) | urutan bergantung urutan file | `persuratan-iain-parepare` → `id: 19` (belum terpakai). Urutan tampilan tetap sama: dcc lalu persuratan (diverifikasi dengan logika sort yang sama). |
 
 Perubahan tampilan yang disengaja: font username di dashboard (Fira Code) dan ukuran judul bab learn/novel (15px).
 
@@ -43,12 +44,11 @@ Perubahan tampilan yang disengaja: font username di dashboard (Fira Code) dan uk
 
 ## Masih terbuka
 
-- `id: 20` duplikat (`dcc` vs `persuratan-iain-parepare`): urutan mana yang benar?
 - Endpoint `@vercel/postgres`, AOS → framer-motion, refactor aturan React Compiler, entitas Profil, blog/learn/novel di 3D, kategori skill, daftar `worldStation`, ambang perangkat lemah (lihat `00-ringkasan.md`).
 
 ## Self-review
 
-1. Keempat keputusan dan permintaan bug lama tercakup; `id` duplikat tidak diubah karena butuh keputusan.
+1. Keempat keputusan, permintaan bug lama, dan `id` duplikat tercakup.
 2. Klaim didukung Playwright, `curl`, dan keluaran build/lint/type-check.
 3. Diff hanya menyentuh lockfile, landing/world-mode/world, menu 2D, dan file bug terkait.
 4. Tidak ada `any`/rahasia baru; impor tipe via `import type`; tidak ada nilai gaya baru selain token yang ada.

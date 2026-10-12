@@ -28,7 +28,7 @@ Branch bertumpuk (setiap fase bercabang dari fase sebelumnya), semua sudah di-pu
 | `feat/fase-3-routing` | `819f81f` helper rute · `281a776` pindah ke `/2d` + redirect · `e25d08f` landing · `40997f1` sitemap/robots · `762284d` laporan · `f405ec9` komentar |
 | `feat/fase-4-r3f` | `513c8df` dependensi R3F · `028ffcd` scene `/world` · `50e83a4` komentar · `81a203f` laporan |
 | `feat/fase-5-token` | `879c86d` `@theme` · `bb07a28` warna komponen → token · `7311f9c` kelas arbitrer → token · `33069a8` laporan · ringkasan |
-| `feat/tindak-lanjut-keputusan` | `32f732b` hapus package-lock · `029e95d` redirect + tombol Switch + UI Inggris · `f4b2868` bug lama · laporan |
+| `feat/tindak-lanjut-keputusan` | `32f732b` hapus package-lock · `029e95d` redirect + tombol Switch + UI Inggris · `f4b2868` bug lama · `7f2a186` id duplikat · laporan |
 
 Branch sesi `claude/clever-albattani-e7tn9x` di-fast-forward ke ujung `feat/tindak-lanjut-keputusan` (isi sama).
 
@@ -38,7 +38,7 @@ Saran urutan PR: buka satu PR per branch dengan base branch fase sebelumnya (fas
 
 ## Pertanyaan Terbuka yang butuh keputusan Anda
 
-> **Sudah diputuskan (2026-10-12)**: no. 1 (pakai Yarn), 11 (redirect otomatis + tombol Switch), 13 (UI bahasa Inggris), 16 (arah visual menyesuaikan pulau), 17 (bug lama diperbaiki). Detail di `06-tindak-lanjut.md`.
+> **Sudah diputuskan (2026-10-12)**: no. 1 (pakai Yarn), 11 (redirect otomatis + tombol Switch), 13 (UI bahasa Inggris), 16 (arah visual menyesuaikan pulau), 17 (bug lama diperbaiki), 10 (`id` duplikat diperbaiki: persuratan → 19). Detail di `06-tindak-lanjut.md`.
 
 **Infrastruktur & dependensi**
 1. Lockfile: hapus `package-lock.json` yang basi dan resmi pakai Yarn? (konfirmasi pengaturan Vercel)
