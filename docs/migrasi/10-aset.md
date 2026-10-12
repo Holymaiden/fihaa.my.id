@@ -1,7 +1,7 @@
 # Fase 6 — Pencarian & Kurasi Aset
 
 Branch: `claude/clever-albattani-e7tn9x` (PR Holymaiden/fihaa.my.id#216), sesuai keputusan di `09-keputusan-dunia.md`.
-Status: **menunggu akses jaringan ke Quaternius, lalu persetujuan daftar aset**. Fase 7 belum dimulai.
+Status: **Quaternius sudah diperiksa (sesi 2026-10-12 lanjutan); menunggu persetujuan daftar aset final**. Fase 7 belum dimulai.
 
 ## Ringkasan
 
@@ -11,6 +11,8 @@ Status: **menunggu akses jaringan ke Quaternius, lalu persetujuan daftar aset**.
 - Quaternius **tidak** saya usulkan sebagai paket utama, meskipun urutan prioritasnya di depan. Alasannya ada di bawah; keputusan akhirnya di tangan Anda.
 
 ## Mengapa KayKit, bukan Quaternius
+
+> Tabel ini ditulis sebelum Quaternius bisa diakses. Hasil pemeriksaan langsung ada di § "Hasil kurasi Quaternius": dugaan "MegaKit bertekstur" terbukti benar, dan Ultimate Nature ternyata cocok sebagai pelengkap.
 
 | Kriteria | KayKit (4 paket di atas) | Quaternius MegaKit (Medieval Village / Stylized Nature / Fantasy Props) |
 |---|---|---|
@@ -65,7 +67,60 @@ Catatan dari pratinjau: `building_bridge_A` dan `_B` tampak sama dan berukuran s
 
 Celah yang masih tersisa: papan quest, skill tree, kotak surat, kristal, dan sisi bawah pulau. Ini dicek ulang di paket Quaternius setelah akses terbuka. Kalau tetap tidak ada, dibuat dari geometri flat-color sederhana atau dirakit dari bagian KayKit.
 
-## Akses jaringan
+## Hasil kurasi Quaternius (sesi lanjutan, 2026-10-12)
+
+### Uji akses
+
+| Domain | HTTP | Catatan |
+|---|---|---|
+| `quaternius.com` | 200 | Halaman paket bisa dibaca. Tombol unduh paket lama mengarah ke Google Drive; MegaKit ke itch.io. |
+| `www.quaternius.com` | 000 | Ditolak proxy |
+| `quaternius.itch.io` | 200 | Halaman paket + alur unduhan gratis berjalan |
+| `itchio-mirror.*.r2.cloudflarestorage.com` | 200 | CDN berkas itch.io (tautan bertanda tangan, berlaku 60 detik) |
+| `opengameart.org` | 500 | Server mengembalikan error, bukan proxy |
+| `poly.pizza`, `static.poly.pizza` | 403 | Ditolak proxy |
+| `api.poly.pizza` | 401 | Butuh API key |
+| `drive.google.com`, `drive.usercontent.google.com`, `static.itch.io` | 000 | `connect_rejected` oleh proxy |
+| `kenney.nl` | 200 | Tidak dipakai (Kenney sudah dinilai tidak cocok) |
+
+### Cara unduh
+
+Halaman itch.io Quaternius berlabel "Name your own price" dengan harga minimum 0. Saya memakai alur yang sama dengan tombol "Download Now → No thanks, just take me to the downloads", tanpa login dan tanpa akun: `POST <halaman>/download_url` (token CSRF dari halaman) → halaman unduhan → `POST <halaman>/file/<upload_id>?source=game_download` → tautan CDN bertanda tangan. Yang diunduh hanya berkas gratis (`[Standard]` atau satu-satunya berkas paket). Tidak ada versi Pro/Source.
+
+| Paket | Berkas | Ukuran | SHA-256 (awal) | Lisensi di zip |
+|---|---|---:|---|---|
+| Medieval Village MegaKit | `Medieval Village MegaKit[Standard].zip` | 161,0 MB | `e60dea67…` | `License_Standard.txt`: CC0 1.0 |
+| Stylized Nature MegaKit | `Stylized Nature MegaKit[Standard].zip` | 104,1 MB | `298f6732…` | `License_Standard.txt`: CC0 1.0 |
+| Fantasy Props MegaKit | `Fantasy Props MegaKit[Standard].zip` | 150,2 MB | `8b6f7e80…` | `License_Standard.txt`: CC0 1.0 |
+| Ultimate Nature Pack | `Ultimate Nature Pack by Quaternius.zip` | 23,0 MB | `865e4ae7…` | `License.txt`: CC0 1.0 |
+
+*Medieval Village Pack* versi lama (44 model, flat color) **tidak bisa diunduh**: tidak ada di itch.io, tombol unduhnya ke Google Drive (ditolak proxy), Poly Pizza 403, OpenGameArt 500. Paket ini dicatat sebagai opsional di "Perlu Diunduh Manual" (`ASSETS.md`), tetapi tidak diperlukan untuk usulan.
+
+### Pratinjau dan penilaian gaya
+
+- `bukti/10-pratinjau-quaternius.jpg`: 40 model dirender dengan three 0.186 + Chromium headless (pencahayaan, kamera, dan latar yang sama). Baris 1 KayKit; baris 2–4 MegaKit (Village, Nature, Props); baris 5 Ultimate Nature.
+- `bukti/10-pratinjau-campuran.jpg`: satu adegan berisi petak hex, kastel guild, dan kedai KayKit bersama pohon, semak, dan batu Ultimate Nature.
+
+| Paket | Penilaian terhadap "low-poly flat color" |
+|---|---|
+| Medieval Village MegaKit | **Tidak cocok.** Plester bernoda, bata, dan serat kayu dari tekstur (27 PNG, 73 MB). Selain itu modular dinding/atap; rumah harus dirakit sendiri dari puluhan potongan. |
+| Stylized Nature MegaKit | **Tidak cocok.** Daun berupa kartu tekstur alfa bergaya lukisan; jauh lebih rumit daripada KayKit dan berat (20 PNG, 38 MB). |
+| Fantasy Props MegaKit | **Tidak cocok.** Tekstur trim realistis + normal map (peti logam, kertas gulung). |
+| Ultimate Nature Pack | **Cocok.** Tanpa tekstur; warna rata per material (`Kd` di MTL), sisi bidang tegas. Di adegan campuran terlihat senada dengan KayKit setelah warna diseragamkan. Hijaunya lebih kusam dari KayKit; ini diatasi di Fase 9 dengan palet terpusat. |
+
+Catatan teknis: nilai `Kd` di MTL Ultimate Nature adalah warna **linear** (ekspor Blender), sementara `MTLLoader` menganggapnya sRGB. Render pertama jadi hampir hitam. Di pratinjau, warna dikembalikan dengan `color.convertLinearToSRGB()` lalu dipakai sebagai `MeshStandardMaterial` `flatShading`. Saat konversi ke glTF di Fase 8, warna harus dibawa sebagai `baseColorFactor` linear apa adanya.
+
+### Usulan final (menunggu persetujuan)
+
+1. **Paket utama: KayKit** (Medieval Hexagon + Dungeon Remastered, pelengkap Halloween Bits + 6 aksesori Adventures): 88 model, sama seperti sebelumnya.
+2. **Pelengkap alam: Quaternius Ultimate Nature**: 13 model (`assets/raw/quaternius/ultimate-nature/`, 741,4 KB OBJ teks, 15.906 segitiga). Ini satu-satunya paket Quaternius yang gayanya cocok. Pemakaiannya mengisi celah Skill Tree (`CommonTree_1/2` atau `Willow_4`) dan memberi variasi semak/batu/kayu.
+3. **MegaKit ditolak karena gaya**, bukan lisensi (ketiganya CC0). Berkasnya tidak disimpan di repo.
+4. **KayKit Forest Nature Pack tidak diperlukan** karena celah pohon besar sudah terisi.
+5. **Celah sisa diisi geometri sendiri/rakitan** (0 KB aset): papan quest (rakitan `post` + papan + kertas), kotak surat, kristal, dan sisi bawah pulau. Rincian ada di `ASSETS.md` § Celah.
+
+Perkiraan anggaran: aset mentah usulan 3,48 MB (KayKit) + 0,74 MB (OBJ teks Quaternius, akan jauh mengecil setelah konversi) ≈ 4,2 MB *sebelum* kompresi, masih di bawah 10 MB. Model yang tidak terpakai saat greybox/integrasi dibuang di Fase 8.
+
+## Akses jaringan (catatan sesi sebelumnya)
 
 Saya **tidak bisa** mengubah allowlist sendiri; itu pengaturan environment yang hanya bisa diubah pemilik. Setelah pemilik memperbarui whitelist, uji ulang dari sesi ini tetap **ditolak (HTTP 403 dari proxy)** untuk `quaternius.com`, `www.quaternius.com`, `quaternius.itch.io`, `itch.io`, `opengameart.org`, `poly.pizza`, `static.poly.pizza`, `api.poly.pizza`, `drive.google.com`, `kaylousberg.itch.io`, dan `kenney.nl`. Kemungkinan penyebabnya: (a) kebijakan jaringan hanya berlaku untuk sesi/container baru, atau (b) nama domain di whitelist berbeda dengan yang dicoba.
 
@@ -81,8 +136,8 @@ Langkah (dokumentasi: https://code.claude.com/docs/en/cloud-environments#network
 
 ## Pertanyaan Terbuka
 
-1. Akses jaringan ke Quaternius (lihat atas). Setelah terbuka: unduh *Medieval Village Pack* (Poly Pizza/OpenGameArt) dan MegaKit Standard (OpenGameArt), render bersama KayKit, lalu putuskan paket utama.
-2. Persetujuan akhir daftar aset menunggu hasil butir 1.
+1. **Persetujuan daftar aset final** (lihat "Usulan final" di atas): KayKit 88 model + Quaternius Ultimate Nature 13 model + geometri sendiri untuk papan quest, kotak surat, kristal, dan sisi bawah pulau. Fase 7 dimulai setelah disetujui.
+2. (Opsional) Apakah *Medieval Village Pack* lama tetap ingin dicoba? Perlu diunduh manual dari Google Drive. Menurut saya tidak perlu karena bangunan KayKit sudah mencukupi dan mencampur dua set bangunan akan menambah gaya.
 
 ## Self-review Fase 6
 
@@ -95,3 +150,13 @@ Langkah (dokumentasi: https://code.claude.com/docs/en/cloud-environments#network
 7. `/` dan `/2d/*` bebas chunk three (uji runtime).
 8. Navigasi tidak berubah di fase ini (belum ada kode dunia).
 Diperbarui setelah jawaban pemilik: gereja dihapus, buku diganti spellbook, 6 aksesori Adventures ditambah (88 baris = 88 berkas model). Diperbaiki saat review: inventaris awal melewatkan 21 model Dungeon (berformat `.glb`, bukan `.gltf`); skrip diperbaiki dan total dihitung ulang (2,32 → 3,50 MB).
+
+### Self-review sesi lanjutan (Quaternius)
+
+1. Langkah 1–5 terlaksana: akses diuji dengan kode HTTP, 4 paket Quaternius diunduh dari itch.io resmi (alur gratis tanpa login), lalu dirender dan dinilai.
+2. Lisensi dibaca dari berkas di setiap zip (CC0 1.0). SHA-256 dan tanggal unduh dicatat di `SOURCE.md`/laporan.
+3. Hanya 13 model Ultimate Nature yang disimpan (824 KB termasuk MTL dan lisensi); MegaKit (415 MB zip) tidak di-commit karena ditolak dari sisi gaya.
+4. Segitiga dan ukuran Ultimate Nature dihitung dari berkas OBJ/MTL; 13 baris di `ASSETS.md` = 13 berkas `.obj`.
+5. Medieval Village Pack lama tidak terjangkau. Hal ini dinyatakan jelas, tidak ditebak isinya.
+6. Tidak ada perubahan kode aplikasi. type-check, lint, dan build dijalankan ulang (lihat commit).
+7. Berhenti di sini sesuai instruksi: Fase 7 menunggu persetujuan daftar aset.

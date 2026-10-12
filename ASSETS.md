@@ -1,8 +1,8 @@
 # Aset 3D — Daftar Kandidat dan Lisensi
 
-Status: **KANDIDAT, menunggu persetujuan pemilik** (Fase 6). Belum ada aset yang dipakai di kode.
+Status: **KANDIDAT, menunggu persetujuan pemilik** (Fase 6). Usulan: KayKit (utama, 88 model) + Quaternius Ultimate Nature (pelengkap alam, 13 model). Belum ada aset yang dipakai di kode.
 Keputusan acuan: `docs/migrasi/09-keputusan-dunia.md` (gaya *low-poly flat color*, kamera terbang, anggaran ≤ 10 MB setelah kompresi).
-Laporan dan alasan pemilihan: `docs/migrasi/10-aset.md`. Pratinjau render: `docs/migrasi/bukti/10-pratinjau-aset.jpg`.
+Laporan dan alasan pemilihan: `docs/migrasi/10-aset.md`. Pratinjau render: `docs/migrasi/bukti/10-pratinjau-aset.jpg` (KayKit), `10-pratinjau-quaternius.jpg` (KayKit vs 4 paket Quaternius), `10-pratinjau-campuran.jpg` (KayKit + Ultimate Nature dalam satu adegan).
 
 Aturan file ini:
 - Setiap aset yang masuk ke `public/` atau dimuat di `/world` **wajib** punya baris di sini.
@@ -17,12 +17,12 @@ Aturan file ini:
 | **Utama** | KayKit Dungeon Remastered 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0 | CC0 1.0 | Tidak wajib (sama seperti di atas) | GLB (+ FBX, OBJ) | Subset diunduh → `assets/raw/kaykit/dungeon-remastered/` |
 | Pelengkap | KayKit Halloween Bits 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Halloween-Bits-1.0 | CC0 1.0 | Tidak wajib | glTF (+ FBX, OBJ) | Subset diunduh → `assets/raw/kaykit/halloween-bits/` |
 | Pelengkap | KayKit Character Pack: Adventures 1.0 (aksesori saja) | https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0 | CC0 1.0 (`LICENSE.txt` di repo) | Tidak wajib | glTF (+ FBX) | 6 aksesori diunduh → `assets/raw/kaykit/character-pack-adventures/`. Karakternya sendiri tidak dipakai di tahap ini. |
-| Pelengkap opsional | KayKit Forest Nature Pack (tier gratis) | https://kaylousberg.itch.io/kaykit-forest | CC0 (menurut halaman itch.io; berkas lisensi belum diperiksa) | Tidak wajib | FBX, GLTF, OBJ | **Perlu diunduh manual** (lihat bawah) |
-| **Menunggu allowlist** | Quaternius Medieval Village Pack (versi lama, *flat color*) | https://poly.pizza/bundle/Medieval-Village-Pack-NsHhjhlrfY · https://opengameart.org/content/lowpoly-medieval-village-pack | CC0 (OpenGameArt; per model di Poly Pizza) | Tidak wajib | FBX, OBJ, Blend; GLB per model di Poly Pizza | Kandidat Quaternius paling cocok dengan gaya flat color. Diunduh setelah domain dibuka; kurasi dan pratinjau diulang bersama KayKit. |
-| Alternatif | Quaternius Medieval Village MegaKit (Standard, 176 model) | https://quaternius.com/packs/medievalvillagemegakit.html · https://quaternius.itch.io/medieval-village-megakit | CC0 (halaman itch.io) | Tidak wajib | FBX, OBJ, glTF; **bertekstur** | Perlu diunduh manual · tidak direkomendasikan sebagai utama |
-| Alternatif | Quaternius Stylized Nature MegaKit (Standard, 68 model) | https://quaternius.com/packs/stylizednaturemegakit.html · https://quaternius.itch.io/stylized-nature-megakit | CC0 (halaman itch.io) | Tidak wajib | FBX, OBJ, glTF; **bertekstur** | Perlu diunduh manual · tidak direkomendasikan sebagai utama |
-| Alternatif | Quaternius Fantasy Props MegaKit (Standard, 94 model) | https://quaternius.itch.io/fantasy-props-megakit | CC0 (halaman itch.io) | Tidak wajib | FBX, OBJ, glTF; 4 set tekstur | Perlu diunduh manual |
-| Alternatif | Quaternius Ultimate Nature Pack / 150+ LowPoly Nature Models | https://quaternius.itch.io/150-lowpoly-nature-models · https://opengameart.org/content/lowpoly-nature-pack | CC0 | Tidak wajib | Blend, FBX, OBJ (**tanpa glTF**, perlu konversi) | Perlu diunduh manual |
+| **Pelengkap alam** | Quaternius Ultimate Nature Pack (150 model, *flat color*) | https://quaternius.com/packs/ultimatenature.html · https://quaternius.itch.io/150-lowpoly-nature-models | CC0 1.0 (`License.txt` di zip) | Tidak wajib; penulis meminta dukungan sukarela "@Quaternius" | OBJ + MTL, FBX, Blend (**tanpa glTF**, dikonversi di Fase 8) | 13 model diunduh → `assets/raw/quaternius/ultimate-nature/`. Mengisi celah pohon besar (Skill Tree) dan variasi alam. |
+| Tidak diperlukan | KayKit Forest Nature Pack (tier gratis) | https://kaylousberg.itch.io/kaykit-forest | CC0 (menurut halaman itch.io) | Tidak wajib | FBX, GLTF, OBJ | Celah pohon besar sudah terisi Ultimate Nature, jadi paket ini tidak perlu diunduh. |
+| Tidak terjangkau | Quaternius Medieval Village Pack (versi lama, *flat color*, 44 model) | https://quaternius.com/packs/medievalvillage.html (tombol unduh → Google Drive) · https://poly.pizza/bundle/Medieval-Village-Pack-NsHhjhlrfY · https://opengameart.org/content/lowpoly-medieval-village-pack | CC0 (halaman quaternius.com) | Tidak wajib | FBX, OBJ, Blend | Tidak ada di itch.io. Ketiga jalur unduhan gagal dari sandbox (2026-10-12): `drive.google.com` ditolak proxy, `poly.pizza`/`static.poly.pizza` HTTP 403, `opengameart.org` HTTP 500. Lihat "Perlu Diunduh Manual". |
+| Tidak dipilih (gaya) | Quaternius Medieval Village MegaKit (Standard) | https://quaternius.com/packs/medievalvillagemegakit.html · https://quaternius.itch.io/medieval-village-megakit | CC0 1.0 (`License_Standard.txt` di zip) | Tidak wajib | glTF + FBX + OBJ; 27 tekstur PNG (73 MB) | Diunduh dan dirender (2026-10-12). **Bertekstur PBR** (plester, bata, kayu bergurat), tidak menyatu dengan KayKit flat color (`bukti/10-pratinjau-quaternius.jpg` baris 2). Tidak disimpan di repo. |
+| Tidak dipilih (gaya) | Quaternius Stylized Nature MegaKit (Standard) | https://quaternius.com/packs/stylizednaturemegakit.html · https://quaternius.itch.io/stylized-nature-megakit | CC0 1.0 (`License_Standard.txt` di zip) | Tidak wajib | glTF + FBX + OBJ; 20 tekstur PNG (38 MB) | Diunduh dan dirender. Daun berupa kartu tekstur alfa (gaya Ghibli), tidak flat (baris 3). Tidak disimpan. |
+| Tidak dipilih (gaya) | Quaternius Fantasy Props MegaKit (Standard) | https://quaternius.com/packs/fantasypropsmegakit.html · https://quaternius.itch.io/fantasy-props-megakit | CC0 1.0 (`License_Standard.txt` di zip) | Tidak wajib | glTF + FBX + OBJ; 4 set tekstur trim (37 MB) | Diunduh dan dirender. Tekstur realistis dengan normal map (baris 4). Tidak disimpan. |
 | Cadangan | Kenney Fantasy Town Kit | https://kenney.nl/assets/fantasy-town-kit · https://opengameart.org/content/fantasy-town-kit | CC0 | Tidak wajib ("Kenney.nl", opsional) | FBX, OBJ, glTF | Perlu diunduh manual |
 | Cadangan | Kenney Nature Kit | https://kenney.nl/assets/nature-kit · https://opengameart.org/content/nature-kit | CC0 | Tidak wajib | FBX, OBJ (glTF belum dipastikan) | Perlu diunduh manual |
 | Tidak diperlukan | Poly Haven HDRI langit | https://polyhaven.com/hdris | CC0 | Tidak wajib | HDR/EXR | Tidak dipakai: foto realistis bertentangan dengan gaya flat color. Langit dibuat gradien prosedural (0 KB). |
@@ -176,30 +176,56 @@ Semua dari KayKit oleh Kay Lousberg · Lisensi **CC0 1.0** · Atribusi **tidak w
 
 **Total kandidat KayKit: 88 model · 3,48 MB mentah (gltf/bin/glb; 11 PNG atlas 14–24 KB = 171 KB tidak termasuk) · 52.870 segitiga.**
 
-## Kebutuhan tanpa kandidat aset yang cocok
+## Kandidat model Quaternius (Ultimate Nature Pack)
+
+Semua dari Quaternius · Lisensi **CC0 1.0** · Atribusi **tidak wajib**. Format mentah OBJ + MTL (warna flat per material, tanpa tekstur); ukuran OBJ teks jauh mengecil setelah konversi ke glTF biner + kompresi di Fase 8. Segitiga dihitung dari baris `f` (poligon n-sisi = n−2 segitiga). Warna akan diganti palet terpusat di Fase 9 agar senada dengan KayKit.
+
+#### Skill Tree (pilih satu di Fase 8)
+
+| Nama | Paket (sumber) | Format | Ukuran mentah | Segitiga | Path |
+|---|---|---|---:|---:|---|
+| `CommonTree_1` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 135.2 KB | 2.888 | `assets/raw/quaternius/ultimate-nature/CommonTree_1.obj` |
+| `CommonTree_2` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 138.1 KB | 2.952 | `assets/raw/quaternius/ultimate-nature/CommonTree_2.obj` |
+| `Willow_4` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 71.6 KB | 1.568 | `assets/raw/quaternius/ultimate-nature/Willow_4.obj` |
+
+#### Pohon/batu (variasi alam)
+
+| Nama | Paket (sumber) | Format | Ukuran mentah | Segitiga | Path |
+|---|---|---|---:|---:|---|
+| `Willow_2` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 129.0 KB | 2.752 | `assets/raw/quaternius/ultimate-nature/Willow_2.obj` |
+| `PineTree_3` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 111.3 KB | 2.392 | `assets/raw/quaternius/ultimate-nature/PineTree_3.obj` |
+| `BushBerries_1` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 41.2 KB | 892 | `assets/raw/quaternius/ultimate-nature/BushBerries_1.obj` |
+| `Bush_1` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 16.2 KB | 364 | `assets/raw/quaternius/ultimate-nature/Bush_1.obj` |
+| `Rock_Moss_4` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 6.1 KB | 128 | `assets/raw/quaternius/ultimate-nature/Rock_Moss_4.obj` |
+| `Rock_Moss_6` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 5.2 KB | 116 | `assets/raw/quaternius/ultimate-nature/Rock_Moss_6.obj` |
+| `TreeStump_Moss` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 10.7 KB | 232 | `assets/raw/quaternius/ultimate-nature/TreeStump_Moss.obj` |
+| `WoodLog_Moss` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 30.2 KB | 614 | `assets/raw/quaternius/ultimate-nature/WoodLog_Moss.obj` |
+| `Flowers` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 19.9 KB | 408 | `assets/raw/quaternius/ultimate-nature/Flowers.obj` |
+| `Plant_3` | [Ultimate Nature Pack](https://quaternius.itch.io/150-lowpoly-nature-models) | obj + mtl | 26.9 KB | 600 | `assets/raw/quaternius/ultimate-nature/Plant_3.obj` |
+
+**Total kandidat Quaternius: 13 model · 741,4 KB mentah (OBJ teks) · 15.906 segitiga.**
+
+## Celah dan cara mengisinya
 
 | Kebutuhan | Temuan | Usulan (perlu persetujuan) |
 |---|---|---|
-| Papan quest (stasiun Proyek) | Tidak ada di 10 repo KayKit, Kenney Starter Kit, maupun daftar isi Quaternius yang ditemukan lewat pencarian. Satu-satunya "notice board" CC0 yang ditemukan adalah buatan AI (DITOLAK). | Rakit dari `post`, `pallet`, `resource_lumber`, dan bidang kertas sederhana; atau geometri flat-color buatan sendiri. |
-| Skill Tree (stasiun Skill) | Pohon KayKit/Kenney berupa pinus kecil, tidak cocok sebagai "pohon skill" utama. Pohon besar mungkin ada di Quaternius/KayKit Forest (dicek setelah allowlist). | Geometri buatan sendiri: batang dan simpul per kategori skill, flat color. |
-| Kotak surat (stasiun Kontak) | Tidak ada. | Geometri sederhana (kotak + silinder) atau papan `plaque` + `post`. |
-| Kristal (dekorasi, ruangan rahasia) | Tidak ada di repo GitHub KayKit/Kenney. Permata KayKit hanya ada di tier berbayar *Resource Bits EXTRA* (https://kaylousberg.itch.io/resource-bits). `staff` (bola hijau) bisa jadi aksen sihir sementara. | Geometri oktahedron flat color (emissive di Fase 9). |
-| Bagian bawah pulau melayang | `hex_grass_bottom` hanya punya lapisan tanah tipis. | Kerucut batu low-poly buatan sendiri di bawah petak hex. |
-| Langit | — | Gradien prosedural (shader/`Sky` sederhana), tanpa berkas. |
+| Papan quest (stasiun Proyek) | Tidak ada di KayKit, Kenney Starter Kit, maupun 4 paket Quaternius yang diunduh (MegaKit Fantasy Props hanya punya `Stall_Empty`, `BookStand`, `Scroll_1`, bertekstur). "Notice board" CC0 yang ditemukan buatan AI (DITOLAK). | **Rakitan**: 2× `post` (KayKit) + papan kotak flat-color + kertas quest dari bidang datar (jumlah = jumlah proyek, warna dari token). |
+| Skill Tree (stasiun Skill) | **Terisi**: `CommonTree_1/2` atau `Willow_4` (Ultimate Nature), pohon lebar ±2,5–3 unit. | Pakai model, ditambah simpul skill (bola/oktahedron flat) per kategori di ujung cabang. |
+| Kotak surat (stasiun Kontak) | Tidak ada di KayKit maupun Quaternius yang diperiksa. | **Geometri sendiri**: tiang (`post`) + kotak dengan atap setengah silinder, flat color (± 100 segitiga). |
+| Kristal (dekorasi, ruangan rahasia) | Tidak ada di paket gratis yang diperiksa (permata KayKit hanya di tier berbayar). | **Geometri sendiri**: oktahedron/ikosahedron yang diregangkan, `flatShading`, emissive di Fase 9. |
+| Bagian bawah pulau melayang | Tidak ada; `hex_grass_bottom` hanya lapisan tipis. | **Geometri sendiri**: kerucut low-poly dengan titik diacak (seed tetap) di bawah petak hex, 0 KB aset. |
+| Langit | — | Gradien prosedural, tanpa berkas. |
 
 ## Perlu Diunduh Manual
 
-Domain berikut diblokir oleh kebijakan jaringan sandbox, dan sebagian halaman itch.io butuh klik "download"/"name your price". Unduh hanya jika paket itu disetujui:
+Tidak ada yang **wajib** diunduh manual untuk usulan saat ini. Daftar ini hanya untuk opsi tambahan:
 
-| Paket | URL | Folder tujuan |
-|---|---|---|
-| KayKit Forest Nature Pack (FREE) | https://kaylousberg.itch.io/kaykit-forest | `assets/raw/kaykit/forest-nature/` (+ `LICENSE.txt` dari zip) |
-| Quaternius Medieval Village MegaKit (Standard) | https://quaternius.itch.io/medieval-village-megakit | `assets/raw/quaternius/medieval-village-megakit/` |
-| Quaternius Stylized Nature MegaKit (Standard) | https://quaternius.itch.io/stylized-nature-megakit | `assets/raw/quaternius/stylized-nature-megakit/` |
-| Quaternius Fantasy Props MegaKit (Standard) | https://quaternius.itch.io/fantasy-props-megakit | `assets/raw/quaternius/fantasy-props-megakit/` |
-| Kenney Fantasy Town Kit | https://kenney.nl/assets/fantasy-town-kit | `assets/raw/kenney/fantasy-town-kit/` |
-| Mixamo (animasi karakter, tahap lanjutan) | https://www.mixamo.com (butuh login Adobe) | `assets/raw/mixamo/` |
-| VRoid Hub/Studio (karakter, tahap lanjutan) | https://hub.vroid.com (butuh login; lisensi per model berbeda) | `assets/raw/vroid/` |
+| Paket | URL | Folder tujuan | Catatan |
+|---|---|---|---|
+| Quaternius Medieval Village Pack (versi lama) | https://quaternius.com/packs/medievalvillage.html → tombol Download (Google Drive) | `assets/raw/quaternius/medieval-village/` (+ lisensi dari zip) | Opsional. Hanya berguna jika ingin bangunan Quaternius flat-color; bangunan KayKit sudah mencukupi. |
+| Kenney Fantasy Town Kit | https://kenney.nl/assets/fantasy-town-kit | `assets/raw/kenney/fantasy-town-kit/` | Cadangan, tidak diusulkan. |
+| Mixamo (animasi karakter, tahap lanjutan) | https://www.mixamo.com (butuh login Adobe) | `assets/raw/mixamo/` | Tidak dipakai di tahap ini. |
+| VRoid Hub/Studio (karakter, tahap lanjutan) | https://hub.vroid.com (butuh login; lisensi per model berbeda) | `assets/raw/vroid/` | Tidak dipakai di tahap ini. |
 
 ## DITOLAK
 
@@ -209,4 +235,4 @@ Domain berikut diblokir oleh kebijakan jaringan sandbox, dan sebagian halaman it
 | Floating island gratis di CGTrader (mis. "stylized low poly floating island with small house", "diorama lowpoly lighthouse") | https://www.cgtrader.com/free-3d-models/exterior/other/stylized-low-poly-floating-island-with-small-house | Lisensi "Royalty Free" CGTrader, bukan CC0. Beberapa listing menyatakan dibuat dengan AI. Gaya juga berbeda dari paket utama. |
 | `building_church_*` (semua varian warna) | KayKit Medieval Hexagon Pack | Keputusan pemilik: jangan pernah memakai gereja. Berkas dihapus dari `assets/raw/`. |
 | Salinan paket KayKit/Quaternius di situs pihak ketiga | mis. situs "unity asset collection" | Bukan distribusi resmi; sebagian menyatakan "hanya untuk belajar, bukan komersial". Hanya sumber resmi (GitHub KayKit, itch.io, situs penulis) yang dipakai. |
-| Poly Pizza (per model) | https://poly.pizza | Tidak ditolak secara umum, tetapi lisensinya berbeda per model (CC0 atau CC-BY) dan situsnya tidak bisa dijangkau dari sandbox. Dipakai hanya jika ada kebutuhan spesifik, dengan pemeriksaan per model. |
+| Poly Pizza (per model) | https://poly.pizza | Tidak ditolak secara umum, tetapi lisensinya berbeda per model (CC0 atau CC-BY) dan situsnya masih HTTP 403 dari sandbox (2026-10-12). Dipakai hanya jika ada kebutuhan spesifik, dengan pemeriksaan per model. |

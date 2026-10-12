@@ -47,3 +47,5 @@ Dicatat 2026-10-12 dari jawaban pemilik, ditulis apa adanya. Bagian yang belum d
 | 6 | KayKit Forest Nature Pack | Boleh jika Quaternius tidak bisa | Ditunda sampai hasil Quaternius diketahui. |
 | 7 | Aset mentah di repo | Boleh | `assets/raw/` tetap di-commit. |
 | 8 | Allowlist domain | Pemilik memperbarui whitelist | Di sesi ini domain masih ditolak (`403`) setelah pembaruan; lihat `10-aset.md`. |
+
+Pembaruan 2026-10-12 (sesi lanjutan): `quaternius.com` dan `quaternius.itch.io` kini terjangkau. Hasilnya: MegaKit bertekstur sehingga ditolak dari sisi gaya, Ultimate Nature dipakai sebagai pelengkap alam (mengisi Skill Tree), dan Forest Nature Pack tidak diperlukan. Rincian ada di `10-aset.md` § Hasil kurasi Quaternius.
