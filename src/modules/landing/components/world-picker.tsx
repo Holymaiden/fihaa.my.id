@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import Card from '@/common/components/elements/Card';
+import { getProfile, getProfileIntro } from '@/lib/content/profile';
 import { ROUTE_WORLD, to2d } from '@/lib/routes';
 import { useLowEndDeviceHint } from '@/lib/world-mode/device-hint';
 import type { WorldMode } from '@/lib/world-mode/types';
@@ -33,6 +34,8 @@ const WORLD_OPTIONS: WorldOption[] = [
 ];
 
 const WorldPicker = () => {
+  const { name, role, location } = getProfile();
+  const [intro] = getProfileIntro();
   const setMode = useWorldModeStore((state) => state.setMode);
   const isLowEndDevice = useLowEndDeviceHint();
   const suggestedMode: WorldMode | null = isLowEndDevice ? '2d' : null;
@@ -44,7 +47,11 @@ const WorldPicker = () => {
           Choose Your World
         </h1>
         <p className="text-neutral-600 dark:text-neutral-400">
-          M. Fiqri Haikhar Anwar — Software Engineer
+          {name} — {role}, {location}
+        </p>
+        {/* Short bio so / has real text for search engines. */}
+        <p className="mx-auto max-w-2xl leading-relaxed text-neutral-600 dark:text-neutral-400">
+          {intro}
         </p>
       </div>
 

@@ -5,6 +5,8 @@ import WorldSwitchLink from '@/modules/world/components/world-switch-link';
 
 export const metadata: Metadata = {
   title: '3D World | Fihaa Portfolio',
+  description:
+    'Explore the portfolio of M. Fiqri Haikhar Anwar as an interactive 3D world.',
 };
 
 const WorldPage: NextPage = () => {

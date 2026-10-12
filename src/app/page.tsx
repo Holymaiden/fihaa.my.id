@@ -9,6 +9,8 @@ import WorldPicker from '@/modules/landing';
 
 export const metadata: Metadata = {
   title: 'M. Fiqri Haikhar Anwar - Software Engineer Portfolio',
+  description:
+    'Portfolio of M. Fiqri Haikhar Anwar, a Software Engineer from Makassar, Indonesia. Explore it as a classic 2D site or as an interactive 3D world.',
   alternates: {
     canonical: SITE_URL,
   },
