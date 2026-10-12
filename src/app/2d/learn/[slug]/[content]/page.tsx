@@ -67,7 +67,7 @@ const LearnContentDetailPage = async ({
 
   return (
     <>
-      <Container data-aos="fade-up">
+      <Container reveal="fade-up">
         <BackButton url={to2d(`/learn/${slug}`)} />
         <Suspense fallback={<Loading />}>
           <ContentDetailHeader {...contentLearn.frontMatter} />

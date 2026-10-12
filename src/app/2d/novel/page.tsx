@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const NovelPage: NextPage = () => {
   return (
     <>
-      <Container className="xl:!-mt-5" data-aos="fade-up">
+      <Container className="xl:!-mt-5" reveal="fade-up">
         <Suspense fallback={<Loading />}>
           <NovelList />
         </Suspense>

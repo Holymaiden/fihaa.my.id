@@ -1,10 +1,6 @@
-import 'aos/dist/aos.css';
-
 import ContactWidget from '@/common/components/elements/ContactWidget';
 import ProgressBar from '@/common/components/elements/ProgressBar';
 import Layout from '@/common/components/layouts';
-
-import AosInit from './aos-init';
 
 export default function TwoDLayout({
   children,
@@ -19,7 +15,6 @@ export default function TwoDLayout({
       >
         Skip to main content
       </a>
-      <AosInit />
       <Layout>
         <ProgressBar />
         <main id="main-content" tabIndex={-1}>

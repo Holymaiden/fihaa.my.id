@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 const DashboardPage: NextPage = () => {
   return (
-    <Container data-aos="fade-up">
+    <Container reveal="fade-up">
       <Suspense fallback={<Loading />}>
         <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
         <Dashboard />

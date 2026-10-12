@@ -52,7 +52,7 @@ const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = async ({
 
   return (
     <>
-      <Container data-aos="fade-up">
+      <Container reveal="fade-up">
         <BackButton url={to2d('/projects')} />
         <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
         <ProjectDetail {...project.frontMatter} content={project.content} />

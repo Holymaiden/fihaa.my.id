@@ -66,7 +66,7 @@ const LearnContentPage: NextPage<ContentPageProps> = async ({
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <Container data-aos="fade-up">
+        <Container reveal="fade-up">
           <BackButton url={to2d('/learn')} />
           <PageHeading title={title} description={description} />
           <ContentList

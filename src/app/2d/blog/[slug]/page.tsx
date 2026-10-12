@@ -48,7 +48,7 @@ const BlogDetailPage: NextPage<BlogDetailPageProps> = async ({
 
   return (
     <>
-      <Container data-aos="fade-up">
+      <Container reveal="fade-up">
         <BlogContainer>
           <BlogDetail content={content} />
         </BlogContainer>

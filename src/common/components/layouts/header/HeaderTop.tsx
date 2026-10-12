@@ -15,6 +15,7 @@ import { MENU_ITEMS } from '@/common/constant/menu';
 import { to2d } from '@/lib/routes';
 
 import Image from '../../elements/Image';
+import Reveal from '../../elements/reveal';
 import ThemeToggleButton from '../../elements/ThemeToggleButton';
 import Tooltip from '../../elements/Tooltip';
 import Profile from '../../sidebar/Profile';
@@ -48,11 +49,9 @@ const HeaderTop = () => {
                 </h2>
               </Link>
               <Tooltip title="Verified">
-                <VerifiedIcon
-                  size={18}
-                  className="text-blue-400"
-                  data-aos="flip-right"
-                />
+                <Reveal variant="flip-right" as="span">
+                  <VerifiedIcon size={18} className="text-blue-400" />
+                </Reveal>
               </Tooltip>
             </div>
           )}
@@ -60,7 +59,7 @@ const HeaderTop = () => {
 
         <div className="flex justify-between items-center gap-5">
           {showMenu && (
-            <div className="flex gap-6 items-center" data-aos="flip-up">
+            <Reveal variant="flip-up" className="flex gap-6 items-center">
               {menus.map((menu, index) => (
                 <Link
                   key={index}
@@ -76,7 +75,7 @@ const HeaderTop = () => {
                   <div>{menu.title}</div>
                 </Link>
               ))}
-            </div>
+            </Reveal>
           )}
 
           {!showMenu && (

@@ -65,7 +65,7 @@ const NovelContentPage: NextPage<NovelPageProps> = async ({
 
   return (
     <>
-      <Container data-aos="fade-up">
+      <Container reveal="fade-up">
         <Suspense fallback={<Loading />}>
           <BackButton url={to2d('/novel')} />
           <PageHeading title={title} description={description} />

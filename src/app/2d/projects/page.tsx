@@ -21,7 +21,7 @@ const ProjectsPage: NextPage = async () => {
 
   return (
     <>
-      <Container data-aos="fade-up">
+      <Container reveal="fade-up">
         <Suspense fallback={<Loading />}>
           <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
           <Projects content={sortedContents} />

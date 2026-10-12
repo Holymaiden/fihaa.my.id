@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const ContactPage: NextPage = () => {
   return (
     <>
-      <Container data-aos="fade-up">
+      <Container reveal="fade-up">
         <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
         <Contact />
       </Container>
