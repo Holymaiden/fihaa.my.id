@@ -205,6 +205,21 @@ Semua dari Quaternius · Lisensi **CC0 1.0** · Atribusi **tidak wajib**. Format
 
 **Total kandidat Quaternius: 13 model · 741,4 KB mentah (OBJ teks) · 15.906 segitiga.**
 
+## Dipakai di dunia 3D (Fase 8)
+
+Sumber kebenaran: `content/world-assets.json` (paket, penulis, lisensi, model, kit). `yarn world:assets` (`scripts/world-assets/build.mjs`) membangun kit GLB dan tipe TypeScript dari berkas itu, dan panel **Credits** di `/world` dibuat dari berkas yang sama.
+
+| Kit (berkas) | Model | Ukuran mentah | Ukuran GLB (meshopt) | gzip HTTP | Dimuat |
+|---|---:|---:|---:|---:|---|
+| `public/world/models/core.glb` | 26 | 1.545.516 B | 572.824 B | 372.302 B | saat `/world` dibuka |
+| `public/world/models/vault.glb` | 6 | 381.613 B | 130.836 B | 82.639 B | saat Hidden Vault pertama dibuka/disorot |
+| **Total** | **32** | **1,93 MB** | **0,70 MB** | **0,45 MB** | anggaran 10 MB |
+
+- **core**: `hex_grass`, `building_castle_blue`, `building_tower_A_blue`, `building_tavern_blue`, `building_well_blue`, `flag_blue`, `barrel`, `crate_A_big`, `sack`, `tree_single_A`, `trees_A_medium`, `rock_single_A`, `rock_single_C`, `cloud_big`, `cloud_small` (Medieval Hexagon) · `lantern_standing` (Halloween Bits) · `spellbook_open`, `mug_full` (Adventures) · `keg`, `stool` (Dungeon Remastered) · `CommonTree_1`, `PineTree_3`, `Bush_1`, `BushBerries_1`, `Rock_Moss_4`, `Flowers` (Quaternius Ultimate Nature).
+- **vault**: `floor_tile_large`, `torch_lit`, `chest_gold`, `coin_stack_medium` (Dungeon Remastered) · `arch_gate`, `shrine_candles` (Halloween Bits).
+- Kandidat lain di atas tetap disetujui dan berkas mentahnya tetap di `assets/raw/`, tetapi belum dipakai. Untuk memakainya cukup menambah baris di `content/world-assets.json`.
+- Ukuran mentah dihitung per model (glTF + bin + tekstur, atau OBJ + MTL), sehingga atlas yang dipakai bersama ikut terhitung berulang. Di kit, atlas tersebut hanya disimpan sekali (`dedup`).
+
 ## Celah dan cara mengisinya
 
 | Kebutuhan | Temuan | Usulan (perlu persetujuan) |

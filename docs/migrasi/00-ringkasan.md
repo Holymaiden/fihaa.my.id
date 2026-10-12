@@ -20,6 +20,7 @@ Tanggal: 2026-10-12 · Basis: `main` @ `a8a640a` · Tidak ada push ke `main`, me
 | Keputusan dunia 3D | ✅ | `09-keputusan-dunia.md` | Flat color low-poly; kamera terbang; 5 stasiun (termasuk ruangan rahasia); anggaran 60/30 fps, aset ≤ 10 MB. Palet belum diisi. 8 PR Depfu ditutup; semua kerja di branch ini; laporan dinomori ulang mulai 09. |
 | Fase 6 Aset | ✅ disetujui 2026-10-12 | `10-aset.md`, `ASSETS.md` | KayKit (CC0, flat color) utama: 88 kandidat (3,48 MB mentah, 52.870 segitiga), tanpa gereja. Quaternius diperiksa: 3 MegaKit ditolak karena bertekstur; Ultimate Nature (13 model, flat) jadi pelengkap alam/Skill Tree. Celah sisa diisi geometri sendiri. |
 | Fase 7 Greybox | ✅ | `11-greybox.md` | 5 stasiun + kastel guild abu-abu, kamera terbang (CameraControls), panel HTML dari pembaca konten, id `secret` (vault: featured + demo publik, 3 terbaru), Tab/Enter/Esc, `/`·`/2d/*` bebas three. |
+| Fase 8 Integrasi aset | ✅ | `12-integrasi-aset.md` | 32 model dalam 2 kit GLB meshopt (0,70 MB; vault lazy), instancing petak/dekorasi/awan, rakitan papan quest/kotak surat/kristal, kredit otomatis dari `content/world-assets.json`. |
 
 Hasil akhir di `feat/profil-dan-pembersihan`: `yarn type-check` hijau, `yarn lint` 0 masalah, `yarn build` hijau.
 
