@@ -91,6 +91,22 @@ export interface Experience {
   organizations: Organization[];
 }
 
+export interface Profile {
+  name: string;
+  shortName: string;
+  handle: string;
+  role: string;
+  location: string;
+  status: string;
+  avatar: string;
+  workStartYear: number;
+  codingStartYear: number;
+  // Short "About me" paragraphs for the home page and the 3D world.
+  intro: string[];
+  // Longer story for the About page.
+  story: string[];
+}
+
 export type ContactChannel =
   'email' | 'linkedin' | 'facebook' | 'instagram' | 'github';
 

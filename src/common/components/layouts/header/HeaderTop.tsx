@@ -12,6 +12,7 @@ import {
 } from 'react-icons/md';
 
 import { MENU_ITEMS } from '@/common/constant/menu';
+import { getProfile } from '@/lib/content/profile';
 import { to2d } from '@/lib/routes';
 
 import Image from '../../elements/Image';
@@ -22,6 +23,7 @@ import Profile from '../../sidebar/Profile';
 
 const HeaderTop = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const profile = getProfile();
 
   const pathname = usePathname();
 
@@ -34,8 +36,8 @@ const HeaderTop = () => {
       <div className="hidden lg:flex gap-5 items-center justify-between py-8 mx-8 font-sora">
         <div className="flex items-center gap-5">
           <Image
-            src="/images/fihaa.png"
-            alt="M. Fiqri Haikhar Anwar"
+            src={profile.avatar}
+            alt={profile.name}
             width={40}
             height={40}
             rounded="rounded-full"
@@ -45,7 +47,7 @@ const HeaderTop = () => {
             <div className="flex items-center gap-3">
               <Link href={to2d()} passHref>
                 <h2 className="flex-grow text-lg lg:text-xl font-sora font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-neutral-900 rounded">
-                  M. Fiqri Haikhar Anwar
+                  {profile.name}
                 </h2>
               </Link>
               <Tooltip title="Verified">
