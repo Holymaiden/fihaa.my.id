@@ -1,4 +1,4 @@
-import type { Skill } from '@/lib/content/types';
+import type { Skill, SkillCategory } from '@/lib/content/types';
 
 // Same order as the keys in STACKS.
 export const SKILLS: Skill[] = [
@@ -36,3 +36,12 @@ export const SKILLS: Skill[] = [
   { name: 'Vercel', category: 'tooling' },
   { name: 'Shadcnui', category: 'ui' },
 ];
+
+export const SKILL_CATEGORY_LABELS: Record<SkillCategory, string> = {
+  language: 'Languages',
+  frontend: 'Frontend',
+  ui: 'UI & Styling',
+  backend: 'Backend',
+  mobile: 'Mobile',
+  tooling: 'Tooling',
+};

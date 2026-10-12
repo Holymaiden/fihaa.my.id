@@ -52,3 +52,22 @@ export const getProjectBySlug = async (
 
   return file ? compileProject(file) : null;
 };
+
+// Demo/GitHub fields sometimes hold placeholders like '#' or '#Private'.
+export const isPublicUrl = (value?: string): value is string =>
+  typeof value === 'string' && /^https?:\/\//.test(value);
+
+// Hidden vault rule: featured projects with a public demo, newest first.
+// is_featured alone is true for most projects, so the demo link and the
+// limit keep the vault small.
+export const getVaultProjects = (
+  projects: ProjectEntry[],
+  limit: number,
+): ProjectEntry[] =>
+  projects
+    .filter(
+      ({ frontMatter }) =>
+        frontMatter.is_featured === true && isPublicUrl(frontMatter.link_demo),
+    )
+    .sort((a, b) => b.frontMatter.id - a.frontMatter.id)
+    .slice(0, limit);

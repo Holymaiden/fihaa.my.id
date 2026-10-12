@@ -1,6 +1,6 @@
 # Aset 3D — Daftar Kandidat dan Lisensi
 
-Status: **KANDIDAT, menunggu persetujuan pemilik** (Fase 6). Usulan: KayKit (utama, 88 model) + Quaternius Ultimate Nature (pelengkap alam, 13 model). Belum ada aset yang dipakai di kode.
+Status: **DISETUJUI pemilik 2026-10-12** (Fase 6): KayKit (utama, 88 model) + Quaternius Ultimate Nature (pelengkap alam, 13 model). Belum ada aset yang dipakai di kode.
 Keputusan acuan: `docs/migrasi/09-keputusan-dunia.md` (gaya *low-poly flat color*, kamera terbang, anggaran ≤ 10 MB setelah kompresi).
 Laporan dan alasan pemilihan: `docs/migrasi/10-aset.md`. Pratinjau render: `docs/migrasi/bukti/10-pratinjau-aset.jpg` (KayKit), `10-pratinjau-quaternius.jpg` (KayKit vs 4 paket Quaternius), `10-pratinjau-campuran.jpg` (KayKit + Ultimate Nature dalam satu adegan).
 

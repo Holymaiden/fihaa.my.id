@@ -1,0 +1,27 @@
+'use client';
+
+import { useProgress } from '@react-three/drei';
+
+interface WorldProgressProps {
+  label: string;
+}
+
+// Shown over the canvas while models are loading.
+const WorldProgress = ({ label }: WorldProgressProps) => {
+  const { active, progress } = useProgress();
+
+  if (!active) {
+    return null;
+  }
+
+  return (
+    <div
+      role="status"
+      className="pointer-events-none absolute inset-x-0 top-16 mx-auto w-fit rounded-md bg-light/90 px-3 py-1.5 text-sm text-neutral-700 dark:bg-dark/90 dark:text-neutral-300"
+    >
+      {label} {Math.round(progress)}%
+    </div>
+  );
+};
+
+export default WorldProgress;

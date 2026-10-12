@@ -3,13 +3,43 @@ import type { ReactElement } from 'react';
 // Content shared by the 2D site and the 3D world.
 // Fields marked "3D" are optional and stay empty until the world design is settled.
 
-// 3D: one station (island) per kind of content. Draft names, rename them
-// once the islands are designed.
-export type WorldStationId = 'projects' | 'skills' | 'experience' | 'contact';
+// 3D: one station per kind of content. 'secret' is the hidden room that
+// shows the hand-picked projects (see getVaultProjects).
+export type WorldStationId =
+  'projects' | 'skills' | 'experience' | 'contact' | 'secret';
 
 export interface WorldStation {
   id: WorldStationId;
+  // Short name, used in the station list.
   label: string;
+  // Heading of the station panel.
+  title: string;
+  summary: string;
+  // Shown when the station has nothing to list.
+  emptyMessage: string;
+  // Matching 2D page, relative to /2d.
+  path2d: string;
+}
+
+// UI text of the 3D world, kept out of the components.
+export interface WorldCopy {
+  heading: string;
+  loading: string;
+  loadingAssets: string;
+  switchTo2d: string;
+  stationListLabel: string;
+  back: string;
+  escapeHint: string;
+  openIn2d: string;
+  projectDemo: string;
+  projectSource: string;
+  careers: string;
+  education: string;
+  organizations: string;
+  present: string;
+  resume: string;
+  guild: string;
+  guildSummary: string;
 }
 
 export interface WorldPlacement {
@@ -120,5 +150,44 @@ export interface ContactLink {
 
 export interface Contact {
   links: ContactLink[];
+  resumeUrl: string;
+}
+
+// Serializable data handed from the /world server page to the client scene.
+export interface WorldProject {
+  slug: string;
+  title: string;
+  description: string;
+  stacks: string[];
+  demoUrl: string | null;
+  sourceUrl: string | null;
+}
+
+export interface WorldSkillGroup {
+  category: SkillCategory;
+  label: string;
+  skills: string[];
+}
+
+export interface WorldJournalEntry {
+  title: string;
+  place: string;
+  period: string;
+  link: string | null;
+}
+
+export interface WorldContent {
+  stations: WorldStation[];
+  copy: WorldCopy;
+  profile: Pick<Profile, 'name' | 'role'>;
+  projects: WorldProject[];
+  vaultProjects: WorldProject[];
+  skillGroups: WorldSkillGroup[];
+  journal: {
+    careers: WorldJournalEntry[];
+    education: WorldJournalEntry[];
+    organizations: WorldJournalEntry[];
+  };
+  contactLinks: ContactLink[];
   resumeUrl: string;
 }

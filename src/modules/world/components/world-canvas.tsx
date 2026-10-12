@@ -2,18 +2,29 @@
 
 import dynamic from 'next/dynamic';
 
+import type { WorldContent } from '@/lib/content/types';
+
+import WorldHud from './world-hud';
 import WorldLoading from './world-loading';
 
-// Client only, and only loaded on /world.
+interface WorldCanvasProps {
+  content: WorldContent;
+}
+
+// The scene (and three.js) is client only and only loaded on /world.
 const WorldScene = dynamic(() => import('./world-scene'), {
   ssr: false,
   loading: () => <WorldLoading />,
 });
 
-const WorldCanvas = () => {
+const WorldCanvas = ({ content }: WorldCanvasProps) => {
   return (
-    <div className="h-screen w-full">
-      <WorldScene />
+    <div className="relative h-dvh w-full overflow-hidden">
+      <WorldScene
+        stations={content.stations}
+        loadingLabel={content.copy.loadingAssets}
+      />
+      <WorldHud content={content} />
     </div>
   );
 };

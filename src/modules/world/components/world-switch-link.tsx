@@ -9,14 +9,21 @@ import { rememberWorldMode } from '@/lib/world-mode/world-mode-store';
 
 interface WorldSwitchLinkProps {
   to: WorldMode;
+  // 2D only: page under /2d, e.g. '/projects'.
+  path?: string;
   className?: string;
   children: ReactNode;
 }
 
-const WorldSwitchLink = ({ to, className, children }: WorldSwitchLinkProps) => {
+const WorldSwitchLink = ({
+  to,
+  path,
+  className,
+  children,
+}: WorldSwitchLinkProps) => {
   return (
     <Link
-      href={to === '3d' ? ROUTE_WORLD : to2d()}
+      href={to === '3d' ? ROUTE_WORLD : to2d(path)}
       // no prefetch, so the 3D page doesn't pull in the 2D one (and vice versa)
       prefetch={false}
       onClick={() => rememberWorldMode(to)}

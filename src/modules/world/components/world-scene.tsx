@@ -1,20 +1,48 @@
 'use client';
 
-import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+import { Suspense } from 'react';
 
-// Test scene for now: just a cube, a camera and some light.
-const WorldScene = () => {
+import type { WorldStation } from '@/lib/content/types';
+
+import { useWorldPalette } from '../hooks/use-world-palette';
+import { useWorldStore } from '../store/world-store';
+import CameraRig from './scene/camera-rig';
+import GuildHall from './scene/guild-hall';
+import StationObject from './scene/station-object';
+import WorldProgress from './world-progress';
+
+interface WorldSceneProps {
+  stations: WorldStation[];
+  loadingLabel: string;
+}
+
+const WorldScene = ({ stations, loadingLabel }: WorldSceneProps) => {
+  const palette = useWorldPalette();
+  const closeStation = useWorldStore((state) => state.closeStation);
+
   return (
-    <Canvas camera={{ position: [3, 3, 3], fov: 50 }}>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 5, 5]} intensity={1} />
-      <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshNormalMaterial />
-      </mesh>
-      <OrbitControls enablePan={false} />
-    </Canvas>
+    <>
+      <Canvas
+        camera={{ fov: 45, near: 0.5, far: 300 }}
+        dpr={[1, 2]}
+        // Clicking empty sky goes back to the overview.
+        onPointerMissed={closeStation}
+        aria-hidden
+      >
+        <color attach="background" args={[palette.sky]} />
+        <hemisphereLight args={[palette.sky, palette.islandSide, 1.4]} />
+        <directionalLight position={[20, 30, 15]} intensity={1.6} />
+        <Suspense fallback={null}>
+          <GuildHall palette={palette} />
+          {stations.map((station) => (
+            <StationObject key={station.id} id={station.id} palette={palette} />
+          ))}
+        </Suspense>
+        <CameraRig />
+      </Canvas>
+      <WorldProgress label={loadingLabel} />
+    </>
   );
 };
 
