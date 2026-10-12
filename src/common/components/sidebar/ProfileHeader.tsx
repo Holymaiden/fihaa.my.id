@@ -2,10 +2,14 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { MdVerified as VerifiedIcon } from 'react-icons/md';
 
+import useIsMobile from '@/common/hooks/useIsMobile';
 import { to2d } from '@/lib/routes';
 
 import Image from '../elements/Image';
 import Tooltip from '../elements/Tooltip';
+
+// Below this width the header shows the short name.
+const SHORT_NAME_MAX_WIDTH = 429;
 
 interface ProfileHeaderProps {
   expandMenu: boolean;
@@ -14,7 +18,7 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader = ({ expandMenu, imageSize }: ProfileHeaderProps) => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 429;
+  const isMobile = useIsMobile(SHORT_NAME_MAX_WIDTH);
 
   return (
     <div

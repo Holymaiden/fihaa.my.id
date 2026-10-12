@@ -45,14 +45,14 @@ const Layout = ({ children }: LayoutProps) => {
         {isFullPageHeader ? (
           <div className="flex flex-col xl:pb-8">
             <HeaderTop />
-            <main className="transition-all duration-300">{children}</main>
+            <div className="transition-all duration-300">{children}</div>
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row lg:gap-5 lg:py-4 xl:pb-8">
             <HeaderSidebar />
-            <main className="lg:w-4/5 max-w-content transition-all duration-300">
+            <div className="lg:w-4/5 max-w-content transition-all duration-300">
               {children}
-            </main>
+            </div>
           </div>
         )}
       </div>
