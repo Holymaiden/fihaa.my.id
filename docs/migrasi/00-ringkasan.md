@@ -18,7 +18,7 @@ Tanggal: 2026-10-12 · Basis: `main` @ `a8a640a` · Tidak ada push ke `main`, me
 | Keputusan lanjutan | ✅ | `07-keputusan-lanjutan.md` | `@vercel/postgres` & AOS dihapus (framer-motion); 13 peringatan React Compiler diperbaiki; bug hidrasi nama profil & `<main>` bersarang; kategori skill + daftar stasiun 3D. |
 | Profil & pembersihan | ✅ | `08-profil-dan-pembersihan.md` | Entitas Profil di `content/`; ringkasan profil di landing; fitur novel dihapus (URL lama → `/2d`); PR Dependabot usang ditutup. |
 | Keputusan dunia 3D | ✅ | `09-keputusan-dunia.md` | Flat color low-poly; kamera terbang; 5 stasiun (termasuk ruangan rahasia); anggaran 60/30 fps, aset ≤ 10 MB. Palet belum diisi. 8 PR Depfu ditutup; semua kerja di branch ini; laporan dinomori ulang mulai 09. |
-| Fase 6 Aset | ⏸ menunggu persetujuan | `10-aset.md`, `ASSETS.md` | Usulan KayKit (CC0, satu atlas flat color); 85 kandidat diunduh (3,50 MB mentah, 52.873 segitiga); sumber lain diblokir sandbox → daftar unduh manual. |
+| Fase 6 Aset | ⏸ menunggu akses Quaternius | `10-aset.md`, `ASSETS.md` | KayKit (CC0, flat color) sebagai dasar; 88 kandidat (3,48 MB mentah, 52.870 segitiga); gereja dihapus; domain Quaternius masih 403 di sesi ini. |
 
 Hasil akhir di `feat/profil-dan-pembersihan`: `yarn type-check` hijau, `yarn lint` 0 masalah, `yarn build` hijau.
 

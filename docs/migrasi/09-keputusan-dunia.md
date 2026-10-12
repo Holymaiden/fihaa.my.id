@@ -34,3 +34,16 @@ Dicatat 2026-10-12 dari jawaban pemilik, ditulis apa adanya. Bagian yang belum d
 - **Palet (no. 2)** memblokir Fase 9 (warna akhir) dan token `station-*`. Untuk Fase 6 dampaknya kecil: aset flat color di-recolor lewat material/atlas, jadi pilihan paket tidak bergantung pada palet. Sebelumnya (`06-tindak-lanjut.md` baris 12) arah visual diputuskan "bebas, menyesuaikan pulau nanti"; opsi palet ada di `05-token.md`.
 - **Stasiun di kode**: `WorldStationId` di `src/lib/content/types.ts:8` baru punya `projects | skills | experience | contact`. Ruangan rahasia perlu id kelima, ditambahkan di Fase 7.
 - **"Proyek unggulan"**: field `is_featured` sudah ada, tetapi bernilai `true` di 17 dari 25 proyek di `content/projects/`. Kalau ruangan rahasia memakai field ini, isinya hampir sama dengan Papan Quest. Ini dicatat sebagai pertanyaan terbuka di `10-aset.md`.
+
+## Jawaban lanjutan (2026-10-12)
+
+| # | Pertanyaan (`10-aset.md`) | Jawaban pemilik | Tindakan |
+|---|---|---|---|
+| 1 | KayKit atau Quaternius? | Ingin Quaternius bila memungkinkan; domain Quaternius diminta masuk allowlist | Menunggu akses jaringan (lihat `10-aset.md` § Akses jaringan). KayKit tetap jadi dasar sampai Quaternius bisa diperiksa. |
+| 2 | Palet | "Bebas, yang penting baik dilihat" | Palet diserahkan ke saya; diusulkan di Fase 9 sebagai konfigurasi terpusat yang mudah diubah. Varian bangunan sementara `blue`. |
+| 3 | Celah aset | "Usahakan cari dulu" | Pencarian diperluas (10 repo KayKit, Kenney Starter Kit, Quaternius via pencarian). Hasil di `ASSETS.md`. |
+| 4 | Bangunan guild | Kastel boleh; **jangan pernah memakai gereja** | `building_castle_blue` = landmark guild. `building_church_*` dihapus dan DITOLAK permanen. |
+| 5 | Kriteria ruangan rahasia | "Sesuaikan saja" | Diserahkan ke saya; kriteria ditetapkan dan dicatat di Fase 7. |
+| 6 | KayKit Forest Nature Pack | Boleh jika Quaternius tidak bisa | Ditunda sampai hasil Quaternius diketahui. |
+| 7 | Aset mentah di repo | Boleh | `assets/raw/` tetap di-commit. |
+| 8 | Allowlist domain | Pemilik memperbarui whitelist | Di sesi ini domain masih ditolak (`403`) setelah pembaruan; lihat `10-aset.md`. |
