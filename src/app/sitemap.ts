@@ -1,54 +1,30 @@
 import type { MetadataRoute } from 'next';
 
+import { SITE_URL, to2d } from '@/lib/routes';
+
+type SitemapEntry = MetadataRoute.Sitemap[number];
+
+const page = (
+  path: string,
+  changeFrequency: SitemapEntry['changeFrequency'],
+  priority: number,
+): SitemapEntry => ({
+  url: `${SITE_URL}${path}`,
+  lastModified: new Date(),
+  changeFrequency,
+  priority,
+});
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    {
-      url: 'https://fihaa.my.id',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 1,
-    },
-    {
-      url: 'https://fihaa.my.id/dashboard',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.5,
-    },
-    {
-      url: 'https://fihaa.my.id/projects',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://fihaa.my.id/blog',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-    {
-      url: 'https://fihaa.my.id/learn',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://fihaa.my.id/novel',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://fihaa.my.id/about',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://fihaa.my.id/contact',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
+    page('', 'yearly', 1),
+    page(to2d(), 'yearly', 1),
+    page(to2d('/dashboard'), 'yearly', 0.5),
+    page(to2d('/projects'), 'monthly', 0.8),
+    page(to2d('/blog'), 'monthly', 0.5),
+    page(to2d('/learn'), 'monthly', 0.8),
+    page(to2d('/novel'), 'monthly', 0.8),
+    page(to2d('/about'), 'monthly', 0.8),
+    page(to2d('/contact'), 'monthly', 0.8),
   ];
 }
