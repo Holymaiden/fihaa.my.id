@@ -15,12 +15,13 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "book_set"
+            "name" : "wand"
         }
     ],
     "materials" : [
         {
-            "name" : "furniture_texture",
+            "doubleSided" : true,
+            "name" : "mage_texture",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
@@ -32,7 +33,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Cube.007",
+            "name" : "Cylinder.018",
             "primitives" : [
                 {
                     "attributes" : {
@@ -55,69 +56,69 @@
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "furniturebits_texture",
-            "uri" : "furniturebits_texture.png"
+            "name" : "mage_texture",
+            "uri" : "mage_texture.png"
         }
     ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 325,
+            "count" : 158,
             "max" : [
-                0.3900008499622345,
-                0.25000014901161194,
-                0.18754282593727112
+                0.08026769757270813,
+                0.7004468441009521,
+                0.08029752969741821
             ],
             "min" : [
-                -0.389999121427536,
-                -0.2499997317790985,
-                -0.17745713889598846
+                -0.08032731711864471,
+                -0.26569339632987976,
+                -0.08029749989509583
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 325,
+            "count" : 158,
             "type" : "VEC2"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 325,
+            "count" : 158,
             "type" : "VEC3"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 588,
+            "count" : 450,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 3900,
+            "byteLength" : 1896,
             "byteOffset" : 0,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 2600,
-            "byteOffset" : 3900,
+            "byteLength" : 1264,
+            "byteOffset" : 1896,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 3900,
-            "byteOffset" : 6500,
+            "byteLength" : 1896,
+            "byteOffset" : 3160,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 1176,
-            "byteOffset" : 10400,
+            "byteLength" : 900,
+            "byteOffset" : 5056,
             "target" : 34963
         }
     ],
@@ -129,8 +130,8 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 11576,
-            "uri" : "book_set.bin"
+            "byteLength" : 5956,
+            "uri" : "wand.bin"
         }
     ]
 }

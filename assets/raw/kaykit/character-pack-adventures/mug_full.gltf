@@ -15,12 +15,13 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "building_church_blue"
+            "name" : "mug_full"
         }
     ],
     "materials" : [
         {
-            "name" : "hexagons_medieval",
+            "doubleSided" : true,
+            "name" : "barbarian_texture",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
@@ -32,7 +33,7 @@
     ],
     "meshes" : [
         {
-            "name" : "building_church_blue",
+            "name" : "Cylinder.061",
             "primitives" : [
                 {
                     "attributes" : {
@@ -55,69 +56,69 @@
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "hexagons_medieval",
-            "uri" : "hexagons_medieval.png"
+            "name" : "barbarian_texture",
+            "uri" : "barbarian_texture.png"
         }
     ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 2504,
+            "count" : 413,
             "max" : [
-                0.5144962668418884,
-                1.6450307369232178,
-                0.5950042605400085
+                0.33625468611717224,
+                0.3095194399356842,
+                0.19797927141189575
             ],
             "min" : [
-                -0.5144963264465332,
-                -5.382299150369363e-06,
-                -0.5599977970123291
+                -0.1979786902666092,
+                -0.23884634673595428,
+                -0.19797973334789276
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 2504,
+            "count" : 413,
             "type" : "VEC2"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 2504,
+            "count" : 413,
             "type" : "VEC3"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 4803,
+            "count" : 1278,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 30048,
+            "byteLength" : 4956,
             "byteOffset" : 0,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 20032,
-            "byteOffset" : 30048,
+            "byteLength" : 3304,
+            "byteOffset" : 4956,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 30048,
-            "byteOffset" : 50080,
+            "byteLength" : 4956,
+            "byteOffset" : 8260,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 9606,
-            "byteOffset" : 80128,
+            "byteLength" : 2556,
+            "byteOffset" : 13216,
             "target" : 34963
         }
     ],
@@ -129,8 +130,8 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 89736,
-            "uri" : "building_church_blue.bin"
+            "byteLength" : 15772,
+            "uri" : "mug_full.bin"
         }
     ]
 }

@@ -16,9 +16,9 @@ Aturan file ini:
 | **Utama** | KayKit Medieval Hexagon Pack 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0 · https://kaylousberg.itch.io/kaykit-medieval-hexagon | CC0 1.0 (`LICENSE.txt` di repo) | Tidak wajib; penulis meminta kredit sukarela "Kay Lousberg, www.kaylousberg.com" | glTF (+ FBX, OBJ) | Subset diunduh → `assets/raw/kaykit/medieval-hexagon/` |
 | **Utama** | KayKit Dungeon Remastered 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0 | CC0 1.0 | Tidak wajib (sama seperti di atas) | GLB (+ FBX, OBJ) | Subset diunduh → `assets/raw/kaykit/dungeon-remastered/` |
 | Pelengkap | KayKit Halloween Bits 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Halloween-Bits-1.0 | CC0 1.0 | Tidak wajib | glTF (+ FBX, OBJ) | Subset diunduh → `assets/raw/kaykit/halloween-bits/` |
-| Pelengkap | KayKit Furniture Bits 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Furniture-Bits-1.0 | CC0 1.0 | Tidak wajib | glTF (+ FBX, OBJ) | 2 model buku diunduh → `assets/raw/kaykit/furniture-bits/` |
+| Pelengkap | KayKit Character Pack: Adventures 1.0 (aksesori saja) | https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0 | CC0 1.0 (`LICENSE.txt` di repo) | Tidak wajib | glTF (+ FBX) | 6 aksesori diunduh → `assets/raw/kaykit/character-pack-adventures/`. Karakternya sendiri tidak dipakai di tahap ini. |
 | Pelengkap opsional | KayKit Forest Nature Pack (tier gratis) | https://kaylousberg.itch.io/kaykit-forest | CC0 (menurut halaman itch.io; berkas lisensi belum diperiksa) | Tidak wajib | FBX, GLTF, OBJ | **Perlu diunduh manual** (lihat bawah) |
-| Tahap lanjutan | KayKit Character Pack: Adventures 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0 | CC0 (menurut daftar repo; berkas lisensi belum diperiksa) | Tidak wajib | — | Tidak diunduh (karakter belum dipilih) |
+| **Menunggu allowlist** | Quaternius Medieval Village Pack (versi lama, *flat color*) | https://poly.pizza/bundle/Medieval-Village-Pack-NsHhjhlrfY · https://opengameart.org/content/lowpoly-medieval-village-pack | CC0 (OpenGameArt; per model di Poly Pizza) | Tidak wajib | FBX, OBJ, Blend; GLB per model di Poly Pizza | Kandidat Quaternius paling cocok dengan gaya flat color. Diunduh setelah domain dibuka; kurasi dan pratinjau diulang bersama KayKit. |
 | Alternatif | Quaternius Medieval Village MegaKit (Standard, 176 model) | https://quaternius.com/packs/medievalvillagemegakit.html · https://quaternius.itch.io/medieval-village-megakit | CC0 (halaman itch.io) | Tidak wajib | FBX, OBJ, glTF; **bertekstur** | Perlu diunduh manual · tidak direkomendasikan sebagai utama |
 | Alternatif | Quaternius Stylized Nature MegaKit (Standard, 68 model) | https://quaternius.com/packs/stylizednaturemegakit.html · https://quaternius.itch.io/stylized-nature-megakit | CC0 (halaman itch.io) | Tidak wajib | FBX, OBJ, glTF; **bertekstur** | Perlu diunduh manual · tidak direkomendasikan sebagai utama |
 | Alternatif | Quaternius Fantasy Props MegaKit (Standard, 94 model) | https://quaternius.itch.io/fantasy-props-megakit | CC0 (halaman itch.io) | Tidak wajib | FBX, OBJ, glTF; 4 set tekstur | Perlu diunduh manual |
@@ -27,6 +27,9 @@ Aturan file ini:
 | Cadangan | Kenney Nature Kit | https://kenney.nl/assets/nature-kit · https://opengameart.org/content/nature-kit | CC0 | Tidak wajib | FBX, OBJ (glTF belum dipastikan) | Perlu diunduh manual |
 | Tidak diperlukan | Poly Haven HDRI langit | https://polyhaven.com/hdris | CC0 | Tidak wajib | HDR/EXR | Tidak dipakai: foto realistis bertentangan dengan gaya flat color. Langit dibuat gradien prosedural (0 KB). |
 | Tidak diperlukan | ambientCG tekstur PBR | https://ambientcg.com | CC0 | Tidak wajib | PNG/JPG | Tidak dipakai: gaya flat color tidak memakai tekstur PBR. |
+| Tidak dipilih | KayKit Furniture Bits 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Furniture-Bits-1.0 | CC0 1.0 | Tidak wajib | glTF | Sempat diunduh (2 buku), diganti `spellbook_*` dari Adventures yang lebih cocok dengan tema; sisanya perabot modern. |
+| Tidak dipilih | KayKit City Builder Bits, Prototype Bits, Space Base Bits | https://github.com/KayKit-Game-Assets | CC0 | Tidak wajib | glTF | Diperiksa (daftar model): kota modern, prototipe, dan luar angkasa; tidak cocok dengan tema guild. |
+| Tidak dipilih | Kenney Starter Kit 3D Platformer / Basic Scene (Mini Arena) | https://github.com/KenneyNL/Starter-Kit-3D-Platformer · https://github.com/KenneyNL/Starter-Kit-Basic-Scene | Platformer: MIT (repo) · Mini Arena: CC0 | MIT: wajib menyertakan pemberitahuan hak cipta | GLB | Dirender dan dibandingkan: platform kuning-hitam bergaya game platformer, batu Mini Arena berwarna salem pastel; keduanya tidak menyatu dengan KayKit. |
 | Tidak dipilih | KayKit Restaurant Bits 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Restaurant-Bits-1.0 | CC0 1.0 | Tidak wajib | glTF | Diperiksa, tidak diunduh: isinya dapur modern (kulkas, burger, kompor) yang tidak cocok dengan tema guild. |
 
 ## Kandidat model (subset yang sudah diunduh)
@@ -55,11 +58,11 @@ Semua dari KayKit oleh Kay Lousberg · Lisensi **CC0 1.0** · Atribusi **tidak w
 | Nama | Paket (sumber) | Format | Ukuran mentah | Segitiga | Path |
 |---|---|---|---:|---:|---|
 | `building_castle_blue` | [Medieval Hexagon Pack](https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0) | gltf + bin + png | 313.3 KB | 5.659 | `assets/raw/kaykit/medieval-hexagon/buildings/blue/building_castle_blue.gltf` |
-| `building_church_blue` | [Medieval Hexagon Pack](https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0) | gltf + bin + png | 90.6 KB | 1.601 | `assets/raw/kaykit/medieval-hexagon/buildings/blue/building_church_blue.gltf` |
 | `building_tower_A_blue` | [Medieval Hexagon Pack](https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0) | gltf + bin + png | 115.1 KB | 2.138 | `assets/raw/kaykit/medieval-hexagon/buildings/blue/building_tower_A_blue.gltf` |
 | `building_barracks_blue` | [Medieval Hexagon Pack](https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0) | gltf + bin + png | 227.3 KB | 4.007 | `assets/raw/kaykit/medieval-hexagon/buildings/blue/building_barracks_blue.gltf` |
 | `banner_patternA_blue` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 24.6 KB | 110 | `assets/raw/kaykit/dungeon-remastered/banner_patternA_blue.gltf.glb` |
 | `banner_shield_blue` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 53.8 KB | 639 | `assets/raw/kaykit/dungeon-remastered/banner_shield_blue.gltf.glb` |
+| `shield_badge_color` | [Character Pack Adventures](https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0) | gltf + bin + png | 13.3 KB | 262 | `assets/raw/kaykit/character-pack-adventures/shield_badge_color.gltf` |
 
 #### Papan quest (bahan rakitan)
 
@@ -74,9 +77,9 @@ Semua dari KayKit oleh Kay Lousberg · Lisensi **CC0 1.0** · Atribusi **tidak w
 
 | Nama | Paket (sumber) | Format | Ukuran mentah | Segitiga | Path |
 |---|---|---|---:|---:|---|
+| `spellbook_open` | [Character Pack Adventures](https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0) | gltf + bin + png | 17.8 KB | 292 | `assets/raw/kaykit/character-pack-adventures/spellbook_open.gltf` |
+| `spellbook_closed` | [Character Pack Adventures](https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0) | gltf + bin + png | 17.2 KB | 292 | `assets/raw/kaykit/character-pack-adventures/spellbook_closed.gltf` |
 | `table_medium_decorated_A` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 80.7 KB | 1.186 | `assets/raw/kaykit/dungeon-remastered/table_medium_decorated_A.gltf.glb` |
-| `book_set` | [Furniture Bits](https://github.com/KayKit-Game-Assets/KayKit-Furniture-Bits-1.0) | gltf + bin + png | 14.3 KB | 196 | `assets/raw/kaykit/furniture-bits/book_set.gltf` |
-| `book_single` | [Furniture Bits](https://github.com/KayKit-Game-Assets/KayKit-Furniture-Bits-1.0) | gltf + bin + png | 6.9 KB | 68 | `assets/raw/kaykit/furniture-bits/book_single.gltf` |
 
 #### Kedai
 
@@ -87,6 +90,7 @@ Semua dari KayKit oleh Kay Lousberg · Lisensi **CC0 1.0** · Atribusi **tidak w
 | `building_well_blue` | [Medieval Hexagon Pack](https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0) | gltf + bin + png | 44.4 KB | 726 | `assets/raw/kaykit/medieval-hexagon/buildings/blue/building_well_blue.gltf` |
 | `building_home_A_blue` | [Medieval Hexagon Pack](https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0) | gltf + bin + png | 57.1 KB | 1.011 | `assets/raw/kaykit/medieval-hexagon/buildings/blue/building_home_A_blue.gltf` |
 | `building_windmill_blue` | [Medieval Hexagon Pack](https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0) | gltf + bin + png | 145.5 KB | 2.653 | `assets/raw/kaykit/medieval-hexagon/buildings/blue/building_windmill_blue.gltf` |
+| `mug_full` | [Character Pack Adventures](https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0) | gltf + bin + png | 18.4 KB | 426 | `assets/raw/kaykit/character-pack-adventures/mug_full.gltf` |
 | `keg` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 58.5 KB | 807 | `assets/raw/kaykit/dungeon-remastered/keg.gltf.glb` |
 | `barrel_small_stack` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 95.8 KB | 1.149 | `assets/raw/kaykit/dungeon-remastered/barrel_small_stack.gltf.glb` |
 | `table_small_decorated_A` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 66.1 KB | 986 | `assets/raw/kaykit/dungeon-remastered/table_small_decorated_A.gltf.glb` |
@@ -108,6 +112,8 @@ Semua dari KayKit oleh Kay Lousberg · Lisensi **CC0 1.0** · Atribusi **tidak w
 | `shelf_small_candles` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 29.3 KB | 231 | `assets/raw/kaykit/dungeon-remastered/shelf_small_candles.gltf.glb` |
 | `key` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 23.9 KB | 160 | `assets/raw/kaykit/dungeon-remastered/key.gltf.glb` |
 | `coin_stack_medium` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 62.5 KB | 968 | `assets/raw/kaykit/dungeon-remastered/coin_stack_medium.gltf.glb` |
+| `staff` | [Character Pack Adventures](https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0) | gltf + bin + png | 21.1 KB | 440 | `assets/raw/kaykit/character-pack-adventures/staff.gltf` |
+| `wand` | [Character Pack Adventures](https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0) | gltf + bin + png | 8.8 KB | 150 | `assets/raw/kaykit/character-pack-adventures/wand.gltf` |
 | `sword_shield_gold` | [Dungeon Remastered](https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0) | glb (tekstur tertanam) | 46.6 KB | 542 | `assets/raw/kaykit/dungeon-remastered/sword_shield_gold.gltf.glb` |
 | `arch` | [Halloween Bits](https://github.com/KayKit-Game-Assets/KayKit-Halloween-Bits-1.0) | gltf + bin + png | 31.1 KB | 436 | `assets/raw/kaykit/halloween-bits/arch.gltf` |
 | `arch_gate` | [Halloween Bits](https://github.com/KayKit-Game-Assets/KayKit-Halloween-Bits-1.0) | gltf + bin + png | 63.8 KB | 868 | `assets/raw/kaykit/halloween-bits/arch_gate.gltf` |
@@ -168,16 +174,16 @@ Semua dari KayKit oleh Kay Lousberg · Lisensi **CC0 1.0** · Atribusi **tidak w
 | `cloud_big` | [Medieval Hexagon Pack](https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0) | gltf + bin + png | 17.5 KB | 672 | `assets/raw/kaykit/medieval-hexagon/decoration/nature/cloud_big.gltf` |
 | `cloud_small` | [Medieval Hexagon Pack](https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0) | gltf + bin + png | 10.9 KB | 366 | `assets/raw/kaykit/medieval-hexagon/decoration/nature/cloud_small.gltf` |
 
-**Total kandidat KayKit: 85 model · 3.50 MB mentah (gltf/bin/glb; 9 salinan PNG atlas 16–24 KB = 141 KB tidak termasuk) · 52.873 segitiga.**
+**Total kandidat KayKit: 88 model · 3,48 MB mentah (gltf/bin/glb; 11 PNG atlas 14–24 KB = 171 KB tidak termasuk) · 52.870 segitiga.**
 
 ## Kebutuhan tanpa kandidat aset yang cocok
 
 | Kebutuhan | Temuan | Usulan (perlu persetujuan) |
 |---|---|---|
-| Papan quest (stasiun Proyek) | Tidak ada di KayKit maupun di daftar isi Quaternius/Kenney yang bisa saya periksa. | Rakit dari `post`, `pallet`, `resource_lumber`, dan bidang kertas sederhana; atau geometri flat-color buatan sendiri. |
-| Skill Tree (stasiun Skill) | Pohon KayKit berupa pinus kecil, tidak cocok sebagai "pohon skill" utama. | Geometri buatan sendiri: batang dan simpul per kategori skill, flat color. |
+| Papan quest (stasiun Proyek) | Tidak ada di 10 repo KayKit, Kenney Starter Kit, maupun daftar isi Quaternius yang ditemukan lewat pencarian. Satu-satunya "notice board" CC0 yang ditemukan adalah buatan AI (DITOLAK). | Rakit dari `post`, `pallet`, `resource_lumber`, dan bidang kertas sederhana; atau geometri flat-color buatan sendiri. |
+| Skill Tree (stasiun Skill) | Pohon KayKit/Kenney berupa pinus kecil, tidak cocok sebagai "pohon skill" utama. Pohon besar mungkin ada di Quaternius/KayKit Forest (dicek setelah allowlist). | Geometri buatan sendiri: batang dan simpul per kategori skill, flat color. |
 | Kotak surat (stasiun Kontak) | Tidak ada. | Geometri sederhana (kotak + silinder) atau papan `plaque` + `post`. |
-| Kristal (dekorasi, ruangan rahasia) | Tidak ada di paket yang diunduh. | Geometri oktahedron flat color (emissive di Fase 9). |
+| Kristal (dekorasi, ruangan rahasia) | Tidak ada di repo GitHub KayKit/Kenney. Permata KayKit hanya ada di tier berbayar *Resource Bits EXTRA* (https://kaylousberg.itch.io/resource-bits). `staff` (bola hijau) bisa jadi aksen sihir sementara. | Geometri oktahedron flat color (emissive di Fase 9). |
 | Bagian bawah pulau melayang | `hex_grass_bottom` hanya punya lapisan tanah tipis. | Kerucut batu low-poly buatan sendiri di bawah petak hex. |
 | Langit | — | Gradien prosedural (shader/`Sky` sederhana), tanpa berkas. |
 
@@ -201,5 +207,6 @@ Domain berikut diblokir oleh kebijakan jaringan sandbox, dan sebagian halaman it
 |---|---|---|
 | "Village notice board" (Summer Engine) | https://www.summerengine.com/asset-store/village-notice-board-9f4aa908 | Dilabeli CC0, tetapi hasil generator text-to-3D (asal-usul data latih tidak jelas) dan bergaya toon cel-shaded, tidak sesuai flat color. |
 | Floating island gratis di CGTrader (mis. "stylized low poly floating island with small house", "diorama lowpoly lighthouse") | https://www.cgtrader.com/free-3d-models/exterior/other/stylized-low-poly-floating-island-with-small-house | Lisensi "Royalty Free" CGTrader, bukan CC0. Beberapa listing menyatakan dibuat dengan AI. Gaya juga berbeda dari paket utama. |
+| `building_church_*` (semua varian warna) | KayKit Medieval Hexagon Pack | Keputusan pemilik: jangan pernah memakai gereja. Berkas dihapus dari `assets/raw/`. |
 | Salinan paket KayKit/Quaternius di situs pihak ketiga | mis. situs "unity asset collection" | Bukan distribusi resmi; sebagian menyatakan "hanya untuk belajar, bukan komersial". Hanya sumber resmi (GitHub KayKit, itch.io, situs penulis) yang dipakai. |
 | Poly Pizza (per model) | https://poly.pizza | Tidak ditolak secara umum, tetapi lisensinya berbeda per model (CC0 atau CC-BY) dan situsnya tidak bisa dijangkau dari sandbox. Dipakai hanya jika ada kebutuhan spesifik, dengan pemeriksaan per model. |
