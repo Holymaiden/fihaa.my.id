@@ -8,6 +8,7 @@ import Loading from '@/common/components/elements/Loading';
 import NavigationSection from '@/common/components/elements/NavigationSection';
 import type { MdxFileNextPrevProps, MdxFileProps } from '@/common/libs/mdx';
 import type { SubContentMetaProps } from '@/common/types/learn';
+import { to2d } from '@/lib/routes';
 
 type ContentDetailProps = {
   params: { slug: string };
@@ -39,7 +40,7 @@ const ContentDetail = ({
     ) as MdxFileProps<SubContentMetaProps>;
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    router.push(`/learn/${parentSlug}/${targetSlug}`);
+    router.push(to2d(`/learn/${parentSlug}/${targetSlug}`));
   };
 
   useEffect(() => {

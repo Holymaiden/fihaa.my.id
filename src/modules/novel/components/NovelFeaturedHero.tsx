@@ -12,6 +12,7 @@ import { TbCalendarBolt as DateIcon } from 'react-icons/tb';
 import Image from '@/common/components/elements/Image';
 import { formatDate } from '@/common/helpers';
 import type { NovelFeaturedProps } from '@/common/types/novel';
+import { to2d } from '@/lib/routes';
 
 const NovelFeaturedHero = ({ data }: NovelFeaturedProps) => {
   const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState<number>(0);
@@ -78,7 +79,9 @@ const NovelFeaturedHero = ({ data }: NovelFeaturedProps) => {
           <div className="flex flex-col justify-end gap-6">
             <div className="flex flex-col space-y-2 text-white">
               <Link
-                href={`/novel/${currentFeatured?.slug}?id=${currentFeatured?.id}`}
+                href={to2d(
+                  `/novel/${currentFeatured?.slug}?id=${currentFeatured?.id}`,
+                )}
               >
                 <h3 className="flex w-fit text-2xl font-bold font-sora leading-normal relative group cursor-pointer">
                   {currentFeatured?.title}

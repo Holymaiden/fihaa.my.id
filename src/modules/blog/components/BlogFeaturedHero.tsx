@@ -13,6 +13,7 @@ import Image from '@/common/components/elements/Image';
 import { formatDate } from '@/common/helpers';
 import type { MdxFileProps } from '@/common/libs/mdx';
 import { type BlogDetailProps } from '@/common/types/blog';
+import { to2d } from '@/lib/routes';
 
 type BlogFeaturedHeroProps = {
   data: MdxFileProps<BlogDetailProps>[];
@@ -83,7 +84,9 @@ const BlogFeaturedHero = ({ data }: BlogFeaturedHeroProps) => {
           <div className="flex flex-col justify-end gap-6">
             <div className="flex flex-col space-y-2 text-white">
               <Link
-                href={`/blog/${data[currentFeaturedIndex]?.slug}?id=${currentFeatured?.id}`}
+                href={to2d(
+                  `/blog/${data[currentFeaturedIndex]?.slug}?id=${currentFeatured?.id}`,
+                )}
               >
                 <h3 className="flex w-fit text-2xl font-bold font-sora leading-normal relative group cursor-pointer">
                   {currentFeatured?.title}

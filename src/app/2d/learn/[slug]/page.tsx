@@ -8,6 +8,7 @@ import PageHeading from '@/common/components/elements/PageHeading';
 import { LEARN_CONTENTS } from '@/common/constant/learn';
 import { loadMdxFiles } from '@/common/libs/mdx';
 import type { ContentProps, SubContentMetaProps } from '@/common/types/learn';
+import { to2d } from '@/lib/routes';
 import ContentList from '@/modules/learn/components/ContentList';
 
 interface ContentPageProps {
@@ -65,7 +66,7 @@ const LearnContentPage: NextPage<ContentPageProps> = async ({
     <>
       <Suspense fallback={<Loading />}>
         <Container data-aos="fade-up">
-          <BackButton url="/learn" />
+          <BackButton url={to2d('/learn')} />
           <PageHeading title={title} description={description} />
           <ContentList
             sortedSubContents={sortedSubContents}

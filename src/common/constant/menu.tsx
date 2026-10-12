@@ -17,6 +17,7 @@ import {
 
 import { getContactLinks } from '@/lib/content/contact';
 import type { ContactChannel } from '@/lib/content/types';
+import { to2d } from '@/lib/routes';
 
 import type { MenuItemProps } from '../types/menu';
 
@@ -25,7 +26,7 @@ const iconSize = 20;
 export const MENU_ITEMS: MenuItemProps[] = [
   {
     title: 'Home',
-    href: '/',
+    href: to2d(),
     icon: <HomeIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -34,7 +35,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: to2d('/dashboard'),
     icon: <DashboardIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -43,7 +44,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Projects',
-    href: '/projects',
+    href: to2d('/projects'),
     icon: <ProjectIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -52,7 +53,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Blog',
-    href: '/blog',
+    href: to2d('/blog'),
     icon: <BlogIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -61,7 +62,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Learn',
-    href: '/learn',
+    href: to2d('/learn'),
     icon: <LearnIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -70,7 +71,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   // {
   //   title: 'Novel',
-  //   href: '/novel',
+  //   href: to2d('/novel'),
   //   icon: <BooksIcon size={iconSize} />,
   //   isShow: true,
   //   isExternal: false,
@@ -79,7 +80,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   // },
   {
     title: 'About',
-    href: '/about',
+    href: to2d('/about'),
     icon: <ProfileIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -88,7 +89,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Contact',
-    href: '/contact',
+    href: to2d('/contact'),
     icon: <ContactIcon size={iconSize} />,
     isShow: true,
     isExternal: false,

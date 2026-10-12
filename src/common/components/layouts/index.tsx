@@ -6,6 +6,7 @@ import { useTheme } from 'next-themes';
 import type { ReactNode } from 'react';
 
 import useHasMounted from '@/common/hooks/useHasMounted';
+import { stripRoute2d } from '@/lib/routes';
 
 import TopBar from '../elements/TopBar';
 import HeaderSidebar from './header/HeaderSidebar';
@@ -22,7 +23,7 @@ const Layout = ({ children }: LayoutProps) => {
   const isDarkTheme =
     hasMounted && (resolvedTheme === 'dark' || resolvedTheme === 'system');
 
-  const pathname = usePathname();
+  const pathname = stripRoute2d(usePathname());
   const pageName = pathname.split('/')[1];
 
   const isFullPageHeader =

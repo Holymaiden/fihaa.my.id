@@ -2,6 +2,8 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { MdVerified as VerifiedIcon } from 'react-icons/md';
 
+import { to2d } from '@/lib/routes';
+
 import Image from '../elements/Image';
 import Tooltip from '../elements/Tooltip';
 
@@ -30,7 +32,7 @@ const ProfileHeader = ({ expandMenu, imageSize }: ProfileHeaderProps) => {
         className="lg:hover:scale-105"
       />
       <div className="flex gap-2 items-center mt-1 lg:mt-4">
-        <Link href="/" passHref>
+        <Link href={to2d()} passHref>
           <h2 className="flex-grow text-lg lg:text-xl font-sora font-medium">
             {isMobile ? 'Fihaa' : 'M. Fiqri Haikhar Anwar'}
           </h2>

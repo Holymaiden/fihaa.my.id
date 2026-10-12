@@ -10,6 +10,7 @@ import {
   type MdxFileProps,
 } from '@/common/libs/mdx';
 import type { ContentProps } from '@/common/types/novel';
+import { to2d } from '@/lib/routes';
 
 import ContentHeader from './ContentHeader';
 
@@ -39,7 +40,7 @@ const ContentDetail = ({
       step === 'next' ? nextContent : previousContent
     ) as MdxFileProps<ContentProps>;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    router.push(`/novel/${slug}/${targetSlug}`);
+    router.push(to2d(`/novel/${slug}/${targetSlug}`));
   };
 
   useEffect(() => {

@@ -11,6 +11,7 @@ import {
   type MdxFileProps,
 } from '@/common/libs/mdx';
 import type { ContentProps } from '@/common/types/novel';
+import { to2d } from '@/lib/routes';
 import ContentDetail from '@/modules/novel/components/ContentDetail';
 
 interface NovelContentPageProps {
@@ -65,7 +66,7 @@ const NovelContentPage: NextPage<NovelContentPageProps> = async ({
   return (
     <>
       <Container data-aos="fade-up">
-        <BackButton url="/novel" />
+        <BackButton url={to2d('/novel')} />
         <Suspense fallback={<Loading />}>
           <ContentDetail
             {...novelData}

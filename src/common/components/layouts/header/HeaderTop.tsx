@@ -12,6 +12,7 @@ import {
 } from 'react-icons/md';
 
 import { MENU_ITEMS } from '@/common/constant/menu';
+import { to2d } from '@/lib/routes';
 
 import Image from '../../elements/Image';
 import ThemeToggleButton from '../../elements/ThemeToggleButton';
@@ -41,7 +42,7 @@ const HeaderTop = () => {
           />
           {!showMenu && (
             <div className="flex items-center gap-3">
-              <Link href="/" passHref>
+              <Link href={to2d()} passHref>
                 <h2 className="flex-grow text-lg lg:text-xl font-sora font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-neutral-900 rounded">
                   M. Fiqri Haikhar Anwar
                 </h2>

@@ -6,6 +6,7 @@ import Tooltip from '@/common/components/elements/Tooltip';
 import { STACKS } from '@/common/constant/stacks';
 import clsxm from '@/common/libs/clsxm';
 import type { SubContentProps } from '@/common/types/learn';
+import { to2d } from '@/lib/routes';
 
 const LearnSubContentItem = ({
   contentSlug,
@@ -15,7 +16,7 @@ const LearnSubContentItem = ({
   difficulty = '',
 }: SubContentProps) => {
   return (
-    <Link href={`/learn/${contentSlug}/${subContentSlug}`}>
+    <Link href={to2d(`/learn/${contentSlug}/${subContentSlug}`)}>
       <Card
         className={clsxm(
           'flex items-center flex-row justify-between cursor-pointer border border-neutral-300 dark:border-neutral-900 lg:hover:scale-[102%] w-full py-4 px-5',

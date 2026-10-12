@@ -4,6 +4,7 @@ import BackButton from '@/common/components/elements/BackButton';
 import Container from '@/common/components/elements/Container';
 import PageHeading from '@/common/components/elements/PageHeading';
 import { getProjectBySlug } from '@/lib/content/projects';
+import { to2d } from '@/lib/routes';
 import ProjectDetail from '@/modules/projects/components/ProjectDetail';
 
 interface ProjectsDetailPageProps {
@@ -47,7 +48,7 @@ const ProjectsDetailPage: NextPage<ProjectsDetailPageProps> = async ({
   return (
     <>
       <Container data-aos="fade-up">
-        <BackButton url="/projects" />
+        <BackButton url={to2d('/projects')} />
         <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
         <ProjectDetail
           {...project?.frontMatter}

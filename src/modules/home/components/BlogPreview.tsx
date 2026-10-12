@@ -5,6 +5,7 @@ import SectionHeading from '@/common/components/elements/SectionHeading';
 import SectionSubHeading from '@/common/components/elements/SectionSubHeading';
 import { loadMdxFiles } from '@/common/libs/mdx';
 import { type BlogItemProps } from '@/common/types/blog';
+import { to2d } from '@/lib/routes';
 
 import BlogCarousel from './BlogCarousel';
 
@@ -19,7 +20,7 @@ const BlogPreview = async () => {
       <div className="flex items-center justify-between">
         <SectionHeading title="Latest Articles" className="ml-1" />
         <SectionSubHeading>
-          <Link href="/blog">
+          <Link href={to2d('/blog')}>
             <div className="flex gap-1 hover:gap-3 transition-all duration-300 cursor-pointer text-sm text-neutral-700 dark:text-neutral-400 hover:text-neutral-700 hover:dark:text-neutral-300 mt-1">
               <div className="flex">
                 View All <span className="hidden sm:block ml-1">Articles</span>

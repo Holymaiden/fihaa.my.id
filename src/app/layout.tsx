@@ -1,18 +1,16 @@
 import '@/common/styles/globals.css';
-import 'aos/dist/aos.css';
 
 import type { Metadata } from 'next';
 
-import ContactWidget from '@/common/components/elements/ContactWidget';
-import ProgressBar from '@/common/components/elements/ProgressBar';
-import Layout from '@/common/components/layouts';
 import AnalyticsProvider from '@/common/components/providers/AnalyticsProvider';
 import GoogleAdsense from '@/common/libs/google-adsense';
 import { firaCode, jakartaSans, soraSans } from '@/common/styles/fonts';
+import { SITE_URL } from '@/lib/routes';
 
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'M. Fiqri Haikhar Anwar - Software Engineer Portfolio',
   description:
     'Experienced Software Engineer specializing in React, Next.js, Node.js, Golang, Laravel, React Native, Elysia.js, and modern web technologies. Based in Makassar, Indonesia.',
@@ -32,12 +30,12 @@ export const metadata: Metadata = {
     'Makassar',
     'Indonesia',
   ],
-  authors: [{ name: 'M. Fiqri Haikhar Anwar', url: 'https://fihaa.my.id' }],
+  authors: [{ name: 'M. Fiqri Haikhar Anwar', url: SITE_URL }],
   creator: 'M. Fiqri Haikhar Anwar',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://fihaa.my.id',
+    url: SITE_URL,
     title: 'M. Fiqri Haikhar Anwar - Software Engineer Portfolio',
     description:
       'Experienced Software Engineer specializing in React, Next.js, Node.js, Golang, Laravel, React Native, Elysia.js, and modern web technologies.',
@@ -72,11 +70,6 @@ export const metadata: Metadata = {
   },
 };
 
-// const ProgressBar = dynamic(
-//   () => import('@/common/components/elements/ProgressBar'),
-//   { ssr: false },
-// );
-
 export default function RootLayout({
   children,
 }: {
@@ -95,21 +88,9 @@ export default function RootLayout({
       <body
         className={`${jakartaSans.variable} ${soraSans.variable} ${firaCode.variable}`}
       >
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-blue-600 text-white p-2 z-50"
-        >
-          Skip to main content
-        </a>
         <Providers>
           <AnalyticsProvider />
-          <Layout>
-            <ProgressBar />
-            <main id="main-content" tabIndex={-1}>
-              {children}
-            </main>
-            <ContactWidget />
-          </Layout>
+          {children}
         </Providers>
         <GoogleAdsense pId="4893424345889965" />
       </body>

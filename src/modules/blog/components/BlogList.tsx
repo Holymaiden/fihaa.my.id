@@ -11,6 +11,7 @@ import SearchBar from '@/common/components/elements/SearchBar';
 import BlogCardSkeleton from '@/common/components/skeleton/BlogCardSkeleton';
 import type { MdxFileProps } from '@/common/libs/mdx';
 import { type BlogDetailProps } from '@/common/types/blog';
+import { to2d } from '@/lib/routes';
 
 import BlogCard from './BlogCard';
 import BlogFeaturedSection from './BlogFeaturedSection';
@@ -43,7 +44,7 @@ const BlogList = ({ content }: BlogListProps) => {
   const total_posts = content.length;
 
   const handlePageChange = (newPage: number) => {
-    router.push(`/blog?page=${newPage}&search=${debouncedSearchTerm}`, {
+    router.push(to2d(`/blog?page=${newPage}&search=${debouncedSearchTerm}`), {
       scroll: false,
     });
     setPage(newPage);
@@ -54,14 +55,16 @@ const BlogList = ({ content }: BlogListProps) => {
     setSearchTerm(searchValue);
     setPage(1);
 
-    router.push(`/blog?page=1&search=${searchValue || ''}`, { scroll: false });
+    router.push(to2d(`/blog?page=1&search=${searchValue || ''}`), {
+      scroll: false,
+    });
   };
 
   const handleClearSearch = () => {
     setSearchTerm('');
     setPage(1);
 
-    router.push('/blog?page=1', { scroll: false });
+    router.push(to2d('/blog?page=1'), { scroll: false });
   };
 
   useEffect(() => {

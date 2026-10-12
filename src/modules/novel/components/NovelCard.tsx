@@ -12,6 +12,7 @@ import Image from '@/common/components/elements/Image';
 import Tooltip from '@/common/components/elements/Tooltip';
 import { formatDate } from '@/common/helpers';
 import type { ContentProps } from '@/common/types/novel';
+import { to2d } from '@/lib/routes';
 
 const NovelCard = ({
   id,
@@ -33,7 +34,7 @@ const NovelCard = ({
   };
 
   return (
-    <Link href={`/novel/${slug}?id=${id}`}>
+    <Link href={to2d(`/novel/${slug}?id=${id}`)}>
       <Card
         className="group relative flex flex-col border dark:border-neutral-800 shadow-sm rounded-lg h-[400px] w-full"
         onMouseEnter={() => setIsHovered(true)}

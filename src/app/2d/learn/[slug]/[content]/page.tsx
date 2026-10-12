@@ -12,6 +12,7 @@ import {
 } from '@/common/libs/mdx';
 import { type SubContentMetaProps } from '@/common/types/learn';
 import { type ContentProps } from '@/common/types/novel';
+import { to2d } from '@/lib/routes';
 import ContentBody from '@/modules/learn/components/ContentBody';
 import ContentDetail from '@/modules/learn/components/ContentDetail';
 import ContentDetailHeader from '@/modules/learn/components/ContentDetailHeader';
@@ -62,7 +63,7 @@ const LearnContentDetailPage = async ({
   return (
     <>
       <Container data-aos="fade-up">
-        <BackButton url={`/learn/${slug}`} />
+        <BackButton url={to2d(`/learn/${slug}`)} />
         <Suspense fallback={<Loading />}>
           <ContentDetailHeader {...contentLearn.frontMatter} />
         </Suspense>

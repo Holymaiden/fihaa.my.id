@@ -11,6 +11,7 @@ import Pagination from '@/common/components/elements/Pagination';
 import SearchBar from '@/common/components/elements/SearchBar';
 import BlogCardSkeleton from '@/common/components/skeleton/BlogCardSkeleton';
 import type { ContentProps, NovelResponse } from '@/common/types/novel';
+import { to2d } from '@/lib/routes';
 import { fetcher } from '@/services/fetcher';
 
 import NovelCard from './NovelCard';
@@ -42,9 +43,12 @@ const NovelList = () => {
 
   const handlePageChange = async (newPage: number) => {
     await mutate();
-    router.push('/novel?page=' + newPage + '&search=' + debouncedSearchTerm, {
-      scroll: false,
-    });
+    router.push(
+      to2d('/novel?page=' + newPage + '&search=' + debouncedSearchTerm),
+      {
+        scroll: false,
+      },
+    );
     setPage(newPage);
   };
 
@@ -53,7 +57,7 @@ const NovelList = () => {
     setSearchTerm(searchValue);
     setPage(1);
 
-    router.push(`/novel?page=1&search=${searchValue || ''}`, {
+    router.push(to2d(`/novel?page=1&search=${searchValue || ''}`), {
       scroll: false,
     });
   };
@@ -62,7 +66,7 @@ const NovelList = () => {
     setSearchTerm('');
     setPage(1);
 
-    router.push('/novel?page=1', {
+    router.push(to2d('/novel?page=1'), {
       scroll: false,
     });
   };

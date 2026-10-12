@@ -8,6 +8,7 @@ import PageHeading from '@/common/components/elements/PageHeading';
 import { NOVEL_CONTENTS } from '@/common/constant/novel';
 import { loadMdxNovelFiles } from '@/common/libs/mdx';
 import type { ContentProps } from '@/common/types/novel';
+import { to2d } from '@/lib/routes';
 import ContentList from '@/modules/novel/components/ContentList';
 
 type NovelPageProps = {
@@ -65,7 +66,7 @@ const NovelContentPage: NextPage<NovelPageProps> = async ({
     <>
       <Container data-aos="fade-up">
         <Suspense fallback={<Loading />}>
-          <BackButton url="/learn" />
+          <BackButton url={to2d('/learn')} />
           <PageHeading title={title} description={description} />
         </Suspense>
         <Suspense fallback={<Loading />}>
