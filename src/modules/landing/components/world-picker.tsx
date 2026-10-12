@@ -16,7 +16,7 @@ interface WorldOption {
   description: string;
 }
 
-// Teks placeholder; desain & copy final menunggu keputusan.
+// Placeholder copy until the landing design is done.
 const WORLD_OPTIONS: WorldOption[] = [
   {
     mode: '2d',
@@ -33,7 +33,7 @@ const WORLD_OPTIONS: WorldOption[] = [
 ];
 
 interface WorldPickerProps {
-  /** Pilihan terakhir dari cookie (dibaca di server). */
+  // From the world-mode cookie
   lastMode: WorldMode | null;
 }
 

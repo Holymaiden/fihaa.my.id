@@ -6,7 +6,7 @@ import getMDXComponents from '@/app/mdx-components';
 
 import type { ProjectEntry, ProjectFrontmatter } from './types';
 
-// Hanya untuk server (membaca file system).
+// Server only: reads from the file system.
 const PROJECTS_DIR = path.join(process.cwd(), 'content', 'projects');
 const MDX_EXTENSION = '.mdx';
 
@@ -36,14 +36,13 @@ const compileProject = async (file: string): Promise<ProjectEntry> => {
   };
 };
 
-/** Semua proyek, terbaru (id terbesar) lebih dulu. */
+// Newest first (highest id).
 export const getProjects = async (): Promise<ProjectEntry[]> => {
   const projects = await Promise.all(listProjectFiles().map(compileProject));
 
   return projects.sort((a, b) => b.frontMatter.id - a.frontMatter.id);
 };
 
-/** Proyek berdasarkan nama file (segmen URL), atau `null` bila tidak ada. */
 export const getProjectBySlug = async (
   slug: string,
 ): Promise<ProjectEntry | null> => {

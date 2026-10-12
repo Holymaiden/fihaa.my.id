@@ -2,8 +2,7 @@
 
 import { useSyncExternalStore } from 'react';
 
-// Ambang sementara untuk SARAN (bukan pemblokiran). Nilai final perlu keputusan;
-// lihat docs/migrasi/03-routing.md.
+// Rough thresholds, only used to suggest 2D. Not final.
 const LOW_DEVICE_MEMORY_GB = 4;
 const LOW_CPU_CORES = 4;
 const SMALL_SCREEN_PX = 768;
@@ -25,9 +24,6 @@ const isLowEndDevice = (): boolean => {
 
 const subscribe = () => () => {};
 
-/**
- * `true` bila perangkat tampak lemah (saran default ke 2D),
- * `null` saat render server (belum diketahui).
- */
+// null on the server, where we can't tell yet.
 export const useLowEndDeviceHint = (): boolean | null =>
   useSyncExternalStore(subscribe, isLowEndDevice, () => null);
