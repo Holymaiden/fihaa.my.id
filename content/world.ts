@@ -63,6 +63,11 @@ export const WORLD_COPY: WorldCopy = {
   resume: 'Resume',
   guild: 'Guild Hall',
   guildSummary: 'Pick a place on the island to explore it.',
+  credits: 'Credits',
+  creditsIntro:
+    'The 3D models come from these free asset packs. Thank you to their authors.',
+  creditsModels: 'models used',
+  close: 'Close',
 };
 
 // How many projects the hidden vault shows (see getVaultProjects).

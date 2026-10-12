@@ -9,15 +9,18 @@ import { useWorldPalette } from '../hooks/use-world-palette';
 import { useWorldStore } from '../store/world-store';
 import CameraRig from './scene/camera-rig';
 import GuildHall from './scene/guild-hall';
+import type { StationCounts } from './scene/station-extras';
 import StationObject from './scene/station-object';
+import WorldIslands from './scene/world-islands';
 import WorldProgress from './world-progress';
 
 interface WorldSceneProps {
   stations: WorldStation[];
+  counts: StationCounts;
   loadingLabel: string;
 }
 
-const WorldScene = ({ stations, loadingLabel }: WorldSceneProps) => {
+const WorldScene = ({ stations, counts, loadingLabel }: WorldSceneProps) => {
   const palette = useWorldPalette();
   const closeStation = useWorldStore((state) => state.closeStation);
 
@@ -34,9 +37,18 @@ const WorldScene = ({ stations, loadingLabel }: WorldSceneProps) => {
         <hemisphereLight args={[palette.sky, palette.islandSide, 1.4]} />
         <directionalLight position={[20, 30, 15]} intensity={1.6} />
         <Suspense fallback={null}>
-          <GuildHall palette={palette} />
+          <WorldIslands
+            stations={stations.map((station) => station.id)}
+            palette={palette}
+          />
+          <GuildHall />
           {stations.map((station) => (
-            <StationObject key={station.id} id={station.id} palette={palette} />
+            <StationObject
+              key={station.id}
+              id={station.id}
+              palette={palette}
+              counts={counts}
+            />
           ))}
         </Suspense>
         <CameraRig />

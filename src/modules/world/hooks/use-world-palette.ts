@@ -8,10 +8,13 @@ const TOKENS = {
   sky: '--color-world-sky',
   islandTop: '--color-world-island-top',
   islandSide: '--color-world-island-side',
-  station: '--color-world-station',
   stationHover: '--color-world-station-hover',
   stationActive: '--color-world-station-active',
-  guild: '--color-world-guild',
+  wood: '--color-world-wood',
+  paper: '--color-world-paper',
+  skillNode: '--color-world-skill-node',
+  mailbox: '--color-world-mailbox',
+  crystal: '--color-world-crystal',
   secret: '--color-world-secret',
 } as const;
 

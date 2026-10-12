@@ -13,7 +13,12 @@ import type {
   WorldJournalEntry,
   WorldProject,
 } from './types';
-import { getWorldCopy, getWorldStations, getWorldVaultSize } from './world';
+import {
+  getWorldCopy,
+  getWorldCredits,
+  getWorldStations,
+  getWorldVaultSize,
+} from './world';
 
 // Server only (reads project files). Builds everything the 3D world shows.
 
@@ -89,5 +94,6 @@ export const getWorldContent = async (): Promise<WorldContent> => {
     },
     contactLinks: getContactLinks(),
     resumeUrl: getResumeUrl(),
+    credits: getWorldCredits(),
   };
 };

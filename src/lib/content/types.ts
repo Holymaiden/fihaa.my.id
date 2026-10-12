@@ -40,6 +40,22 @@ export interface WorldCopy {
   resume: string;
   guild: string;
   guildSummary: string;
+  credits: string;
+  creditsIntro: string;
+  creditsModels: string;
+  close: string;
+}
+
+// One asset pack used in the 3D world (from content/world-assets.json).
+export interface WorldCredit {
+  id: string;
+  name: string;
+  author: string;
+  authorUrl: string;
+  url: string;
+  license: string;
+  licenseUrl: string;
+  modelCount: number;
 }
 
 export interface WorldPlacement {
@@ -190,4 +206,5 @@ export interface WorldContent {
   };
   contactLinks: ContactLink[];
   resumeUrl: string;
+  credits: WorldCredit[];
 }

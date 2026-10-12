@@ -6,8 +6,30 @@ export type Vec3 = readonly [number, number, number];
 
 export interface IslandLayout {
   position: Vec3;
-  radius: number;
+  // Rings of hex tiles around the centre tile.
+  rings: number;
 }
+
+// KayKit hex tiles are 2 units across the flat sides (pointy side on z).
+export const HEX_WIDTH = 2;
+const HEX_SIZE = HEX_WIDTH / Math.sqrt(3);
+
+// Local x/z centres of every tile within `rings` of the centre.
+export const hexTilePositions = (rings: number): [number, number][] => {
+  const tiles: [number, number][] = [];
+  for (let q = -rings; q <= rings; q++) {
+    for (let r = -rings; r <= rings; r++) {
+      if (Math.abs(q + r) <= rings) {
+        tiles.push([HEX_WIDTH * (q + r / 2), HEX_SIZE * 1.5 * r]);
+      }
+    }
+  }
+  return tiles;
+};
+
+// Rough outer radius of an island, for the rock underneath and the ring.
+export const islandRadius = ({ rings }: IslandLayout): number =>
+  HEX_WIDTH * rings + HEX_SIZE * 0.9;
 
 export interface StationLayout extends IslandLayout {
   // Camera position relative to the station when it is selected.
@@ -21,7 +43,7 @@ export interface CameraView {
 
 export const GUILD_LAYOUT: IslandLayout = {
   position: [0, 0, 0],
-  radius: 7,
+  rings: 3,
 };
 
 export const HOME_VIEW: CameraView = {
@@ -32,15 +54,11 @@ export const HOME_VIEW: CameraView = {
 // The hidden vault sits under the guild island, so it can't be seen from
 // the home view.
 export const STATION_LAYOUT: Record<WorldStationId, StationLayout> = {
-  projects: { position: [-17, 1.5, 5], radius: 4, cameraOffset: [-5, 5, 11] },
-  skills: { position: [-8, 3.5, -16], radius: 4.5, cameraOffset: [-4, 5, 12] },
-  experience: {
-    position: [11, 2.5, -15],
-    radius: 4,
-    cameraOffset: [5, 5, 11],
-  },
-  contact: { position: [17, 0.5, 7], radius: 4, cameraOffset: [6, 5, 10] },
-  secret: { position: [0, -17, 0], radius: 3, cameraOffset: [0, 1.5, 11] },
+  projects: { position: [-18, 1.5, 6], rings: 2, cameraOffset: [-5, 5, 12] },
+  skills: { position: [-9, 3.5, -18], rings: 2, cameraOffset: [-4, 6, 13] },
+  experience: { position: [12, 2.5, -17], rings: 2, cameraOffset: [5, 5, 12] },
+  contact: { position: [19, 0.5, 7], rings: 2, cameraOffset: [6, 5, 11] },
+  secret: { position: [0, -19, 0], rings: 1, cameraOffset: [0, 2, 10] },
 };
 
 // The camera looks this far above the station's island top.

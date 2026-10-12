@@ -6,6 +6,7 @@ import type { WorldContent, WorldStationId } from '@/lib/content/types';
 
 import { useWorldStore } from '../store/world-store';
 import StationBody, { stationHasContent } from './panels/station-body';
+import WorldCredits from './world-credits';
 import WorldSwitchLink from './world-switch-link';
 
 interface WorldHudProps {
@@ -38,7 +39,8 @@ const WorldHud = ({ content }: WorldHudProps) => {
 
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      // Esc inside the credits dialog only closes the dialog.
+      if (event.key === 'Escape' && !document.querySelector('dialog[open]')) {
         closeStation();
       }
     };
@@ -125,6 +127,8 @@ const WorldHud = ({ content }: WorldHudProps) => {
           </p>
         </section>
       )}
+
+      <WorldCredits credits={content.credits} copy={copy} />
     </>
   );
 };

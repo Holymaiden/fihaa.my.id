@@ -22,6 +22,10 @@ const WorldCanvas = ({ content }: WorldCanvasProps) => {
     <div className="relative h-dvh w-full overflow-hidden">
       <WorldScene
         stations={content.stations}
+        counts={{
+          projects: content.projects.length,
+          skillGroups: content.skillGroups.length,
+        }}
         loadingLabel={content.copy.loadingAssets}
       />
       <WorldHud content={content} />

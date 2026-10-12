@@ -38,14 +38,17 @@
   --color-toggle-night-start: #173754;
   --color-toggle-night-end: #388296;
 
-  /* 3D world. Greybox greys for now; the final palette comes in Phase 9. */
+  /* 3D world. Interim values; the final palette comes in Phase 9. */
   --color-world-sky: #c9ced6;
   --color-world-island-top: #9aa0a8;
   --color-world-island-side: #6f757d;
-  --color-world-station: #b5bac1;
-  --color-world-station-hover: #d4d8dd;
+  --color-world-station-hover: #f5f5f5;
   --color-world-station-active: var(--color-accent);
-  --color-world-guild: #8a9099;
+  --color-world-wood: #8b5a3c;
+  --color-world-paper: #efe6cf;
+  --color-world-skill-node: var(--color-accent);
+  --color-world-mailbox: #b94a3e;
+  --color-world-crystal: #7fd8e8;
   --color-world-secret: #4b5058;
 
   --text-2xs: 12px;

@@ -8,6 +8,8 @@ interface WorldState {
   // null = overview of the whole island.
   activeStation: WorldStationId | null;
   hoveredStation: WorldStationId | null;
+  // The vault's models load the first time someone heads there.
+  vaultRequested: boolean;
   openStation: (id: WorldStationId) => void;
   closeStation: () => void;
   setHoveredStation: (id: WorldStationId | null) => void;
@@ -16,7 +18,16 @@ interface WorldState {
 export const useWorldStore = create<WorldState>((set) => ({
   activeStation: null,
   hoveredStation: null,
-  openStation: (id) => set({ activeStation: id }),
+  vaultRequested: false,
+  openStation: (id) =>
+    set((state) => ({
+      activeStation: id,
+      vaultRequested: state.vaultRequested || id === 'secret',
+    })),
   closeStation: () => set({ activeStation: null }),
-  setHoveredStation: (id) => set({ hoveredStation: id }),
+  setHoveredStation: (id) =>
+    set((state) => ({
+      hoveredStation: id,
+      vaultRequested: state.vaultRequested || id === 'secret',
+    })),
 }));
