@@ -14,8 +14,9 @@ const Loading = ({ isFullScreen = false, text }: LoadingProps) => {
         isFullScreen && 'h-screen',
       )}
     >
+      {/* react-spinners parses this as hex, so it can't take var(). Same as --color-loader. */}
       <HashLoader color="#36d7b7" />
-      {text && <p className="text-[#36d7b7] pt-5">{text}</p>}
+      {text && <p className="text-loader pt-5">{text}</p>}
     </div>
   );
 };

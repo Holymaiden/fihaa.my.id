@@ -70,10 +70,10 @@ const StyledFade = styled.div`
   pointer-events: none;
   background: linear-gradient(
     90deg,
-    #121212,
+    var(--color-dark),
     transparent 20%,
     transparent 80%,
-    #121212
+    var(--color-dark)
   );
   position: absolute;
   inset: 0;
