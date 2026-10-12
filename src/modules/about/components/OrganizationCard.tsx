@@ -2,7 +2,7 @@ import { BsBuildings as CompanyIcon } from 'react-icons/bs';
 
 import Card from '@/common/components/elements/Card';
 import Image from '@/common/components/elements/Image';
-import type { OrganizationProps } from '@/common/types/organization';
+import type { Organization } from '@/lib/content/types';
 
 const OrganizationCard = ({
   name,
@@ -12,7 +12,7 @@ const OrganizationCard = ({
   start_year,
   end_year,
   link,
-}: OrganizationProps) => {
+}: Organization) => {
   return (
     <Card className="flex items-center gap-5 py-4 px-6 border border-neutral-300 dark:border-neutral-900">
       {logo ? (

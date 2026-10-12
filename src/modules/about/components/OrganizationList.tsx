@@ -4,7 +4,7 @@ import { GiOrganigram as OrganizationIcon } from 'react-icons/gi';
 
 import SectionHeading from '@/common/components/elements/SectionHeading';
 import SectionSubHeading from '@/common/components/elements/SectionSubHeading';
-import { ORGANIZATION } from '@/common/constant/organization';
+import { getOrganizations } from '@/lib/content/experience';
 
 import OrganizationCard from './OrganizationCard';
 
@@ -22,7 +22,7 @@ const OrganizationList = () => {
       </div>
 
       <div className="grid md:grid-cols-1 gap-4">
-        {ORGANIZATION?.map((item, index) => (
+        {getOrganizations().map((item, index) => (
           <OrganizationCard key={index} {...item} />
         ))}
       </div>

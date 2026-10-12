@@ -4,7 +4,7 @@ import { TbSchool as EducationIcon } from 'react-icons/tb';
 
 import SectionHeading from '@/common/components/elements/SectionHeading';
 import SectionSubHeading from '@/common/components/elements/SectionSubHeading';
-import { EDUCATION } from '@/common/constant/education';
+import { getEducation } from '@/lib/content/experience';
 
 import EducationCard from './EducationCard';
 
@@ -22,7 +22,7 @@ const EducationList = () => {
       </div>
 
       <div className="grid md:grid-cols-1 gap-4">
-        {EDUCATION?.map((item, index) => (
+        {getEducation().map((item, index) => (
           <EducationCard key={index} {...item} />
         ))}
       </div>
