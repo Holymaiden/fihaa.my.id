@@ -13,7 +13,9 @@ Tanggal: 2026-10-12 · Basis: `main` @ `a8a640a` · Tidak ada push ke `main`, me
 | 4 R3F | ✅ | `04-r3f.md` | three 0.186 / fiber 9.8 / drei 10.7 di `/world` (dynamic, `ssr:false`); three tidak dimuat di `/` maupun `/2d/*` (terbukti). |
 | 5 Token | ✅ | `05-token.md` | `tailwind.config.ts` → `@theme`; nilai hardcoded → token; 0 selisih computed style di 60 snapshot. |
 
-Hasil akhir di `feat/fase-5-token`: `yarn type-check` hijau, `yarn lint` 0 error (13 warning React Compiler yang sudah ada), `yarn build` hijau.
+| Tindak lanjut | ✅ | `06-tindak-lanjut.md` | Yarn saja; `/` redirect otomatis + tombol Switch 2D/3D; UI Inggris; bug lama (404, font, back button, image quality) diperbaiki. |
+
+Hasil akhir di `feat/tindak-lanjut-keputusan`: `yarn type-check` hijau, `yarn lint` 0 error (13 warning React Compiler yang sudah ada), `yarn build` hijau.
 
 ## Branch dan commit
 
@@ -25,15 +27,18 @@ Branch bertumpuk (setiap fase bercabang dari fase sebelumnya), semua sudah di-pu
 | `refactor/fase-2-konten` | `102d389` skema · `de2c991` proyek → `content/` · `27f96d1` skill · `7fb7467` pengalaman · `a40ca66` kontak · `cfbf2cc` laporan · `34b4d11` komentar |
 | `feat/fase-3-routing` | `819f81f` helper rute · `281a776` pindah ke `/2d` + redirect · `e25d08f` landing · `40997f1` sitemap/robots · `762284d` laporan · `f405ec9` komentar |
 | `feat/fase-4-r3f` | `513c8df` dependensi R3F · `028ffcd` scene `/world` · `50e83a4` komentar · `81a203f` laporan |
-| `feat/fase-5-token` | `879c86d` `@theme` · `bb07a28` warna komponen → token · `7311f9c` kelas arbitrer → token · `33069a8` laporan · (+ laporan ini) |
+| `feat/fase-5-token` | `879c86d` `@theme` · `bb07a28` warna komponen → token · `7311f9c` kelas arbitrer → token · `33069a8` laporan · ringkasan |
+| `feat/tindak-lanjut-keputusan` | `32f732b` hapus package-lock · `029e95d` redirect + tombol Switch + UI Inggris · `f4b2868` bug lama · laporan |
 
-Branch sesi `claude/clever-albattani-e7tn9x` di-fast-forward ke ujung `feat/fase-5-token` (isi sama).
+Branch sesi `claude/clever-albattani-e7tn9x` di-fast-forward ke ujung `feat/tindak-lanjut-keputusan` (isi sama).
 
 Catatan: atas permintaan di tengah pekerjaan, komentar kode yang saya tambahkan ditulis ulang ke bahasa Inggris yang ringkas. Perubahan dibuat di branch fase asal lalu di-merge maju (commit merge), tanpa rewrite history.
 
 Saran urutan PR: buka satu PR per branch dengan base branch fase sebelumnya (fase-1 → `main`, fase-2 → fase-1, dst.), atau satu PR dari `feat/fase-5-token` ke `main`.
 
 ## Pertanyaan Terbuka yang butuh keputusan Anda
+
+> **Sudah diputuskan (2026-10-12)**: no. 1 (pakai Yarn), 11 (redirect otomatis + tombol Switch), 13 (UI bahasa Inggris), 16 (arah visual menyesuaikan pulau), 17 (bug lama diperbaiki). Detail di `06-tindak-lanjut.md`.
 
 **Infrastruktur & dependensi**
 1. Lockfile: hapus `package-lock.json` yang basi dan resmi pakai Yarn? (konfirmasi pengaturan Vercel)
