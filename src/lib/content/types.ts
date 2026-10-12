@@ -46,6 +46,10 @@ export interface WorldCopy {
   close: string;
   effectsOn: string;
   effectsOff: string;
+  fallbackUnsupported: string;
+  fallbackError: string;
+  fallbackHint: string;
+  fallbackCta: string;
 }
 
 // One asset pack used in the 3D world (from content/world-assets.json).

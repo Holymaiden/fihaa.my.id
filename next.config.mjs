@@ -27,6 +27,8 @@ const nextConfig = {
         destination: `/2d/${section}/:path*`,
         permanent: true,
       })),
+      // Short alias for the 3D world.
+      { source: '/3d', destination: '/world', permanent: false },
       // The novel section was removed; send old links to the 2D home.
       ...['/novel/:path*', '/2d/novel/:path*'].map((source) => ({
         source,

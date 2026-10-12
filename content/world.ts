@@ -70,6 +70,11 @@ export const WORLD_COPY: WorldCopy = {
   close: 'Close',
   effectsOn: 'Effects: on',
   effectsOff: 'Effects: off',
+  fallbackUnsupported: 'This browser or device can not show the 3D world.',
+  fallbackError: 'Something went wrong while drawing the 3D world.',
+  fallbackHint:
+    'You can still browse every place from the list, or switch to the 2D site.',
+  fallbackCta: 'Open the 2D site',
 };
 
 // How many projects the hidden vault shows (see getVaultProjects).
