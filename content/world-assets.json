@@ -1,0 +1,244 @@
+{
+  "$comment": "Source of truth for the 3D world models: scripts/world-assets/build.mjs builds public/world/models/<kit>.glb from it, and the credits panel lists the packs.",
+  "packs": [
+    {
+      "id": "kaykit-medieval-hexagon",
+      "name": "KayKit Medieval Hexagon Pack",
+      "author": "Kay Lousberg",
+      "authorUrl": "https://www.kaylousberg.com",
+      "url": "https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "id": "kaykit-dungeon-remastered",
+      "name": "KayKit Dungeon Remastered",
+      "author": "Kay Lousberg",
+      "authorUrl": "https://www.kaylousberg.com",
+      "url": "https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "id": "kaykit-halloween-bits",
+      "name": "KayKit Halloween Bits",
+      "author": "Kay Lousberg",
+      "authorUrl": "https://www.kaylousberg.com",
+      "url": "https://github.com/KayKit-Game-Assets/KayKit-Halloween-Bits-1.0",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "id": "kaykit-adventures",
+      "name": "KayKit Character Pack: Adventures",
+      "author": "Kay Lousberg",
+      "authorUrl": "https://www.kaylousberg.com",
+      "url": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "id": "quaternius-ultimate-nature",
+      "name": "Ultimate Nature Pack",
+      "author": "Quaternius",
+      "authorUrl": "https://quaternius.com",
+      "url": "https://quaternius.com/packs/ultimatenature.html",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  ],
+  "models": [
+    {
+      "name": "hex_grass",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/tiles/base/hex_grass.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "building_castle_blue",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_castle_blue.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "building_tower_A_blue",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_tower_A_blue.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "building_tavern_blue",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_tavern_blue.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "building_well_blue",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_well_blue.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "flag_blue",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/props/flag_blue.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "barrel",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/props/barrel.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "crate_A_big",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/props/crate_A_big.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "sack",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/props/sack.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "tree_single_A",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/tree_single_A.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "trees_A_medium",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/trees_A_medium.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "rock_single_A",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/rock_single_A.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "rock_single_C",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/rock_single_C.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "cloud_big",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/cloud_big.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "cloud_small",
+      "pack": "kaykit-medieval-hexagon",
+      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/cloud_small.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "lantern_standing",
+      "pack": "kaykit-halloween-bits",
+      "src": "assets/raw/kaykit/halloween-bits/lantern_standing.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "spellbook_open",
+      "pack": "kaykit-adventures",
+      "src": "assets/raw/kaykit/character-pack-adventures/spellbook_open.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "mug_full",
+      "pack": "kaykit-adventures",
+      "src": "assets/raw/kaykit/character-pack-adventures/mug_full.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "keg",
+      "pack": "kaykit-dungeon-remastered",
+      "src": "assets/raw/kaykit/dungeon-remastered/keg.gltf.glb",
+      "kit": "core"
+    },
+    {
+      "name": "stool",
+      "pack": "kaykit-dungeon-remastered",
+      "src": "assets/raw/kaykit/dungeon-remastered/stool.gltf.glb",
+      "kit": "core"
+    },
+    {
+      "name": "CommonTree_1",
+      "pack": "quaternius-ultimate-nature",
+      "src": "assets/raw/quaternius/ultimate-nature/CommonTree_1.obj",
+      "kit": "core"
+    },
+    {
+      "name": "PineTree_3",
+      "pack": "quaternius-ultimate-nature",
+      "src": "assets/raw/quaternius/ultimate-nature/PineTree_3.obj",
+      "kit": "core"
+    },
+    {
+      "name": "Bush_1",
+      "pack": "quaternius-ultimate-nature",
+      "src": "assets/raw/quaternius/ultimate-nature/Bush_1.obj",
+      "kit": "core"
+    },
+    {
+      "name": "BushBerries_1",
+      "pack": "quaternius-ultimate-nature",
+      "src": "assets/raw/quaternius/ultimate-nature/BushBerries_1.obj",
+      "kit": "core"
+    },
+    {
+      "name": "Rock_Moss_4",
+      "pack": "quaternius-ultimate-nature",
+      "src": "assets/raw/quaternius/ultimate-nature/Rock_Moss_4.obj",
+      "kit": "core"
+    },
+    {
+      "name": "Flowers",
+      "pack": "quaternius-ultimate-nature",
+      "src": "assets/raw/quaternius/ultimate-nature/Flowers.obj",
+      "kit": "core"
+    },
+    {
+      "name": "floor_tile_large",
+      "pack": "kaykit-dungeon-remastered",
+      "src": "assets/raw/kaykit/dungeon-remastered/floor_tile_large.gltf.glb",
+      "kit": "vault"
+    },
+    {
+      "name": "torch_lit",
+      "pack": "kaykit-dungeon-remastered",
+      "src": "assets/raw/kaykit/dungeon-remastered/torch_lit.gltf.glb",
+      "kit": "vault"
+    },
+    {
+      "name": "chest_gold",
+      "pack": "kaykit-dungeon-remastered",
+      "src": "assets/raw/kaykit/dungeon-remastered/chest_gold.glb",
+      "kit": "vault"
+    },
+    {
+      "name": "coin_stack_medium",
+      "pack": "kaykit-dungeon-remastered",
+      "src": "assets/raw/kaykit/dungeon-remastered/coin_stack_medium.gltf.glb",
+      "kit": "vault"
+    },
+    {
+      "name": "arch_gate",
+      "pack": "kaykit-halloween-bits",
+      "src": "assets/raw/kaykit/halloween-bits/arch_gate.gltf",
+      "kit": "vault"
+    },
+    {
+      "name": "shrine_candles",
+      "pack": "kaykit-halloween-bits",
+      "src": "assets/raw/kaykit/halloween-bits/shrine_candles.gltf",
+      "kit": "vault"
+    }
+  ]
+}
