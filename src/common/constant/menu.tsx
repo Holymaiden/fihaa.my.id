@@ -97,7 +97,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
 ];
 
-// Presentasi 2D (ikon + warna) per kanal; datanya dari content/contact.ts.
+// Icons and colors per channel. Link data lives in content/contact.ts.
 const CONTACT_PRESENTATION: Record<
   ContactChannel,
   Pick<MenuItemProps, 'icon' | 'className'>
