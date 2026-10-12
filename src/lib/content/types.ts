@@ -3,8 +3,14 @@ import type { ReactElement } from 'react';
 // Content shared by the 2D site and the 3D world.
 // Fields marked "3D" are optional and stay empty until the world design is settled.
 
-// 3D: station id in the world. The list of stations isn't decided yet.
-export type WorldStationId = string;
+// 3D: one station (island) per kind of content. Draft names, rename them
+// once the islands are designed.
+export type WorldStationId = 'projects' | 'skills' | 'experience' | 'contact';
+
+export interface WorldStation {
+  id: WorldStationId;
+  label: string;
+}
 
 export interface WorldPlacement {
   // 3D
@@ -33,9 +39,13 @@ export interface ProjectEntry {
   content?: string | ReactElement;
 }
 
+export type SkillCategory =
+  'language' | 'frontend' | 'ui' | 'backend' | 'mobile' | 'tooling';
+
 export interface Skill extends WorldPlacement {
   // Also the icon key in STACKS.
   name: string;
+  category: SkillCategory;
 }
 
 export interface Career extends WorldPlacement {
