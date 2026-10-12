@@ -1,7 +1,7 @@
 # Fase 6 — Pencarian & Kurasi Aset
 
 Branch: `claude/clever-albattani-e7tn9x` (PR Holymaiden/fihaa.my.id#216), sesuai keputusan di `09-keputusan-dunia.md`.
-Status: **Quaternius sudah diperiksa (sesi 2026-10-12 lanjutan); menunggu persetujuan daftar aset final**. Fase 7 belum dimulai.
+Status: **disetujui pemilik (2026-10-12)**: KayKit + Quaternius Ultimate Nature + geometri sendiri. *Medieval Village Pack* lama tidak perlu.
 
 ## Ringkasan
 
