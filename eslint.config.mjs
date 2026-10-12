@@ -67,10 +67,6 @@ const config = [
       'max-lines-per-function': ['error', 150],
       'react/destructuring-assignment': 'off', // Vscode doesn't support automatically destructuring, it's a pain to add a new variable
       'react/require-default-props': 'off', // Allow non-defined react props as undefined
-      // New React Compiler rules from react-hooks v7. Existing violations need
-      // real refactors, so keep them as warnings for now.
-      'react-hooks/set-state-in-effect': 'warn',
-      'react-hooks/static-components': 'warn',
       '@typescript-eslint/consistent-type-imports': 'error', // Ensure `import type` is used when it's necessary
       'import/prefer-default-export': 'off', // Named export is easier to refactor automatically
       'simple-import-sort/imports': 'error', // Import configuration for `eslint-plugin-simple-import-sort`

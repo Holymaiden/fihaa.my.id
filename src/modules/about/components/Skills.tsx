@@ -2,7 +2,7 @@
 
 import styled from '@emotion/styled';
 import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { BiCodeAlt as SkillsIcon } from 'react-icons/bi';
 
 import InfiniteLoopSlider from '@/common/components/elements/InfiniteLoopSlider';
@@ -18,29 +18,37 @@ const Tag = ({ icon, title }: { icon: ReactNode; title: string }) => (
   </div>
 );
 
+const SLIDER_COUNT = 3;
+
+const shuffle = <T,>(items: T[]): T[] =>
+  [...items].sort(() => Math.random() - 0.5);
+
+// One random order per slider, made once on the client. The server
+// snapshot is empty so the markup matches during hydration.
+let sliderOrders: string[][] | null = null;
+const EMPTY_ORDERS: string[][] = [];
+const subscribe = () => () => {};
+const getSliderOrders = () => {
+  sliderOrders ??= Array.from({ length: SLIDER_COUNT }, () =>
+    shuffle(getSkills().map(({ name }) => name)),
+  );
+  return sliderOrders;
+};
+
 const Skills = () => {
-  const [shuffledSkills, setShuffledSkills] = useState<
-    Array<[string, ReactNode]>
-  >([]);
+  const orders = useSyncExternalStore(
+    subscribe,
+    getSliderOrders,
+    () => EMPTY_ORDERS,
+  );
 
-  useEffect(() => {
-    const skillsArray: Array<[string, ReactNode]> = getSkills().map(
-      ({ name }) => [name, STACKS[name]],
-    );
-    const shuffledArray = [...skillsArray].sort(() => Math.random() - 0.5);
-    setShuffledSkills(shuffledArray);
-  }, []);
-
-  const sliders = Array.from({ length: 3 }, (_, index) => {
-    const sliderSkills = [...shuffledSkills].sort(() => Math.random() - 0.5);
-    return (
-      <InfiniteLoopSlider key={index} isReverse={index === 1}>
-        {sliderSkills.map(([title, icon], index) => (
-          <Tag key={index} icon={icon} title={title} />
-        ))}
-      </InfiniteLoopSlider>
-    );
-  });
+  const sliders = orders.map((names, index) => (
+    <InfiniteLoopSlider key={index} isReverse={index === 1}>
+      {names.map((name, tagIndex) => (
+        <Tag key={tagIndex} icon={STACKS[name]} title={name} />
+      ))}
+    </InfiniteLoopSlider>
+  ));
 
   return (
     <div className="space-y-8 font-sora">

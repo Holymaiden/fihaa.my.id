@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
 import Breakline from '@/common/components/elements/Breakline';
 import NavigationSection from '@/common/components/elements/NavigationSection';
@@ -31,9 +30,13 @@ const ContentDetail = ({
   }) => {
   const router = useRouter();
 
-  const [currentId, setCurrentId] = useState<number>(0);
-  const [nextTitle, setNextTitle] = useState<string | null>(null);
-  const [previousTitle, setPreviousTitle] = useState<string | null>(null);
+  const currentId = frontMatter.id;
+  const previousTitle =
+    currentId > 0 ? (previousContent?.frontMatter?.title ?? null) : null;
+  const nextTitle =
+    currentId < novelLength - 1
+      ? (nextContent?.frontMatter?.title ?? null)
+      : null;
 
   const handleNavigation = (step: string) => {
     const { slug: targetSlug } = (
@@ -42,17 +45,6 @@ const ContentDetail = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
     router.push(to2d(`/novel/${slug}/${targetSlug}`));
   };
-
-  useEffect(() => {
-    setCurrentId(frontMatter.id);
-    if (frontMatter.id > 0) {
-      setPreviousTitle(previousContent?.frontMatter?.title as string);
-    }
-    if (frontMatter.id < novelLength - 1) {
-      setNextTitle(nextContent?.frontMatter?.title as string);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug]);
 
   return (
     <>

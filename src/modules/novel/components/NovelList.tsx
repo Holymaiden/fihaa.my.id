@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useSWR from 'swr';
 import { useDebounceValue } from 'usehooks-ts';
 
@@ -18,11 +18,11 @@ import NovelCard from './NovelCard';
 import NovelFeaturedSection from './NovelFeaturedSection';
 
 const NovelList = () => {
-  const [page, setPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pageNumber = searchParams.get('page') || '1';
+  const queryPage = Number(searchParams.get('page') || '1');
+  const page = isNaN(queryPage) ? 1 : queryPage;
 
   const [debouncedSearchTerm] = useDebounceValue(searchTerm, 500);
 
@@ -49,13 +49,11 @@ const NovelList = () => {
         scroll: false,
       },
     );
-    setPage(newPage);
   };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event?.target?.value;
     setSearchTerm(searchValue);
-    setPage(1);
 
     router.push(to2d(`/novel?page=1&search=${searchValue || ''}`), {
       scroll: false,
@@ -64,19 +62,11 @@ const NovelList = () => {
 
   const handleClearSearch = () => {
     setSearchTerm('');
-    setPage(1);
 
     router.push(to2d('/novel?page=1'), {
       scroll: false,
     });
   };
-
-  useEffect(() => {
-    const queryPage = Number(pageNumber);
-    if (!isNaN(queryPage) && queryPage !== page) {
-      setPage(queryPage);
-    }
-  }, [page, pageNumber, searchTerm]);
 
   const renderEmptyState = () =>
     !isValidating &&
