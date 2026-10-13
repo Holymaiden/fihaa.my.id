@@ -37,7 +37,7 @@ const BlogCarousel = ({ content }: BlogCarouselProps) => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -100 }}
         transition={{ duration: 0.5 }}
-        className="min-w-[326px] gap-x-5"
+        className="min-w-card gap-x-5"
       >
         <BlogCard {...item} />
       </motion.div>

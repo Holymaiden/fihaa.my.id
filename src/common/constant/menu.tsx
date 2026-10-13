@@ -1,4 +1,5 @@
 import { BiRocket as ContactIcon } from 'react-icons/bi';
+import { BsBox as WorldIcon } from 'react-icons/bs';
 import {
   BsEnvelopeAtFill as EmailIcon,
   BsFacebook as FacebookIcon,
@@ -15,6 +16,11 @@ import {
   FiUser as ProfileIcon,
 } from 'react-icons/fi';
 
+import { getContactLinks } from '@/lib/content/contact';
+import type { ContactChannel } from '@/lib/content/types';
+import { ROUTE_WORLD, to2d } from '@/lib/routes';
+import { rememberWorldMode } from '@/lib/world-mode/world-mode-store';
+
 import type { MenuItemProps } from '../types/menu';
 
 const iconSize = 20;
@@ -22,7 +28,7 @@ const iconSize = 20;
 export const MENU_ITEMS: MenuItemProps[] = [
   {
     title: 'Home',
-    href: '/',
+    href: to2d(),
     icon: <HomeIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -31,7 +37,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: to2d('/dashboard'),
     icon: <DashboardIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -40,7 +46,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Projects',
-    href: '/projects',
+    href: to2d('/projects'),
     icon: <ProjectIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -49,7 +55,7 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Blog',
-    href: '/blog',
+    href: to2d('/blog'),
     icon: <BlogIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -58,25 +64,16 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Learn',
-    href: '/learn',
+    href: to2d('/learn'),
     icon: <LearnIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
     eventName: 'Pages: Learn',
     type: 'Pages',
   },
-  // {
-  //   title: 'Novel',
-  //   href: '/novel',
-  //   icon: <BooksIcon size={iconSize} />,
-  //   isShow: true,
-  //   isExternal: false,
-  //   eventName: 'Pages: Novel',
-  //   type: 'Pages',
-  // },
   {
     title: 'About',
-    href: '/about',
+    href: to2d('/about'),
     icon: <ProfileIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
@@ -85,65 +82,60 @@ export const MENU_ITEMS: MenuItemProps[] = [
   },
   {
     title: 'Contact',
-    href: '/contact',
+    href: to2d('/contact'),
     icon: <ContactIcon size={iconSize} />,
     isShow: true,
     isExternal: false,
     eventName: 'Pages: Contact',
     type: 'Pages',
   },
+  {
+    title: 'Switch to 3D',
+    href: ROUTE_WORLD,
+    icon: <WorldIcon size={iconSize} />,
+    isShow: true,
+    isExternal: false,
+    onClick: () => rememberWorldMode('3d'),
+    eventName: 'Switch World: 3d',
+    type: 'Pages',
+  },
 ];
 
-export const SOCIAL_MEDIA: MenuItemProps[] = [
-  {
-    title: 'Email',
-    href: 'mailto:haikalwatampone3@gmail.com',
+// Icons and colors per channel. Link data lives in content/contact.ts.
+const CONTACT_PRESENTATION: Record<
+  ContactChannel,
+  Pick<MenuItemProps, 'icon' | 'className'>
+> = {
+  email: {
     icon: <EmailIcon size={iconSize} />,
-    isShow: true,
-    isExternal: true,
-    eventName: 'Contact: Email',
     className: '!bg-green-600 border border dark:border-neutral-700',
-    type: 'Link',
   },
-
-  {
-    title: 'Linkedin',
-    href: 'https://www.linkedin.com/in/m-fiqri-haikhar-anwar-999116163/',
+  linkedin: {
     icon: <LinkedinIcon size={iconSize} />,
-    isShow: true,
-    isExternal: true,
-    eventName: 'Social: Linkedin',
     className: '!bg-blue-500 border border dark:border-neutral-700',
-    type: 'Link',
   },
-  {
-    title: 'Facebook',
-    href: 'https://www.facebook.com/fiqri.haikar',
+  facebook: {
     icon: <FacebookIcon size={iconSize} />,
-    isShow: true,
-    isExternal: true,
-    eventName: 'Social: Facebook',
     className: '!bg-blue-700 border border dark:border-neutral-700',
-    type: 'Link',
   },
-  {
-    title: 'Instagram',
-    href: 'https://www.instagram.com/fiqri_haikhar',
+  instagram: {
     icon: <InstagramIcon size={iconSize} />,
-    isShow: true,
-    isExternal: true,
-    eventName: 'Social: Instagram',
     className: '!bg-orange-700 border border dark:border-neutral-700',
-    type: 'Link',
   },
-  {
-    title: 'Github',
-    href: 'https://github.com/Holymaiden',
+  github: {
     icon: <GithubIcon size={iconSize} />,
+    className: '!bg-black border border dark:border-neutral-700',
+  },
+};
+
+export const SOCIAL_MEDIA: MenuItemProps[] = getContactLinks().map(
+  ({ channel, label, href, eventName }) => ({
+    title: label,
+    href,
+    ...CONTACT_PRESENTATION[channel],
     isShow: true,
     isExternal: true,
-    eventName: 'Social: Github',
-    className: '!bg-black border border dark:border-neutral-700',
+    eventName,
     type: 'Link',
-  },
-];
+  }),
+);

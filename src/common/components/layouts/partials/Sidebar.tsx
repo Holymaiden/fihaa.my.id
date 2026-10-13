@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
+import useHasMounted from '@/common/hooks/useHasMounted';
 import useIsMobile from '@/common/hooks/useIsMobile';
 import { useKeyboardNavigation } from '@/common/hooks/useKeyboardNavigation';
 
@@ -13,14 +14,12 @@ import Copyright from './Copyright';
 const Sidebar = () => {
   const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useHasMounted();
 
   // Enable keyboard navigation for accessibility
   useKeyboardNavigation();
 
   useEffect(() => {
-    setIsClient(true);
-
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       setIsScrolled(scrollTop > 0);

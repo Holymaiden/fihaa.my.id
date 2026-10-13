@@ -1,9 +1,16 @@
 'use client';
 
 import Card from '@/common/components/elements/Card';
-import { professionalYears } from '@/common/constant/about';
+import {
+  getProfile,
+  getProfileIntro,
+  getProfileYears,
+} from '@/lib/content/profile';
 
 const Introduction = () => {
+  const { status, location } = getProfile();
+  const { professionalYears } = getProfileYears();
+
   return (
     <section className="bg-cover bg-no-repeat">
       <div className="space-y-8">
@@ -18,13 +25,13 @@ const Introduction = () => {
           <Card className="flex items-center gap-3 px-4 py-2">
             <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
             <span className="text-gray-700 dark:text-gray-300 font-medium font-sora">
-              Working Remotely
+              {status}
             </span>
           </Card>
           <Card className="flex items-center gap-3 px-4 py-2">
             <span className="text-gray-600 dark:text-gray-400">📍</span>
             <span className="text-gray-700 dark:text-gray-300 font-medium font-sora">
-              Makassar, Indonesia
+              {location}
             </span>
             <span className="text-gray-600 dark:text-gray-400">🇮🇩</span>
           </Card>
@@ -75,19 +82,9 @@ const Introduction = () => {
               About Me
             </div>
             <div className="space-y-4 text-gray-700 dark:text-gray-300 leading-relaxed font-sora">
-              <p>
-                I am an experienced Software Engineer with over{' '}
-                {professionalYears} years of professional experience in building
-                scalable web applications and backend systems. Currently working
-                at Ayola as a Software Engineer, with previous experience at
-                eFishery and various freelance projects.
-              </p>
-              <p>
-                I specialize in full-stack development with expertise across
-                frontend, backend, and mobile platforms. I&apos;m passionate
-                about creating high-performance applications that solve
-                real-world problems and deliver exceptional user experiences.
-              </p>
+              {getProfileIntro().map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
           </div>
         </div>

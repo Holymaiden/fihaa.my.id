@@ -1,0 +1,56 @@
+url_lama	respons_pertama	respons_akhir	judul
+/	200 	200 / 0	<title>M. Fiqri Haikhar Anwar - Software Engineer Portfolio</title>
+/about	308 /2d/about	200 /2d/about 1	<title>About | Fihaa Portfolio</title>
+/about/	308 /about	200 /2d/about 2	<title>About | Fihaa Portfolio</title>
+/contact	308 /2d/contact	200 /2d/contact 1	<title>Contact | Fihaa Portfolio</title>
+/dashboard	308 /2d/dashboard	200 /2d/dashboard 1	<title>Dashboard | Fihaa Portfolio</title>
+/projects	308 /2d/projects	200 /2d/projects 1	<title>Projects | Fihaa Portfolio</title>
+/blog	308 /2d/blog	200 /2d/blog 1	<title>Blog - Fihaa Portfolio</title>
+/learn	308 /2d/learn	200 /2d/learn 1	<title>Learn - Fihaa Portfolio</title>
+/novel	308 /2d/novel	200 /2d/novel 1	<title>Novel | Fihaa Portfolio</title>
+/blog?page=1&search=	308 /2d/blog?page=1&search=	200 /2d/blog?page=1&search= 1	<title>Blog - Fihaa Portfolio</title>
+/novel?page=1	308 /2d/novel?page=1	200 /2d/novel?page=1 1	<title>Novel | Fihaa Portfolio</title>
+/projects/apotek-narisa	308 /2d/projects/apotek-narisa	200 /2d/projects/apotek-narisa 1	<title>Apotek Narisa | Fihaa Portfolio</title>
+/projects/auth-starter-react-native	308 /2d/projects/auth-starter-react-native	200 /2d/projects/auth-starter-react-native 1	<title>Auth Starter React Native | Fihaa Portfolio</title>
+/projects/auto-resume	308 /2d/projects/auto-resume	200 /2d/projects/auto-resume 1	<title>Auto Resume | Fihaa Portfolio</title>
+/projects/ayola-mobile	308 /2d/projects/ayola-mobile	200 /2d/projects/ayola-mobile 1	<title>Ayola Mobile | Fihaa Portfolio</title>
+/projects/ayola	308 /2d/projects/ayola	200 /2d/projects/ayola 1	<title>Ayola | Fihaa Portfolio</title>
+/projects/brisik	308 /2d/projects/brisik	200 /2d/projects/brisik 1	<title>BRISIK | Fihaa Portfolio</title>
+/projects/course-online	308 /2d/projects/course-online	200 /2d/projects/course-online 1	<title>Course Online | Fihaa Portfolio</title>
+/projects/dcc	308 /2d/projects/dcc	200 /2d/projects/dcc 1	<title>DCC | Fihaa Portfolio</title>
+/projects/derinos	308 /2d/projects/derinos	200 /2d/projects/derinos 1	<title>Derinos | Fihaa Portfolio</title>
+/projects/express-starter-template	308 /2d/projects/express-starter-template	200 /2d/projects/express-starter-template 1	<title>Express JS Starter Template | Fihaa Portfolio</title>
+/projects/fihaa-my-id	308 /2d/projects/fihaa-my-id	200 /2d/projects/fihaa-my-id 1	<title>fihaa.my.id | Fihaa Portfolio</title>
+/projects/fuzzy-school	308 /2d/projects/fuzzy-school	200 /2d/projects/fuzzy-school 1	<title>Fuzzy Analist App | Fihaa Portfolio</title>
+/projects/golang-starter-template	308 /2d/projects/golang-starter-template	200 /2d/projects/golang-starter-template 1	<title>Golang Starter Template | Fihaa Portfolio</title>
+/projects/persuratan-iain-parepare	308 /2d/projects/persuratan-iain-parepare	200 /2d/projects/persuratan-iain-parepare 1	<title>Persuratan IAIN Parepare | Fihaa Portfolio</title>
+/projects/pmi-bone	308 /2d/projects/pmi-bone	200 /2d/projects/pmi-bone 1	<title>PMI Bone | Fihaa Portfolio</title>
+/projects/rcs	308 /2d/projects/rcs	200 /2d/projects/rcs 1	<title>RCS | Fihaa Portfolio</title>
+/projects/saw-polri	308 /2d/projects/saw-polri	200 /2d/projects/saw-polri 1	<title>Indonesian National Police Recruitment. | Fihaa Portfolio</title>
+/projects/sitani	308 /2d/projects/sitani	200 /2d/projects/sitani 1	<title>SITANI | Fihaa Portfolio</title>
+/projects/sma-2-bone	308 /2d/projects/sma-2-bone	200 /2d/projects/sma-2-bone 1	<title>Student Council - SMA 2 Bone | Fihaa Portfolio</title>
+/projects/stunting	308 /2d/projects/stunting	200 /2d/projects/stunting 1	<title>Stunting App | Fihaa Portfolio</title>
+/projects/unitama	308 /2d/projects/unitama	200 /2d/projects/unitama 1	<title>Unitama - Absensi App | Fihaa Portfolio</title>
+/projects/wedding-app	308 /2d/projects/wedding-app	200 /2d/projects/wedding-app 1	<title>Wedding App | Fihaa Portfolio</title>
+/projects/wisata-bulukumba-mobile	308 /2d/projects/wisata-bulukumba-mobile	200 /2d/projects/wisata-bulukumba-mobile 1	<title>Wisata Bulukumba Mobile | Fihaa Portfolio</title>
+/projects/wisata-bulukumba-web	308 /2d/projects/wisata-bulukumba-web	200 /2d/projects/wisata-bulukumba-web 1	<title>Wisata Bulukumba Website | Fihaa Portfolio</title>
+/projects/wisata-sulsel	308 /2d/projects/wisata-sulsel	200 /2d/projects/wisata-sulsel 1	<title>Wisata Sulsel | Fihaa Portfolio</title>
+/blog/1-next-js-14-membangun-masa	308 /2d/blog/1-next-js-14-membangun-masa	200 /2d/blog/1-next-js-14-membangun-masa 1	<title>Next.js 14: Membangun Masa Depan Web Development dengan Inovasi Terbaru | Fihaa Portfolio</title>
+/blog/2-memaksimalkan-potensi-seo-dengan-next-js-14	308 /2d/blog/2-memaksimalkan-potensi-seo-dengan-next-js-14	200 /2d/blog/2-memaksimalkan-potensi-seo-dengan-next-js-14 1	<title>Memaksimalkan Potensi SEO dengan Next.js 14: Panduan Untuk Para CEO | Fihaa Portfolio</title>
+/blog/3-exploring-server-side-rendering-ssr-and-client-side-rendering-csr-in-next-js-14	308 /2d/blog/3-exploring-server-side-rendering-ssr-and-client-side-rendering-csr-in-next-js-14	200 /2d/blog/3-exploring-server-side-rendering-ssr-and-client-side-rendering-csr-in-next-js-14 1	<title>Exploring Server-Side Rendering (SSR) and Client-Side Rendering (CSR) in Next.js 14 | Fihaa Portfolio</title>
+/blog/1-next-js-14-membangun-masa?id=1	308 /2d/blog/1-next-js-14-membangun-masa?id=1	200 /2d/blog/1-next-js-14-membangun-masa?id=1 1	<title>Next.js 14: Membangun Masa Depan Web Development dengan Inovasi Terbaru | Fihaa Portfolio</title>
+/learn/react-2024	308 /2d/learn/react-2024	200 /2d/learn/react-2024 1	<title>React 2024 | Fihaa Portfolio</title>
+/learn/react-2024/0-why-react	308 /2d/learn/react-2024/0-why-react	200 /2d/learn/react-2024/0-why-react 1	<title>Why React and Other Front-End Frameworks Exist | Fihaa Portfolio</title>
+/learn/react-2024/1-react-vs-vanilla	308 /2d/learn/react-2024/1-react-vs-vanilla	200 /2d/learn/react-2024/1-react-vs-vanilla 1	<title>React vs Vanilla JavaScript | Fihaa Portfolio</title>
+/learn/react-2024/2-what-is-react	308 /2d/learn/react-2024/2-what-is-react	200 /2d/learn/react-2024/2-what-is-react 1	<title>What is React? | Fihaa Portfolio</title>
+/novel/infinite-mage	308 /2d/novel/infinite-mage	200 /2d/novel/infinite-mage 1	<title>Infinite Mage | Fihaa Portfolio</title>
+/novel/infinite-mage/1-Temui-Keajaiban-	308 /2d/novel/infinite-mage/1-Temui-Keajaiban-	200 /2d/novel/infinite-mage/1-Temui-Keajaiban- 1	<title>1 - Temui Keajaiban  | Infinite Mage</title>
+/robots.txt	200 	200 /robots.txt 0	
+/sitemap.xml	200 	200 /sitemap.xml 0	
+/favicon.ico	200 	200 /favicon.ico 0	
+/icon.ico	200 	200 /icon.ico 0	
+/apple-icon.png	200 	200 /apple-icon.png 0	
+/manifest.json	200 	200 /manifest.json 0	
+/ads.txt	200 	200 /ads.txt 0	
+/images/fihaa.png	200 	200 /images/fihaa.png 0	
+/api/learn?slug=react-2024	200 	200 /api/learn?slug=react-2024 0	

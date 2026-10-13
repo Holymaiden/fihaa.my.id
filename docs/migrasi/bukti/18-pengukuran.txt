@@ -1,0 +1,5 @@
+# Pengukuran setelah label melayang + kartu (SwiftShader)
+{"scenario":"desktop 1280x800 dpr1","timing":{"ttfb":7,"fcp":852,"dcl":52,"load":188,"assetsReady":1574},"jsBytes":1821450,"glbBytes":701444,"home":{"fps":5,"frameMs":201.8,"calls":72,"triangles":75396,"geometries":63,"textures":8,"pixelRatio":1},"vault":{"fps":4,"frameMs":274.5,"calls":69,"triangles":77412,"geometries":71,"textures":10,"pixelRatio":1}}
+{"scenario":"HP 390x844 dpr3, CPU 4x, Fast 4G","timing":{"ttfb":7,"fcp":636,"dcl":466,"load":1139,"assetsReady":3604},"jsBytes":1821450,"glbBytes":701444,"home":{"fps":3,"frameMs":356.8,"calls":72,"triangles":75396,"geometries":63,"textures":8,"pixelRatio":2},"vault":{"fps":2,"frameMs":525.3,"calls":55,"triangles":74979,"geometries":71,"textures":10,"pixelRatio":1.8}}
+effects on | draw calls in 10s idle: 2592 | main-thread TaskDuration 0.12 s
+effects off (reduced motion) | draw calls in 10s idle: 0 | main-thread TaskDuration 0.00 s

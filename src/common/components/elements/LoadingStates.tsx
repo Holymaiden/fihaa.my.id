@@ -84,7 +84,7 @@ export const LoadingPage: React.FC<LoadingPageProps> = ({
   message = 'Loading...',
 }) => {
   return (
-    <div className="flex min-h-[400px] flex-col items-center justify-center space-y-4">
+    <div className="flex min-h-hero flex-col items-center justify-center space-y-4">
       <LoadingSpinner size="lg" />
       <p className="text-gray-600 dark:text-gray-400">{message}</p>
     </div>

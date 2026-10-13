@@ -3,10 +3,6 @@ import { toZonedTime } from 'date-fns-tz';
 
 import { type MdxFileProps } from '../libs/mdx';
 import type { ChapterGroupProps, SubContentMetaProps } from '../types/learn';
-import type {
-  ChapterGroupProps as NovelChapterGroupProps,
-  ContentProps,
-} from '../types/novel';
 import type { MdxFileProjectProps, ProjectGroupProps } from '../types/projects';
 
 interface ParsedUrlProps {
@@ -49,39 +45,6 @@ export const groupContentByChapter = (
       return acc;
     },
     {} as Record<string, ChapterGroupProps>,
-  );
-};
-
-export const groupContentSlice25 = (
-  contents: MdxFileProps<ContentProps>[],
-): Record<string, NovelChapterGroupProps> => {
-  return contents.reduce(
-    (acc, content) => {
-      const { frontMatter } = content;
-
-      const chapter_id = frontMatter.id ?? 0;
-
-      // slice per 25 chapter
-      const key = Math.floor((content.frontMatter.id - 1) / 25);
-
-      // Get Name like this 1-25
-      const name = `Chapter ${key * 25 + 1} - ${key * 25 + 25}`;
-
-      const chapter_title = name || 'ungrouped';
-
-      if (!acc[name]) {
-        acc[name] = {
-          chapter_id,
-          chapter_title,
-          contents: [],
-        };
-      }
-
-      acc[name].contents.push(content);
-
-      return acc;
-    },
-    {} as Record<string, NovelChapterGroupProps>,
   );
 };
 

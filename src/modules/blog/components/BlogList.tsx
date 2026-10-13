@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDebounceValue } from 'usehooks-ts';
 
 import EmptyState from '@/common/components/elements/EmptyState';
@@ -11,6 +11,7 @@ import SearchBar from '@/common/components/elements/SearchBar';
 import BlogCardSkeleton from '@/common/components/skeleton/BlogCardSkeleton';
 import type { MdxFileProps } from '@/common/libs/mdx';
 import { type BlogDetailProps } from '@/common/types/blog';
+import { to2d } from '@/lib/routes';
 
 import BlogCard from './BlogCard';
 import BlogFeaturedSection from './BlogFeaturedSection';
@@ -20,11 +21,11 @@ type BlogListProps = {
 };
 
 const BlogList = ({ content }: BlogListProps) => {
-  const [page, setPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pageNumber = searchParams.get('page') || '1';
+  const queryPage = Number(searchParams.get('page') || '1');
+  const page = isNaN(queryPage) ? 1 : queryPage;
 
   const [debouncedSearchTerm] = useDebounceValue(searchTerm, 500);
 
@@ -43,33 +44,25 @@ const BlogList = ({ content }: BlogListProps) => {
   const total_posts = content.length;
 
   const handlePageChange = (newPage: number) => {
-    router.push(`/blog?page=${newPage}&search=${debouncedSearchTerm}`, {
+    router.push(to2d(`/blog?page=${newPage}&search=${debouncedSearchTerm}`), {
       scroll: false,
     });
-    setPage(newPage);
   };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event?.target?.value;
     setSearchTerm(searchValue);
-    setPage(1);
 
-    router.push(`/blog?page=1&search=${searchValue || ''}`, { scroll: false });
+    router.push(to2d(`/blog?page=1&search=${searchValue || ''}`), {
+      scroll: false,
+    });
   };
 
   const handleClearSearch = () => {
     setSearchTerm('');
-    setPage(1);
 
-    router.push('/blog?page=1', { scroll: false });
+    router.push(to2d('/blog?page=1'), { scroll: false });
   };
-
-  useEffect(() => {
-    const queryPage = Number(pageNumber);
-    if (!isNaN(queryPage) && queryPage !== page) {
-      setPage(queryPage);
-    }
-  }, [page, pageNumber, searchTerm]);
 
   const renderEmptyState = () =>
     (!data || data.length === 0) && <EmptyState message={'No Post Found.'} />;

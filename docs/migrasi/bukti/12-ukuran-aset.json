@@ -1,0 +1,177 @@
+{
+  "kits": [
+    {
+      "kit": "core",
+      "file": "public/world/models/core.glb",
+      "bytes": 570608,
+      "models": 25,
+      "rawBytes": 1524311,
+      "gzipBytes": 371588
+    },
+    {
+      "kit": "vault",
+      "file": "public/world/models/vault.glb",
+      "bytes": 130836,
+      "models": 6,
+      "rawBytes": 381613,
+      "gzipBytes": 82639
+    }
+  ],
+  "models": [
+    {
+      "name": "building_castle_blue",
+      "kit": "core",
+      "rawBytes": 336587
+    },
+    {
+      "name": "building_tower_A_blue",
+      "kit": "core",
+      "rawBytes": 133690
+    },
+    {
+      "name": "building_tavern_blue",
+      "kit": "core",
+      "rawBytes": 189724
+    },
+    {
+      "name": "building_well_blue",
+      "kit": "core",
+      "rawBytes": 61206
+    },
+    {
+      "name": "flag_blue",
+      "kit": "core",
+      "rawBytes": 21270
+    },
+    {
+      "name": "barrel",
+      "kit": "core",
+      "rawBytes": 34377
+    },
+    {
+      "name": "crate_A_big",
+      "kit": "core",
+      "rawBytes": 25838
+    },
+    {
+      "name": "sack",
+      "kit": "core",
+      "rawBytes": 22054
+    },
+    {
+      "name": "tree_single_A",
+      "kit": "core",
+      "rawBytes": 22176
+    },
+    {
+      "name": "trees_A_medium",
+      "kit": "core",
+      "rawBytes": 50529
+    },
+    {
+      "name": "rock_single_A",
+      "kit": "core",
+      "rawBytes": 20042
+    },
+    {
+      "name": "rock_single_C",
+      "kit": "core",
+      "rawBytes": 21027
+    },
+    {
+      "name": "cloud_big",
+      "kit": "core",
+      "rawBytes": 33674
+    },
+    {
+      "name": "cloud_small",
+      "kit": "core",
+      "rawBytes": 26948
+    },
+    {
+      "name": "lantern_standing",
+      "kit": "core",
+      "rawBytes": 30577
+    },
+    {
+      "name": "spellbook_open",
+      "kit": "core",
+      "rawBytes": 34515
+    },
+    {
+      "name": "mug_full",
+      "kit": "core",
+      "rawBytes": 33945
+    },
+    {
+      "name": "keg",
+      "kit": "core",
+      "rawBytes": 59912
+    },
+    {
+      "name": "stool",
+      "kit": "core",
+      "rawBytes": 28528
+    },
+    {
+      "name": "CommonTree_1",
+      "kit": "core",
+      "rawBytes": 138394
+    },
+    {
+      "name": "PineTree_3",
+      "kit": "core",
+      "rawBytes": 113933
+    },
+    {
+      "name": "Bush_1",
+      "kit": "core",
+      "rawBytes": 16570
+    },
+    {
+      "name": "BushBerries_1",
+      "kit": "core",
+      "rawBytes": 42150
+    },
+    {
+      "name": "Rock_Moss_4",
+      "kit": "core",
+      "rawBytes": 6220
+    },
+    {
+      "name": "Flowers",
+      "kit": "core",
+      "rawBytes": 20425
+    },
+    {
+      "name": "floor_tile_large",
+      "kit": "vault",
+      "rawBytes": 28100
+    },
+    {
+      "name": "torch_lit",
+      "kit": "vault",
+      "rawBytes": 31244
+    },
+    {
+      "name": "chest_gold",
+      "kit": "vault",
+      "rawBytes": 140140
+    },
+    {
+      "name": "coin_stack_medium",
+      "kit": "vault",
+      "rawBytes": 63996
+    },
+    {
+      "name": "arch_gate",
+      "kit": "vault",
+      "rawBytes": 80416
+    },
+    {
+      "name": "shrine_candles",
+      "kit": "vault",
+      "rawBytes": 37717
+    }
+  ]
+}

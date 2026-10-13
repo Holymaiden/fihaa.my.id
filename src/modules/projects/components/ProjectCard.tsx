@@ -6,15 +6,15 @@ import Card from '@/common/components/elements/Card';
 import Image from '@/common/components/elements/Image';
 import Tooltip from '@/common/components/elements/Tooltip';
 import { STACKS } from '@/common/constant/stacks';
-import type { MdxFileProps } from '@/common/libs/mdx';
-import { type ProjectItemProps } from '@/common/types/projects';
+import type { ProjectEntry } from '@/lib/content/types';
+import { to2d } from '@/lib/routes';
 
-const ProjectCard = ({ slug, frontMatter }: MdxFileProps<ProjectItemProps>) => {
+const ProjectCard = ({ slug, frontMatter }: ProjectEntry) => {
   return (
-    <Link href={`/projects/${frontMatter?.slug}`}>
+    <Link href={to2d(`/projects/${frontMatter?.slug}`)}>
       <Card className="group relative border border-neutral-200 dark:border-neutral-900 lg:hover:scale-[102%] cursor-pointer">
         {frontMatter?.is_featured && (
-          <div className="flex items-center gap-1 absolute top-0 right-0 bg-lime-300 text-emerald-950 text-[13px] font-medium py-1 px-2 rounded-bl-xl rounded-tr-xl z-[2]">
+          <div className="flex items-center gap-1 absolute top-0 right-0 bg-lime-300 text-emerald-950 text-caption font-medium py-1 px-2 rounded-bl-xl rounded-tr-xl z-[2]">
             <PinIcon size={15} />
             <span>Featured</span>
           </div>
@@ -40,7 +40,7 @@ const ProjectCard = ({ slug, frontMatter }: MdxFileProps<ProjectItemProps>) => {
               {frontMatter?.title}
             </div>
           </div>
-          <p className="text-neutral-700 dark:text-neutral-400 text-[15px] leading-relaxed">
+          <p className="text-neutral-700 dark:text-neutral-400 text-body-sm leading-relaxed">
             {frontMatter?.description}
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">

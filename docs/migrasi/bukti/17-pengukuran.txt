@@ -1,0 +1,13 @@
+# Pengukuran setelah desain ulang satu pulau (SwiftShader, next start)
+
+## sebelum ShadowUpdater
+{"scenario":"desktop 1280x800 dpr1","timing":{"ttfb":10,"fcp":360,"dcl":137,"load":223,"assetsReady":1163},"jsBytes":1795800,"glbBytes":701444,"home":{"fps":3,"frameMs":316.1,"calls":112,"triangles":146516,"geometries":63,"textures":8,"pixelRatio":1},"vault":{"fps":4,"frameMs":230.4,"calls":96,"triangles":150815,"geometries":71,"textures":10,"pixelRatio":1}}
+{"scenario":"HP 390x844 dpr3, CPU 4x, Fast 4G","timing":{"ttfb":9,"fcp":576,"dcl":487,"load":1128,"assetsReady":3584},"jsBytes":1795800,"glbBytes":701444,"home":{"fps":3,"frameMs":381.8,"calls":112,"triangles":146516,"geometries":63,"textures":8,"pixelRatio":2},"vault":{"fps":3,"frameMs":314.3,"calls":83,"triangles":142883,"geometries":71,"textures":10,"pixelRatio":1.8}}
+
+## sesudah ShadowUpdater + kunci sudut
+{"scenario":"desktop 1280x800 dpr1","timing":{"ttfb":50,"fcp":316,"dcl":100,"load":229,"assetsReady":1069},"jsBytes":1796328,"glbBytes":701444,"home":{"fps":4,"frameMs":268.7,"calls":72,"triangles":75396,"geometries":63,"textures":8,"pixelRatio":1},"vault":{"fps":4,"frameMs":226.6,"calls":48,"triangles":75661,"geometries":71,"textures":10,"pixelRatio":1}}
+{"scenario":"HP 390x844 dpr3, CPU 4x, Fast 4G","timing":{"ttfb":10,"fcp":552,"dcl":453,"load":1057,"assetsReady":3409},"jsBytes":1796328,"glbBytes":701444,"home":{"fps":1,"frameMs":732.1,"calls":72,"triangles":75396,"geometries":63,"textures":8,"pixelRatio":1.8},"vault":{"fps":4,"frameMs":250.6,"calls":35,"triangles":67729,"geometries":71,"textures":10,"pixelRatio":1.6}}
+
+## idle 10 dtk
+effects on | draw calls in 10s idle: 2664 | main-thread TaskDuration 0.10 s
+effects off (reduced motion) | draw calls in 10s idle: 0 | main-thread TaskDuration 0.00 s

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 interface SearchItem {
   id: string;
@@ -32,19 +32,10 @@ const searchItems = (items: SearchItem[], query: string): SearchItem[] => {
 
 export const useSearch = (items: SearchItem[]) => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchItem[]>([]);
-
-  const filteredResults = useMemo(() => {
-    return searchItems(items, query);
-  }, [items, query]);
-
-  useEffect(() => {
-    setResults(filteredResults);
-  }, [filteredResults]);
+  const results = useMemo(() => searchItems(items, query), [items, query]);
 
   const clearSearch = () => {
     setQuery('');
-    setResults([]);
   };
 
   return {

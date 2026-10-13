@@ -1,0 +1,47 @@
+import type { Skill, SkillCategory } from '@/lib/content/types';
+
+// Same order as the keys in STACKS.
+export const SKILLS: Skill[] = [
+  { name: 'PHP', category: 'language' },
+  { name: 'Flask', category: 'backend' },
+  { name: 'Golang', category: 'language' },
+  { name: 'C++', category: 'language' },
+  { name: 'Kotlin', category: 'language' },
+  { name: 'JavaScript', category: 'language' },
+  { name: 'TypeScript', category: 'language' },
+  { name: 'Next.js', category: 'frontend' },
+  { name: 'React.js', category: 'frontend' },
+  { name: 'React Native', category: 'mobile' },
+  { name: 'TailwindCSS', category: 'ui' },
+  { name: 'Bootstrap', category: 'ui' },
+  { name: 'Chakra UI', category: 'ui' },
+  { name: 'Material UI', category: 'ui' },
+  { name: 'WordPress', category: 'tooling' },
+  { name: 'Laravel', category: 'backend' },
+  { name: 'Livewire', category: 'backend' },
+  { name: 'Vite', category: 'tooling' },
+  { name: 'Prisma', category: 'backend' },
+  { name: 'Firebase', category: 'backend' },
+  { name: 'Node.js', category: 'backend' },
+  { name: 'Redux', category: 'frontend' },
+  { name: 'Styled Components', category: 'ui' },
+  { name: 'Storybook', category: 'tooling' },
+  { name: 'CSS', category: 'ui' },
+  { name: 'Socket', category: 'backend' },
+  { name: 'Express', category: 'backend' },
+  { name: 'Jquery', category: 'frontend' },
+  { name: 'Markdown', category: 'tooling' },
+  { name: 'TanStack Query', category: 'frontend' },
+  { name: 'Expo', category: 'mobile' },
+  { name: 'Vercel', category: 'tooling' },
+  { name: 'Shadcnui', category: 'ui' },
+];
+
+export const SKILL_CATEGORY_LABELS: Record<SkillCategory, string> = {
+  language: 'Languages',
+  frontend: 'Frontend',
+  ui: 'UI & Styling',
+  backend: 'Backend',
+  mobile: 'Mobile',
+  tooling: 'Tooling',
+};

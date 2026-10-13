@@ -1,13 +1,13 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { type ReactElement, useEffect, useState } from 'react';
 import React from 'react';
 
 import Loading from '@/common/components/elements/Loading';
 import NavigationSection from '@/common/components/elements/NavigationSection';
 import type { MdxFileNextPrevProps, MdxFileProps } from '@/common/libs/mdx';
 import type { SubContentMetaProps } from '@/common/types/learn';
+import { to2d } from '@/lib/routes';
 
 type ContentDetailProps = {
   params: { slug: string };
@@ -16,7 +16,6 @@ type ContentDetailProps = {
 } & MdxFileNextPrevProps<SubContentMetaProps>;
 
 const ContentDetail = ({
-  slug,
   content,
   frontMatter,
   nextContent,
@@ -25,9 +24,13 @@ const ContentDetail = ({
   learnLength,
   children,
 }: ContentDetailProps) => {
-  const [currentId, setCurrentId] = useState<number>(0);
-  const [nextTitle, setNextTitle] = useState<string | null>(null);
-  const [previousTitle, setPreviousTitle] = useState<string | null>(null);
+  const currentId = frontMatter.id;
+  const previousTitle =
+    currentId > 0 ? (previousContent?.frontMatter?.title ?? null) : null;
+  const nextTitle =
+    currentId < learnLength - 1
+      ? (nextContent?.frontMatter?.title ?? null)
+      : null;
 
   const { slug: parentSlug } = params;
 
@@ -39,19 +42,8 @@ const ContentDetail = ({
     ) as MdxFileProps<SubContentMetaProps>;
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    router.push(`/learn/${parentSlug}/${targetSlug}`);
+    router.push(to2d(`/learn/${parentSlug}/${targetSlug}`));
   };
-
-  useEffect(() => {
-    setCurrentId(frontMatter.id);
-    if (frontMatter.id > 0) {
-      setPreviousTitle(previousContent?.frontMatter?.title as string);
-    }
-    if (frontMatter.id < learnLength - 1) {
-      setNextTitle(nextContent?.frontMatter?.title as string);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug]);
 
   if (!content) return <Loading />;
 

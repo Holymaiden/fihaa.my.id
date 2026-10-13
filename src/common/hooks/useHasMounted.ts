@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
-const useHasMounted = () => {
-  const [hasMounted, setHasMounted] = useState<boolean>(false);
+const subscribe = () => () => {};
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  return hasMounted;
-};
+// false on the server and during hydration, true afterwards.
+const useHasMounted = () =>
+  useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
 
 export default useHasMounted;

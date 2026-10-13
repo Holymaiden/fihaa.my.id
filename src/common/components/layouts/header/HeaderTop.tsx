@@ -12,14 +12,18 @@ import {
 } from 'react-icons/md';
 
 import { MENU_ITEMS } from '@/common/constant/menu';
+import { getProfile } from '@/lib/content/profile';
+import { to2d } from '@/lib/routes';
 
 import Image from '../../elements/Image';
+import Reveal from '../../elements/reveal';
 import ThemeToggleButton from '../../elements/ThemeToggleButton';
 import Tooltip from '../../elements/Tooltip';
 import Profile from '../../sidebar/Profile';
 
 const HeaderTop = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const profile = getProfile();
 
   const pathname = usePathname();
 
@@ -32,8 +36,8 @@ const HeaderTop = () => {
       <div className="hidden lg:flex gap-5 items-center justify-between py-8 mx-8 font-sora">
         <div className="flex items-center gap-5">
           <Image
-            src="/images/fihaa.png"
-            alt="M. Fiqri Haikhar Anwar"
+            src={profile.avatar}
+            alt={profile.name}
             width={40}
             height={40}
             rounded="rounded-full"
@@ -41,17 +45,15 @@ const HeaderTop = () => {
           />
           {!showMenu && (
             <div className="flex items-center gap-3">
-              <Link href="/" passHref>
+              <Link href={to2d()} passHref>
                 <h2 className="flex-grow text-lg lg:text-xl font-sora font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-neutral-900 rounded">
-                  M. Fiqri Haikhar Anwar
+                  {profile.name}
                 </h2>
               </Link>
               <Tooltip title="Verified">
-                <VerifiedIcon
-                  size={18}
-                  className="text-blue-400"
-                  data-aos="flip-right"
-                />
+                <Reveal variant="flip-right" as="span">
+                  <VerifiedIcon size={18} className="text-blue-400" />
+                </Reveal>
               </Tooltip>
             </div>
           )}
@@ -59,11 +61,12 @@ const HeaderTop = () => {
 
         <div className="flex justify-between items-center gap-5">
           {showMenu && (
-            <div className="flex gap-6 items-center" data-aos="flip-up">
+            <Reveal variant="flip-up" className="flex gap-6 items-center">
               {menus.map((menu, index) => (
                 <Link
                   key={index}
                   href={menu.href}
+                  onClick={menu.onClick}
                   passHref
                   className={clsx(
                     'text-neutral-700 hover:text-neutral-800 dark:text-neutral-400 hover:dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-neutral-900 rounded px-2 py-1',
@@ -74,7 +77,7 @@ const HeaderTop = () => {
                   <div>{menu.title}</div>
                 </Link>
               ))}
-            </div>
+            </Reveal>
           )}
 
           {!showMenu && (

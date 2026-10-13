@@ -6,7 +6,7 @@ import SkeletonLoader from '../elements/SkeletonLoader';
 const BlogFeaturedHeroSkeleton = () => {
   return (
     <SkeletonLoader>
-      <Card className="min-w-[326px]">
+      <Card className="min-w-card">
         <Skeleton
           height={400}
           containerClassName="flex"

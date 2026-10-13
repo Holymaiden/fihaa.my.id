@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next';
 
+import { SITE_URL, to2d } from '@/lib/routes';
+
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://fihaa.my.id';
+  const baseUrl = SITE_URL;
 
   return {
     rules: [
@@ -11,6 +13,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/api/',
           '/dashboard/',
+          `${to2d('/dashboard')}/`,
           '/_next/',
           '/private/',
           '/*.json$',

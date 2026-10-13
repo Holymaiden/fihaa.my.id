@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { LuDownload as DownloadIcon } from 'react-icons/lu';
 
+import { getResumeUrl } from '@/lib/content/contact';
+
 const Resume = () => {
-  const RESUME_URL = 'https://bit.ly/fihaa-cv';
+  const RESUME_URL = getResumeUrl();
 
   return (
     <Link

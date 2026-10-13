@@ -1,28 +1,8 @@
-import { type ReactElement } from 'react';
-
-export type ProjectItemProps = {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
-  image: string;
-  link_demo?: string;
-  link_github?: string;
-  stacks: string[];
-  content?: string | ReactElement;
-  is_show: boolean;
-  is_featured: boolean;
-  updated_at: Date;
-  cover_url?: string;
-};
-
-export type ProjectsProps = {
-  projects: ProjectItemProps[];
-};
+import type { ProjectFrontmatter } from '@/lib/content/types';
 
 export type MdxFileProjectProps = {
   slug: string;
-  frontMatter: ProjectItemProps;
+  frontMatter: ProjectFrontmatter;
   content: string;
 };
 

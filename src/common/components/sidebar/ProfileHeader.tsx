@@ -2,8 +2,15 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { MdVerified as VerifiedIcon } from 'react-icons/md';
 
+import useIsMobile from '@/common/hooks/useIsMobile';
+import { getProfile } from '@/lib/content/profile';
+import { to2d } from '@/lib/routes';
+
 import Image from '../elements/Image';
 import Tooltip from '../elements/Tooltip';
+
+// Below this width the header shows the short name.
+const SHORT_NAME_MAX_WIDTH = 429;
 
 interface ProfileHeaderProps {
   expandMenu: boolean;
@@ -12,7 +19,8 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader = ({ expandMenu, imageSize }: ProfileHeaderProps) => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 429;
+  const isMobile = useIsMobile(SHORT_NAME_MAX_WIDTH);
+  const { name, shortName, handle, avatar } = getProfile();
 
   return (
     <div
@@ -22,17 +30,17 @@ const ProfileHeader = ({ expandMenu, imageSize }: ProfileHeaderProps) => {
       )}
     >
       <Image
-        src="/images/fihaa.png"
-        alt="M. Fiqri Haikhar Anwar"
+        src={avatar}
+        alt={name}
         width={expandMenu ? 80 : imageSize}
         height={expandMenu ? 80 : imageSize}
         rounded="rounded-full"
         className="lg:hover:scale-105"
       />
       <div className="flex gap-2 items-center mt-1 lg:mt-4">
-        <Link href="/" passHref>
+        <Link href={to2d()} passHref>
           <h2 className="flex-grow text-lg lg:text-xl font-sora font-medium">
-            {isMobile ? 'Fihaa' : 'M. Fiqri Haikhar Anwar'}
+            {isMobile ? shortName : name}
           </h2>
         </Link>
         <Tooltip title="Verified">
@@ -40,7 +48,7 @@ const ProfileHeader = ({ expandMenu, imageSize }: ProfileHeaderProps) => {
         </Tooltip>
       </div>
       <div className="hidden lg:flex text-sm font-sora text-neutral-600 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-400 transition-all duration-300">
-        @holymaiden
+        {handle}
       </div>
     </div>
   );

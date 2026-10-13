@@ -7,7 +7,28 @@ interface LinkComponentProps {
   url: string;
   text: string;
   icon?: ReactNode;
+  projectTitle?: string;
 }
+
+const LinkComponent = ({
+  url,
+  text,
+  icon,
+  projectTitle,
+}: LinkComponentProps) => {
+  const eventName = `Click ${text} - Project ${projectTitle}`;
+
+  return (
+    <Link href={url} target="_blank" passHref data-umami-event={eventName}>
+      <div className="flex gap-2 items-center font-medium text-neutral-700 dark:text-neutral-300 ">
+        {icon}
+        <span className="text-body-sm dark:text-teal-500 hover:dark:text-teal-400 transition-all duration-300">
+          {text}
+        </span>
+      </div>
+    </Link>
+  );
+};
 
 interface ProjectLinkProps {
   title?: string;
@@ -16,25 +37,11 @@ interface ProjectLinkProps {
 }
 
 const ProjectLink = ({ title, link_github, link_demo }: ProjectLinkProps) => {
-  const LinkComponent = ({ url, text, icon }: LinkComponentProps) => {
-    const eventName = `Click ${text} - Project ${title}`;
-
-    return (
-      <Link href={url} target="_blank" passHref data-umami-event={eventName}>
-        <div className="flex gap-2 items-center font-medium text-neutral-700 dark:text-neutral-300 ">
-          {icon}
-          <span className="text-[15px] dark:text-teal-500 hover:dark:text-teal-400 transition-all duration-300">
-            {text}
-          </span>
-        </div>
-      </Link>
-    );
-  };
-
   return (
     <div className="flex gap-4">
       {link_github && (
         <LinkComponent
+          projectTitle={title}
           url={link_github}
           text="Source Code"
           icon={<GithubIcon size={22} />}
@@ -45,6 +52,7 @@ const ProjectLink = ({ title, link_github, link_demo }: ProjectLinkProps) => {
       )}
       {link_demo && (
         <LinkComponent
+          projectTitle={title}
           url={link_demo}
           text="Live Demo"
           icon={<LinkIcon size={22} />}

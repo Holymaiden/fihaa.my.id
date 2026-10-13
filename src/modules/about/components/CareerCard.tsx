@@ -3,7 +3,7 @@ import { BsBuildings as CompanyIcon } from 'react-icons/bs';
 
 import Card from '@/common/components/elements/Card';
 import Image from '@/common/components/elements/Image';
-import type { CareerProps } from '@/common/types/careers';
+import type { Career } from '@/lib/content/types';
 
 const CareerCard = ({
   position,
@@ -15,7 +15,7 @@ const CareerCard = ({
   link,
   type,
   location_type,
-}: CareerProps) => {
+}: Career) => {
   const parseYearMonth = (dateStr: string): Date => {
     const [year, month] = dateStr.split('-').map(Number);
     return new Date(year, month - 1);
@@ -65,7 +65,7 @@ const CareerCard = ({
             <span className="text-neutral-300 dark:text-neutral-700">•</span>
             <span>{location}</span>
           </div>
-          <div className="flex flex-col md:text-[12px]">
+          <div className="flex flex-col md:text-2xs">
             <div className="flex gap-1">
               <span>{format(startDate, 'MMM yyyy')}</span> -{' '}
               <span>{end_date ? format(endDate, 'MMM yyyy') : 'Present'}</span>

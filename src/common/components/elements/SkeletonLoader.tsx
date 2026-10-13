@@ -10,8 +10,13 @@ type SkeletonLoaderProps = {
 
 const SkeletonLoader = ({ children }: SkeletonLoaderProps) => {
   const { resolvedTheme } = useTheme();
-  const baseColor = resolvedTheme === 'light' ? '#ebebeb' : '#202020';
-  const highlightColor = resolvedTheme === 'light' ? '#f5f5f5' : '#2e2e2e';
+  const isLight = resolvedTheme === 'light';
+  const baseColor = isLight
+    ? 'var(--color-skeleton-base-light)'
+    : 'var(--color-skeleton-base-dark)';
+  const highlightColor = isLight
+    ? 'var(--color-skeleton-highlight-light)'
+    : 'var(--color-skeleton-highlight-dark)';
 
   return (
     <SkeletonTheme baseColor={baseColor} highlightColor={highlightColor}>

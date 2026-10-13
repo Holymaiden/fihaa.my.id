@@ -13,6 +13,7 @@ import Tooltip from '@/common/components/elements/Tooltip';
 import { formatDate } from '@/common/helpers';
 import { type MdxFileProps } from '@/common/libs/mdx';
 import { type BlogItemProps } from '@/common/types/blog';
+import { to2d } from '@/lib/routes';
 
 const BlogCard = ({ slug, frontMatter }: MdxFileProps<BlogItemProps>) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -25,9 +26,9 @@ const BlogCard = ({ slug, frontMatter }: MdxFileProps<BlogItemProps>) => {
   };
 
   return (
-    <Link href={`/blog/${slug}?id=${frontMatter?.id}`}>
+    <Link href={to2d(`/blog/${slug}?id=${frontMatter?.id}`)}>
       <Card
-        className="group relative flex flex-col border dark:border-neutral-800 shadow-sm rounded-lg h-[400px] w-full"
+        className="group relative flex flex-col border dark:border-neutral-800 shadow-sm rounded-lg h-hero w-full"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

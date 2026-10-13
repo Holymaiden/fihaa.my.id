@@ -6,6 +6,7 @@ import { useTheme } from 'next-themes';
 import type { ReactNode } from 'react';
 
 import useHasMounted from '@/common/hooks/useHasMounted';
+import { stripRoute2d } from '@/lib/routes';
 
 import TopBar from '../elements/TopBar';
 import HeaderSidebar from './header/HeaderSidebar';
@@ -22,14 +23,12 @@ const Layout = ({ children }: LayoutProps) => {
   const isDarkTheme =
     hasMounted && (resolvedTheme === 'dark' || resolvedTheme === 'system');
 
-  const pathname = usePathname();
+  const pathname = stripRoute2d(usePathname());
   const pageName = pathname.split('/')[1];
 
   const isFullPageHeader =
-    pageName === 'novel' ||
     pageName === 'blog' ||
     pathname.startsWith('/blog/') ||
-    pathname.startsWith('/novel/') ||
     pathname.startsWith('/learn/');
 
   return (
@@ -44,14 +43,14 @@ const Layout = ({ children }: LayoutProps) => {
         {isFullPageHeader ? (
           <div className="flex flex-col xl:pb-8">
             <HeaderTop />
-            <main className="transition-all duration-300">{children}</main>
+            <div className="transition-all duration-300">{children}</div>
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row lg:gap-5 lg:py-4 xl:pb-8">
             <HeaderSidebar />
-            <main className="lg:w-4/5 max-w-[1024px] transition-all duration-300">
+            <div className="lg:w-4/5 max-w-content transition-all duration-300">
               {children}
-            </main>
+            </div>
           </div>
         )}
       </div>

@@ -36,7 +36,7 @@ const ThemeToggleButton = () => {
                 dx="0"
                 dy="0"
                 stdDeviation="8"
-                floodColor="#ffffff"
+                floodColor="var(--color-white)"
                 floodOpacity="0.75"
               />
             </filter>
@@ -45,7 +45,7 @@ const ThemeToggleButton = () => {
                 dx="0"
                 dy="0"
                 stdDeviation="0.5"
-                floodColor="#ffffff"
+                floodColor="var(--color-white)"
                 floodOpacity="0.5"
               />
             </filter>
@@ -63,7 +63,7 @@ const ThemeToggleButton = () => {
             cx="0"
             cy="0"
             r="70"
-            fill="#ffffff"
+            fill="var(--color-white)"
             style={{ filter: 'url(#glow)' }}
           />
           <g className="stars">
@@ -72,7 +72,7 @@ const ThemeToggleButton = () => {
               cx="190"
               cy="50"
               r="4"
-              fill="#ffffff"
+              fill="var(--color-white)"
               style={{ filter: 'url(#glow-mini)' }}
             />
             <circle
@@ -80,7 +80,7 @@ const ThemeToggleButton = () => {
               cx="250"
               cy="70"
               r="4"
-              fill="#ffffff"
+              fill="var(--color-white)"
               style={{ filter: 'url(#glow-mini)' }}
             />
             <circle
@@ -88,7 +88,7 @@ const ThemeToggleButton = () => {
               cx="220"
               cy="130"
               r="6"
-              fill="#ffffff"
+              fill="var(--color-white)"
               style={{ filter: 'url(#glow-mini)' }}
             />
           </g>
@@ -151,16 +151,16 @@ const StyledToggle = styled.div`
   }
 
   .mode-toggle + label .source {
-    fill: #f7f7e7;
+    fill: var(--color-toggle-sun);
     transform: translate(70%, 50%);
   }
 
   .mode-toggle + label .bg-stop-start {
-    stop-color: #93d4cc;
+    stop-color: var(--color-toggle-day-start);
   }
 
   .mode-toggle + label .bg-stop-end {
-    stop-color: #c7dfc3;
+    stop-color: var(--color-toggle-day-end);
   }
 
   .mode-toggle + label .stars {
@@ -172,16 +172,16 @@ const StyledToggle = styled.div`
   }
 
   .mode-toggle:checked + label .source {
-    fill: #ffffff;
+    fill: var(--color-white);
     transform: translate(30%, 50%);
   }
 
   .mode-toggle:checked + label .bg-stop-start {
-    stop-color: #173754;
+    stop-color: var(--color-toggle-night-start);
   }
 
   .mode-toggle:checked + label .bg-stop-end {
-    stop-color: #388296;
+    stop-color: var(--color-toggle-night-end);
   }
 
   .mode-toggle:checked + label .stars {

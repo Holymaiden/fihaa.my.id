@@ -1,28 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
-const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+const DEFAULT_MAX_WIDTH = 1024;
 
-  useEffect(() => {
-    setIsClient(true);
-
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-
-    return () => {
-      window.removeEventListener('resize', checkIsMobile);
-    };
-  }, []);
-
-  // Return false during SSR to match initial client state
-  return isClient ? isMobile : false;
+const subscribe = (onChange: () => void) => {
+  window.addEventListener('resize', onChange);
+  return () => window.removeEventListener('resize', onChange);
 };
+
+// false on the server and during hydration, like before.
+const useIsMobile = (maxWidth = DEFAULT_MAX_WIDTH) =>
+  useSyncExternalStore(
+    subscribe,
+    () => window.innerWidth < maxWidth,
+    () => false,
+  );
 
 export default useIsMobile;

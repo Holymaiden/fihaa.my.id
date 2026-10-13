@@ -4,7 +4,7 @@ import { HiOutlineBriefcase as CareerIcon } from 'react-icons/hi';
 
 import SectionHeading from '@/common/components/elements/SectionHeading';
 import SectionSubHeading from '@/common/components/elements/SectionSubHeading';
-import { CAREERS } from '@/common/constant/careers';
+import { getCareers } from '@/lib/content/experience';
 
 import CareerCard from './CareerCard';
 
@@ -21,7 +21,7 @@ const CareerList = () => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        {CAREERS?.map((career, index) => (
+        {getCareers().map((career, index) => (
           <CareerCard key={index} {...career} />
         ))}
       </div>
