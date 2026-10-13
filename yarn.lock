@@ -996,10 +996,10 @@
     use-sync-external-store "^1.4.0"
     zustand "^5.0.3"
 
-"@react-three/postprocessing@3.1.3":
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/@react-three/postprocessing/-/postprocessing-3.1.3.tgz#15c1fdacb6943fd8366d3febb32423619dc07f93"
-  integrity sha512-LhCTSC+nli1agIIIgrhJalvJcdSy7/DOXG5EDGxKVlVsrqUxMPYlMnRN/QqgSAjGPKmnnuiEmpVQtOkTKwiidw==
+"@react-three/postprocessing@^3.1.3":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@react-three/postprocessing/-/postprocessing-3.2.0.tgz#8628bb10b08cc7a5c2485e00cae25bc3dad10599"
+  integrity sha512-VSwaG1cimKOF3d4LWtR5BumcI4k1B+CJ8HfbeJ7msuEgtZiOnkNBGyLfRQtai3evrup+9QNRbNIIZ4UsuyEh9A==
   dependencies:
     maath "^0.10.8"
     n8ao "^2.0.0"
@@ -4599,7 +4599,7 @@ postcss@^8.5.6:
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
 
-postprocessing@6.39.5:
+postprocessing@^6.39.5:
   version "6.39.5"
   resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.39.5.tgz#8979edf3ad672fbc2d41b7c498df26b68d6e7a90"
   integrity sha512-YmH+t74J2X1lwYjKzK/tgs9C9kqWWPB9JwZiDF5mEf4BdCEAmEFbO8lXBA7NM0/j4g+x6FgD/Tt5/kT7ogbEDA==
@@ -5946,15 +5946,10 @@ zustand@^4.3.2:
   dependencies:
     use-sync-external-store "^1.2.2"
 
-zustand@^5.0.1, zustand@^5.0.3:
+zustand@^5.0.1, zustand@^5.0.15, zustand@^5.0.3:
   version "5.0.15"
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.15.tgz#42bddf35647cb80a818a8943a69f6618c126fcfe"
   integrity sha512-MpSEjRiBkA9crSYeOUH32rJC7SVqAbm0Fqcqge/bUi2PPoLcBWKOsG+C8mevmpr8TwXHBVkChbbJiyvkE+i/3A==
-
-zustand@^5.0.12:
-  version "5.0.12"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.12.tgz#ed36f647aa89965c4019b671dfc23ef6c6e3af8c"
-  integrity sha512-i77ae3aZq4dhMlRhJVCYgMLKuSiZAaUPAct2AksxQ+gOtimhGMdXljRT21P5BNpeT4kXlLIckvkPM029OljD7g==
 
 zwitch@^2.0.0:
   version "2.0.4"
