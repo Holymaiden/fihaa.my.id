@@ -100,6 +100,11 @@ export const WORLD_COPY: WorldCopy = {
   exploreHint:
     'Drag to look around · click a glowing ring to walk there · scroll out for the island',
   scenicPlaces: { waterfall: 'Waterfall', meadow: 'Meadow' },
+  entranceKicker: 'Welcome to my world',
+  enterWorld: 'Enter the world',
+  entranceSound: 'Best with sound on',
+  enterSilently: 'Enter without sound',
+  toggleDayNight: 'Switch between day and night',
   tourStart: 'Fly round the island (360° tour)',
   tourStop: 'Stop the tour',
   weatherLabel: 'Weather',

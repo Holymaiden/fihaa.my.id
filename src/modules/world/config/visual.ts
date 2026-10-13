@@ -107,6 +107,18 @@ export const VISUAL = {
     turnDamping: 5,
   },
   camera: { damping: 4, fov: 45 },
+  // Cinematic moves (seconds; damping = how quickly the camera settles).
+  transition: {
+    // From the clouds to the island after the entrance screen.
+    introDamping: 0.9,
+    introSeconds: 5,
+    // Diving from the island view onto the island, and rising back out.
+    diveSeconds: 3.6,
+    exitDamping: 1.6,
+    exitSeconds: 3,
+    // Extra lens width at the fastest point of a dive.
+    fovKick: 16,
+  },
   // The 360° tour round the island.
   tour: {
     // Radians per second round the island (one loop ≈ 70 s).

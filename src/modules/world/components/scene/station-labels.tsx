@@ -94,7 +94,8 @@ const StationLabels = ({ stations }: StationLabelsProps) => {
   const vaultOpen = useWorldStore(
     (state) => state.crystals.length >= CRYSTALS.length,
   );
-  if ((activeStation && mode === 'island') || mode === 'tour') {
+  const entered = useWorldStore((state) => state.entered);
+  if ((activeStation && mode === 'island') || mode === 'tour' || !entered) {
     return null;
   }
   return (

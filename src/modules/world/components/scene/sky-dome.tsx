@@ -70,7 +70,7 @@ const fragmentShader = /* glsl */ `
         glow += curtain * (0.35 + 0.65 * rays) * (0.65 - b * 0.15);
       }
       vec3 tint = mix(auroraLow, auroraHigh, smoothstep(0.15, 0.55, h));
-      color += tint * glow * north * aurora * 1.6;
+      color += tint * glow * north * aurora * 1.1;
     }
     // Cloud cover: a soft grey that keeps a little of the sky's colour.
     color = mix(color, greyColor * (0.85 + 0.25 * h), overcast * 0.8);

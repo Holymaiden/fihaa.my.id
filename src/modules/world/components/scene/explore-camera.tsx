@@ -6,11 +6,12 @@ import type { CatmullRomCurve3 } from 'three';
 import { MathUtils, Vector3 } from 'three';
 
 import { islandHeight } from '../../config/island';
+import type { ViewpointId } from '../../config/viewpoints';
 import { EYE_HEIGHT, VIEWPOINTS } from '../../config/viewpoints';
 import { VISUAL } from '../../config/visual';
 import { useEffectsEnabled } from '../../hooks/use-effects-enabled';
 import { useWorldStore } from '../../store/world-store';
-import { buildWalk } from './explore-path';
+import { buildDive, buildWalk } from './explore-path';
 import { interaction } from './interaction';
 import { islandTurn } from './island-turn';
 import type { LookOffset } from './use-explore-input';
@@ -84,6 +85,40 @@ const easeOffset = (
   );
 };
 
+// Where a walk ends and which way it looks there. A clicked spot keeps
+// looking the way we walked.
+const destination = ({
+  viewpoint,
+  freeSpot,
+  from,
+  direction,
+  pitch,
+}: {
+  viewpoint: ViewpointId | 'free';
+  freeSpot: [number, number] | null;
+  from: Vector3;
+  direction: Vector3;
+  pitch: number;
+}) => {
+  if (viewpoint !== 'free') {
+    const spot = VIEWPOINTS[viewpoint];
+    const to = new Vector3(...spot.position);
+    return {
+      to,
+      toDirection: new Vector3(...spot.target).sub(to).normalize(),
+    };
+  }
+  const [x, z] = freeSpot ?? [from.x, from.z];
+  const to = new Vector3(x, islandHeight(x, z) + EYE_HEIGHT, z);
+  const toDirection = to.clone().sub(from).setY(0);
+  if (toDirection.lengthSq() < 1e-4) {
+    toDirection.copy(direction);
+  }
+  toDirection.normalize();
+  toDirection.y = Math.sin(pitch) * 0.5;
+  return { to, toDirection: toDirection.normalize() };
+};
+
 const ExploreCamera = () => {
   const mode = useWorldStore((state) => state.mode);
   const viewpoint = useWorldStore((state) => state.viewpoint);
@@ -97,6 +132,8 @@ const ExploreCamera = () => {
   const baseYaw = useRef(0);
   const basePitch = useRef(0);
   const walk = useRef<Walk | null>(null);
+  // Stepping in from the island view dives instead of walking.
+  const wasExploring = useRef(false);
   const look = useRef(still());
   const sway = useRef(still());
 
@@ -106,46 +143,42 @@ const ExploreCamera = () => {
   useEffect(() => {
     if (mode !== 'explore') {
       walk.current = null;
+      wasExploring.current = false;
       return;
     }
+    const diving = !wasExploring.current;
+    wasExploring.current = true;
     const turn = islandTurn.angle;
     const from = camera.position.clone().applyAxisAngle(UP, -turn);
     const direction = camera
       .getWorldDirection(new Vector3())
       .applyAxisAngle(UP, -turn);
-    let to: Vector3;
-    let toDirection: Vector3;
-    if (viewpoint === 'free') {
-      // A clicked spot: walk there and keep looking the way we walked.
-      const [x, z] = freeSpot ?? [from.x, from.z];
-      to = new Vector3(x, islandHeight(x, z) + EYE_HEIGHT, z);
-      toDirection = to.clone().sub(from).setY(0);
-      if (toDirection.lengthSq() < 1e-4) {
-        toDirection.copy(direction);
-      }
-      toDirection.normalize();
-      toDirection.y = Math.sin(basePitch.current) * 0.5;
-      toDirection.normalize();
-    } else {
-      const spot = VIEWPOINTS[viewpoint];
-      to = new Vector3(...spot.position);
-      toDirection = new Vector3(...spot.target).sub(to).normalize();
-    }
-    const curve = buildWalk(from, to, {
-      toVault: viewpoint === 'secret',
-      fromVault: from.y < -2,
+    const { to, toDirection } = destination({
+      viewpoint,
+      freeSpot,
+      from,
+      direction,
+      pitch: basePitch.current,
     });
+    const curve = diving
+      ? buildDive(from, to, toDirection)
+      : buildWalk(from, to, {
+          toVault: viewpoint === 'secret',
+          fromVault: from.y < -2,
+        });
     const fromYaw = yawOf(direction);
     look.current = still();
     walk.current = {
       curve,
-      duration: animate
-        ? MathUtils.clamp(
-            curve.getLength() / explore.walkSpeed,
-            explore.minWalk,
-            explore.maxWalk,
-          )
-        : 0,
+      duration: !animate
+        ? 0
+        : diving
+          ? VISUAL.transition.diveSeconds
+          : MathUtils.clamp(
+              curve.getLength() / explore.walkSpeed,
+              explore.minWalk,
+              explore.maxWalk,
+            ),
       elapsed: 0,
       fromYaw,
       fromPitch: pitchOf(direction),

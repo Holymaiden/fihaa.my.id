@@ -9,6 +9,13 @@ export interface CameraView {
   target: Vec3;
 }
 
+// Before the visitor enters: far out over the cloud sea, the island small
+// and hazy in the distance.
+export const INTRO_VIEW: CameraView = {
+  position: [-18, -14, 118],
+  target: [0, 2, 0],
+};
+
 export const OVERVIEW: CameraView = {
   position: [0, 13, 34],
   target: [0, -1, 0],

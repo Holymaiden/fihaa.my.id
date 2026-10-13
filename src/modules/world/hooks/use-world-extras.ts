@@ -15,23 +15,76 @@ const TOAST_SECONDS = 4;
 
 const isNight = () => document.documentElement.classList.contains('dark');
 
+const SOUND_KEY = 'world-sound';
+const GESTURES = ['pointerdown', 'keydown', 'touchend'] as const;
+
 // Music and nature sounds follow the sound toggle, the weather and the
-// theme (day/night).
+// theme (day/night). Sound is on by default, but browsers only allow audio
+// after the visitor's first click, tap or key press, so it starts then.
 export const useAmbientSound = () => {
   const soundOn = useWorldStore((state) => state.soundOn);
+  const setSoundOn = useWorldStore((state) => state.setSoundOn);
   const weather = useWorldStore((state) => state.weather);
   const crystals = useWorldStore((state) => state.crystals.length);
+  const transition = useWorldStore((state) => state.transition);
   const engine = useRef<AmbientEngine | null>(null);
   const lastCrystals = useRef(crystals);
+  const restored = useRef(false);
+
+  // Remember the choice (the visitor may have switched it off before).
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem(SOUND_KEY) === 'off') {
+        setSoundOn(false);
+      }
+    } catch {
+      // Storage unavailable: sound stays on.
+    }
+    restored.current = true;
+  }, [setSoundOn]);
 
   useEffect(() => {
-    if (soundOn) {
+    if (restored.current) {
+      try {
+        window.localStorage.setItem(SOUND_KEY, soundOn ? 'on' : 'off');
+      } catch {
+        // ignore
+      }
+    }
+    if (!soundOn) {
+      engine.current?.stop();
+      return;
+    }
+    const start = () => {
       engine.current ??= new AmbientEngine();
       engine.current.start();
-    } else {
-      engine.current?.stop();
+      const { weather: current } = useWorldStore.getState();
+      engine.current.setMood({
+        night: isNight(),
+        rain: current === 'rain' ? 1 : 0,
+        mist: current === 'mist' ? 1 : 0,
+      });
+    };
+    if (navigator.userActivation?.hasBeenActive) {
+      start();
+      return;
     }
+    // Wait for the first gesture; the listener runs inside it, which is
+    // what the browser needs to let the audio play.
+    const onGesture = () => {
+      start();
+      GESTURES.forEach((name) => window.removeEventListener(name, onGesture));
+    };
+    GESTURES.forEach((name) => window.addEventListener(name, onGesture));
+    return () =>
+      GESTURES.forEach((name) => window.removeEventListener(name, onGesture));
   }, [soundOn]);
+
+  useEffect(() => {
+    if (transition && engine.current?.running) {
+      engine.current.whoosh(transition.kind);
+    }
+  }, [transition]);
 
   useEffect(() => {
     const update = () =>
