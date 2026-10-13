@@ -91,7 +91,27 @@ export const WORLD_COPY: WorldCopy = {
   fallbackCta: 'Open the 2D site',
   previousPlace: 'Previous place',
   nextPlace: 'Next place',
-  turnHint: 'Drag the island or use ← → to look around',
+  turnHint:
+    'Drag to turn the island · scroll in or press Explore to step inside',
+  explore: 'Explore',
+  exploreLabel: 'Step onto the island and look around',
+  islandView: 'Island',
+  islandViewLabel: 'Back to the whole island',
+  exploreHint:
+    'Drag to look around · click a glowing ring to walk there · scroll out for the island',
+  scenicPlaces: { waterfall: 'Waterfall', meadow: 'Meadow' },
+  tourStart: 'Fly round the island (360° tour)',
+  tourStop: 'Stop the tour',
+  weatherLabel: 'Weather',
+  weathers: { clear: 'Clear', rain: 'Rain', mist: 'Mist' },
+  soundOn: 'Music and sounds: on',
+  soundOff: 'Music and sounds: off',
+  crystalsLabel: 'Crystals found',
+  crystalsHint:
+    'Crystals are hidden round the island. Click one, or walk up to it while exploring.',
+  crystalFound: 'Crystal found! {found} of {total}',
+  crystalsComplete:
+    'All crystals found. The Hidden Vault under the island is open.',
   viewDetails: 'View details',
   closeCard: 'Close',
   placesMenu: 'All places',

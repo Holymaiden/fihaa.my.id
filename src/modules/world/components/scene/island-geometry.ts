@@ -1,6 +1,12 @@
 import { BufferGeometry, Color, Float32BufferAttribute } from 'three';
 
-import { ISLAND, islandEdge, islandHeight } from '../../config/island';
+import {
+  ISLAND,
+  islandEdge,
+  islandHeight,
+  pathMask,
+  waterMask,
+} from '../../config/island';
 
 export interface TerrainColors {
   grassLight: string;
@@ -9,6 +15,8 @@ export interface TerrainColors {
   cliff: string;
   rock: string;
   rockDeep: string;
+  path: string;
+  waterDeep: string;
 }
 
 const { radius, rings, segments, undersideRings, depth } = ISLAND;
@@ -20,8 +28,17 @@ const undersideShare = (depthShare: number) => (1 - depthShare) ** 1.4;
 // Surface colour: hilltops lighter, then a sandy rim.
 type ColorSet = Record<keyof TerrainColors, Color>;
 
+// The ground under the grass is darker than the blades, so the meadow reads
+// as dense; paths are worn dirt and the pond/stream beds are dark.
+const GROUND_UNDER_GRASS = 0.72;
+
 const surfaceColor = (
-  { share, height }: { share: number; height: number },
+  {
+    share,
+    height,
+    x,
+    z,
+  }: { share: number; height: number; x: number; z: number },
   colors: ColorSet,
   out: Color,
 ) => {
@@ -29,12 +46,15 @@ const surfaceColor = (
     .copy(colors.grass)
     .lerp(
       colors.grassLight,
-      Math.min(Math.max(height / ISLAND.hillHeight, 0), 1),
-    );
+      Math.min(Math.max(height / ISLAND.hillHeight, 0), 1) * 0.6,
+    )
+    .multiplyScalar(GROUND_UNDER_GRASS);
+  out.lerp(colors.path, pathMask(x, z) * 0.9);
   const beachStart = 1 - ISLAND.beachWidth;
   if (share > beachStart) {
     out.lerp(colors.sand, (share - beachStart) / ISLAND.beachWidth);
   }
+  out.lerp(colors.waterDeep, waterMask(x, z) * 0.85);
   return out;
 };
 
@@ -60,7 +80,7 @@ export const buildIslandGeometry = (palette: TerrainColors): BufferGeometry => {
       const z = Math.cos(angle) * distance;
       const y = islandHeight(x, z);
       positions.push(x, y, z);
-      surfaceColor({ share, height: y }, colors, color);
+      surfaceColor({ share, height: y, x, z }, colors, color);
       vertexColors.push(color.r, color.g, color.b);
     }
   }

@@ -8,7 +8,55 @@ export const VISUAL = {
   dpr: [1, 2] as [number, number],
   // Far enough that the zoomed-out phone view stays clear.
   fog: { near: 70, far: 220 },
-  sky: { radius: 280 },
+  sky: {
+    radius: 280,
+    // Where the sun (or moon) disc sits, and its size (share of the dome).
+    sunDirection: [0.8, 0.26, 0.54] as const,
+    sunSize: 0.0016,
+    moonSize: 0.0009,
+  },
+  // Grass tufts: grid spacing (smaller = denser), blade size, brightness.
+  grass: {
+    spacing: 0.15,
+    minHeight: 0.2,
+    maxHeight: 0.55,
+    width: 0.055,
+    dayLight: 1,
+    nightLight: 0.5,
+    // Share of tufts drawn on narrow screens, and when frames stay slow.
+    narrowDensity: 0.5,
+    fallbackDensity: 0.35,
+  },
+  waterfall: {
+    // How far it arcs out from the rim, how far it falls, how much it widens.
+    reach: 2.2,
+    drop: 22,
+    spread: 1.6,
+    sprayCount: 90,
+    spraySize: 900,
+  },
+  cloudSea: { height: -40, radius: 260, fade: [60, 210] as const },
+  meadow: {
+    flowerDrifts: 26,
+    flowersPerDrift: 26,
+    flowerSize: 22,
+    moteCount: 90,
+    fireflySize: 55,
+    pollenSize: 18,
+  },
+  weather: {
+    // Seconds for one weather to blend into the next.
+    blendSeconds: 6,
+    // How long each weather lasts when it changes by itself (seconds).
+    autoDuration: [55, 95] as const,
+    // Fog when it rains or is misty (near, far).
+    rainFog: [25, 120] as const,
+    mistFog: [6, 55] as const,
+    // Sun and sky light kept under full cloud.
+    overcastLight: 0.5,
+    rain: { drops: 2600, narrowDrops: 1200, box: 36, speed: 26 },
+  },
+  campfire: { dayLight: 3, nightLight: 14, distance: 9 },
   light: {
     day: { hemisphere: 1.3, sun: 2.6 },
     night: { hemisphere: 1.1, sun: 1.3 },
@@ -22,7 +70,37 @@ export const VISUAL = {
     // Higher = snappier turn (MathUtils.damp lambda).
     turnDamping: 5,
   },
-  camera: { damping: 4 },
+  camera: { damping: 4, fov: 45 },
+  // The 360° tour round the island.
+  tour: {
+    // Radians per second round the island (one loop ≈ 70 s).
+    speed: 0.09,
+    radius: [24, 34] as const,
+    height: [3, 15] as const,
+    // Seconds to ease from wherever the camera was onto the path.
+    blendIn: 3,
+    // Start by itself after this long without input (seconds).
+    idleStart: 50,
+  },
+  // First-person explore mode.
+  explore: {
+    fov: 62,
+    // Radians per dragged pixel, and how quickly the view follows.
+    dragSpeed: 0.0042,
+    lookDamping: 7,
+    // Gentle look towards the mouse (radians at the screen edge).
+    swayYaw: 0.07,
+    swayPitch: 0.04,
+    pitchRange: [-1.1, 0.95] as const,
+    // Units per second along a walk, and its shortest/longest duration.
+    walkSpeed: 6.5,
+    minWalk: 1.6,
+    maxWalk: 4.5,
+    // Up-and-down of the idle breath, in units.
+    breath: 0.025,
+    // Wheel delta that switches between island and explore mode.
+    wheelThreshold: 120,
+  },
   vault: {
     // A small coloured light so the vault reads as its own place.
     lightIntensity: 18,

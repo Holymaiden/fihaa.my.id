@@ -69,6 +69,19 @@
   --color-world-crystal-glow: var(--color-loader);
   /* Hidden vault: the only place with a darker, mysterious mood. */
   --color-world-secret: #4a3f63;
+  /* Meadow, water and sky details of the explorable island. */
+  --color-world-path: #c2a173;
+  --color-world-water: #5fc7d9;
+  --color-world-water-deep: #2b7f9e;
+  --color-world-foam: #effbff;
+  --color-world-cloud-light: #fff6ea;
+  --color-world-cloud-shade: #c9d3e8;
+  --color-world-blossom: #fffaf0;
+  --color-world-pollen: #fff6d8;
+  --color-world-firefly: #d9ff7a;
+  --color-world-fire-core: #ffe9a3;
+  --color-world-fire-edge: #ff7a2e;
+  --color-world-marker: #ffffff;
 
   --text-2xs: 12px;
   --text-caption: 13px;
@@ -230,4 +243,12 @@ a {
   --color-world-trunk: #5c3f2d;
   --color-world-stone: #7d8394;
   --color-world-station-hover: #e8ecff;
+  --color-world-path: #6f6152;
+  --color-world-water: #2f6f9a;
+  --color-world-water-deep: #12304f;
+  --color-world-foam: #b9d4ff;
+  --color-world-cloud-light: #4a5684;
+  --color-world-cloud-shade: #1a2140;
+  --color-world-blossom: #dfe6ff;
+  --color-world-marker: #d9ff7a;
 }

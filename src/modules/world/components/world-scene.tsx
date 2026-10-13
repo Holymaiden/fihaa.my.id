@@ -1,6 +1,6 @@
 'use client';
 
-import { PerformanceMonitor } from '@react-three/drei';
+import { PerformanceMonitor, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useState } from 'react';
 
@@ -13,18 +13,30 @@ import { useEffectsEnabled } from '../hooks/use-effects-enabled';
 import { useWorldPalette } from '../hooks/use-world-palette';
 import { useWorldStore } from '../store/world-store';
 import CameraDirector from './scene/camera-director';
+import CloudSea from './scene/cloud-sea';
+import CrystalHunt from './scene/crystal-hunt';
+import ExploreCamera from './scene/explore-camera';
 import FloatingCard from './scene/floating-card';
+import FovDirector from './scene/fov-director';
 import GuildHall from './scene/guild-hall';
 import IslandDecor from './scene/island-decor';
 import IslandRig from './scene/island-rig';
 import IslandStation from './scene/island-station';
 import IslandTerrain from './scene/island-terrain';
+import IslandWater from './scene/island-water';
 import KitRecolor from './scene/kit-recolor';
+import MeadowGrass from './scene/meadow-grass';
+import MeadowLife from './scene/meadow-life';
 import { endedDragJustNow } from './scene/pointer';
+import Rain from './scene/rain';
 import ShadowUpdater from './scene/shadow-updater';
 import type { StationCounts } from './scene/station-extras';
 import StationLabels from './scene/station-labels';
+import TourCamera from './scene/tour-camera';
 import VaultLedge from './scene/vault-ledge';
+import ViewpointMarkers from './scene/viewpoint-markers';
+import WeatherDirector from './scene/weather-director';
+import Wildlife from './scene/wildlife';
 import WorldAtmosphere from './scene/world-atmosphere';
 import WorldClouds from './scene/world-clouds';
 import WorldProgress from './world-progress';
@@ -56,6 +68,9 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
   );
   const [dpr, setDpr] = useState(maxDpr);
   const [shadows, setShadows] = useState(true);
+  const [grassDensity, setGrassDensity] = useState(() =>
+    window.innerWidth < NARROW_MAX_WIDTH ? VISUAL.grass.narrowDensity : 1,
+  );
   const [shadowMapSize] = useState(() =>
     window.innerWidth < NARROW_MAX_WIDTH
       ? VISUAL.shadows.narrowMapSize
@@ -81,7 +96,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
   return (
     <>
       <Canvas
-        camera={{ fov: 45, near: 0.5, far: 400 }}
+        camera={{ fov: VISUAL.camera.fov, near: 0.1, far: 400 }}
         dpr={dpr}
         shadows="soft"
         gl={{ toneMappingExposure: VISUAL.exposure }}
@@ -113,6 +128,9 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
             // Still slow at the lowest pixel ratio: drop the shadows too.
             setDpr(VISUAL.dpr[0]);
             setShadows(false);
+            setGrassDensity((density) =>
+              Math.min(density, VISUAL.grass.fallbackDensity),
+            );
           }}
         />
         <WorldAtmosphere
@@ -121,11 +139,19 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
           shadowMapSize={shadowMapSize}
         />
         {shadows && <ShadowUpdater palette={palette} />}
+        <CloudSea palette={palette} />
+        {palette.isNight && (
+          <Stars radius={200} depth={50} count={2500} factor={5} fade />
+        )}
         <Suspense fallback={null}>
           <KitRecolor palette={palette} />
           <WorldClouds />
           <IslandRig>
             <IslandTerrain palette={palette} />
+            <MeadowGrass palette={palette} density={grassDensity} />
+            <MeadowLife palette={palette} />
+            {effects && <Wildlife palette={palette} />}
+            <IslandWater palette={palette} />
             <GuildHall />
             <IslandDecor />
             {surfaceStations.map((id) => (
@@ -137,11 +163,21 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
               />
             ))}
             {hasVault && <VaultLedge palette={palette} />}
+            <CrystalHunt palette={palette} />
             <StationLabels stations={stations} />
             <FloatingCard content={content} />
+            <ViewpointMarkers
+              palette={palette}
+              scenicNames={content.copy.scenicPlaces}
+            />
           </IslandRig>
         </Suspense>
         <CameraDirector />
+        <ExploreCamera />
+        <TourCamera />
+        <FovDirector />
+        <WeatherDirector palette={palette} />
+        {effects && <Rain palette={palette} narrow={grassDensity < 1} />}
         {showStats && <WorldStatsProbe />}
       </Canvas>
       <WorldProgress label={content.copy.loadingAssets} />
