@@ -5,7 +5,7 @@ import type {
   Vector2,
   Vector3,
 } from 'three';
-import { Color } from 'three';
+import { Color, UniformsLib, UniformsUtils } from 'three';
 
 // Small helpers for the hand-written shader materials of the world.
 
@@ -16,6 +16,11 @@ export const fogUniforms = (): Record<string, IUniform<number | Color>> => ({
   fogFar: { value: 2000 },
   fogColor: { value: new Color(0xff_ff_ff) },
 });
+
+// Uniforms three.js fills in for materials with `lights: true` (needed to
+// read the sun's shadow map in a custom shader).
+export const lightUniforms = () =>
+  UniformsUtils.clone(UniformsLib.lights) as Record<string, IUniform>;
 
 // Sets uniforms by name: numbers are assigned, strings are colours.
 // Names the material doesn't have are skipped.

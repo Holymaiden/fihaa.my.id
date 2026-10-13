@@ -9,6 +9,7 @@ import type { KitId } from '../../assets/kits.generated';
 import type { ModelName } from '../../assets/use-kit';
 import { getModelNode, useKit } from '../../assets/use-kit';
 import type { Vec3 } from '../../config/island';
+import { addSway } from './foliage-sway';
 
 export interface InstanceTransform {
   position: Vec3;
@@ -22,6 +23,9 @@ interface InstancedModelProps<K extends KitId> {
   // One transform per copy, in the parent's space.
   instances: InstanceTransform[];
   castShadow?: boolean;
+  // Sway in the wind. The kit material is shared with buildings, so the
+  // plant gets its own copy to patch.
+  sway?: boolean;
 }
 
 interface Part {
@@ -32,6 +36,17 @@ interface Part {
 }
 
 const UP = new Vector3(0, 1, 0);
+
+const swayingCopy = (material: Material | Material[]) => {
+  const copies = (Array.isArray(material) ? material : [material]).map(
+    (item) => {
+      const copy = item.clone();
+      addSway(copy);
+      return copy;
+    },
+  );
+  return Array.isArray(material) ? copies : copies[0];
+};
 
 const toMatrix = ({ position, rotationY = 0, scale = 1 }: InstanceTransform) =>
   new Matrix4().compose(
@@ -81,6 +96,7 @@ const InstancedModel = <K extends KitId>({
   model,
   instances,
   castShadow = false,
+  sway = false,
 }: InstancedModelProps<K>) => {
   const { scene } = useKit(kit);
 
@@ -94,13 +110,13 @@ const InstancedModel = <K extends KitId>({
       if (mesh.isMesh) {
         found.push({
           geometry: mesh.geometry,
-          material: mesh.material,
+          material: sway ? swayingCopy(mesh.material) : mesh.material,
           local: rootInverse.clone().multiply(mesh.matrixWorld),
         });
       }
     });
     return found;
-  }, [scene, model]);
+  }, [scene, model, sway]);
 
   const matrices = useMemo(() => instances.map(toMatrix), [instances]);
 

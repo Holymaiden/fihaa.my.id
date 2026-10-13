@@ -192,9 +192,18 @@ const ExploreCamera = () => {
     });
 
     const turn = islandTurn.angle;
-    const yaw = baseYaw.current + look.current.yaw + sway.current.yaw + turn;
+    // A faint handheld drift, so the view is never frozen.
+    const time = clock.elapsedTime;
+    const handYaw = animate
+      ? Math.sin(time * 0.37) * 0.006 + Math.sin(time * 0.91 + 1) * 0.003
+      : 0;
+    const handPitch = animate
+      ? Math.sin(time * 0.53 + 2) * 0.004 + Math.sin(time * 1.3) * 0.0015
+      : 0;
+    const yaw =
+      baseYaw.current + look.current.yaw + sway.current.yaw + turn + handYaw;
     const pitch = MathUtils.clamp(
-      basePitch.current + look.current.pitch + sway.current.pitch,
+      basePitch.current + look.current.pitch + sway.current.pitch + handPitch,
       explore.pitchRange[0],
       explore.pitchRange[1],
     );
@@ -210,7 +219,7 @@ const ExploreCamera = () => {
       Math.cos(yaw) * Math.cos(pitch),
     );
     view.lookAt(lookPoint.copy(worldPoint).add(forward));
-    if (moving) {
+    if (moving || animate) {
       invalidate();
     }
   });

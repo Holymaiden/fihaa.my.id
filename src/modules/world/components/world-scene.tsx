@@ -18,6 +18,7 @@ import CrystalHunt from './scene/crystal-hunt';
 import ExploreCamera from './scene/explore-camera';
 import FloatingCard from './scene/floating-card';
 import FovDirector from './scene/fov-director';
+import GroundCursor from './scene/ground-cursor';
 import GuildHall from './scene/guild-hall';
 import IslandDecor from './scene/island-decor';
 import IslandRig from './scene/island-rig';
@@ -33,12 +34,16 @@ import ShadowUpdater from './scene/shadow-updater';
 import type { StationCounts } from './scene/station-extras';
 import StationLabels from './scene/station-labels';
 import TourCamera from './scene/tour-camera';
+import TrailMap from './scene/trail-map';
 import VaultLedge from './scene/vault-ledge';
 import ViewpointMarkers from './scene/viewpoint-markers';
 import WeatherDirector from './scene/weather-director';
 import Wildlife from './scene/wildlife';
+import WindClock from './scene/wind-clock';
 import WorldAtmosphere from './scene/world-atmosphere';
 import WorldClouds from './scene/world-clouds';
+import type { PostQuality } from './scene/world-post';
+import WorldPost from './scene/world-post';
 import WorldProgress from './world-progress';
 import {
   isStatsEnabled,
@@ -68,6 +73,14 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
   );
   const [dpr, setDpr] = useState(maxDpr);
   const [shadows, setShadows] = useState(true);
+  // ?post=off|low|high overrides the automatic choice (handy for testing).
+  const [postQuality, setPostQuality] = useState<PostQuality>(() => {
+    const forced = new URLSearchParams(window.location.search).get('post');
+    if (forced === 'low' || forced === 'high' || forced === 'off') {
+      return forced;
+    }
+    return window.innerWidth < NARROW_MAX_WIDTH ? 'low' : 'high';
+  });
   const [grassDensity, setGrassDensity] = useState(() =>
     window.innerWidth < NARROW_MAX_WIDTH ? VISUAL.grass.narrowDensity : 1,
   );
@@ -99,7 +112,10 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
         camera={{ fov: VISUAL.camera.fov, near: 0.1, far: 400 }}
         dpr={dpr}
         shadows="soft"
-        gl={{ toneMappingExposure: VISUAL.exposure }}
+        // Tone mapping happens in the post-processing pass (AgX), so the
+        // renderer itself writes linear HDR.
+        flat
+        gl={{ toneMappingExposure: VISUAL.exposure, antialias: false }}
         style={{ touchAction: 'none' }}
         // Nothing moves when effects are off, so only render on change.
         frameloop={effects ? 'always' : 'demand'}
@@ -128,6 +144,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
             // Still slow at the lowest pixel ratio: drop the shadows too.
             setDpr(VISUAL.dpr[0]);
             setShadows(false);
+            setPostQuality('low');
             setGrassDensity((density) =>
               Math.min(density, VISUAL.grass.fallbackDensity),
             );
@@ -149,6 +166,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
           <IslandRig>
             <IslandTerrain palette={palette} />
             <MeadowGrass palette={palette} density={grassDensity} />
+            <GroundCursor palette={palette} />
             <MeadowLife palette={palette} />
             {effects && <Wildlife palette={palette} />}
             <IslandWater palette={palette} />
@@ -176,7 +194,10 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
         <ExploreCamera />
         <TourCamera />
         <FovDirector />
+        <WorldPost palette={palette} quality={postQuality} />
         <WeatherDirector palette={palette} />
+        <WindClock />
+        <TrailMap />
         {effects && <Rain palette={palette} narrow={grassDensity < 1} />}
         {showStats && <WorldStatsProbe />}
       </Canvas>

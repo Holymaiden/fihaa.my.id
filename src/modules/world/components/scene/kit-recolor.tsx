@@ -7,12 +7,15 @@ import type { Material, Mesh, MeshStandardMaterial } from 'three';
 import { useKit } from '../../assets/use-kit';
 import { MATERIAL_RECOLOR } from '../../config/visual';
 import type { WorldPalette } from '../../hooks/use-world-palette';
+import { addSway } from './foliage-sway';
 
 interface KitRecolorProps {
   palette: WorldPalette;
 }
 
 const SUFFIXES = Object.entries(MATERIAL_RECOLOR);
+// Plant materials of the Quaternius models (only plants use them).
+const SWAYING = ['_Green', '_Wood', '_Berry', '_Cyan', '_Yellow'];
 
 // Paints the flat-color (untextured) kit materials with the palette.
 // Clones and instances share these materials, so this covers every copy.
@@ -38,8 +41,20 @@ const KitRecolor = ({ palette }: KitRecolorProps) => {
         const match = SUFFIXES.find(([suffix]) =>
           material.name.endsWith(suffix),
         );
+        const standard = material as MeshStandardMaterial;
         if (match) {
-          (material as MeshStandardMaterial).color.set(palette[match[1]]);
+          standard.color.set(palette[match[1]]);
+        }
+        // PBR: nothing here is metal; painted wood, stone and leaves are
+        // rough but still catch a soft sheen from the sky light.
+        // Leaves, trunks, berries and flowers sway in the wind.
+        if (SWAYING.some((suffix) => material.name.endsWith(suffix))) {
+          addSway(material);
+        }
+        if (standard.isMeshStandardMaterial) {
+          standard.metalness = 0;
+          standard.roughness = Math.max(standard.roughness, 0.72);
+          standard.envMapIntensity = 1;
         }
       }
     });

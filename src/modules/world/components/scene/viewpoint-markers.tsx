@@ -3,12 +3,9 @@
 import { Html, useCursor } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Mesh } from 'three';
+import { useEffect, useMemo, useState } from 'react';
 import { AdditiveBlending, Color, ShaderMaterial } from 'three';
 
-import { islandHeight } from '../../config/island';
-import { isWalkable } from '../../config/viewpoint-search';
 import type { ScenicViewpointId, ViewpointId } from '../../config/viewpoints';
 import {
   EXPLORE_ORDER,
@@ -19,7 +16,6 @@ import { useEffectsEnabled } from '../../hooks/use-effects-enabled';
 import type { WorldPalette } from '../../hooks/use-world-palette';
 import { useWorldStore } from '../../store/world-store';
 import { GLASS } from '../ui/styles';
-import { interaction } from './interaction';
 import { isDrag } from './pointer';
 import { setUniforms } from './shader-utils';
 
@@ -135,54 +131,6 @@ const Marker = ({
   );
 };
 
-// A small ring under the pointer while exploring: you can walk there.
-const GroundCursor = ({ palette }: { palette: WorldPalette }) => {
-  const meshRef = useRef<Mesh>(null);
-  const material = useMemo(
-    () =>
-      new ShaderMaterial({
-        vertexShader,
-        fragmentShader,
-        transparent: true,
-        depthWrite: false,
-        blending: AdditiveBlending,
-        uniforms: {
-          uTime: { value: 0 },
-          uColor: { value: new Color() },
-          uHover: { value: 0 },
-        },
-      }),
-    [],
-  );
-  useEffect(() => () => material.dispose(), [material]);
-  useEffect(() => {
-    setUniforms(material, { uColor: palette.marker });
-  }, [material, palette.marker]);
-
-  useFrame(({ clock }) => {
-    const mesh = meshRef.current;
-    if (!mesh) {
-      return;
-    }
-    const { touch } = interaction;
-    const walkable = isWalkable(touch.x, touch.z);
-    mesh.visible = touch.strength > 0.2 && walkable;
-    mesh.position.set(touch.x, islandHeight(touch.x, touch.z) + 0.08, touch.z);
-    setUniforms(material, { uTime: clock.elapsedTime });
-  });
-
-  return (
-    <mesh
-      ref={meshRef}
-      rotation={[-Math.PI / 2, 0, 0]}
-      material={material}
-      raycast={() => null}
-    >
-      <planeGeometry args={[0.9, 0.9]} />
-    </mesh>
-  );
-};
-
 // Glowing rings on the ground in explore mode: click one to walk there.
 // Station labels already name the station spots; scenic spots get a tag.
 const ViewpointMarkers = ({ palette, scenicNames }: ViewpointMarkersProps) => {
@@ -193,7 +141,6 @@ const ViewpointMarkers = ({ palette, scenicNames }: ViewpointMarkersProps) => {
   }
   return (
     <>
-      <GroundCursor palette={palette} />
       {EXPLORE_ORDER.filter((id) => id !== viewpoint).map((id) => (
         <Marker
           key={id}

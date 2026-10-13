@@ -95,6 +95,12 @@ const CameraDirector = () => {
       camera.position.copy(position);
       lookAt.current.copy(target);
     }
+    // A slow drift round the framed shot, so the island view breathes.
+    if (animate) {
+      const time = performance.now() / 1000;
+      camera.position.x += Math.sin(time * 0.11) * 0.012;
+      camera.position.y += Math.sin(time * 0.17 + 1) * 0.006;
+    }
     camera.lookAt(lookAt.current);
     if (
       camera.position.distanceTo(position) > SETTLED ||

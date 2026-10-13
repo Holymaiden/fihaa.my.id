@@ -15,7 +15,7 @@ export const ISLAND = {
   // around) and of the rock underneath.
   rings: 72,
   segments: 192,
-  undersideRings: 24,
+  undersideRings: 40,
   depth: 16,
   // Height of the gentle hills on top.
   hillHeight: 1.2,

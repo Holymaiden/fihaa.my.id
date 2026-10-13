@@ -4,7 +4,21 @@
 export const VISUAL = {
   // Filmic tone mapping plus soft shadows gives the smooth look; the
   // terrain itself stays flat-colored (vertex colors, no textures).
-  exposure: 1.05,
+  exposure: 1.15,
+  // Post-processing (see world-post.tsx).
+  post: {
+    multisampling: 4,
+    ao: { radius: 1.8, intensity: 2.2, falloff: 1.2 },
+    dof: { focus: 9, range: 14, bokeh: 2.2 },
+    // Only things brighter than white bloom (sun, fire, crystals), so the
+    // bright sky doesn't haze the whole frame.
+    bloom: { day: 0.4, night: 0.8, threshold: 1.05 },
+    saturation: 0.16,
+    vignette: { offset: 0.3, darkness: 0.55 },
+    grain: 0.08,
+  },
+  // Image-based lighting from a small studio of light shapes (no HDR file).
+  environment: { resolution: 128, day: 0.7, night: 0.35 },
   dpr: [1, 2] as [number, number],
   // Far enough that the zoomed-out phone view stays clear.
   fog: { near: 70, far: 220 },
@@ -58,8 +72,9 @@ export const VISUAL = {
   },
   campfire: { dayLight: 3, nightLight: 14, distance: 9 },
   light: {
-    day: { hemisphere: 1.3, sun: 2.6 },
-    night: { hemisphere: 1.1, sun: 1.3 },
+    // Key (sun), rim (opposite, cool) and fill (sky), with IBL on top.
+    day: { hemisphere: 0.7, sun: 2.8, rim: 0.7 },
+    night: { hemisphere: 0.6, sun: 1.2, rim: 0.5 },
     sunPosition: [18, 28, 12] as const,
   },
   // Soft shadows from the sun; switched off when frames stay slow.

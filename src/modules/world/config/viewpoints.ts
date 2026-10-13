@@ -1,16 +1,7 @@
 import type { WorldStationId } from '@/lib/content/types';
 
 import type { SurfaceStationId, Vec3 } from './island';
-import {
-  ISLAND,
-  islandEdge,
-  islandHeight,
-  POND,
-  POND_CENTER,
-  STREAM,
-  VAULT,
-  vaultAnchor,
-} from './island';
+import { islandHeight, POND, STREAM, VAULT, vaultAnchor } from './island';
 import {
   arcCandidates,
   EYE_HEIGHT,
@@ -30,6 +21,8 @@ export interface Viewpoint {
   // Eye position and the point it looks at, island frame.
   position: Vec3;
   target: Vec3;
+  // Where its ring sits, when not right under the eye (spots in mid-air).
+  marker?: Vec3;
 }
 
 export { EYE_HEIGHT } from './viewpoint-search';
@@ -74,26 +67,23 @@ const vaultViewpoint = (): Viewpoint => {
   };
 };
 
-// On the cliff edge a little way along from the stream, looking sideways
-// at the water pouring over the rim and down into the clouds.
+// Out beside the falls, as if hovering off the cliff: the water pours
+// past, the rock face behind it and the clouds far below. Its ring sits on
+// the bank where the stream leaves the island.
 const waterfallViewpoint = (): Viewpoint => {
   const [ex, ez] = STREAM.end;
-  const [ox, oz] = along(POND.angle, 1.4);
-  const target: [number, number] = [ex + ox, ez + oz];
-  const candidates = [-0.42, -0.36, -0.3, 0.3, 0.36, 0.42].flatMap((offset) => {
-    const angle = POND.angle + offset;
-    const rim = ISLAND.radius * islandEdge(angle);
-    return [0.9, 0.94].map((share) => ({
-      ground: along(angle, rim * share),
-      bonus: offset < 0 ? 0.3 : 0,
-    }));
-  });
+  const [ox, oz] = along(POND.angle, 1.2);
+  const [sideX, sideZ] = along(POND.angle - Math.PI / 2, 7.5);
+  const [outX, outZ] = along(POND.angle, 3.5);
+  const [bankX, bankZ] = along(POND.angle, -2.2);
+  const [nudgeX, nudgeZ] = along(POND.angle - Math.PI / 2, 1.2);
+  const markerX = ex + bankX + nudgeX;
+  const markerZ = ez + bankZ + nudgeZ;
   return {
     id: 'waterfall',
-    position:
-      pickSpot(candidates, target, { ignoreNearTarget: 0, rimShare: 0.97 }) ??
-      fallback(POND_CENTER, 2),
-    target: [target[0], -6, target[1]],
+    position: [ex + sideX + outX, 0.6, ez + sideZ + outZ],
+    target: [ex + ox, -3.5, ez + oz],
+    marker: [markerX, islandHeight(markerX, markerZ), markerZ],
   };
 };
 
@@ -167,12 +157,19 @@ export const frontViewpoint = (turn: number): ViewpointId => {
     // World z after the island turns (the camera sits on +z).
     return -x * Math.sin(turn) + z * Math.cos(turn);
   };
-  return [...EXPLORE_ORDER].sort((a, b) => facing(b) - facing(a))[0];
+  // The waterfall spot hangs off the cliff, so it isn't a place to land.
+  return EXPLORE_ORDER.filter((id) => id !== 'waterfall').sort(
+    (a, b) => facing(b) - facing(a),
+  )[0];
 };
 
 // Ground point under a viewpoint, where its marker ring sits.
 export const viewpointGround = (id: ViewpointId): Vec3 => {
-  const [x, , z] = VIEWPOINTS[id].position;
+  const { position, marker } = VIEWPOINTS[id];
+  if (marker) {
+    return marker;
+  }
+  const [x, , z] = position;
   return id === 'secret' ? [x, VAULT.height, z] : [x, islandHeight(x, z), z];
 };
 

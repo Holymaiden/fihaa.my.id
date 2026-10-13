@@ -86,6 +86,21 @@ const OBSTACLES: Obstacle[] = [
 // The castle itself, larger than any one model's footprint.
 OBSTACLES.push({ x: 0, z: 0, radius: 2.6 * HEX_PACK_SCALE * 0.75 });
 
+// Baked ambient occlusion on the ground (1 = open sky): darker at the foot
+// of the castle, trees and props, the way light really pools there.
+export const bakedOcclusion = (x: number, z: number) => {
+  let open = 1;
+  for (const obstacle of OBSTACLES) {
+    const distance = Math.hypot(x - obstacle.x, z - obstacle.z);
+    const reach = obstacle.radius * 0.9 + 1.6;
+    if (distance < reach) {
+      const share = 1 - Math.max(distance - obstacle.radius * 0.5, 0) / reach;
+      open *= 1 - 0.5 * share * share;
+    }
+  }
+  return Math.max(open, 0.35);
+};
+
 const clearance = (x: number, z: number) =>
   Math.min(
     ...OBSTACLES.map(
