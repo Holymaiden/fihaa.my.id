@@ -17,8 +17,8 @@ const onGround = (x: number, lift: number, z: number): Vec3 => [
 
 // A spot on the stream bank, `distance` in from the rim.
 const bank = (distance: number, lift: number): Vec3 => {
-  const x = STREAM.end[0] - Math.sin(POND.angle) * distance + 0.9;
-  const z = STREAM.end[1] - Math.cos(POND.angle) * distance - 0.9;
+  const x = STREAM.end[0] - Math.sin(POND.angle) * distance + 1.5;
+  const z = STREAM.end[1] - Math.cos(POND.angle) * distance - 1.5;
   return onGround(x, lift, z);
 };
 

@@ -89,6 +89,74 @@ export const STREAM = {
   endLevel: -0.75,
 } as const;
 
+// The stream meanders: sideways offsets (units, to the right of the
+// straight line) at points along the way from the pond to the rim.
+const MEANDER: [number, number][] = [
+  [0, 0],
+  [0.25, 0.75],
+  [0.55, -0.55],
+  [0.8, 0.3],
+  [1, 0],
+];
+const PATH_SAMPLES = 36;
+
+// Catmull-Rom through the meander points, sampled into a polyline.
+const buildStreamPath = (): [number, number][] => {
+  const [sx, sz] = STREAM.start;
+  const [ex, ez] = STREAM.end;
+  const length = Math.hypot(ex - sx, ez - sz);
+  const dirX = (ex - sx) / length;
+  const dirZ = (ez - sz) / length;
+  const control = MEANDER.map(([t, side]): [number, number] => [
+    sx + dirX * length * t + dirZ * side,
+    sz + dirZ * length * t - dirX * side,
+  ]);
+  const at = (index: number) =>
+    control[Math.min(Math.max(index, 0), control.length - 1)];
+  const points: [number, number][] = [];
+  for (let sample = 0; sample <= PATH_SAMPLES; sample++) {
+    const u = (sample / PATH_SAMPLES) * (control.length - 1);
+    const segment = Math.min(Math.floor(u), control.length - 2);
+    const f = u - segment;
+    const [p0, p1, p2, p3] = [
+      at(segment - 1),
+      at(segment),
+      at(segment + 1),
+      at(segment + 2),
+    ];
+    const blend = (axis: 0 | 1) =>
+      0.5 *
+      (2 * p1[axis] +
+        (-p0[axis] + p2[axis]) * f +
+        (2 * p0[axis] - 5 * p1[axis] + 4 * p2[axis] - p3[axis]) * f * f +
+        (-p0[axis] + 3 * p1[axis] - 3 * p2[axis] + p3[axis]) * f * f * f);
+    points.push([blend(0), blend(1)]);
+  }
+  return points;
+};
+
+export const STREAM_PATH = buildStreamPath();
+
+// Half width of the stream at `t` (0 at the pond, 1 at the rim): it
+// narrows in the bends and widens again as it reaches the lip.
+export const streamHalfWidth = (t: number): number =>
+  STREAM.halfWidth * (0.85 + 0.2 * Math.sin(t * 9 + 1) + 0.25 * t * t);
+
+// Distance from (x, z) to the stream's centre line, and how far along it.
+export const toStream = (x: number, z: number) => {
+  let best = { distance: Infinity, t: 0 };
+  for (let index = 0; index < STREAM_PATH.length - 1; index++) {
+    const hit = toSegment([x, z], STREAM_PATH[index], STREAM_PATH[index + 1]);
+    if (hit.distance < best.distance) {
+      best = {
+        distance: hit.distance,
+        t: (index + hit.t) / (STREAM_PATH.length - 1),
+      };
+    }
+  }
+  return best;
+};
+
 // Water surface of the stream, `t` = 0 at the pond and 1 at the rim.
 export const streamLevel = (t: number): number =>
   POND_LEVEL + (STREAM.endLevel - POND_LEVEL) * t ** 1.6;
@@ -100,12 +168,9 @@ export const waterMask = (x: number, z: number): number => {
     POND.radius - 0.4,
     Math.hypot(x - POND_CENTER[0], z - POND_CENTER[1]),
   );
-  const { distance } = toSegment([x, z], STREAM.start, STREAM.end);
-  const stream = smoothstep(
-    STREAM.halfWidth + 0.15,
-    STREAM.halfWidth - 0.3,
-    distance,
-  );
+  const { distance, t } = toStream(x, z);
+  const half = streamHalfWidth(t);
+  const stream = smoothstep(half + 0.15, half - 0.3, distance);
   return Math.max(pond, stream);
 };
 
@@ -125,12 +190,9 @@ export const islandHeight = (x: number, z: number): number => {
       POND.depth * Math.max(1 - (pondDistance / POND.radius) ** 2, 0.15);
     height += (Math.min(bed, height) - height) * pondShare;
   }
-  const stream = toSegment([x, z], STREAM.start, STREAM.end);
-  const streamShare = smoothstep(
-    STREAM.halfWidth + 0.8,
-    STREAM.halfWidth - 0.15,
-    stream.distance,
-  );
+  const stream = toStream(x, z);
+  const half = streamHalfWidth(stream.t);
+  const streamShare = smoothstep(half + 0.8, half - 0.15, stream.distance);
   if (streamShare > 0 && stream.t > 0) {
     const bed = streamLevel(stream.t) - 0.25;
     height += (Math.min(bed, height) - height) * streamShare;

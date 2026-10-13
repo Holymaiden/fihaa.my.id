@@ -39,6 +39,7 @@ import TourCamera from './scene/tour-camera';
 import TrailMap from './scene/trail-map';
 import VaultLedge from './scene/vault-ledge';
 import ViewpointMarkers from './scene/viewpoint-markers';
+import WaterBanks from './scene/water-banks';
 import WeatherDirector from './scene/weather-director';
 import Wildlife from './scene/wildlife';
 import WindClock from './scene/wind-clock';
@@ -133,6 +134,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
             <MeadowLife palette={palette} />
             {effects && <Wildlife palette={palette} />}
             <IslandWater palette={palette} />
+            <WaterBanks palette={palette} />
             <GuildHall />
             <IslandDecor />
             {surfaceStations.map((id) => (
