@@ -122,12 +122,12 @@ const Crystal = ({
         <sphereGeometry args={[0.9, 8, 6]} />
       </mesh>
       {/* Soft halo instead of a light, to keep lighting cheap. */}
-      <mesh scale={0.75}>
+      <mesh scale={0.62}>
         <icosahedronGeometry args={[1, 1]} />
         <meshBasicMaterial
           color={palette.crystalGlow}
           transparent
-          opacity={palette.isNight ? 0.28 : 0.16}
+          opacity={palette.isNight ? 0.1 : 0.12}
           blending={AdditiveBlending}
           depthWrite={false}
         />

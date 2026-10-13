@@ -2,6 +2,7 @@
 
 import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
+import type { WebGLRenderer } from 'three';
 import {
   HalfFloatType,
   LinearFilter,
@@ -168,15 +169,28 @@ const TrailMap = () => {
     touchFrom.copy(nextTouchFrom);
     walkerFrom.set(walker.x, walker.z);
 
-    const previousTarget = gl.getRenderTarget();
-    gl.setRenderTarget(write);
-    gl.render(rig.scene, rig.camera);
-    gl.setRenderTarget(previousTarget);
+    renderOffscreen(gl, write, rig);
     flip.current = 1 - flip.current;
     trailUniforms.uTrail.value = write.texture;
   }, -1);
 
   return null;
+};
+
+// Draws the map without resetting the renderer's stats, so ?debug=stats
+// still reports the scene's own draw calls.
+const renderOffscreen = (
+  renderer: WebGLRenderer,
+  target: WebGLRenderTarget,
+  { scene, camera }: { scene: Scene; camera: OrthographicCamera },
+) => {
+  const previousTarget = renderer.getRenderTarget();
+  const autoReset = renderer.info.autoReset;
+  renderer.info.autoReset = false;
+  renderer.setRenderTarget(target);
+  renderer.render(scene, camera);
+  renderer.setRenderTarget(previousTarget);
+  renderer.info.autoReset = autoReset;
 };
 
 const setTexture = (material: ShaderMaterial, target: WebGLRenderTarget) => {

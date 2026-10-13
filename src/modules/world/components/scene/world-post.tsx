@@ -14,6 +14,7 @@ import { BlendFunction, ToneMappingMode } from 'postprocessing';
 
 import { VISUAL } from '../../config/visual';
 import type { WorldPalette } from '../../hooks/use-world-palette';
+import RainLens from './rain-lens';
 
 export type PostQuality = 'high' | 'low' | 'off';
 
@@ -54,6 +55,7 @@ const WorldPost = ({ palette, quality }: WorldPostProps) => {
       ) : (
         <></>
       )}
+      <RainLens />
       <Bloom
         mipmapBlur
         intensity={palette.isNight ? post.bloom.night : post.bloom.day}
