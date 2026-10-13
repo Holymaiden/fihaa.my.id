@@ -123,6 +123,51 @@ export class AmbientEngine {
     this.context = null;
   }
 
+  get running() {
+    return this.context?.state === 'running';
+  }
+
+  // Rushing air for a camera move: falling in pitch when diving onto the
+  // island, rising when flying back out. A shimmer of harp on top.
+  whoosh(kind: 'enter' | 'exit' | 'intro') {
+    const context = this.context;
+    if (!context || context.state !== 'running' || !this.master) {
+      return;
+    }
+    const now = context.currentTime;
+    const length = kind === 'intro' ? 4 : 2.8;
+    const source = context.createBufferSource();
+    source.buffer = noiseBuffer(context, length);
+    const filter = context.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.Q.value = 0.9;
+    const [high, low] = [1900, 260];
+    filter.frequency.setValueAtTime(kind === 'exit' ? low : high, now);
+    filter.frequency.exponentialRampToValueAtTime(
+      kind === 'exit' ? high : low,
+      now + length * 0.9,
+    );
+    const gain = context.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(
+      kind === 'intro' ? 0.16 : 0.22,
+      now + length * 0.45,
+    );
+    gain.gain.linearRampToValueAtTime(0, now + length);
+    source.connect(filter).connect(gain);
+    gain.connect(this.master);
+    if (this.reverb) {
+      gain.connect(this.reverb);
+    }
+    source.start(now);
+    source.stop(now + length);
+    // Landing (or arriving): a rising arpeggio as the move settles.
+    const notes = kind === 'exit' ? [86, 81, 78, 74] : [74, 78, 81, 86, 90];
+    notes.forEach((note, index) =>
+      this.harp(midiToHz(note), now + length * 0.55 + index * 0.11),
+    );
+  }
+
   // A rising sparkle, for finding a crystal.
   chime() {
     const context = this.context;

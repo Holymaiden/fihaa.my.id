@@ -1,10 +1,13 @@
 'use client';
 
+import { useTheme } from 'next-themes';
 import type { IconType } from 'react-icons';
 import {
   LuCloudFog,
   LuCloudRain,
+  LuCloudSun,
   LuGem,
+  LuMoon,
   LuMusic,
   LuRotate3D,
   LuSparkles,
@@ -27,7 +30,7 @@ interface WorldControlsProps {
 }
 
 const WEATHER_ICONS: Record<Weather, IconType> = {
-  clear: LuSun,
+  clear: LuCloudSun,
   rain: LuCloudRain,
   mist: LuCloudFog,
 };
@@ -49,6 +52,8 @@ const WorldControls = ({ content, sceneShown }: WorldControlsProps) => {
   const setSoundOn = useWorldStore((state) => state.setSoundOn);
   const found = useWorldStore((state) => state.crystals.length);
   const WeatherIcon = WEATHER_ICONS[weather];
+  // Day and night follow the site theme (shared with the 2D site).
+  const { resolvedTheme, setTheme } = useTheme();
   const touring = mode === 'tour';
   const nextWeather =
     WEATHERS[(WEATHERS.indexOf(weather) + 1) % WEATHERS.length];
@@ -79,6 +84,18 @@ const WorldControls = ({ content, sceneShown }: WorldControlsProps) => {
             </button>
           </>
         )}
+        <button
+          type="button"
+          aria-label={copy.toggleDayNight}
+          title={copy.toggleDayNight}
+          onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+          className={ICON_BUTTON}
+        >
+          {/* Both icons render; CSS shows the right one, so server and
+              client markup match. */}
+          <LuMoon aria-hidden className="dark:hidden" />
+          <LuSun aria-hidden className="hidden dark:block" />
+        </button>
         <button
           type="button"
           aria-pressed={soundOn}

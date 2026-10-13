@@ -27,6 +27,7 @@ Tanggal: 2026-10-12 · Basis: `main` @ `a8a640a` · Tidak ada push ke `main`, me
 | Label & kartu | ✅ | `18-label-dan-kartu.md` | Label melayang di atas tiap tempat, klik → zoom + kartu callout dengan ringkasan, panel lengkap via "View details", dock bawah + menu semua tempat, kastel = Profile, perbaikan aria-hidden untuk Html. |
 | Dunia hidup | ✅ (menunggu checklist manual) | `19-dunia-hidup.md` | Mode Explore (POV) + island + tur 360°; rumput shader berangin dengan jejak kursor/langkah; pohon bergoyang; air terjun, lautan awan, pulau jauh; cuaca cerah/hujan/kabut; musik & suara alam prosedural; 7 kristal; IBL + key/rim/fill + AO bake + post (N8AO, bloom, Neutral). Branch `claude/zen-ride-ntbnug`. |
 | Air & langit | ✅ (menunggu checklist manual) | `20-air-dan-langit.md` | Sungai berkelok + shader air baru (arus, fresnel, kilau, jeram) + tepian berbatu/alang-alang; TAA, god rays, awan volumetrik raymarch, aurora malam. |
+| Masuk ke dunia | ✅ | `21-masuk-ke-dunia.md` | Layar "Enter the world" (musik default nyala, mulai pada gesture pertama), intro dari awan, tukikan sinematik ke explore (kabut, FOV, whoosh), tombol siang/malam di 3D. |
 
 Hasil akhir di `feat/profil-dan-pembersihan`: `yarn type-check` hijau, `yarn lint` 0 masalah, `yarn build` hijau.
 

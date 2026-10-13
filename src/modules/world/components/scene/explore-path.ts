@@ -106,3 +106,23 @@ export const buildWalk = (
   points.push(to.clone());
   return new CatmullRomCurve3(points, false, 'centripetal');
 };
+
+// The way in from the island view: sweep forward and down in an arc, then
+// glide in low over the grass from behind the spot and settle at eye
+// height, like landing.
+export const buildDive = (
+  from: Vector3,
+  to: Vector3,
+  facing: Vector3,
+): CatmullRomCurve3 => {
+  const back = facing.clone().setY(0).normalize();
+  const swoop = from.clone().lerp(to, 0.45);
+  swoop.y = Math.max(to.y + 7, from.y * 0.6);
+  const approach = to.clone().addScaledVector(back, -5.5);
+  approach.y = to.y + 1.6;
+  return new CatmullRomCurve3(
+    [from.clone(), swoop, approach, to.clone()],
+    false,
+    'centripetal',
+  );
+};

@@ -13,17 +13,31 @@ import { isStationViewpoint } from '../config/viewpoints';
 export type WorldMode = 'island' | 'explore' | 'tour';
 
 export type Weather = 'clear' | 'rain' | 'mist';
+
+// A cinematic move between views: 'intro' flies in from the clouds after
+// the visitor enters, 'enter' dives onto the island, 'exit' rises back
+// out. `at` is performance.now() when it started.
+export interface WorldTransition {
+  kind: 'intro' | 'enter' | 'exit';
+  at: number;
+}
 export const WEATHERS: Weather[] = ['clear', 'rain', 'mist'];
 
 interface WorldState {
   mode: WorldMode;
+  // False until the visitor passes the entrance screen (that click is
+  // also what lets the browser start the music).
+  entered: boolean;
+  enterWorld: () => void;
+  transition: WorldTransition | null;
   startTour: () => void;
   stopTour: () => void;
   weather: Weather;
   // Weather changes by itself until the visitor picks one.
   autoWeather: boolean;
   setWeather: (weather: Weather, auto?: boolean) => void;
-  // Music and nature sounds; off until the visitor turns them on.
+  // Music and nature sounds; on unless the visitor turned them off (the
+  // browser still waits for their first click or key press).
   soundOn: boolean;
   setSoundOn: (on: boolean) => void;
   // Ids of the crystals found so far.
@@ -59,8 +73,14 @@ interface WorldState {
   setHoveredStation: (id: WorldStationId | null) => void;
 }
 
+const now = () => performance.now();
+
 export const useWorldStore = create<WorldState>((set) => ({
   mode: 'island',
+  entered: false,
+  enterWorld: () =>
+    set({ entered: true, transition: { kind: 'intro', at: now() } }),
+  transition: null,
   startTour: () =>
     set({ mode: 'tour', activeStation: null, detailsOpen: false }),
   stopTour: () =>
@@ -68,7 +88,7 @@ export const useWorldStore = create<WorldState>((set) => ({
   weather: 'clear',
   autoWeather: true,
   setWeather: (weather, auto = false) => set({ weather, autoWeather: auto }),
-  soundOn: false,
+  soundOn: true,
   setSoundOn: (on) => set({ soundOn: on }),
   crystals: [],
   collectCrystal: (id) =>
@@ -90,12 +110,19 @@ export const useWorldStore = create<WorldState>((set) => ({
   enterExplore: (at) =>
     set((state) => ({
       mode: 'explore',
+      entered: true,
+      transition: { kind: 'enter', at: now() },
       viewpoint: at,
       // Keep an open station only if we step in right at it.
       activeStation: state.activeStation === at ? state.activeStation : null,
       detailsOpen: false,
     })),
-  exitExplore: () => set({ mode: 'island', detailsOpen: false }),
+  exitExplore: () =>
+    set({
+      mode: 'island',
+      detailsOpen: false,
+      transition: { kind: 'exit', at: now() },
+    }),
   goTo: (id) =>
     set((state) =>
       isStationViewpoint(id)

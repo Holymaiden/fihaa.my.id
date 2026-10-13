@@ -127,7 +127,7 @@ const Crystal = ({
         <meshBasicMaterial
           color={palette.crystalGlow}
           transparent
-          opacity={palette.isNight ? 0.1 : 0.12}
+          opacity={palette.isNight ? 0.04 : 0.12}
           blending={AdditiveBlending}
           depthWrite={false}
         />

@@ -63,6 +63,12 @@ export interface WorldCopy {
   islandViewLabel: string;
   exploreHint: string;
   scenicPlaces: Record<'waterfall' | 'meadow', string>;
+  // Entrance screen.
+  entranceKicker: string;
+  enterWorld: string;
+  entranceSound: string;
+  enterSilently: string;
+  toggleDayNight: string;
   tourStart: string;
   tourStop: string;
   weatherLabel: string;

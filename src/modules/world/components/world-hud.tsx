@@ -19,6 +19,8 @@ import { GLASS } from './ui/styles';
 import WorldControls from './world-controls';
 import WorldDetails, { DETAILS_TITLE_ID } from './world-details';
 import WorldDock from './world-dock';
+import WorldEntrance from './world-entrance';
+import WorldVeil from './world-veil';
 
 interface WorldHudProps {
   content: WorldContent;
@@ -55,8 +57,9 @@ const WorldHud = ({ content, sceneShown }: WorldHudProps) => {
   const isNarrow = useNarrowScreen();
   const turn = useStationTurn();
   const toast = useWorldStore((state) => state.toast);
+  const entered = useWorldStore((state) => state.entered);
   useAmbientSound();
-  useIdleTour(sceneShown);
+  useIdleTour(sceneShown && entered);
   useCrystalProgress(copy);
   useToastTimeout();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -106,6 +109,8 @@ const WorldHud = ({ content, sceneShown }: WorldHudProps) => {
 
   return (
     <>
+      <WorldVeil />
+      {sceneShown && <WorldEntrance content={content} />}
       <WorldControls content={content} sceneShown={sceneShown} />
       {toast && (
         <p
@@ -126,11 +131,14 @@ const WorldHud = ({ content, sceneShown }: WorldHudProps) => {
         <WorldDetails station={station} content={content} />
       )}
 
-      <WorldDock
-        content={content}
-        menuButtonRef={menuButtonRef}
-        sceneShown={sceneShown}
-      />
+      {/* The entrance screen comes first; the dock after. */}
+      {(entered || !sceneShown) && (
+        <WorldDock
+          content={content}
+          menuButtonRef={menuButtonRef}
+          sceneShown={sceneShown}
+        />
+      )}
     </>
   );
 };
