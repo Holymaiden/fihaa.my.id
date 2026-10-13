@@ -82,6 +82,9 @@
   --color-world-fire-core: #ffe9a3;
   --color-world-fire-edge: #ff7a2e;
   --color-world-marker: #ffffff;
+  /* Northern lights (only drawn at night). */
+  --color-world-aurora-low: #3dffb0;
+  --color-world-aurora-high: #8a5cff;
 
   --text-2xs: 12px;
   --text-caption: 13px;

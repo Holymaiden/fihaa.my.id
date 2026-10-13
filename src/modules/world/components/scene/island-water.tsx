@@ -71,7 +71,7 @@ const fallMaterial = (seed: number) =>
     vertexShader: fallVertex,
     fragmentShader: fallFragment,
     transparent: true,
-    depthWrite: false,
+    depthWrite: true,
     side: DoubleSide,
     fog: true,
     uniforms: {

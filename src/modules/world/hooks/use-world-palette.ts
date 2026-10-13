@@ -45,6 +45,8 @@ const TOKENS = {
   fireCore: '--color-world-fire-core',
   fireEdge: '--color-world-fire-edge',
   marker: '--color-world-marker',
+  auroraLow: '--color-world-aurora-low',
+  auroraHigh: '--color-world-aurora-high',
 } as const;
 
 export type WorldPaletteKey = keyof typeof TOKENS;

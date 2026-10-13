@@ -161,6 +161,9 @@ export const fallFragment = /* glsl */ `
 
     float fade = 1.0 - smoothstep(0.5, 1.0, down);
     float alpha = ragged * fade * mix(0.7 + fine * 0.3, 0.9, sheet);
+    // The fall writes depth (so the raymarched clouds go behind it); its
+    // see-through edges are dropped so they don't block what's behind.
+    if (alpha < 0.12) discard;
     gl_FragColor = vec4(color, alpha);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>

@@ -3,6 +3,7 @@
 import { PerformanceMonitor, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useState } from 'react';
+import type { Mesh } from 'three';
 
 import type { WorldContent } from '@/lib/content/types';
 
@@ -35,6 +36,7 @@ import { LensRainClock } from './scene/rain-lens';
 import ShadowUpdater from './scene/shadow-updater';
 import type { StationCounts } from './scene/station-extras';
 import StationLabels from './scene/station-labels';
+import SunDisc from './scene/sun-disc';
 import TourCamera from './scene/tour-camera';
 import TrailMap from './scene/trail-map';
 import VaultLedge from './scene/vault-ledge';
@@ -70,6 +72,8 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
   const [showStats] = useState(isStatsEnabled);
   const effects = useEffectsEnabled();
   const quality = useSceneQuality();
+  // The sun mesh, once mounted, is the god rays' light source.
+  const [sun, setSun] = useState<Mesh | null>(null);
   const surfaceStations = stations
     .map((station) => station.id)
     .filter(
@@ -120,6 +124,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
         />
         {quality.shadows && <ShadowUpdater palette={palette} />}
         <CloudSea palette={palette} />
+        {!palette.isNight && <SunDisc palette={palette} ref={setSun} />}
         <DistantIslands palette={palette} />
         {palette.isNight && (
           <Stars radius={200} depth={50} count={2500} factor={5} fade />
@@ -159,7 +164,11 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
         <ExploreCamera />
         <TourCamera />
         <FovDirector />
-        <WorldPost palette={palette} quality={quality.postQuality} />
+        <WorldPost
+          palette={palette}
+          quality={quality.postQuality}
+          sun={palette.isNight ? null : sun}
+        />
         <WeatherDirector palette={palette} />
         <WindClock />
         <TrailMap />

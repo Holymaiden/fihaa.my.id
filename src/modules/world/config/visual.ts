@@ -16,6 +16,16 @@ export const VISUAL = {
     saturation: 0.16,
     vignette: { offset: 0.3, darkness: 0.55 },
     grain: 0.08,
+    // Temporal AA: share of the history kept each frame, and the size of
+    // the sub-pixel camera nudge (1 = a full pixel).
+    taa: { blend: 0.88, jitter: 1 },
+    godRays: {
+      samples: 48,
+      density: 0.94,
+      decay: 0.92,
+      weight: 0.35,
+      exposure: 0.55,
+    },
   },
   // Image-based lighting from a small studio of light shapes (no HDR file).
   environment: { resolution: 128, day: 0.7, night: 0.35 },
@@ -50,6 +60,17 @@ export const VISUAL = {
     spraySize: 900,
   },
   cloudSea: { height: -40, radius: 260, fade: [60, 210] as const },
+  // Raymarched cloud layer under the island (high quality only).
+  volumetricClouds: {
+    bottom: -52,
+    top: -24,
+    steps: 20,
+    coverage: 0.5,
+    overcastCoverage: 0.22,
+    absorption: 0.09,
+    maxDistance: 420,
+    fade: [180, 400] as const,
+  },
   meadow: {
     flowerDrifts: 26,
     flowersPerDrift: 26,
