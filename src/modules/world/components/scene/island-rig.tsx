@@ -16,6 +16,7 @@ import {
 import { VISUAL } from '../../config/visual';
 import { useEffectsEnabled } from '../../hooks/use-effects-enabled';
 import { useWorldStore } from '../../store/world-store';
+import { islandTurn } from './island-turn';
 import { CLICK_TOLERANCE, lastDrag } from './pointer';
 
 interface IslandRigProps {
@@ -31,9 +32,6 @@ const closestTurn = (angle: number, from: number) =>
 
 const angularDistance = (a: number, b: number) =>
   Math.abs(closestTurn(a, b) - b);
-
-// Current turn of the island, read by ShadowUpdater.
-export const islandTurn = { angle: 0 };
 
 interface DragState {
   pointerId: number;
@@ -54,21 +52,29 @@ const IslandRig = ({ children }: IslandRigProps) => {
   const invalidate = useThree((state) => state.invalidate);
   const activeStation = useWorldStore((state) => state.activeStation);
   const openStation = useWorldStore((state) => state.openStation);
+  const mode = useWorldStore((state) => state.mode);
   const animate = useEffectsEnabled();
 
-  // Picking a station turns it to the front.
+  // Picking a station turns it to the front. In explore mode the island
+  // holds still (the visitor walks instead); coming back, it catches up.
   useEffect(() => {
+    if (mode !== 'island') {
+      return;
+    }
     const rotation = activeStation ? stationRotation(activeStation) : null;
     if (rotation !== null) {
       target.current = closestTurn(rotation, target.current);
       invalidate();
     }
-  }, [activeStation, invalidate]);
+  }, [activeStation, mode, invalidate]);
 
   useEffect(() => {
     const element = gl.domElement;
 
     const handleDown = (event: PointerEvent) => {
+      if (useWorldStore.getState().mode !== 'island') {
+        return;
+      }
       drag.current = {
         pointerId: event.pointerId,
         startX: event.clientX,

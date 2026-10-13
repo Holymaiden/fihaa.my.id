@@ -96,7 +96,7 @@ export const DECOR: CorePlacement[] = [
   { model: 'CommonTree_1', position: [-6.8, 0, 7.2], scale: 1 },
   { model: 'CommonTree_1', position: [7.2, 0, -5], scale: 1.1 },
   { model: 'CommonTree_1', position: [-8, 0, -8], scale: 0.9 },
-  { model: 'CommonTree_1', position: [9, 0, 8.4], scale: 0.9 },
+  { model: 'CommonTree_1', position: [7.2, 0, 10.8], scale: 0.9 },
   { model: 'trees_A_medium', position: [-10, 0, 5.4], scale: 1.6 },
   { model: 'trees_A_medium', position: [2, 0, -11], scale: 1.6 },
   { model: 'tree_single_A', position: [0.4, 0, 4.6], scale: 2.2 },

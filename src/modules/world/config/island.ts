@@ -13,9 +13,9 @@ export const ISLAND = {
   radius: 14,
   // Mesh resolution of the top surface (rings from the centre, segments
   // around) and of the rock underneath.
-  rings: 48,
-  segments: 128,
-  undersideRings: 24,
+  rings: 72,
+  segments: 192,
+  undersideRings: 40,
   depth: 16,
   // Height of the gentle hills on top.
   hillHeight: 1.2,
@@ -35,12 +35,175 @@ const hills = (x: number, z: number): number =>
   Math.sin(x * 0.9 + z * 0.7) * 0.18 +
   Math.cos(z * 1.3 - x * 0.4) * 0.12;
 
-// Height of the top surface at (x, z); flattens out towards the rim.
-export const islandHeight = (x: number, z: number): number => {
+// Height of the hills before the pond and stream are carved in.
+const baseHeight = (x: number, z: number): number => {
   const share = Math.min(Math.hypot(x, z) / ISLAND.radius, 1);
   const falloff = 1 - share ** 6;
   return (hills(x, z) + 0.4) * falloff * ISLAND.hillHeight - share ** 10 * 0.6;
 };
+
+const smoothstep = (edge0: number, edge1: number, value: number): number => {
+  const t = Math.min(Math.max((value - edge0) / (edge1 - edge0), 0), 1);
+  return t * t * (3 - 2 * t);
+};
+
+// Distance from p to the segment a-b, and how far along it (0..1).
+const toSegment = (
+  [px, pz]: [number, number],
+  [ax, az]: [number, number],
+  [bx, bz]: [number, number],
+) => {
+  const dx = bx - ax;
+  const dz = bz - az;
+  const t = Math.min(
+    Math.max(((px - ax) * dx + (pz - az) * dz) / (dx * dx + dz * dz), 0),
+    1,
+  );
+  return { distance: Math.hypot(px - ax - dx * t, pz - az - dz * t), t };
+};
+
+// A pond on the front-right of the island; a stream runs from it to the rim
+// and falls off the edge as a waterfall.
+export const POND = {
+  angle: Math.PI / 4,
+  distance: 9.4,
+  radius: 1.9,
+  depth: 0.45,
+} as const;
+
+const polar = (angle: number, distance: number): [number, number] => [
+  Math.sin(angle) * distance,
+  Math.cos(angle) * distance,
+];
+
+export const POND_CENTER = polar(POND.angle, POND.distance);
+// Water surface of the pond, a little under the ground around it.
+export const POND_LEVEL = baseHeight(POND_CENTER[0], POND_CENTER[1]) - 0.22;
+
+// Where the stream leaves the island (just past the rim).
+export const STREAM = {
+  start: POND_CENTER,
+  end: polar(POND.angle, ISLAND.radius * islandEdge(POND.angle) + 0.4),
+  halfWidth: 0.55,
+  // Surface level where it pours over the rim.
+  endLevel: -0.75,
+} as const;
+
+// The stream meanders: sideways offsets (units, to the right of the
+// straight line) at points along the way from the pond to the rim.
+const MEANDER: [number, number][] = [
+  [0, 0],
+  [0.25, 0.75],
+  [0.55, -0.55],
+  [0.8, 0.3],
+  [1, 0],
+];
+const PATH_SAMPLES = 36;
+
+// Catmull-Rom through the meander points, sampled into a polyline.
+const buildStreamPath = (): [number, number][] => {
+  const [sx, sz] = STREAM.start;
+  const [ex, ez] = STREAM.end;
+  const length = Math.hypot(ex - sx, ez - sz);
+  const dirX = (ex - sx) / length;
+  const dirZ = (ez - sz) / length;
+  const control = MEANDER.map(([t, side]): [number, number] => [
+    sx + dirX * length * t + dirZ * side,
+    sz + dirZ * length * t - dirX * side,
+  ]);
+  const at = (index: number) =>
+    control[Math.min(Math.max(index, 0), control.length - 1)];
+  const points: [number, number][] = [];
+  for (let sample = 0; sample <= PATH_SAMPLES; sample++) {
+    const u = (sample / PATH_SAMPLES) * (control.length - 1);
+    const segment = Math.min(Math.floor(u), control.length - 2);
+    const f = u - segment;
+    const [p0, p1, p2, p3] = [
+      at(segment - 1),
+      at(segment),
+      at(segment + 1),
+      at(segment + 2),
+    ];
+    const blend = (axis: 0 | 1) =>
+      0.5 *
+      (2 * p1[axis] +
+        (-p0[axis] + p2[axis]) * f +
+        (2 * p0[axis] - 5 * p1[axis] + 4 * p2[axis] - p3[axis]) * f * f +
+        (-p0[axis] + 3 * p1[axis] - 3 * p2[axis] + p3[axis]) * f * f * f);
+    points.push([blend(0), blend(1)]);
+  }
+  return points;
+};
+
+export const STREAM_PATH = buildStreamPath();
+
+// Half width of the stream at `t` (0 at the pond, 1 at the rim): it
+// narrows in the bends and widens again as it reaches the lip.
+export const streamHalfWidth = (t: number): number =>
+  STREAM.halfWidth * (0.85 + 0.2 * Math.sin(t * 9 + 1) + 0.25 * t * t);
+
+// Distance from (x, z) to the stream's centre line, and how far along it.
+export const toStream = (x: number, z: number) => {
+  let best = { distance: Infinity, t: 0 };
+  for (let index = 0; index < STREAM_PATH.length - 1; index++) {
+    const hit = toSegment([x, z], STREAM_PATH[index], STREAM_PATH[index + 1]);
+    if (hit.distance < best.distance) {
+      best = {
+        distance: hit.distance,
+        t: (index + hit.t) / (STREAM_PATH.length - 1),
+      };
+    }
+  }
+  return best;
+};
+
+// Water surface of the stream, `t` = 0 at the pond and 1 at the rim.
+export const streamLevel = (t: number): number =>
+  POND_LEVEL + (STREAM.endLevel - POND_LEVEL) * t ** 1.6;
+
+// How much (0..1) a point is water: pond or stream.
+export const waterMask = (x: number, z: number): number => {
+  const pond = smoothstep(
+    POND.radius + 0.2,
+    POND.radius - 0.4,
+    Math.hypot(x - POND_CENTER[0], z - POND_CENTER[1]),
+  );
+  const { distance, t } = toStream(x, z);
+  const half = streamHalfWidth(t);
+  const stream = smoothstep(half + 0.15, half - 0.3, distance);
+  return Math.max(pond, stream);
+};
+
+// Height of the top surface at (x, z); flattens out towards the rim, with
+// the pond bowl and the stream bed carved in.
+export const islandHeight = (x: number, z: number): number => {
+  let height = baseHeight(x, z);
+  const pondDistance = Math.hypot(x - POND_CENTER[0], z - POND_CENTER[1]);
+  const pondShare = smoothstep(
+    POND.radius + 1.1,
+    POND.radius - 0.2,
+    pondDistance,
+  );
+  if (pondShare > 0) {
+    const bed =
+      POND_LEVEL -
+      POND.depth * Math.max(1 - (pondDistance / POND.radius) ** 2, 0.15);
+    height += (Math.min(bed, height) - height) * pondShare;
+  }
+  const stream = toStream(x, z);
+  const half = streamHalfWidth(stream.t);
+  const streamShare = smoothstep(half + 0.8, half - 0.15, stream.distance);
+  if (streamShare > 0 && stream.t > 0) {
+    const bed = streamLevel(stream.t) - 0.25;
+    height += (Math.min(bed, height) - height) * streamShare;
+  }
+  return height;
+};
+
+// Dirt paths: a ring round the castle with spokes out to each station and
+// the pond. 0 = grass, 1 = path.
+const PATH_RING = 6.1;
+const PATH_HALF_WIDTH = 0.42;
 
 // Stations sit around the castle; the island turns so the active one faces
 // the camera (+z). Angles are measured from +z towards +x.
@@ -61,15 +224,63 @@ export const STATION_ORDER: SurfaceStationId[] = [
   'contact',
 ];
 
-const onCircle = (angle: number, distance: number): [number, number] => [
-  Math.sin(angle) * distance,
-  Math.cos(angle) * distance,
-];
+const onCircle = polar;
 
 // Station centre on the island (before the island turns).
 export const stationAnchor = (id: SurfaceStationId): Vec3 => {
   const [x, z] = onCircle(STATION_ANGLES[id], STATION_DISTANCE);
   return [x, islandHeight(x, z), z];
+};
+
+// Where the path spokes start and end.
+const PATH_SPOKES: [[number, number], [number, number]][] = [
+  ...(['projects', 'skills', 'experience', 'contact'] as const).map(
+    (id): [[number, number], [number, number]] => [
+      polar(STATION_ANGLES[id], PATH_RING),
+      polar(STATION_ANGLES[id], STATION_DISTANCE - 1.2),
+    ],
+  ),
+  [
+    polar(POND.angle, PATH_RING),
+    polar(POND.angle, POND.distance - POND.radius - 0.4),
+  ],
+];
+
+export const pathMask = (x: number, z: number): number => {
+  let distance = Math.abs(Math.hypot(x, z) - PATH_RING);
+  for (const [from, to] of PATH_SPOKES) {
+    distance = Math.min(distance, toSegment([x, z], from, to).distance);
+  }
+  // Wobble the edge a little so it reads as worn ground.
+  const wobble = 0.08 * Math.sin(x * 2.3 + z * 1.7);
+  return smoothstep(
+    PATH_HALF_WIDTH + 0.25,
+    PATH_HALF_WIDTH - 0.1,
+    distance + wobble,
+  );
+};
+
+// Bare ground under the castle and around each station, where grass would
+// poke through buildings and props.
+export const clearingMask = (x: number, z: number): number => {
+  let clearing = smoothstep(4.6, 3.8, Math.hypot(x, z));
+  for (const [tx, tz] of [
+    [-3.6, -2.6],
+    [3.8, -2.2],
+  ]) {
+    clearing = Math.max(
+      clearing,
+      smoothstep(2, 1.4, Math.hypot(x - tx, z - tz)),
+    );
+  }
+  for (const id of STATION_ORDER) {
+    const [sx, sz] = polar(STATION_ANGLES[id], STATION_DISTANCE);
+    clearing = Math.max(
+      clearing,
+      smoothstep(2.6, 1.6, Math.hypot(x - sx, z - sz)) * 0.85,
+    );
+  }
+  return clearing;
 };
 
 // The hidden vault is a ledge on the rock under the island, on the back

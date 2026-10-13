@@ -26,6 +26,7 @@ const SETTLED = 1e-3;
 // shot. Snaps instead of easing when effects are off.
 const CameraDirector = () => {
   const activeStation = useWorldStore((state) => state.activeStation);
+  const mode = useWorldStore((state) => state.mode);
   const isNarrow = useThree((state) => state.size.width < NARROW_MAX_WIDTH);
   const invalidate = useThree((state) => state.invalidate);
   const animate = useEffectsEnabled();
@@ -59,8 +60,29 @@ const CameraDirector = () => {
     invalidate();
   }, [view, invalidate]);
 
+  // Explore mode drives the camera itself. Coming back, pick up from where
+  // it is looking.
+  const returning = useRef(false);
+  useEffect(() => {
+    if (mode !== 'island') {
+      returning.current = true;
+    }
+    invalidate();
+  }, [mode, invalidate]);
+
   useFrame(({ camera }, delta) => {
+    if (mode !== 'island') {
+      return;
+    }
     const { position, target } = goal.current;
+    if (returning.current) {
+      // Back from explore mode: start from the current view.
+      returning.current = false;
+      lookAt.current = camera
+        .getWorldDirection(new Vector3())
+        .multiplyScalar(camera.position.distanceTo(target))
+        .add(camera.position);
+    }
     if (!lookAt.current) {
       // First frame: start in place.
       camera.position.copy(position);
@@ -72,6 +94,12 @@ const CameraDirector = () => {
     } else {
       camera.position.copy(position);
       lookAt.current.copy(target);
+    }
+    // A slow drift round the framed shot, so the island view breathes.
+    if (animate) {
+      const time = performance.now() / 1000;
+      camera.position.x += Math.sin(time * 0.11) * 0.012;
+      camera.position.y += Math.sin(time * 0.17 + 1) * 0.006;
     }
     camera.lookAt(lookAt.current);
     if (

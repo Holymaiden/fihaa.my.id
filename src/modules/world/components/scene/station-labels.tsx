@@ -8,6 +8,7 @@ import { Vector3 } from 'three';
 
 import type { WorldStation } from '@/lib/content/types';
 
+import { CRYSTALS } from '../../config/crystals';
 import { labelAnchor } from '../../config/island';
 import { useWorldStore } from '../../store/world-store';
 import { STATION_ICONS } from '../ui/station-icons';
@@ -19,11 +20,14 @@ interface StationLabelsProps {
 
 // Labels on the far side of the island fade out (sides stay visible).
 const FACING_THRESHOLD = -0.35;
+// In explore mode: labels in front of the camera and not too far away.
+const EXPLORE_RANGE = 26;
 // Keep labels under the cards and panels of the HTML layer.
 const LABEL_Z: [number, number] = [12, 10];
 
 const position = new Vector3();
 const toCamera = new Vector3();
+const view = new Vector3();
 
 const StationLabel = ({ station }: { station: WorldStation }) => {
   const anchorRef = useRef<Group>(null);
@@ -39,8 +43,13 @@ const StationLabel = ({ station }: { station: WorldStation }) => {
       return;
     }
     let visible = true;
-    // The castle label is always in view; rim labels only on the near side.
-    if (station.id !== 'profile') {
+    if (useWorldStore.getState().mode === 'explore') {
+      anchor.getWorldPosition(position).sub(camera.position);
+      camera.getWorldDirection(view);
+      visible = position.dot(view) > 0 && position.length() < EXPLORE_RANGE;
+    } else if (station.id !== 'profile') {
+      // The castle label is always in view; rim labels only on the near
+      // side.
       anchor.getWorldPosition(position).setY(0).normalize();
       toCamera.copy(camera.position).setY(0).normalize();
       visible = position.dot(toCamera) > FACING_THRESHOLD;
@@ -75,17 +84,27 @@ const StationLabel = ({ station }: { station: WorldStation }) => {
   );
 };
 
-// Floating name tags over each place on the island (hidden while a place
-// is open, so only its card shows).
+// Floating name tags over each place on the island. On the island view
+// they hide while a place is open, so only its card shows; when exploring
+// the others stay up as signposts.
 const StationLabels = ({ stations }: StationLabelsProps) => {
   const activeStation = useWorldStore((state) => state.activeStation);
-  if (activeStation) {
+  const mode = useWorldStore((state) => state.mode);
+  // Finding every crystal reveals the vault's label.
+  const vaultOpen = useWorldStore(
+    (state) => state.crystals.length >= CRYSTALS.length,
+  );
+  if ((activeStation && mode === 'island') || mode === 'tour') {
     return null;
   }
   return (
     <>
       {stations
-        .filter((station) => station.id !== 'secret')
+        .filter(
+          (station) =>
+            (station.id !== 'secret' || vaultOpen) &&
+            station.id !== activeStation,
+        )
         .map((station) => (
           <StationLabel key={station.id} station={station} />
         ))}

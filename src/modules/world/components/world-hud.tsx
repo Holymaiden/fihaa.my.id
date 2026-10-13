@@ -1,20 +1,22 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { LuSparkles } from 'react-icons/lu';
 
 import type { WorldContent } from '@/lib/content/types';
 
-import {
-  useEffectsEnabled,
-  useEffectsPreferenceStorage,
-} from '../hooks/use-effects-enabled';
+import { useEffectsPreferenceStorage } from '../hooks/use-effects-enabled';
 import { useNarrowScreen } from '../hooks/use-narrow-screen';
 import { useStationTurn } from '../hooks/use-station-turn';
+import {
+  useAmbientSound,
+  useCrystalProgress,
+  useIdleTour,
+  useToastTimeout,
+} from '../hooks/use-world-extras';
 import { useWorldStore } from '../store/world-store';
 import StationCard, { CARD_TITLE_ID } from './station-card';
-import { ICON_BUTTON } from './ui/styles';
-import WorldCredits from './world-credits';
+import { GLASS } from './ui/styles';
+import WorldControls from './world-controls';
 import WorldDetails, { DETAILS_TITLE_ID } from './world-details';
 import WorldDock from './world-dock';
 
@@ -48,13 +50,15 @@ const WorldHud = ({ content, sceneShown }: WorldHudProps) => {
   const detailsOpen = useWorldStore((state) => state.detailsOpen);
   const closeStation = useWorldStore((state) => state.closeStation);
   const closeDetails = useWorldStore((state) => state.closeDetails);
-  const setEffectsPreference = useWorldStore(
-    (state) => state.setEffectsPreference,
-  );
-  const effectsEnabled = useEffectsEnabled();
+  const exitExplore = useWorldStore((state) => state.exitExplore);
   useEffectsPreferenceStorage();
   const isNarrow = useNarrowScreen();
   const turn = useStationTurn();
+  const toast = useWorldStore((state) => state.toast);
+  useAmbientSound();
+  useIdleTour(sceneShown);
+  useCrystalProgress(copy);
+  useToastTimeout();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const hadStation = useRef(false);
 
@@ -74,11 +78,20 @@ const WorldHud = ({ content, sceneShown }: WorldHudProps) => {
         // Esc inside the credits dialog only closes the dialog.
         return;
       }
+      if (useWorldStore.getState().mode === 'tour') {
+        // Any key ends the tour.
+        useWorldStore.getState().stopTour();
+        return;
+      }
       if (event.key === 'Escape') {
-        if (useWorldStore.getState().detailsOpen) {
+        const state = useWorldStore.getState();
+        if (state.detailsOpen) {
           closeDetails();
-        } else {
+        } else if (state.activeStation) {
           closeStation();
+        } else if (state.mode === 'explore') {
+          // Nothing open while exploring: step back out to the island.
+          exitExplore();
         }
       } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         turn(event.key === 'ArrowLeft' ? -1 : 1);
@@ -86,28 +99,22 @@ const WorldHud = ({ content, sceneShown }: WorldHudProps) => {
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [closeStation, closeDetails, turn]);
+  }, [closeStation, closeDetails, exitExplore, turn]);
 
   const station = stations.find((item) => item.id === activeStation);
   const showSheetCard = station && !detailsOpen && (isNarrow || !sceneShown);
 
   return (
     <>
-      <div className="absolute right-4 top-4 z-30 flex gap-2">
-        {sceneShown && (
-          <button
-            type="button"
-            aria-pressed={effectsEnabled}
-            aria-label={effectsEnabled ? copy.effectsOn : copy.effectsOff}
-            title={effectsEnabled ? copy.effectsOn : copy.effectsOff}
-            onClick={() => setEffectsPreference(!effectsEnabled)}
-            className={`${ICON_BUTTON} ${effectsEnabled ? '' : 'opacity-60'}`}
-          >
-            <LuSparkles aria-hidden />
-          </button>
-        )}
-        <WorldCredits credits={content.credits} copy={copy} />
-      </div>
+      <WorldControls content={content} sceneShown={sceneShown} />
+      {toast && (
+        <p
+          role="status"
+          className={`${GLASS} pointer-events-none absolute left-1/2 top-16 z-30 -translate-x-1/2 rounded-full px-4 py-2 text-sm font-medium text-neutral-800 dark:text-neutral-100`}
+        >
+          {toast}
+        </p>
+      )}
 
       {showSheetCard && (
         <div className="absolute inset-x-4 bottom-20 z-20 mx-auto max-h-[55vh] max-w-md overflow-y-auto">
@@ -119,7 +126,11 @@ const WorldHud = ({ content, sceneShown }: WorldHudProps) => {
         <WorldDetails station={station} content={content} />
       )}
 
-      <WorldDock content={content} menuButtonRef={menuButtonRef} />
+      <WorldDock
+        content={content}
+        menuButtonRef={menuButtonRef}
+        sceneShown={sceneShown}
+      />
     </>
   );
 };

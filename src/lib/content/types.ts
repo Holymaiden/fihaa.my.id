@@ -56,6 +56,24 @@ export interface WorldCopy {
   previousPlace: string;
   nextPlace: string;
   turnHint: string;
+  // Explore (first-person) mode.
+  explore: string;
+  exploreLabel: string;
+  islandView: string;
+  islandViewLabel: string;
+  exploreHint: string;
+  scenicPlaces: Record<'waterfall' | 'meadow', string>;
+  tourStart: string;
+  tourStop: string;
+  weatherLabel: string;
+  weathers: Record<'clear' | 'rain' | 'mist', string>;
+  soundOn: string;
+  soundOff: string;
+  crystalsLabel: string;
+  crystalsHint: string;
+  // {found} and {total} are filled in.
+  crystalFound: string;
+  crystalsComplete: string;
   viewDetails: string;
   closeCard: string;
   placesMenu: string;

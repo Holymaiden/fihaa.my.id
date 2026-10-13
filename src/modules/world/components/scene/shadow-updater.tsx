@@ -4,7 +4,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
 
 import type { WorldPalette } from '../../hooks/use-world-palette';
-import { islandTurn } from './island-rig';
+import { islandTurn } from './island-turn';
 
 interface ShadowUpdaterProps {
   palette: WorldPalette;

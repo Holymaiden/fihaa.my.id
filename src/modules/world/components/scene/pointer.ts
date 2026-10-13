@@ -13,3 +13,9 @@ export const lastDrag = { endedAt: 0 };
 
 export const endedDragJustNow = (): boolean =>
   performance.now() - lastDrag.endedAt < 300;
+
+// Cursor over the canvas (a helper so effects don't assign to the
+// renderer's element directly).
+export const setCanvasCursor = (element: HTMLElement, cursor: string) => {
+  element.style.cursor = cursor;
+};
