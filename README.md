@@ -72,7 +72,6 @@ src/modules/world/       3D world
   components/            HTML layer: dock, cards, details panel, controls
   audio/                 Procedural music and nature sounds
 src/common/styles/       Global styles and design tokens (incl. --color-world-*)
-docs/migrasi/            Design notes and reports for every step of the 2D → 2D/3D work
 ```
 
 To change the 3D world without touching components:
