@@ -41,9 +41,10 @@
   /* 3D world palette (light theme = day). The dark theme overrides these
      below (night). Station accents reuse the site accent. */
   --color-world-sky-top: #4f93d2;
-  --color-world-sky-horizon: #d6e3ea;
+  --color-world-sky-horizon: #eadcbc;
   --color-world-sky-bottom: #a3bad3;
-  --color-world-fog: #a9bfd6;
+  /* Warm golden haze, as in the reference's daytime. */
+  --color-world-fog: #d9c8a2;
   --color-world-sun: #fff0d6;
   --color-world-ground-light: #6b7660;
   /* Island terrain, from the hilltops down to the rock underneath. */
@@ -83,7 +84,7 @@
   --color-world-cloud-shade: #b3c0d2;
   --color-world-blossom: #fffaf0;
   --color-world-pollen: #fff6d8;
-  --color-world-firefly: #d9ff7a;
+  --color-world-firefly: #fff4cf;
   --color-world-fire-core: #ffe9a3;
   --color-world-fire-edge: #ff7a2e;
   --color-world-marker: #ffffff;

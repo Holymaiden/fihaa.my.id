@@ -12,19 +12,20 @@ export const VISUAL = {
     dof: { focus: 9, range: 14, bokeh: 2.2 },
     // Only things brighter than white bloom (sun, fire, crystals), so the
     // bright sky doesn't haze the whole frame.
-    bloom: { day: 0.4, night: 0.8, threshold: 1.05 },
+    bloom: { day: 0.55, night: 0.8, threshold: 1.05 },
     saturation: 0,
     vignette: { offset: 0.3, darkness: 0.55 },
     grain: 0.08,
     // Temporal AA: share of the history kept each frame, and the size of
     // the sub-pixel camera nudge (1 = a full pixel).
     taa: { blend: 0.88, jitter: 1 },
+    // Strong shafts through the crowns, as in the reference's daytime.
     godRays: {
-      samples: 48,
-      density: 0.94,
-      decay: 0.92,
-      weight: 0.35,
-      exposure: 0.55,
+      samples: 60,
+      density: 0.96,
+      decay: 0.95,
+      weight: 0.55,
+      exposure: 0.8,
     },
   },
   // Image-based lighting from CC0 sky HDRIs (1k, Poly Haven).
@@ -36,7 +37,7 @@ export const VISUAL = {
   },
   dpr: [1, 2] as [number, number],
   // Far enough that the zoomed-out phone view stays clear.
-  fog: { near: 85, far: 260 },
+  fog: { near: 80, far: 280 },
   sky: {
     radius: 280,
     // Where the sun (or moon) disc sits, and its size (share of the dome).
@@ -81,8 +82,12 @@ export const VISUAL = {
     flowerDrifts: 26,
     flowersPerDrift: 26,
     flowerSize: 22,
-    moteCount: 90,
-    fireflySize: 55,
+    // Fireflies gather in drifts just above the grass at night (drifts x
+    // per drift); by day only the first `pollenCount` float about as pollen.
+    fireflyDrifts: 90,
+    firefliesPerDrift: 24,
+    pollenCount: 90,
+    fireflySize: 110,
     pollenSize: 18,
   },
   weather: {
