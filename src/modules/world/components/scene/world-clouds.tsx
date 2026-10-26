@@ -25,7 +25,12 @@ interface WorldCloudsProps {
 // Soft clouds drifting round the island: each one a cluster of puffs,
 // camera-facing quads with a noisy round edge, lit on the side that faces
 // the sun and shaded underneath. World positions and widths.
-const CLOUDS: { position: [number, number, number]; width: number }[] = [
+export interface PuffCluster {
+  position: [number, number, number];
+  width: number;
+}
+
+const CLOUDS: PuffCluster[] = [
   { position: [-30, -6, -12], width: 14 },
   { position: [28, -10, -8], width: 16 },
   { position: [-14, -15, 22], width: 18 },
@@ -42,12 +47,16 @@ const random = (seed: number) => {
 };
 
 // Puffs fill a flattened ellipsoid: wide, a bit deep, not very tall, with
-// the bigger ones low in the middle so the cloud has a flat-ish base.
-const buildPuffs = () => {
+// the bigger ones low in the middle so the cloud has a flat-ish base. Also
+// used for the splash at the foot of a waterfall.
+export const buildPuffs = (
+  clusters: PuffCluster[] = CLOUDS,
+  puffsPerCluster = PUFFS_PER_CLOUD,
+) => {
   const centers: number[] = [];
   const params: number[] = [];
-  CLOUDS.forEach(({ position: [cx, cy, cz], width }, cloud) => {
-    for (let puff = 0; puff < PUFFS_PER_CLOUD; puff++) {
+  clusters.forEach(({ position: [cx, cy, cz], width }, cloud) => {
+    for (let puff = 0; puff < puffsPerCluster; puff++) {
       const seed = cloud * 100 + puff;
       const angle = random(seed) * Math.PI * 2;
       const reach = Math.sqrt(random(seed + 0.3));
@@ -149,6 +158,24 @@ const fragmentShader = /* glsl */ `
   }
 `;
 
+// Soft, lit puffs (colours set through uLight, uShade and uSun).
+export const puffMaterial = () =>
+  new ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    transparent: true,
+    depthWrite: false,
+    fog: true,
+    uniforms: {
+      ...fogUniforms(),
+      uTime: { value: 0 },
+      uLight: { value: new Color() },
+      uShade: { value: new Color() },
+      uSun: { value: new Color() },
+      uOvercast: { value: 0 },
+    },
+  });
+
 const DRIFT_AXIS = new Vector3(0, 1, 0);
 
 // Clouds slowly circle the islands when effects are on.
@@ -157,25 +184,7 @@ const WorldClouds = ({ palette }: WorldCloudsProps) => {
   const effects = useEffectsEnabled();
   const geometry = useMemo(() => buildPuffs(), []);
   useEffect(() => () => geometry.dispose(), [geometry]);
-  const material = useMemo(
-    () =>
-      new ShaderMaterial({
-        vertexShader,
-        fragmentShader,
-        transparent: true,
-        depthWrite: false,
-        fog: true,
-        uniforms: {
-          ...fogUniforms(),
-          uTime: { value: 0 },
-          uLight: { value: new Color() },
-          uShade: { value: new Color() },
-          uSun: { value: new Color() },
-          uOvercast: { value: 0 },
-        },
-      }),
-    [],
-  );
+  const material = useMemo(() => puffMaterial(), []);
   useEffect(() => () => material.dispose(), [material]);
 
   useEffect(() => {

@@ -20,6 +20,7 @@ import DistantIslands from './scene/distant-islands';
 import DistantRange from './scene/distant-range';
 import ExploreCamera from './scene/explore-camera';
 import FloatingCard from './scene/floating-card';
+import FloatingIslet from './scene/floating-islet';
 import FovDirector from './scene/fov-director';
 import GroundCursor from './scene/ground-cursor';
 import GuildHall from './scene/guild-hall';
@@ -141,6 +142,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
             <MeadowLife palette={palette} />
             {effects && <Wildlife palette={palette} />}
             <IslandWater palette={palette} />
+            <FloatingIslet palette={palette} />
             <WaterBanks palette={palette} />
             <GuildHall />
             <IslandDecor />

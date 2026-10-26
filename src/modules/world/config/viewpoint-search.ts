@@ -86,8 +86,6 @@ const OBSTACLES: Obstacle[] = [
   // The quest board, the mailbox and the skill tree's crown.
   { ...pointOf(inStationFrame('projects', [0, -0.6])), radius: 1.6 },
   { ...pointOf(inStationFrame('contact', [2.4, 1.4])), radius: 0.5 },
-  // The pool under the floating islet's waterfall (floating-islet.tsx).
-  { ...pointOf(inStationFrame('experience', [-2.6, 0.9])), radius: 1.1 },
 ];
 
 // The castle itself, larger than any one model's footprint.
