@@ -1,5 +1,6 @@
 import type { CoreModelName, VaultModelName } from '../assets/kits.generated';
 import type { SurfaceStationId, Vec3 } from './island';
+import { LAYOUT_SCALE, TOWER_SPOTS } from './island';
 
 // Where each model sits. Station props use the station's own frame: x to
 // the right and z towards the camera when the station faces it, y above the
@@ -32,18 +33,19 @@ export const GUILD_PROPS: CorePlacement[] = [
   { model: 'castle_fantastic', position: [0, 0, 0], rotationY: 0.3 },
   {
     model: 'tower_archer',
-    position: [-6.4, 0, -4.6],
+    position: [TOWER_SPOTS[0][0], 0, TOWER_SPOTS[0][1]],
     rotationY: 0.8,
     scale: 0.8,
   },
   {
     model: 'tower_crystal',
-    position: [6.6, 0, -3.8],
+    position: [TOWER_SPOTS[1][0], 0, TOWER_SPOTS[1][1]],
     rotationY: -0.6,
     scale: 0.8,
   },
-  hex('flag_blue', [-2.2, 0, 2.6], 0.5),
-  hex('flag_blue', [2.4, 0, 2.4], -0.3),
+  // Banners either side of the castle gate.
+  hex('flag_blue', [-2.6, 0, 6.8], 0.5),
+  hex('flag_blue', [2.6, 0, 6.8], -0.3),
 ];
 
 export const STATION_PROPS: Record<SurfaceStationId, CorePlacement[]> = {
@@ -116,7 +118,8 @@ const nature = (
   }: { at: [number, number]; size?: number; rotationY?: number },
 ): CorePlacement => ({
   model,
-  position: [x, 0, z],
+  // Spread out with the island (the spots were drawn for a smaller one).
+  position: [x * LAYOUT_SCALE, 0, z * LAYOUT_SCALE],
   rotationY,
   scale: NATURE_SCALE[kind] * size,
 });

@@ -12,13 +12,13 @@ export type Vec3 = readonly [number, number, number];
 export type SurfaceStationId = Exclude<WorldStationId, 'secret' | 'profile'>;
 
 export const ISLAND = {
-  radius: 14,
+  radius: 18,
   // Mesh resolution of the top surface (rings from the centre, segments
   // around) and of the rock underneath.
   rings: 96,
   segments: 256,
   undersideRings: 40,
-  depth: 16,
+  depth: 19,
   // Height of the gentle hills on top.
   hillHeight: 1.2,
   // Extra rolling hills and ridges where nothing stands (see relief()).
@@ -26,6 +26,11 @@ export const ISLAND = {
   // Outer share of the radius that turns into beach.
   beachWidth: 0.1,
 } as const;
+
+// The layout below (paths, stations, pond, scenery in props.ts) was drawn
+// for a 14-unit island; distances are multiplied by this so they spread
+// out with the island while buildings and trees keep their size.
+export const LAYOUT_SCALE = ISLAND.radius / 14;
 
 // Wobbly outline so the island doesn't read as a perfect disc.
 export const islandEdge = (angle: number): number =>
@@ -70,9 +75,9 @@ const toSegment = (
 // and falls off the edge as a waterfall.
 export const POND = {
   angle: Math.PI / 4,
-  distance: 9.4,
-  radius: 1.9,
-  depth: 0.45,
+  distance: 9.4 * LAYOUT_SCALE,
+  radius: 2.3,
+  depth: 0.5,
 } as const;
 
 const polar = (angle: number, distance: number): [number, number] => [
@@ -206,7 +211,7 @@ export const islandHeight = (x: number, z: number): number => {
 
 // Dirt paths: a ring round the castle with spokes out to each station and
 // the pond. 0 = grass, 1 = path.
-const PATH_RING = 6.1;
+const PATH_RING = 6.1 * LAYOUT_SCALE;
 const PATH_HALF_WIDTH = 0.42;
 
 // Stations sit around the castle; the island turns so the active one faces
@@ -218,7 +223,7 @@ export const STATION_ANGLES: Record<SurfaceStationId, number> = {
   contact: (Math.PI * 3) / 2,
 };
 
-export const STATION_DISTANCE = 8.2;
+export const STATION_DISTANCE = 8.2 * LAYOUT_SCALE;
 
 // Dragging snaps to these, in this order.
 export const STATION_ORDER: SurfaceStationId[] = [
@@ -270,14 +275,17 @@ export const pathMask = (x: number, z: number): number => {
   );
 };
 
+// The two towers beside the castle (see GUILD_PROPS in props.ts).
+export const TOWER_SPOTS: [number, number][] = [
+  [-6.4 * LAYOUT_SCALE, -4.6 * LAYOUT_SCALE],
+  [6.6 * LAYOUT_SCALE, -3.8 * LAYOUT_SCALE],
+];
+
 // Bare ground under the castle and around each station, where grass would
 // poke through buildings and props.
 export const clearingMask = (x: number, z: number): number => {
-  let clearing = smoothstep(4.6, 3.8, Math.hypot(x, z));
-  for (const [tx, tz] of [
-    [-3.6, -2.6],
-    [3.8, -2.2],
-  ]) {
+  let clearing = smoothstep(6, 5.2, Math.hypot(x, z));
+  for (const [tx, tz] of TOWER_SPOTS) {
     clearing = Math.max(
       clearing,
       smoothstep(2, 1.4, Math.hypot(x - tx, z - tz)),
@@ -326,7 +334,7 @@ const hillNoise = (x: number, z: number): number => {
 // there stays level, and it fades out at the rim so the top meets the rock.
 const reliefShare = (x: number, z: number): number => {
   const share = Math.hypot(x, z) / ISLAND.radius;
-  let calm = smoothstep(6.2, 4.2, Math.hypot(x, z));
+  let calm = smoothstep(7.8, 5.6, Math.hypot(x, z));
   for (const id of STATION_ORDER) {
     const [sx, sz] = polar(STATION_ANGLES[id], STATION_DISTANCE);
     calm = Math.max(calm, smoothstep(4.2, 2.4, Math.hypot(x - sx, z - sz)));
@@ -350,8 +358,8 @@ const relief = (x: number, z: number): number =>
 // The ledge sits just outside the rock so the gate isn't buried.
 export const VAULT = {
   angle: (Math.PI * 5) / 4,
-  distance: 9.4,
-  height: -6,
+  distance: 9.4 * LAYOUT_SCALE - 0.6,
+  height: -7,
   ledgeRadius: 2.8,
 } as const;
 

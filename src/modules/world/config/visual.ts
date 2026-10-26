@@ -36,7 +36,7 @@ export const VISUAL = {
   },
   dpr: [1, 2] as [number, number],
   // Far enough that the zoomed-out phone view stays clear.
-  fog: { near: 70, far: 220 },
+  fog: { near: 85, far: 260 },
   sky: {
     radius: 280,
     // Where the sun (or moon) disc sits, and its size (share of the dome).
@@ -46,7 +46,7 @@ export const VISUAL = {
   },
   // Grass tufts: grid spacing (smaller = denser), blade size, brightness.
   grass: {
-    spacing: 0.11,
+    spacing: 0.125,
     minHeight: 0.22,
     maxHeight: 0.62,
     width: 0.045,
@@ -128,8 +128,8 @@ export const VISUAL = {
   tour: {
     // Radians per second round the island (one loop ≈ 70 s).
     speed: 0.09,
-    radius: [24, 34] as const,
-    height: [3, 15] as const,
+    radius: [30, 42] as const,
+    height: [4, 18] as const,
     // Seconds to ease from wherever the camera was onto the path.
     blendIn: 3,
     // Start by itself after this long without input (seconds).
