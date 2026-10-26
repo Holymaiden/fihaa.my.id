@@ -80,7 +80,7 @@ export const WORLD_COPY: WorldCopy = {
   credits: 'Credits',
   creditsIntro:
     'The 3D models come from these free asset packs. Thank you to their authors.',
-  creditsModels: 'models used',
+  creditsModels: 'assets used',
   close: 'Close',
   effectsOn: 'Effects: on',
   effectsOff: 'Effects: off',

@@ -1,3 +1,5 @@
+import { SimplexNoise } from 'three/examples/jsm/math/SimplexNoise.js';
+
 import type { WorldStationId } from '@/lib/content/types';
 
 // Shape of the single floating island and where things sit on it, in world
@@ -13,12 +15,14 @@ export const ISLAND = {
   radius: 14,
   // Mesh resolution of the top surface (rings from the centre, segments
   // around) and of the rock underneath.
-  rings: 72,
-  segments: 192,
+  rings: 96,
+  segments: 256,
   undersideRings: 40,
   depth: 16,
   // Height of the gentle hills on top.
   hillHeight: 1.2,
+  // Extra rolling hills and ridges where nothing stands (see relief()).
+  reliefHeight: 2.4,
   // Outer share of the radius that turns into beach.
   beachWidth: 0.1,
 } as const;
@@ -177,7 +181,7 @@ export const waterMask = (x: number, z: number): number => {
 // Height of the top surface at (x, z); flattens out towards the rim, with
 // the pond bowl and the stream bed carved in.
 export const islandHeight = (x: number, z: number): number => {
-  let height = baseHeight(x, z);
+  let height = baseHeight(x, z) + relief(x, z);
   const pondDistance = Math.hypot(x - POND_CENTER[0], z - POND_CENTER[1]);
   const pondShare = smoothstep(
     POND.radius + 1.1,
@@ -246,11 +250,17 @@ const PATH_SPOKES: [[number, number], [number, number]][] = [
   ],
 ];
 
-export const pathMask = (x: number, z: number): number => {
+// Distance from (x, z) to the nearest path centre line.
+const pathDistance = (x: number, z: number): number => {
   let distance = Math.abs(Math.hypot(x, z) - PATH_RING);
   for (const [from, to] of PATH_SPOKES) {
     distance = Math.min(distance, toSegment([x, z], from, to).distance);
   }
+  return distance;
+};
+
+export const pathMask = (x: number, z: number): number => {
+  const distance = pathDistance(x, z);
   // Wobble the edge a little so it reads as worn ground.
   const wobble = 0.08 * Math.sin(x * 2.3 + z * 1.7);
   return smoothstep(
@@ -282,6 +292,58 @@ export const clearingMask = (x: number, z: number): number => {
   }
   return clearing;
 };
+
+// Fixed seed so every client (and the grass, props and camera that sit on
+// the ground) sees the same hills.
+const seeded = (seed: number) => ({
+  random: () => {
+    seed = (seed + 0x6d_2b_79_f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4_294_967_296;
+  },
+});
+const simplex = new SimplexNoise(seeded(7));
+
+// Rolling hills (fbm) mixed with sharper ridges, roughly -0.4..1.
+const hillNoise = (x: number, z: number): number => {
+  let fbm = 0;
+  let ridge = 0;
+  let amplitude = 0.5;
+  let frequency = 0.11;
+  for (let octave = 0; octave < 4; octave++) {
+    const n = simplex.noise(x * frequency, z * frequency);
+    fbm += n * amplitude;
+    ridge += (1 - Math.abs(n)) ** 2 * amplitude;
+    amplitude *= 0.5;
+    frequency *= 2.1;
+  }
+  return fbm * 0.6 + (ridge - 0.45) * 0.9;
+};
+
+// Share (0..1) of the relief allowed at (x, z): none under the castle, at
+// the stations, on the paths or by the water, so everything that stands
+// there stays level, and it fades out at the rim so the top meets the rock.
+const reliefShare = (x: number, z: number): number => {
+  const share = Math.hypot(x, z) / ISLAND.radius;
+  let calm = smoothstep(6.2, 4.2, Math.hypot(x, z));
+  for (const id of STATION_ORDER) {
+    const [sx, sz] = polar(STATION_ANGLES[id], STATION_DISTANCE);
+    calm = Math.max(calm, smoothstep(4.2, 2.4, Math.hypot(x - sx, z - sz)));
+  }
+  calm = Math.max(calm, smoothstep(2.2, 0.6, pathDistance(x, z)));
+  const pond = Math.hypot(x - POND_CENTER[0], z - POND_CENTER[1]) - POND.radius;
+  const { distance, t } = toStream(x, z);
+  calm = Math.max(
+    calm,
+    smoothstep(2.6, 0.8, pond),
+    smoothstep(2.4, 0.8, distance - streamHalfWidth(t)),
+  );
+  return (1 - calm) * smoothstep(1, 0.88, share);
+};
+
+const relief = (x: number, z: number): number =>
+  Math.max(hillNoise(x, z), 0) * ISLAND.reliefHeight * reliefShare(x, z);
 
 // The hidden vault is a ledge on the rock under the island, on the back
 // side (between the journal and the mailbox), so the first view hides it.

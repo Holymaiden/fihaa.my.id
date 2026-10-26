@@ -1,7 +1,10 @@
 'use client';
 
+import { useTexture } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
+import type { MeshStandardMaterial } from 'three';
+import { RepeatWrapping, SRGBColorSpace } from 'three';
 
 import { STATION_ORDER, stationAnchor } from '../../config/island';
 import { isWalkable } from '../../config/viewpoint-search';
@@ -10,6 +13,7 @@ import { useWorldStore } from '../../store/world-store';
 import { interaction } from './interaction';
 import { buildIslandGeometry } from './island-geometry';
 import { isDrag } from './pointer';
+import { applyTerrainMaterial, terrainTextureUrls } from './terrain-material';
 
 interface IslandTerrainProps {
   palette: WorldPalette;
@@ -39,6 +43,18 @@ const IslandTerrain = ({ palette }: IslandTerrainProps) => {
     [grassLight, grass, sand, cliff, rock, rockDeep, path, waterDeep],
   );
   useEffect(() => () => geometry.dispose(), [geometry]);
+
+  // Albedo and normal map per ground layer.
+  const textures = useTexture(terrainTextureUrls(), (loaded) => {
+    for (const [index, texture] of loaded.entries()) {
+      texture.wrapS = RepeatWrapping;
+      texture.wrapT = RepeatWrapping;
+      texture.anisotropy = 8;
+      if (index % 2 === 0) {
+        texture.colorSpace = SRGBColorSpace;
+      }
+    }
+  });
 
   // The grass parts where the pointer touches the ground.
   const handleMove = (event: ThreeEvent<PointerEvent>) => {
@@ -78,7 +94,15 @@ const IslandTerrain = ({ palette }: IslandTerrainProps) => {
       onPointerMove={handleMove}
       onPointerOut={() => (interaction.touch.goal = 0)}
     >
-      <meshStandardMaterial vertexColors roughness={0.95} />
+      <meshStandardMaterial
+        vertexColors
+        roughness={0.95}
+        ref={(material: MeshStandardMaterial | null) => {
+          if (material) {
+            applyTerrainMaterial(material, textures);
+          }
+        }}
+      />
     </mesh>
   );
 };

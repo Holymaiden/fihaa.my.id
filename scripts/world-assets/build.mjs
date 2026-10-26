@@ -26,6 +26,7 @@ import { objToDocument } from './obj-to-document.mjs';
 const ROOT = join(dirname(new URL(import.meta.url).pathname), '..', '..');
 const OUT_DIR = join(ROOT, 'public', 'world', 'models');
 const GENERATED = join(ROOT, 'src', 'modules', 'world', 'assets', 'kits.generated.ts');
+const TEXTURE_DIR = join(ROOT, 'public', 'world', 'textures');
 const PUBLIC_URL = '/world/models';
 
 const config = JSON.parse(readFileSync(join(ROOT, 'content', 'world-assets.json'), 'utf8'));
@@ -99,6 +100,14 @@ for (const kit of kits) {
   const result = await buildKit(kit, models);
   const raw = models.reduce((sum, model) => sum + rawSize(model.src), 0);
   console.log(`${kit}: ${models.length} models, raw ${raw} B -> ${result.bytes} B`);
+}
+
+// Loose textures (terrain, rock): raw JPG/PNG -> WebP at most 1k.
+mkdirSync(TEXTURE_DIR, { recursive: true });
+for (const texture of config.textures ?? []) {
+  const out = join(TEXTURE_DIR, `${texture.name}.webp`);
+  await sharp(join(ROOT, texture.src)).resize(1024, 1024, { fit: 'inside' }).webp({ quality: 85 }).toFile(out);
+  console.log(`texture ${texture.name}: ${statSync(join(ROOT, texture.src)).size} B -> ${statSync(out).size} B`);
 }
 
 // gltfjsx --types gives the node/material names of each kit; keep only the

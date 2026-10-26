@@ -45,6 +45,15 @@
       "url": "https://quaternius.com/packs/ultimatenature.html",
       "license": "CC0 1.0",
       "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "id": "polyhaven-textures",
+      "name": "Poly Haven ground textures",
+      "author": "Rob Tuytel, eye-candy.xyz, James Ray Cock, Jenelle van Heerden, Dario Barresi",
+      "authorUrl": "https://polyhaven.com/textures",
+      "url": "https://polyhaven.com/textures",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
     }
   ],
   "models": [
@@ -233,6 +242,48 @@
       "pack": "kaykit-halloween-bits",
       "src": "assets/raw/kaykit/halloween-bits/shrine_candles.gltf",
       "kit": "vault"
+    }
+  ],
+  "textures": [
+    {
+      "name": "aerial_grass_rock_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/aerial_grass_rock_diff_1k.jpg"
+    },
+    {
+      "name": "aerial_grass_rock_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/aerial_grass_rock_nor_gl_1k.jpg"
+    },
+    {
+      "name": "dirt_floor_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/dirt_floor_diff_1k.jpg"
+    },
+    {
+      "name": "dirt_floor_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/dirt_floor_nor_gl_1k.jpg"
+    },
+    {
+      "name": "coast_sand_01_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/coast_sand_01_diff_1k.jpg"
+    },
+    {
+      "name": "coast_sand_01_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/coast_sand_01_nor_gl_1k.jpg"
+    },
+    {
+      "name": "cliff_side_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/cliff_side_diff_1k.jpg"
+    },
+    {
+      "name": "cliff_side_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/cliff_side_nor_gl_1k.jpg"
     }
   ]
 }

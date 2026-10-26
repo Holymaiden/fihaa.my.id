@@ -2,8 +2,8 @@
 // (--color-world-*, see globals.css); everything else is here.
 
 export const VISUAL = {
-  // Filmic tone mapping plus soft shadows gives the smooth look; the
-  // terrain itself stays flat-colored (vertex colors, no textures).
+  // ACES tone mapping exposure. The terrain takes its colour from the
+  // palette and its detail from ground textures (terrain-material.ts).
   exposure: 1.15,
   // Post-processing (see world-post.tsx).
   post: {
