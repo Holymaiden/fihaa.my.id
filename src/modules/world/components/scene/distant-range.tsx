@@ -1,5 +1,6 @@
 'use client';
 
+import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
 import {
   BufferGeometry,
@@ -14,6 +15,7 @@ import { seededRandom } from '../../config/island';
 import { VISUAL } from '../../config/visual';
 import type { WorldPalette } from '../../hooks/use-world-palette';
 import { setUniforms } from './shader-utils';
+import { weatherMix } from './weather-mix';
 
 interface DistantRangeProps {
   palette: WorldPalette;
@@ -109,6 +111,8 @@ const fragmentShader = /* glsl */ `
   uniform vec3 uSunDirection;
   uniform float uSnowLine;
   uniform float uSea;
+  // Rain and mist close the view: the range fades out with them.
+  uniform float uWeather;
   varying vec3 vWorld;
   varying vec3 vNormal;
   void main() {
@@ -125,7 +129,8 @@ const fragmentShader = /* glsl */ `
     color *= uSky * 0.45 + uSun * light * 0.9;
     // Aerial perspective: the further, the more it fades into the haze.
     float distance = length(vWorld.xz - cameraPosition.xz);
-    color = mix(color, uHaze, smoothstep(60.0, 280.0, distance) * 0.82);
+    float haze = smoothstep(60.0, 280.0, distance) * 0.82;
+    color = mix(color, uHaze, clamp(haze + uWeather, 0.0, 1.0));
     gl_FragColor = vec4(color, 1.0);
     #include <colorspace_fragment>
   }
@@ -151,6 +156,7 @@ const DistantRange = ({ palette }: DistantRangeProps) => {
           },
           uSnowLine: { value: -6 },
           uSea: { value: VISUAL.cloudSea.height },
+          uWeather: { value: 0 },
         },
       }),
     [],
@@ -167,6 +173,12 @@ const DistantRange = ({ palette }: DistantRangeProps) => {
       uSky: palette.skyTop,
     });
   }, [material, palette]);
+
+  useFrame(() => {
+    setUniforms(material, {
+      uWeather: Math.max(weatherMix.mist, weatherMix.rain * 0.7),
+    });
+  });
 
   return <mesh geometry={geometry} material={material} raycast={() => null} />;
 };

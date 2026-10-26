@@ -80,7 +80,7 @@ const vaultViewpoint = (): Viewpoint => {
 const waterfallViewpoint = (): Viewpoint => {
   const [ex, ez] = STREAM.end;
   const [ox, oz] = along(POND.angle, 1.2);
-  const [sideX, sideZ] = along(POND.angle - Math.PI / 2, 7.5);
+  const [sideX, sideZ] = along(POND.angle - Math.PI / 2, 4.2);
   const [outX, outZ] = along(POND.angle, 3.5);
   const [bankX, bankZ] = along(POND.angle, -2.2);
   const [nudgeX, nudgeZ] = along(POND.angle - Math.PI / 2, 1.2);

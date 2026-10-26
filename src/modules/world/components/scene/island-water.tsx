@@ -12,11 +12,13 @@ import {
   Vector3,
 } from 'three';
 
+import { STREAM } from '../../config/island';
 import { VISUAL } from '../../config/visual';
 import { useEffectsEnabled } from '../../hooks/use-effects-enabled';
 import type { WorldPalette } from '../../hooks/use-world-palette';
 import { interaction } from './interaction';
 import { isDrag } from './pointer';
+import { useWaterfallSource } from './rain-lens';
 import { fogUniforms, setUniforms, setVector } from './shader-utils';
 import {
   buildFall,
@@ -106,6 +108,7 @@ const buildMaterials = () => ({
 // water sends rings across it.
 const IslandWater = ({ palette }: IslandWaterProps) => {
   const effects = useEffectsEnabled();
+  const fallTop = useWaterfallSource(VISUAL.waterfall.drop);
   const clock = useThree((state) => state.clock);
   const invalidate = useThree((state) => state.invalidate);
 
@@ -180,6 +183,11 @@ const IslandWater = ({ palette }: IslandWaterProps) => {
 
   return (
     <group>
+      {/* Top of the fall, for the wet lens (rain-lens.tsx). */}
+      <object3D
+        ref={fallTop}
+        position={[STREAM.end[0], STREAM.endLevel, STREAM.end[1]]}
+      />
       <mesh
         geometry={geometries.pond}
         material={materials.pond}

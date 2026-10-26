@@ -13,6 +13,7 @@ import type { WorldPalette } from '../../hooks/use-world-palette';
 import InstancedModel from './instanced-model';
 import { buildIslandGeometry } from './island-geometry';
 import { fallMaterial, surfaceMaterial } from './island-water';
+import { useWaterfallSource } from './rain-lens';
 import { setUniforms } from './shader-utils';
 import { applyTerrainMaterial, terrainTextureUrls } from './terrain-material';
 import {
@@ -113,6 +114,7 @@ const buildIsletWater = () => ({
 
 const FloatingIslet = ({ palette }: FloatingIsletProps) => {
   const effects = useEffectsEnabled();
+  const fallTop = useWaterfallSource(LIP_HEIGHT);
   const { grassLight, grass, sand, cliff, rock, rockDeep, path, waterDeep } =
     palette;
 
@@ -220,6 +222,7 @@ const FloatingIslet = ({ palette }: FloatingIsletProps) => {
           />
         ))}
       </group>
+      <object3D ref={fallTop} position={LIP_WORLD} />
       <mesh geometry={water.fallBack} material={materials.fallBack} />
       <mesh geometry={water.fall} material={materials.fall} />
       <mesh
