@@ -53,7 +53,7 @@ export const VISUAL = {
     maxHeight: 0.36,
     width: 0.075,
     dayLight: 1,
-    nightLight: 0.5,
+    nightLight: 0.95,
     // Share of tufts drawn on narrow screens, and when frames stay slow.
     narrowDensity: 0.7,
     fallbackDensity: 0.35,

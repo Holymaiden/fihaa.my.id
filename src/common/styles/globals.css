@@ -238,18 +238,19 @@ a {
   @apply rounded-scrollbar border-2 border-neutral-300 bg-neutral-600 dark:bg-neutral-400;
 }
 
-/* Night palette for the 3D world in the dark theme. */
+/* Night palette for the 3D world in the dark theme: a deep saturated blue
+   night with pale lavender-blue grass, as in the reference. */
 .dark {
-  --color-world-sky-top: #0d1733;
-  --color-world-sky-horizon: #3b4778;
-  --color-world-sky-bottom: #151c33;
-  --color-world-fog: #2a3256;
+  --color-world-sky-top: #06134f;
+  --color-world-sky-horizon: #2a47a6;
+  --color-world-sky-bottom: #0a1748;
+  --color-world-fog: #1c2d7a;
   --color-world-sun: #c9d5ff;
-  --color-world-ground-light: #222a44;
-  --color-world-grass-light: #5f9a52;
-  --color-world-grass: #3d7040;
+  --color-world-ground-light: #1c2a6a;
+  --color-world-grass-light: #c6cff6;
+  --color-world-grass: #5d6caa;
   --color-world-pampas: #b39a66;
-  --color-world-sand: #a9a07e;
+  --color-world-sand: #8a8fb8;
   --color-world-cliff: #7a6455;
   --color-world-rock: #5a4a48;
   --color-world-rock-deep: #2f2836;
@@ -262,12 +263,12 @@ a {
   --color-world-trunk: #5c3f2d;
   --color-world-stone: #7d8394;
   --color-world-station-hover: #e8ecff;
-  --color-world-path: #6f6152;
+  --color-world-path: #5d5f8e;
   --color-world-water: #2f78a8;
   --color-world-water-deep: #12304f;
   --color-world-foam: #b9d4ff;
-  --color-world-cloud-light: #4a5684;
-  --color-world-cloud-shade: #1a2140;
+  --color-world-cloud-light: #3a54ad;
+  --color-world-cloud-shade: #13206a;
   --color-world-blossom: #dfe6ff;
   --color-world-marker: #d9ff7a;
 }
