@@ -157,11 +157,11 @@ export const surfaceFragment = /* glsl */ `
     // Shore foam: a crisp wavy line along the bank.
     float wobble = (waterNoise(vIsland.xz * 3.0 + uTime * 0.3) - 0.5) * 0.12;
     float shoreLine = crisp(0.86, vShore + wobble);
-    // The falls' sharp white chips, same size, carried downstream about as
-    // fast as the current (as fast as the falls by the lip); few on calm
-    // water.
-    float chipSpeed = 0.3 + speed * 1.2;
-    float flecks = crisp(0.81, waterNoise(vec2(p.x * 27.0, p.y * 8.0 - uTime * chipSpeed * 8.0)))
+    // The falls' sharp white chips, a little longer along the current and
+    // carried downstream; few on calm water. Kept well under a chip's
+    // length per frame, or they strobe and seem to run upstream.
+    float chipSpeed = 0.2 + speed * 0.45;
+    float flecks = crisp(0.81, waterNoise(vec2(p.x * 27.0, p.y * 4.0 - uTime * chipSpeed * 4.0)))
       * (0.3 + run * 0.7);
     // Rapids: a few longer white streaks breaking up towards the lip.
     float rapids = crisp(0.72, waterNoise(flowP * vec2(14.0, 0.9))) * vRapids;
@@ -258,7 +258,7 @@ export const fallFragment = /* glsl */ `
     color = mix(color, mix(uShallow, uDeep, 0.55), line * 0.6);
     // Sharp white flecks, a little taller than wide (sized in metres, so
     // tall and short falls match), rushing down.
-    float flecks = waterNoise(vec2(across * 38.0 + uSeed, vWorld.y * 8.0 + rush * 14.0));
+    float flecks = waterNoise(vec2(across * 38.0 + uSeed, vWorld.y * 5.0 + rush * 7.0));
     color = mix(color, uFoam * 1.25, crisp(0.81, flecks));
     // Dark rim where the water rolls over the lip.
     float rim = 1.0 - crisp(0.012 + waterNoise(vec2(across * 12.0, 1.0)) * 0.012, down);
