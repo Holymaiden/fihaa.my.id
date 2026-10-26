@@ -148,7 +148,8 @@ export const surfaceFragment = /* glsl */ `
     vec3 color = mix(body, sky, 0.04 + fresnel * 0.2);
 
     // Sun sparkles: tiny cells that catch the light now and then.
-    vec2 glitter = voronoi(vIsland.xz * 3.0 + drift, uTime * 1.5);
+    // In flow space, so the glints ride downstream with the current.
+    vec2 glitter = voronoi((p - drift) * 3.0, uTime * 1.5);
     float sparkle = 1.0 - crisp(0.1, glitter.x);
     float facing = max(dot(reflect(-viewDir, vec3(0.0, 1.0, 0.0)), uSunDirection), 0.0);
     color += uSun * sparkle * pow(facing, 6.0) * (1.6 - run);
