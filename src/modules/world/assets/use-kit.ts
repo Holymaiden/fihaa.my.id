@@ -2,6 +2,7 @@
 
 import { useGLTF } from '@react-three/drei';
 import type { BufferGeometry, Material, Mesh, Object3D } from 'three';
+import { BufferAttribute } from 'three';
 
 import type {
   CoreKitGLTF,
@@ -64,8 +65,29 @@ export const getModelMesh = (
     throw new Error(`Model "${name}" has no mesh.`);
   }
   const local = root.matrixWorld.clone().invert().multiply(found.matrixWorld);
+  const geometry = found.geometry.clone();
+  // Quantized (normalized integer) attributes can't hold transformed
+  // values: turn them into floats first, or normals come out broken (black).
+  for (const [name, attribute] of Object.entries(geometry.attributes)) {
+    if (attribute.array instanceof Float32Array) {
+      continue;
+    }
+    const values = new Float32Array(attribute.count * attribute.itemSize);
+    for (let index = 0; index < attribute.count; index++) {
+      for (let item = 0; item < attribute.itemSize; item++) {
+        values[index * attribute.itemSize + item] = attribute.getComponent(
+          index,
+          item,
+        );
+      }
+    }
+    geometry.setAttribute(
+      name,
+      new BufferAttribute(values, attribute.itemSize),
+    );
+  }
   return {
-    geometry: found.geometry.clone().applyMatrix4(local),
+    geometry: geometry.applyMatrix4(local),
     material: found.material as Material,
   };
 };
