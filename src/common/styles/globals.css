@@ -40,22 +40,22 @@
 
   /* 3D world palette (light theme = day). The dark theme overrides these
      below (night). Station accents reuse the site accent. */
-  --color-world-sky-top: #79bde8;
-  --color-world-sky-horizon: #fbe3c4;
-  --color-world-sky-bottom: #b9cde6;
-  --color-world-fog: #e6dfd2;
-  --color-world-sun: #fff2dc;
-  --color-world-ground-light: #7d8aa0;
+  --color-world-sky-top: #4f93d2;
+  --color-world-sky-horizon: #d6e3ea;
+  --color-world-sky-bottom: #a3bad3;
+  --color-world-fog: #a9bfd6;
+  --color-world-sun: #fff0d6;
+  --color-world-ground-light: #6b7660;
   /* Island terrain, from the hilltops down to the rock underneath. */
-  --color-world-grass-light: #8cc96c;
-  --color-world-grass: #5d9e57;
-  --color-world-sand: #ecd9a2;
-  --color-world-cliff: #c09468;
-  --color-world-rock: #8b6a54;
-  --color-world-rock-deep: #5a463d;
-  --color-world-foliage: #5ea35b;
-  --color-world-trunk: #7a5236;
-  --color-world-stone: #a3a8ad;
+  --color-world-grass-light: #93b155;
+  --color-world-grass: #5e8236;
+  --color-world-sand: #ccb283;
+  --color-world-cliff: #9c7b5a;
+  --color-world-rock: #6e5a4a;
+  --color-world-rock-deep: #43362f;
+  --color-world-foliage: #51783a;
+  --color-world-trunk: #5e4330;
+  --color-world-stone: #9a9893;
   --color-world-berry: #d65a4f;
   --color-world-flower-a: #7fd8e8;
   --color-world-flower-b: #f2c94c;
@@ -70,12 +70,12 @@
   /* Hidden vault: the only place with a darker, mysterious mood. */
   --color-world-secret: #4a3f63;
   /* Meadow, water and sky details of the explorable island. */
-  --color-world-path: #c2a173;
-  --color-world-water: #5fc7d9;
-  --color-world-water-deep: #2b7f9e;
+  --color-world-path: #a88d66;
+  --color-world-water: #4a98a3;
+  --color-world-water-deep: #1f5a6b;
   --color-world-foam: #effbff;
-  --color-world-cloud-light: #fff6ea;
-  --color-world-cloud-shade: #c9d3e8;
+  --color-world-cloud-light: #ffffff;
+  --color-world-cloud-shade: #b3c0d2;
   --color-world-blossom: #fffaf0;
   --color-world-pollen: #fff6d8;
   --color-world-firefly: #d9ff7a;
@@ -236,18 +236,18 @@ a {
   --color-world-fog: #2a3256;
   --color-world-sun: #c9d5ff;
   --color-world-ground-light: #222a44;
-  --color-world-grass-light: #4f8a5c;
-  --color-world-grass: #36684a;
+  --color-world-grass-light: #557a4a;
+  --color-world-grass: #3a5f3e;
   --color-world-sand: #a9a07e;
   --color-world-cliff: #7a6455;
   --color-world-rock: #5a4a48;
   --color-world-rock-deep: #2f2836;
-  --color-world-foliage: #3f7f55;
+  --color-world-foliage: #36603f;
   --color-world-trunk: #5c3f2d;
   --color-world-stone: #7d8394;
   --color-world-station-hover: #e8ecff;
   --color-world-path: #6f6152;
-  --color-world-water: #2f6f9a;
+  --color-world-water: #2a5f7a;
   --color-world-water-deep: #12304f;
   --color-world-foam: #b9d4ff;
   --color-world-cloud-light: #4a5684;

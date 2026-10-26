@@ -13,7 +13,7 @@ export const VISUAL = {
     // Only things brighter than white bloom (sun, fire, crystals), so the
     // bright sky doesn't haze the whole frame.
     bloom: { day: 0.4, night: 0.8, threshold: 1.05 },
-    saturation: 0.16,
+    saturation: 0,
     vignette: { offset: 0.3, darkness: 0.55 },
     grain: 0.08,
     // Temporal AA: share of the history kept each frame, and the size of
@@ -27,8 +27,13 @@ export const VISUAL = {
       exposure: 0.55,
     },
   },
-  // Image-based lighting from a small studio of light shapes (no HDR file).
-  environment: { resolution: 128, day: 0.7, night: 0.35 },
+  // Image-based lighting from CC0 sky HDRIs (1k, Poly Haven).
+  environment: {
+    dayFile: '/world/hdri/kloofendal_48d_partly_cloudy_puresky.hdr',
+    nightFile: '/world/hdri/qwantani_night_puresky.hdr',
+    day: 0.7,
+    night: 0.22,
+  },
   dpr: [1, 2] as [number, number],
   // Far enough that the zoomed-out phone view stays clear.
   fog: { near: 70, far: 220 },
@@ -94,8 +99,8 @@ export const VISUAL = {
   campfire: { dayLight: 3, nightLight: 14, distance: 9 },
   light: {
     // Key (sun), rim (opposite, cool) and fill (sky), with IBL on top.
-    day: { hemisphere: 0.7, sun: 2.8, rim: 0.7 },
-    night: { hemisphere: 0.6, sun: 1.2, rim: 0.5 },
+    day: { hemisphere: 0.3, sun: 3.6, rim: 0.5 },
+    night: { hemisphere: 0.4, sun: 1.2, rim: 0.5 },
     sunPosition: [18, 28, 12] as const,
   },
   // Soft shadows from the sun; switched off when frames stay slow.
