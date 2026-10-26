@@ -54,6 +54,8 @@
   --color-world-cliff: #9c7b5a;
   --color-world-rock: #6e5a4a;
   --color-world-rock-deep: #43362f;
+  /* Faceted low-poly boulders by the water, as in the reference. */
+  --color-world-boulder: #3b3f47;
   --color-world-foliage: #51783a;
   /* Painted tree crowns (lit / shaded), and the hero (skills) tree. */
   --color-world-leaf: #7aa834;
@@ -248,6 +250,7 @@ a {
   --color-world-cliff: #7a6455;
   --color-world-rock: #5a4a48;
   --color-world-rock-deep: #2f2836;
+  --color-world-boulder: #2b3550;
   --color-world-foliage: #36603f;
   --color-world-leaf: #52a39c;
   --color-world-leaf-shade: #0f2f3c;

@@ -147,7 +147,8 @@ const FloatingIslet = ({ palette }: FloatingIsletProps) => {
   );
   useEffect(() => () => ground.dispose(), [ground]);
 
-  const textures = useTexture(terrainTextureUrls(), (loaded) => {
+  // Darker, craggier rock than the main island's cliffs (CC0, ASSETS.md).
+  const textures = useTexture(terrainTextureUrls('rock_face_03'), (loaded) => {
     for (const [index, texture] of loaded.entries()) {
       texture.wrapS = RepeatWrapping;
       texture.wrapT = RepeatWrapping;

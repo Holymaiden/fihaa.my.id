@@ -265,19 +265,22 @@
       "name": "Rock_Medium_1",
       "pack": "quaternius-stylized-nature-megakit",
       "src": "assets/raw/quaternius/stylized-nature-megakit/Rock_Medium_1.gltf",
-      "kit": "core"
+      "kit": "core",
+      "simplify": 0.4
     },
     {
       "name": "Rock_Medium_2",
       "pack": "quaternius-stylized-nature-megakit",
       "src": "assets/raw/quaternius/stylized-nature-megakit/Rock_Medium_2.gltf",
-      "kit": "core"
+      "kit": "core",
+      "simplify": 0.4
     },
     {
       "name": "Rock_Medium_3",
       "pack": "quaternius-stylized-nature-megakit",
       "src": "assets/raw/quaternius/stylized-nature-megakit/Rock_Medium_3.gltf",
-      "kit": "core"
+      "kit": "core",
+      "simplify": 0.4
     },
     {
       "name": "castle_fantastic",

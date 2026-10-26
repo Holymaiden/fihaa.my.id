@@ -14,8 +14,11 @@ export const TERRAIN_LAYERS = [
   'cliff_side',
 ] as const;
 
-export const terrainTextureUrls = (): string[] =>
-  TERRAIN_LAYERS.flatMap((name) => [
+// `rock` swaps the cliff layer's scan (the floating islet has its own).
+export const terrainTextureUrls = (
+  rock: string = TERRAIN_LAYERS[3],
+): string[] =>
+  [...TERRAIN_LAYERS.slice(0, 3), rock].flatMap((name) => [
     `/world/textures/${name}_albedo.webp`,
     `/world/textures/${name}_normal.webp`,
   ]);

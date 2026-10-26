@@ -63,6 +63,14 @@ const KitRecolor = ({ palette }: KitRecolorProps) => {
         if (match) {
           standard.color.set(palette[match[1]]);
         }
+        // Boulders: dark, untextured and faceted, like the reference's
+        // low-poly rocks against its realistic cliffs.
+        if (material.name === 'Rocks' && standard.isMeshStandardMaterial) {
+          standard.map = null;
+          standard.color.set(palette.boulder);
+          standard.flatShading = true;
+          standard.needsUpdate = true;
+        }
         if (
           material.name.startsWith('Bark_') &&
           standard.isMeshStandardMaterial

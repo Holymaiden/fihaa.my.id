@@ -18,6 +18,7 @@ const TOKENS = {
   cliff: '--color-world-cliff',
   rock: '--color-world-rock',
   rockDeep: '--color-world-rock-deep',
+  boulder: '--color-world-boulder',
   foliage: '--color-world-foliage',
   leaf: '--color-world-leaf',
   leafShade: '--color-world-leaf-shade',
