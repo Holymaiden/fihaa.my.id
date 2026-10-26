@@ -51,7 +51,6 @@ export const STATION_PROPS: Record<SurfaceStationId, CorePlacement[]> = {
     { model: 'stool', position: [0, 0, 0], scale: DUNGEON_PACK_SCALE * 2.2 },
     { model: 'spellbook_open', position: [0, 0.83, 0.05], scale: 1.4 },
     { model: 'lantern_standing', position: [1.6, 0, -0.6] },
-    hex('building_well_blue', [-2.4, 0, -0.6], 0.5),
   ],
   contact: [
     hex('building_tavern_blue', [0, 0, -1]),

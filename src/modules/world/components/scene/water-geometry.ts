@@ -32,27 +32,33 @@ const geometryOf = (
   return geometry;
 };
 
-// Rings round the pond centre; the water drifts slowly towards the outlet.
-export const buildPond = () => {
+// Rings round a centre; the water swirls lazily and drifts along `drift`.
+export const buildPool = ({
+  center: [cx, cz],
+  radius,
+  level,
+  drift: [dx, dz] = [0, 0],
+}: {
+  center: [number, number];
+  radius: number;
+  level: number;
+  drift?: [number, number];
+}) => {
   const rings = 10;
   const segments = 56;
-  const radius = POND.radius + BANK_OVERLAP;
   const positions: number[] = [];
   const flow: number[] = [];
   const shore: number[] = [];
   const rapids: number[] = [];
   const indices: number[] = [];
-  const outX = Math.sin(POND.angle);
-  const outZ = Math.cos(POND.angle);
   for (let ring = 0; ring <= rings; ring++) {
     const share = ring / rings;
     for (let step = 0; step < segments; step++) {
       const angle = (step / segments) * Math.PI * 2;
       const x = Math.sin(angle) * radius * share;
       const z = Math.cos(angle) * radius * share;
-      positions.push(POND_CENTER[0] + x, POND_LEVEL, POND_CENTER[1] + z);
-      // A lazy swirl plus a pull towards the stream.
-      flow.push(-z * 0.04 + outX * 0.12, x * 0.04 + outZ * 0.12);
+      positions.push(cx + x, level, cz + z);
+      flow.push(-z * 0.04 + dx, x * 0.04 + dz);
       shore.push(share);
       rapids.push(0);
     }
@@ -73,6 +79,15 @@ export const buildPond = () => {
     aRapids: [rapids, 1],
   });
 };
+
+// The pond, pulled gently towards the stream.
+export const buildPond = () =>
+  buildPool({
+    center: POND_CENTER,
+    radius: POND.radius + BANK_OVERLAP,
+    level: POND_LEVEL,
+    drift: [Math.sin(POND.angle) * 0.12, Math.cos(POND.angle) * 0.12],
+  });
 
 // A ribbon along the meandering stream, from just inside the pond to past
 // the rim. The current speeds up and breaks into rapids near the lip.
@@ -126,38 +141,44 @@ export const buildStream = () => {
   });
 };
 
-// The fall: leaves the rim, arcs outwards and drops. `back` sets it a
-// little behind the main sheet and `width` narrows it, for a second layer
-// that gives the water some body.
-export const buildFall = ({ back = 0, width = 1 } = {}) => {
-  const [ex, ez] = STREAM_PATH.at(-1) ?? STREAM.end;
-  const [px, pz] = STREAM_PATH.at(-3) ?? STREAM.start;
-  const length = Math.hypot(ex - px, ez - pz) || 1;
-  const dirX = (ex - px) / length;
-  const dirZ = (ez - pz) / length;
+// A falling sheet of water: leaves `start` heading along `direction`
+// (x, z), arcs outwards by `reach` and drops by `drop`, fanning out by
+// `spread`. `back` sets it a little behind (for a second layer that gives
+// the water some body).
+export const buildFallSheet = ({
+  start: [sx, sy, sz],
+  direction: [dirX, dirZ],
+  topHalf,
+  reach,
+  drop,
+  spread,
+  back = 0,
+}: {
+  start: [number, number, number];
+  direction: [number, number];
+  topHalf: number;
+  reach: number;
+  drop: number;
+  spread: number;
+  back?: number;
+}) => {
   const steps = 60;
   const columns = 8;
   const positions: number[] = [];
   const uvs: number[] = [];
   const indices: number[] = [];
-  // A little wider than the stream: the water fans out over the lip.
-  const topHalf = streamHalfWidth(1) * 1.3 * width;
   for (let step = 0; step <= steps; step++) {
     const t = step / steps;
     // Water keeps its speed over the lip, then gravity takes over.
-    const out = waterfall.reach * Math.sqrt(t) - back - 0.25;
-    const y =
-      STREAM.endLevel +
-      0.02 -
-      waterfall.drop * (t * t * 0.45 + t * 0.55) -
-      back * 0.3;
-    const half = topHalf * (1 + t * waterfall.spread);
+    const out = reach * Math.sqrt(t) - back - 0.25;
+    const y = sy - drop * (t * t * 0.45 + t * 0.55) - back * 0.3;
+    const half = topHalf * (1 + t * spread);
     for (let column = 0; column <= columns; column++) {
       const side = (column / columns) * 2 - 1;
       positions.push(
-        ex + dirX * out - dirZ * half * side,
+        sx + dirX * out - dirZ * half * side,
         y,
-        ez + dirZ * out + dirX * half * side,
+        sz + dirZ * out + dirX * half * side,
       );
       uvs.push(column / columns, t);
     }
@@ -174,6 +195,24 @@ export const buildFall = ({ back = 0, width = 1 } = {}) => {
   const geometry = geometryOf(positions, indices, {});
   geometry.setAttribute('uv', new Float32BufferAttribute(uvs, 2));
   return geometry;
+};
+
+// The island's fall: leaves the rim where the stream ends. `width` narrows
+// it for the second layer.
+export const buildFall = ({ back = 0, width = 1 } = {}) => {
+  const [ex, ez] = STREAM_PATH.at(-1) ?? STREAM.end;
+  const [px, pz] = STREAM_PATH.at(-3) ?? STREAM.start;
+  const length = Math.hypot(ex - px, ez - pz) || 1;
+  return buildFallSheet({
+    start: [ex, STREAM.endLevel + 0.02, ez],
+    direction: [(ex - px) / length, (ez - pz) / length],
+    // A little wider than the stream: the water fans out over the lip.
+    topHalf: streamHalfWidth(1) * 1.3 * width,
+    reach: waterfall.reach,
+    drop: waterfall.drop,
+    spread: waterfall.spread,
+    back,
+  });
 };
 
 export const buildSpray = () => {

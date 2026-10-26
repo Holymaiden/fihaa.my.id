@@ -85,12 +85,6 @@
       "kit": "core"
     },
     {
-      "name": "building_well_blue",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_well_blue.gltf",
-      "kit": "core"
-    },
-    {
       "name": "flag_blue",
       "pack": "kaykit-medieval-hexagon",
       "src": "assets/raw/kaykit/medieval-hexagon/decoration/props/flag_blue.gltf",

@@ -5,6 +5,7 @@ import type { WorldStationId } from '@/lib/content/types';
 
 import type { WorldPalette } from '../../hooks/use-world-palette';
 import Campfire from './campfire';
+import FloatingIslet from './floating-islet';
 import VaultMood from './vault-mood';
 
 // Hand-built pieces the asset packs don't have (see ASSETS.md, "Celah"),
@@ -136,11 +137,15 @@ const StationExtras = ({ id, palette, counts }: StationExtrasProps) => {
     case 'secret':
       return <VaultMood palette={palette} />;
     case 'experience':
-      // A camp beside the travel journal.
+      // A camp beside the travel journal, under a floating islet whose
+      // waterfall pours into a pool.
       return (
-        <group position={[1.7, 0, 1.9]}>
-          <Campfire palette={palette} />
-        </group>
+        <>
+          <group position={[1.7, 0, 1.9]}>
+            <Campfire palette={palette} />
+          </group>
+          <FloatingIslet palette={palette} />
+        </>
       );
     case 'profile':
       return null;

@@ -14,7 +14,6 @@ export const CORE_MODELS = [
   'building_castle_blue',
   'building_tower_A_blue',
   'building_tavern_blue',
-  'building_well_blue',
   'flag_blue',
   'barrel',
   'crate_A_big',
@@ -52,7 +51,6 @@ export type CoreKitGLTF = GLTF & {
     building_tower_A_top_blue: THREE.Mesh;
     building_tower_A_blue_2: THREE.Mesh;
     building_tavern_blue_1: THREE.Mesh;
-    building_well_blue_1: THREE.Mesh;
     flag_blue_1: THREE.Mesh;
     barrel_1: THREE.Mesh;
     crate_A_big_1: THREE.Mesh;

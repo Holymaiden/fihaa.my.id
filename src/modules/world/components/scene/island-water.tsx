@@ -47,7 +47,7 @@ const colors = () => ({
   uSky: { value: new Color() },
 });
 
-const surfaceMaterial = () =>
+export const surfaceMaterial = () =>
   new ShaderMaterial({
     vertexShader: surfaceVertex,
     fragmentShader: surfaceFragment,
@@ -66,7 +66,7 @@ const surfaceMaterial = () =>
     } satisfies Record<string, IUniform>,
   });
 
-const fallMaterial = (seed: number) =>
+export const fallMaterial = (seed: number) =>
   new ShaderMaterial({
     vertexShader: fallVertex,
     fragmentShader: fallFragment,

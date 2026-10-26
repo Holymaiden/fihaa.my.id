@@ -44,7 +44,6 @@ const FOOTPRINT: Partial<Record<CorePlacement['model'], number>> = {
   building_castle_blue: 1.9,
   building_tower_A_blue: 0.7,
   building_tavern_blue: 0.9,
-  building_well_blue: 0.6,
   barrel: 0.2,
   crate_A_big: 0.25,
   lantern_standing: 0.3,
@@ -86,6 +85,8 @@ const OBSTACLES: Obstacle[] = [
   // The quest board, the mailbox and the skill tree's crown.
   { ...pointOf(inStationFrame('projects', [0, -0.6])), radius: 1.6 },
   { ...pointOf(inStationFrame('contact', [2.4, 1.4])), radius: 0.5 },
+  // The pool under the floating islet's waterfall (floating-islet.tsx).
+  { ...pointOf(inStationFrame('experience', [-2.4, -0.4])), radius: 1.1 },
 ];
 
 // The castle itself, larger than any one model's footprint.
