@@ -171,6 +171,7 @@ const FloatingIslet = ({ palette }: FloatingIsletProps) => {
         uShallow: palette.water,
         uDeep: palette.waterDeep,
         uSky: palette.skyHorizon,
+        uSkyTop: palette.skyTop,
         uSun: palette.sun,
       });
     }

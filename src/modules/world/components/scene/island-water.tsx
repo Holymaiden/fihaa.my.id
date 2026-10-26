@@ -45,6 +45,7 @@ const colors = () => ({
   uDeep: { value: new Color() },
   uFoam: { value: new Color() },
   uSky: { value: new Color() },
+  uSkyTop: { value: new Color() },
 });
 
 export const surfaceMaterial = () =>
@@ -135,6 +136,7 @@ const IslandWater = ({ palette }: IslandWaterProps) => {
         uShallow: palette.water,
         uDeep: palette.waterDeep,
         uSky: palette.skyHorizon,
+        uSkyTop: palette.skyTop,
         uSun: palette.sun,
       });
     }

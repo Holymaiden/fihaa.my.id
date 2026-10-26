@@ -1,6 +1,7 @@
 import { BufferGeometry, Float32BufferAttribute } from 'three';
 
 import {
+  islandHeight,
   POND,
   POND_CENTER,
   POND_LEVEL,
@@ -38,11 +39,14 @@ export const buildPool = ({
   radius,
   level,
   drift: [dx, dz] = [0, 0],
+  depthAt = () => 0.4,
 }: {
   center: [number, number];
   radius: number;
   level: number;
   drift?: [number, number];
+  // Water depth over the bed at a point (for its colour and clarity).
+  depthAt?: (x: number, z: number) => number;
 }) => {
   const rings = 10;
   const segments = 56;
@@ -50,6 +54,7 @@ export const buildPool = ({
   const flow: number[] = [];
   const shore: number[] = [];
   const rapids: number[] = [];
+  const depth: number[] = [];
   const indices: number[] = [];
   for (let ring = 0; ring <= rings; ring++) {
     const share = ring / rings;
@@ -58,6 +63,7 @@ export const buildPool = ({
       const x = Math.sin(angle) * radius * share;
       const z = Math.cos(angle) * radius * share;
       positions.push(cx + x, level, cz + z);
+      depth.push(Math.max(depthAt(cx + x, cz + z), 0));
       flow.push(-z * 0.04 + dx, x * 0.04 + dz);
       shore.push(share);
       rapids.push(0);
@@ -77,6 +83,7 @@ export const buildPool = ({
     aFlow: [flow, 2],
     aShore: [shore, 1],
     aRapids: [rapids, 1],
+    aDepth: [depth, 1],
   });
 };
 
@@ -87,6 +94,7 @@ export const buildPond = () =>
     radius: POND.radius + BANK_OVERLAP,
     level: POND_LEVEL,
     drift: [Math.sin(POND.angle) * 0.12, Math.cos(POND.angle) * 0.12],
+    depthAt: (x, z) => POND_LEVEL - islandHeight(x, z),
   });
 
 // A ribbon along the meandering stream, from just inside the pond to past
@@ -96,6 +104,7 @@ export const buildStream = () => {
   const flow: number[] = [];
   const shore: number[] = [];
   const rapids: number[] = [];
+  const depth: number[] = [];
   const indices: number[] = [];
   const last = STREAM_PATH.length - 1;
   let rows = 0;
@@ -117,7 +126,10 @@ export const buildStream = () => {
     const speed = 0.35 + 1.6 * t * t;
     const y = streamLevel(t) + 0.03;
     for (const side of ACROSS) {
-      positions.push(x - dirZ * half * side, y, z + dirX * half * side);
+      const edgeX = x - dirZ * half * side;
+      const edgeZ = z + dirX * half * side;
+      positions.push(edgeX, y, edgeZ);
+      depth.push(Math.max(y - islandHeight(edgeX, edgeZ), 0));
       flow.push(dirX * speed, dirZ * speed);
       shore.push(Math.abs(side));
       rapids.push(Math.max(0, (t - 0.72) / 0.28));
@@ -138,6 +150,7 @@ export const buildStream = () => {
     aFlow: [flow, 2],
     aShore: [shore, 1],
     aRapids: [rapids, 1],
+    aDepth: [depth, 1],
   });
 };
 
