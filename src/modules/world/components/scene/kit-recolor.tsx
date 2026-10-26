@@ -14,8 +14,10 @@ interface KitRecolorProps {
 }
 
 const SUFFIXES = Object.entries(MATERIAL_RECOLOR);
-// Plant materials of the Quaternius models (only plants use them).
+// Plant materials of the Quaternius models (only plants use them): name
+// suffixes of the Ultimate Nature pack, prefixes of the Nature MegaKit.
 const SWAYING = ['_Green', '_Wood', '_Berry', '_Cyan', '_Yellow'];
+const SWAYING_PREFIXES = ['Leaves', 'Leaf_', 'Bark_', 'Flowers'];
 
 // Paints the flat-color (untextured) kit materials with the palette.
 // Clones and instances share these materials, so this covers every copy.
@@ -48,7 +50,10 @@ const KitRecolor = ({ palette }: KitRecolorProps) => {
         // PBR: nothing here is metal; painted wood, stone and leaves are
         // rough but still catch a soft sheen from the sky light.
         // Leaves, trunks, berries and flowers sway in the wind.
-        if (SWAYING.some((suffix) => material.name.endsWith(suffix))) {
+        if (
+          SWAYING.some((suffix) => material.name.endsWith(suffix)) ||
+          SWAYING_PREFIXES.some((prefix) => material.name.startsWith(prefix))
+        ) {
           addSway(material);
         }
         if (standard.isMeshStandardMaterial) {

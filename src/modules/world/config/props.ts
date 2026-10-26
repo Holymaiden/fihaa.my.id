@@ -43,7 +43,8 @@ export const STATION_PROPS: Record<SurfaceStationId, CorePlacement[]> = {
     { model: 'lantern_standing', position: [2.5, 0, -0.6] },
   ],
   skills: [
-    { model: 'CommonTree_1', position: [0, 0, -0.4], scale: 2.3 },
+    // The skills tree: one big, gnarled tree.
+    { model: 'TwistedTree_1', position: [0, 0, -0.4], scale: 0.34 },
     { model: 'lantern_standing', position: [2.2, 0, 1.2] },
   ],
   experience: [
@@ -84,39 +85,89 @@ export const VAULT_PROPS: VaultPlacement[] = [
   { model: 'coin_stack_medium', position: [-1, 0, 1.1], scale: 0.55 },
 ];
 
+// The Stylized Nature MegaKit is modelled life-size (a tree is ~7 units);
+// these bring each kind of plant to the island's scale.
+const NATURE_SCALE = {
+  tree: 0.34,
+  pine: 0.45,
+  bush: 0.55,
+  fern: 0.13,
+  flower: 0.22,
+} as const;
+
+const nature = (
+  model: CoreModelName,
+  kind: keyof typeof NATURE_SCALE,
+  {
+    at: [x, z],
+    size = 1,
+    rotationY = 0,
+  }: { at: [number, number]; size?: number; rotationY?: number },
+): CorePlacement => ({
+  model,
+  position: [x, 0, z],
+  rotationY,
+  scale: NATURE_SCALE[kind] * size,
+});
+
 // Scenery in the island frame, kept clear of the station spots. Drawn with
 // instancing.
 export const DECOR: CorePlacement[] = [
-  { model: 'PineTree_3', position: [-5.4, 0, 3.2], scale: 1.1 },
-  { model: 'PineTree_3', position: [5.6, 0, 3.6], scale: 0.9 },
-  { model: 'PineTree_3', position: [-4, 0, -6.6], scale: 1 },
-  { model: 'PineTree_3', position: [4.6, 0, -6.8], scale: 1.2 },
-  { model: 'PineTree_3', position: [-11.2, 0, -2], scale: 0.9 },
-  { model: 'PineTree_3', position: [9.8, 0, 3.2], scale: 1 },
-  { model: 'CommonTree_1', position: [-6.8, 0, 7.2], scale: 1 },
-  { model: 'CommonTree_1', position: [7.2, 0, -5], scale: 1.1 },
-  { model: 'CommonTree_1', position: [-8, 0, -8], scale: 0.9 },
-  { model: 'CommonTree_1', position: [7.2, 0, 10.8], scale: 0.9 },
-  { model: 'trees_A_medium', position: [-10, 0, 5.4], scale: 1.6 },
-  { model: 'trees_A_medium', position: [2, 0, -11], scale: 1.6 },
-  { model: 'tree_single_A', position: [0.4, 0, 4.6], scale: 2.2 },
-  { model: 'tree_single_A', position: [-1.6, 0, -4.8], scale: 2.4 },
-  { model: 'Bush_1', position: [-3.4, 0, 5.2], scale: 0.7 },
-  { model: 'Bush_1', position: [3.6, 0, 6], scale: 0.6 },
-  { model: 'Bush_1', position: [-6, 0, -3.6], scale: 0.7 },
-  { model: 'Bush_1', position: [6.4, 0, -3.8], scale: 0.6 },
-  { model: 'BushBerries_1', position: [10.6, 0, -1.8], scale: 0.6 },
-  { model: 'BushBerries_1', position: [-2.6, 0, 10.2], scale: 0.6 },
+  nature('Pine_1', 'pine', { at: [-5.4, 3.2], size: 1.1 }),
+  nature('Pine_2', 'pine', { at: [5.6, 3.6], size: 0.9, rotationY: 1.2 }),
+  nature('Pine_3', 'pine', { at: [-4, -6.6], rotationY: 2.1 }),
+  nature('Pine_1', 'pine', { at: [4.6, -6.8], size: 1.2, rotationY: 0.7 }),
+  nature('Pine_2', 'pine', { at: [-11.2, -2], size: 0.9, rotationY: 2.8 }),
+  nature('Pine_3', 'pine', { at: [9.8, 3.2], rotationY: 4 }),
+  nature('Pine_1', 'pine', { at: [-10.6, 4.4], size: 0.8, rotationY: 3.3 }),
+  nature('Pine_3', 'pine', { at: [-9.2, 6.4], size: 1.1, rotationY: 5.1 }),
+  nature('Pine_2', 'pine', { at: [1.2, -11.2], size: 1, rotationY: 0.4 }),
+  nature('CommonTree_1', 'tree', { at: [-6.8, 7.2] }),
+  nature('CommonTree_2', 'tree', { at: [7.2, -5], size: 1.1, rotationY: 1.9 }),
+  nature('CommonTree_3', 'tree', { at: [-8, -8], size: 0.9, rotationY: 3.1 }),
+  nature('CommonTree_4', 'tree', {
+    at: [7.2, 10.8],
+    size: 0.9,
+    rotationY: 0.8,
+  }),
+  nature('CommonTree_2', 'tree', {
+    at: [3, -11.4],
+    size: 0.85,
+    rotationY: 4.4,
+  }),
+  nature('CommonTree_1', 'tree', { at: [0.4, 4.6], size: 0.8, rotationY: 2.4 }),
+  nature('CommonTree_4', 'tree', {
+    at: [-1.6, -4.8],
+    size: 0.85,
+    rotationY: 5.3,
+  }),
+  nature('Bush_Common', 'bush', { at: [-3.4, 5.2] }),
+  nature('Bush_Common', 'bush', { at: [3.6, 6], size: 0.85, rotationY: 1.3 }),
+  nature('Bush_Common', 'bush', { at: [-6, -3.6], rotationY: 2.2 }),
+  nature('Bush_Common', 'bush', {
+    at: [6.4, -3.8],
+    size: 0.85,
+    rotationY: 3.7,
+  }),
+  nature('Bush_Common_Flowers', 'bush', { at: [10.6, -1.8], size: 0.85 }),
+  nature('Bush_Common_Flowers', 'bush', {
+    at: [-2.6, 10.2],
+    size: 0.85,
+    rotationY: 2,
+  }),
+  nature('Fern_1', 'fern', { at: [-7.4, 2.2], rotationY: 0.5 }),
+  nature('Fern_1', 'fern', { at: [8.4, -2.6], size: 0.9, rotationY: 2.5 }),
+  nature('Fern_1', 'fern', { at: [-3.2, -9.6], rotationY: 4.2 }),
   { model: 'Rock_Moss_4', position: [10.8, 0, 4.6], scale: 1.2 },
   { model: 'Rock_Moss_4', position: [-12.2, 0, 1.4], scale: 1 },
   { model: 'Rock_Moss_4', position: [3.4, 0, 11.8], scale: 1 },
   { model: 'rock_single_C', position: [-5, 0, -11], scale: 3 },
   { model: 'rock_single_A', position: [8, 0, -10], scale: 4 },
-  { model: 'Flowers', position: [-3.6, 0, 7.8] },
-  { model: 'Flowers', position: [4.2, 0, 8.6], rotationY: 1.4 },
-  { model: 'Flowers', position: [-6.6, 0, 4.8], rotationY: 2 },
-  { model: 'Flowers', position: [5.8, 0, -4.2], rotationY: 0.6 },
-  { model: 'Flowers', position: [3.4, 0, -9.4], rotationY: 2.6 },
+  nature('Flower_3_Group', 'flower', { at: [-3.6, 7.8] }),
+  nature('Flower_4_Group', 'flower', { at: [4.2, 8.6], rotationY: 1.4 }),
+  nature('Flower_3_Group', 'flower', { at: [-6.6, 4.8], rotationY: 2 }),
+  nature('Flower_4_Group', 'flower', { at: [5.8, -4.2], rotationY: 0.6 }),
+  nature('Flower_3_Group', 'flower', { at: [3.4, -9.4], rotationY: 2.6 }),
 ];
 
 // World positions of the clouds around and below the island.

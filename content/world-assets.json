@@ -47,6 +47,15 @@
       "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
     },
     {
+      "id": "quaternius-stylized-nature-megakit",
+      "name": "Stylized Nature MegaKit",
+      "author": "Quaternius",
+      "authorUrl": "https://quaternius.com",
+      "url": "https://quaternius.com/packs/stylizednaturemegakit.html",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
       "id": "polyhaven-textures",
       "name": "Poly Haven ground textures",
       "author": "Rob Tuytel, eye-candy.xyz, James Ray Cock, Jenelle van Heerden, Dario Barresi",
@@ -106,18 +115,6 @@
       "kit": "core"
     },
     {
-      "name": "tree_single_A",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/tree_single_A.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "trees_A_medium",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/trees_A_medium.gltf",
-      "kit": "core"
-    },
-    {
       "name": "rock_single_A",
       "pack": "kaykit-medieval-hexagon",
       "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/rock_single_A.gltf",
@@ -172,39 +169,9 @@
       "kit": "core"
     },
     {
-      "name": "CommonTree_1",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/CommonTree_1.obj",
-      "kit": "core"
-    },
-    {
-      "name": "PineTree_3",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/PineTree_3.obj",
-      "kit": "core"
-    },
-    {
-      "name": "Bush_1",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/Bush_1.obj",
-      "kit": "core"
-    },
-    {
-      "name": "BushBerries_1",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/BushBerries_1.obj",
-      "kit": "core"
-    },
-    {
       "name": "Rock_Moss_4",
       "pack": "quaternius-ultimate-nature",
       "src": "assets/raw/quaternius/ultimate-nature/Rock_Moss_4.obj",
-      "kit": "core"
-    },
-    {
-      "name": "Flowers",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/Flowers.obj",
       "kit": "core"
     },
     {
@@ -242,6 +209,84 @@
       "pack": "kaykit-halloween-bits",
       "src": "assets/raw/kaykit/halloween-bits/shrine_candles.gltf",
       "kit": "vault"
+    },
+    {
+      "name": "CommonTree_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/CommonTree_1.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "CommonTree_2",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/CommonTree_2.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "CommonTree_3",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/CommonTree_3.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "CommonTree_4",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/CommonTree_4.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Pine_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Pine_1.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Pine_2",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Pine_2.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Pine_3",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Pine_3.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "TwistedTree_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/TwistedTree_1.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Bush_Common",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Bush_Common.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Bush_Common_Flowers",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Bush_Common_Flowers.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Fern_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Fern_1.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Flower_3_Group",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Flower_3_Group.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Flower_4_Group",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Flower_4_Group.gltf",
+      "kit": "core"
     }
   ],
   "textures": [

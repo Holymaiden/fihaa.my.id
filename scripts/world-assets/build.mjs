@@ -81,8 +81,8 @@ const buildKit = async (kit, models) => {
     dedup(),
     prune({ keepLeaves: false }),
     weld(),
-    // Textures as WebP, at most 2k.
-    textureCompress({ encoder: sharp, targetFormat: 'webp', resize: [2048, 2048] }),
+    // Textures as WebP, at most 1k.
+    textureCompress({ encoder: sharp, targetFormat: 'webp', resize: [1024, 1024] }),
     meshopt({ encoder: MeshoptEncoder, level: 'medium' }),
   );
 

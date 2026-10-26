@@ -19,8 +19,6 @@ export const CORE_MODELS = [
   'barrel',
   'crate_A_big',
   'sack',
-  'tree_single_A',
-  'trees_A_medium',
   'rock_single_A',
   'rock_single_C',
   'cloud_big',
@@ -30,12 +28,20 @@ export const CORE_MODELS = [
   'mug_full',
   'keg',
   'stool',
-  'CommonTree_1',
-  'PineTree_3',
-  'Bush_1',
-  'BushBerries_1',
   'Rock_Moss_4',
-  'Flowers',
+  'CommonTree_1',
+  'CommonTree_2',
+  'CommonTree_3',
+  'CommonTree_4',
+  'Pine_1',
+  'Pine_2',
+  'Pine_3',
+  'TwistedTree_1',
+  'Bush_Common',
+  'Bush_Common_Flowers',
+  'Fern_1',
+  'Flower_3_Group',
+  'Flower_4_Group',
 ] as const;
 
 export type CoreModelName = (typeof CORE_MODELS)[number];
@@ -51,8 +57,6 @@ export type CoreKitGLTF = GLTF & {
     barrel_1: THREE.Mesh;
     crate_A_big_1: THREE.Mesh;
     sack_1: THREE.Mesh;
-    tree_single_A_1: THREE.Mesh;
-    trees_A_medium_1: THREE.Mesh;
     rock_single_A_1: THREE.Mesh;
     rock_single_C_1: THREE.Mesh;
     cloud_big_1: THREE.Mesh;
@@ -62,18 +66,32 @@ export type CoreKitGLTF = GLTF & {
     mug_full_1: THREE.Mesh;
     keg_1: THREE.Mesh;
     stool_1: THREE.Mesh;
-    CommonTree_1_2: THREE.Mesh;
-    CommonTree_1_3: THREE.Mesh;
-    PineTree_3_2: THREE.Mesh;
-    PineTree_3_3: THREE.Mesh;
-    Bush_1_1: THREE.Mesh;
-    BushBerries_1_2: THREE.Mesh;
-    BushBerries_1_3: THREE.Mesh;
     Rock_Moss_4_2: THREE.Mesh;
     Rock_Moss_4_3: THREE.Mesh;
-    Flowers_2: THREE.Mesh;
-    Flowers_3: THREE.Mesh;
-    Flowers_4: THREE.Mesh;
+    tree023: THREE.Mesh;
+    tree023_1: THREE.Mesh;
+    tree024: THREE.Mesh;
+    tree024_1: THREE.Mesh;
+    tree025: THREE.Mesh;
+    tree025_1: THREE.Mesh;
+    tree026: THREE.Mesh;
+    tree026_1: THREE.Mesh;
+    tree028: THREE.Mesh;
+    tree028_1: THREE.Mesh;
+    tree029: THREE.Mesh;
+    tree029_1: THREE.Mesh;
+    tree030: THREE.Mesh;
+    tree030_1: THREE.Mesh;
+    tree038: THREE.Mesh;
+    tree038_1: THREE.Mesh;
+    Bush_Common_1: THREE.Mesh;
+    tree009: THREE.Mesh;
+    tree009_1: THREE.Mesh;
+    Fern_1_1: THREE.Mesh;
+    Plane021: THREE.Mesh;
+    Plane021_1: THREE.Mesh;
+    Plane003: THREE.Mesh;
+    Plane003_1: THREE.Mesh;
   };
   materials: {
     hexagons_medieval: THREE.MeshStandardMaterial;
@@ -81,12 +99,15 @@ export type CoreKitGLTF = GLTF & {
     mage_texture: THREE.MeshStandardMaterial;
     barbarian_texture: THREE.MeshStandardMaterial;
     texture: THREE.MeshStandardMaterial;
-    CommonTree_1_Wood: THREE.MeshStandardMaterial;
-    CommonTree_1_Green: THREE.MeshStandardMaterial;
-    BushBerries_1_Berry: THREE.MeshStandardMaterial;
     Rock_Moss_4_Rock: THREE.MeshStandardMaterial;
-    Flowers_Cyan: THREE.MeshStandardMaterial;
-    Flowers_Yellow: THREE.MeshStandardMaterial;
+    Rock_Moss_4_Green: THREE.MeshStandardMaterial;
+    Bark_NormalTree: THREE.MeshStandardMaterial;
+    Leaves_NormalTree: THREE.MeshStandardMaterial;
+    Leaves_Pine: THREE.MeshStandardMaterial;
+    Bark_TwistedTree: THREE.MeshStandardMaterial;
+    Leaves_TwistedTree: THREE.MeshStandardMaterial;
+    Flowers: THREE.MeshStandardMaterial;
+    Leaves: THREE.MeshStandardMaterial;
   };
 };
 

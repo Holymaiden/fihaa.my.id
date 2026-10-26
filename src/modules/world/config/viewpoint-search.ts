@@ -27,12 +27,17 @@ interface Obstacle {
 
 // Rough footprint radius of each model at scale 1.
 const FOOTPRINT: Partial<Record<CorePlacement['model'], number>> = {
-  CommonTree_1: 1.5,
-  PineTree_3: 1.3,
-  trees_A_medium: 1,
-  tree_single_A: 0.6,
-  Bush_1: 1.1,
-  BushBerries_1: 1.1,
+  CommonTree_1: 4,
+  CommonTree_2: 4,
+  CommonTree_3: 3.8,
+  CommonTree_4: 3.6,
+  Pine_1: 3,
+  Pine_2: 3.4,
+  Pine_3: 2.8,
+  TwistedTree_1: 4.5,
+  Bush_Common: 1.9,
+  Bush_Common_Flowers: 1.9,
+  Fern_1: 3,
   Rock_Moss_4: 1.1,
   rock_single_A: 0.3,
   rock_single_C: 0.3,
