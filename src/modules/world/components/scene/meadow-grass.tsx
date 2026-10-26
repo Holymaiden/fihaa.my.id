@@ -1,5 +1,6 @@
 'use client';
 
+import { useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
 import {
@@ -10,6 +11,7 @@ import {
   InstancedBufferGeometry,
   MathUtils,
   ShaderMaterial,
+  Vector3,
 } from 'three';
 
 import {
@@ -31,6 +33,7 @@ import {
   setInstanceCount,
   setUniforms,
 } from './shader-utils';
+import { GRASS_TEXTURE_SCALE, terrainTextureUrls } from './terrain-material';
 import { trailUniforms } from './trail-map';
 import { weatherMix } from './weather-mix';
 import { WIND_GLSL } from './wind';
@@ -47,37 +50,52 @@ const random = (seed: number) => {
   return x - Math.floor(x);
 };
 
-// One tuft = three tapered blades crossed at 60°. y runs 0..1 up the blade.
+// One tuft = three tapered blades crossed at 60°, each curving forward
+// towards its tip. y runs 0..1 up the blade. Normals face out of each
+// blade and round off towards its edges, so light rolls across it.
+const LEVELS = [0, 0.25, 0.5, 0.75, 1];
+const WIDTHS = [1, 0.9, 0.72, 0.45, 0];
+const CURVE = 0.28;
+const ROUNDING = 0.45;
+
 const buildTuft = () => {
   const positions: number[] = [];
+  const normals: number[] = [];
   const indices: number[] = [];
-  const levels = [0, 0.3, 0.62, 1];
-  const widths = [1, 0.85, 0.55, 0];
   for (let blade = 0; blade < 3; blade++) {
     const angle = (blade / 3) * Math.PI + blade * 0.2;
+    const across = [Math.cos(angle), Math.sin(angle)];
+    const facing = [-across[1], across[0]];
     // Blades of a tuft stand apart, so it reads as grass, not a cone.
     const offsetX = (blade - 1) * 0.11;
     const offsetZ = ((blade * 7) % 3) * 0.09 - 0.09;
     const start = positions.length / 3;
-    levels.forEach((level, index) => {
-      const half = widths[index] * 0.5;
-      for (const side of index === levels.length - 1 ? [0] : [-half, half]) {
+    LEVELS.forEach((level, index) => {
+      const half = WIDTHS[index] * 0.5;
+      const lean = CURVE * level * level;
+      for (const side of index === LEVELS.length - 1 ? [0] : [-1, 1]) {
         positions.push(
-          Math.cos(angle) * side + offsetX,
+          across[0] * side * half + facing[0] * lean + offsetX,
           level,
-          Math.sin(angle) * side + offsetZ,
+          across[1] * side * half + facing[1] * lean + offsetZ,
         );
+        const nx = facing[0] + across[0] * side * ROUNDING;
+        const nz = facing[1] + across[1] * side * ROUNDING;
+        // Tilted back by the curve, so the tip faces more upwards.
+        const ny = level * CURVE * 2;
+        const length = Math.hypot(nx, ny, nz);
+        normals.push(nx / length, ny / length, nz / length);
       }
     });
     // Pairs (left, right) per level, then the tip.
-    for (let index = 0; index < levels.length - 2; index++) {
+    for (let index = 0; index < LEVELS.length - 2; index++) {
       const a = start + index * 2;
       indices.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
     }
-    const lastPair = start + (levels.length - 2) * 2;
+    const lastPair = start + (LEVELS.length - 2) * 2;
     indices.push(lastPair, lastPair + 1, lastPair + 2);
   }
-  return { positions, indices };
+  return { positions, normals, indices };
 };
 
 const vertexShader = /* glsl */ `
@@ -88,6 +106,9 @@ const vertexShader = /* glsl */ `
   // Where the grass has been pressed (see trail-map.tsx).
   uniform sampler2D uTrail;
   uniform float uTrailExtent;
+  // The ground's grass texture, so blades pick up its patches of colour.
+  uniform sampler2D uGround;
+  uniform float uGroundScale;
   attribute vec3 aOffset;
   // rotation, height, width, tint
   attribute vec4 aParams;
@@ -98,6 +119,9 @@ const vertexShader = /* glsl */ `
   varying float vGust;
   varying float vOcclusion;
   varying float vPressed;
+  varying vec3 vNormal;
+  varying vec3 vWorldPosition;
+  varying vec3 vGround;
   #include <fog_pars_vertex>
   ${WIND_GLSL}
 
@@ -107,6 +131,7 @@ const vertexShader = /* glsl */ `
     float s = sin(aParams.x);
     vec3 local = vec3(position.x * aParams.z, h * aParams.y, position.z * aParams.z);
     local = vec3(local.x * c - local.z * s, local.y, local.x * s + local.z * c);
+    vec3 bladeNormal = vec3(normal.x * c - normal.z * s, normal.y, normal.x * s + normal.z * c);
 
     float strength = windStrength(aOffset.xz, uTime) * uWind;
     float bend = strength * h * h * aParams.y;
@@ -129,6 +154,10 @@ const vertexShader = /* glsl */ `
     vGust = strength;
     vOcclusion = aOcclusion;
     vec4 worldPosition = modelMatrix * vec4(local + aOffset, 1.0);
+    vWorldPosition = worldPosition.xyz;
+    vNormal = normalize(mat3(modelMatrix) * bladeNormal);
+    vec3 groundAverage = max(textureLod(uGround, vec2(0.5), 12.0).rgb, vec3(0.02));
+    vGround = textureLod(uGround, aOffset.xz / uGroundScale, 2.0).rgb / groundAverage;
     vec4 mvPosition = viewMatrix * worldPosition;
     gl_Position = projectionMatrix * mvPosition;
     // Blades take the sun's real shadow (castle, trees) from the shadow map.
@@ -151,6 +180,10 @@ const fragmentShader = /* glsl */ `
   uniform vec3 uTip;
   uniform vec3 uDry;
   uniform float uLight;
+  uniform vec3 uSunDirection;
+  varying vec3 vNormal;
+  varying vec3 vWorldPosition;
+  varying vec3 vGround;
   varying float vHeight;
   varying float vTint;
   varying float vGust;
@@ -163,15 +196,33 @@ const fragmentShader = /* glsl */ `
     // Patches of drier grass, and a sheen where the gust bends the blades.
     color = mix(color, uDry, vTint * 0.55 * vHeight);
     color += uTip * vGust * vHeight * 0.12;
+    // The ground's own colour patches show through.
+    color *= mix(vec3(1.0), clamp(vGround, 0.4, 1.8), 0.55);
     // Darker at the roots, like they're in each other's shade.
     float roots = 0.45 + 0.55 * smoothstep(0.0, 0.7, vHeight);
+
+    // Both sides of a blade face the light the same way; soften towards
+    // straight up so a meadow doesn't flicker blade by blade.
+    vec3 n = normalize(vNormal) * (gl_FrontFacing ? 1.0 : -1.0);
+    n = normalize(mix(n, vec3(0.0, 1.0, 0.0), 0.35));
+    vec3 toCamera = normalize(cameraPosition - vWorldPosition);
+    vec3 toSun = normalize(uSunDirection);
+    // Wrapped diffuse, a glow where the sun shines through the blade
+    // towards the camera, and a soft glossy highlight.
+    float diffuse = max(dot(n, toSun), 0.0) * 0.7 + 0.3;
+    float through = pow(max(dot(toCamera, -toSun), 0.0), 3.0) * vHeight;
+    float gloss = pow(max(dot(n, normalize(toSun + toCamera)), 0.0), 28.0) * vHeight;
+
     // Key light from the sun (with its shadow), soft sky fill, baked AO.
     float shadow = getShadowMask();
-    vec3 light = uSky * 0.55 * vOcclusion
-      + uSun * uSunScale * shadow * vOcclusion * (0.5 + 0.5 * vHeight);
+    vec3 sun = uSun * uSunScale * shadow * vOcclusion;
+    vec3 light = uSky * 0.5 * vOcclusion
+      + sun * diffuse * (0.55 + 0.45 * vHeight)
+      + sun * uTip * through * 0.9;
     // Flattened blades show their paler, shaded side: the trail reads.
     color = mix(color, uDry * 0.8, vPressed * 0.35);
-    gl_FragColor = vec4(color * roots * light * uLight * (1.0 - vPressed * 0.2), 1.0);
+    color = color * roots * light + sun * gloss * 0.12;
+    gl_FragColor = vec4(color * uLight * (1.0 - vPressed * 0.2), 1.0);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
     #include <fog_fragment>
@@ -254,6 +305,7 @@ const buildMeadow = ({
     'position',
     new Float32BufferAttribute(tuft.positions, 3),
   );
+  result.setAttribute('normal', new Float32BufferAttribute(tuft.normals, 3));
   result.setIndex(tuft.indices);
   result.setAttribute(
     'aOffset',
@@ -279,6 +331,8 @@ const MeadowGrass = ({ palette, density }: MeadowGrassProps) => {
   const effects = useEffectsEnabled();
 
   const geometry = useMemo(() => buildMeadow(VISUAL.grass), []);
+  // Same texture (and cache entry) as the terrain's grass layer.
+  const groundTexture = useTexture(terrainTextureUrls()[0]);
 
   const total = geometry.getAttribute('aOffset').count;
   useEffect(() => {
@@ -308,9 +362,14 @@ const MeadowGrass = ({ palette, density }: MeadowGrassProps) => {
           uLight: { value: 1 },
           uTrail: trailUniforms.uTrail,
           uTrailExtent: trailUniforms.uTrailExtent,
+          uGround: { value: groundTexture },
+          uGroundScale: { value: GRASS_TEXTURE_SCALE },
+          uSunDirection: {
+            value: new Vector3(...VISUAL.light.sunPosition).normalize(),
+          },
         },
       }),
-    [],
+    [groundTexture],
   );
   useEffect(() => () => material.dispose(), [material]);
 

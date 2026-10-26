@@ -22,8 +22,12 @@ export const terrainTextureUrls = (): string[] =>
 
 // World units per texture repeat, and how strongly each layer's detail
 // and bumps show (0 = flat palette colour).
+// World units per repeat of the grass texture (the meadow tints its
+// blades with it too, see meadow-grass.tsx).
+export const GRASS_TEXTURE_SCALE = 7;
+
 const LAYERS = {
-  scale: [7, 2.6, 4, 5],
+  scale: [GRASS_TEXTURE_SCALE, 2.6, 4, 5],
   detail: [0.9, 0.8, 0.7, 1],
   bump: [0.8, 0.9, 0.6, 1.1],
 };

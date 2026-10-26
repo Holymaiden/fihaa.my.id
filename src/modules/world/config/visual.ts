@@ -46,10 +46,10 @@ export const VISUAL = {
   },
   // Grass tufts: grid spacing (smaller = denser), blade size, brightness.
   grass: {
-    spacing: 0.15,
-    minHeight: 0.2,
-    maxHeight: 0.55,
-    width: 0.055,
+    spacing: 0.11,
+    minHeight: 0.22,
+    maxHeight: 0.62,
+    width: 0.045,
     dayLight: 1,
     nightLight: 0.5,
     // Share of tufts drawn on narrow screens, and when frames stay slow.
