@@ -32,6 +32,7 @@ import IslandWater from './scene/island-water';
 import KitRecolor from './scene/kit-recolor';
 import MeadowGrass from './scene/meadow-grass';
 import MeadowLife from './scene/meadow-life';
+import Pampas from './scene/pampas';
 import { endedDragJustNow } from './scene/pointer';
 import Rain from './scene/rain';
 import { LensRainClock } from './scene/rain-lens';
@@ -143,6 +144,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
             <MeadowGrass palette={palette} density={quality.grassDensity} />
             <GroundCursor palette={palette} />
             <MeadowLife palette={palette} />
+            <Pampas palette={palette} />
             {effects && <Wildlife palette={palette} />}
             <IslandWater palette={palette} />
             <FloatingIslet palette={palette} />

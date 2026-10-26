@@ -36,7 +36,7 @@ const random = (seed: number) => {
 };
 
 // Random grassy spots (not on paths, water or clearings).
-const meadowSpots = (count: number, seedOffset: number) => {
+export const meadowSpots = (count: number, seedOffset: number) => {
   const spots: [number, number][] = [];
   for (
     let attempt = 0;

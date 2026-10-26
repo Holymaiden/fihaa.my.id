@@ -51,7 +51,7 @@ export const VISUAL = {
     spacing: 0.09,
     minHeight: 0.14,
     maxHeight: 0.36,
-    width: 0.04,
+    width: 0.075,
     dayLight: 1,
     nightLight: 0.5,
     // Share of tufts drawn on narrow screens, and when frames stay slow.
@@ -90,6 +90,9 @@ export const VISUAL = {
     fireflySize: 110,
     pollenSize: 18,
   },
+  // Golden seed stalks over the grass: clusters x stalks each, height
+  // range (world units).
+  pampas: { clusters: 55, perCluster: 7, minHeight: 0.5, maxHeight: 0.9 },
   weather: {
     // Seconds for one weather to blend into the next.
     blendSeconds: 6,

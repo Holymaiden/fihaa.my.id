@@ -50,15 +50,15 @@ const random = (seed: number) => {
   return x - Math.floor(x);
 };
 
-// One clump: three thin blades sprouting from almost the same spot, each
-// turned its own way and a different height, tapered and curving out
-// towards the tip (y runs 0..1 up the tallest blade). Clumps close together
-// read as a soft, full carpet; normals round off towards each blade's edges
-// so light rolls across it.
+// One clump: three wide blades sprouting from almost the same spot, each
+// turned its own way and a different height, tapering straight to a sharp
+// point and curving out towards the tip (y runs 0..1 up the tallest
+// blade). Flat normals: each blade is one painted facet, as in the
+// reference's close-up meadow.
 const LEVELS = [0, 0.3, 0.55, 0.8, 1];
-const WIDTHS = [1, 0.85, 0.62, 0.32, 0];
+const WIDTHS = [1, 0.74, 0.5, 0.24, 0];
 const CURVE = 0.22;
-const ROUNDING = 0.5;
+const ROUNDING = 0;
 // Per blade: turn (radians), height share, offset from the clump centre
 // (in blade widths).
 const CLUMP: [number, number, [number, number]][] = [
@@ -70,8 +70,9 @@ const CLUMP: [number, number, [number, number]][] = [
 const buildBlade = () => {
   const positions: number[] = [];
   const normals: number[] = [];
+  const blades: number[] = [];
   const indices: number[] = [];
-  for (const [turn, tall, [ox, oz]] of CLUMP) {
+  for (const [blade, [turn, tall, [ox, oz]]] of CLUMP.entries()) {
     const c = Math.cos(turn);
     const s = Math.sin(turn);
     const start = positions.length / 3;
@@ -83,6 +84,7 @@ const buildBlade = () => {
         const x = side * half;
         const z = lean;
         positions.push(x * c + z * s + ox, level * tall, -x * s + z * c + oz);
+        blades.push(blade);
         const nx = side * ROUNDING;
         const ny = level * CURVE * 2;
         const length = Math.hypot(nx, ny, 1);
@@ -101,7 +103,7 @@ const buildBlade = () => {
     const lastPair = start + (LEVELS.length - 2) * 2;
     indices.push(lastPair, lastPair + 1, lastPair + 2);
   }
-  return { positions, normals, indices };
+  return { positions, normals, blades, indices };
 };
 
 const vertexShader = /* glsl */ `
@@ -116,6 +118,8 @@ const vertexShader = /* glsl */ `
   uniform sampler2D uGround;
   uniform float uGroundScale;
   attribute vec3 aOffset;
+  // Which blade of the clump (0..2).
+  attribute float aBlade;
   // rotation, height, width, tint
   attribute vec4 aParams;
   // Baked ambient occlusion: 1 = open sky, less near walls and trees.
@@ -125,6 +129,7 @@ const vertexShader = /* glsl */ `
   varying float vGust;
   varying float vOcclusion;
   varying float vPressed;
+  varying float vShade;
   varying vec3 vNormal;
   varying vec3 vWorldPosition;
   varying vec3 vGround;
@@ -174,6 +179,8 @@ const vertexShader = /* glsl */ `
 
     vHeight = h;
     vTint = aParams.w;
+    // Each blade its own shade.
+    vShade = fract(sin(dot(vec3(aOffset.xz, aBlade), vec3(12.9898, 78.233, 37.719))) * 43758.5453);
     vGust = strength;
     vOcclusion = aOcclusion;
     vec4 worldPosition = modelMatrix * vec4(local + aOffset, 1.0);
@@ -212,19 +219,18 @@ const fragmentShader = /* glsl */ `
   varying float vGust;
   varying float vOcclusion;
   varying float vPressed;
+  varying float vShade;
   #include <fog_pars_fragment>
 
   void main() {
-    // Dark, cool roots up to a light, warm tip, like a lit meadow seen
-    // close up; each blade a little lighter or darker than its neighbours.
+    // Darker roots up to a light yellow-green tip; each blade its own
+    // shade, so they read one by one up close like painted facets.
     float tip = smoothstep(0.0, 1.0, vHeight);
-    // Close to the ground's own colour at the root and only a little
-    // lighter at the tip: blades blend into one soft carpet instead of
-    // standing out as spikes.
-    vec3 color = mix(uBase * 0.82, mix(uBase, uTip, 0.7) * 1.04, tip);
+    vec3 color = mix(uBase * 0.78, uTip, tip);
+    color *= 0.86 + vShade * 0.28;
     // Patches of drier grass, and a sheen where the gust bends the blades.
     color = mix(color, uDry, vTint * 0.4 * vHeight);
-    color += uTip * vGust * vHeight * 0.1;
+    color += uTip * vGust * vHeight * 0.16;
     // The ground's own colour patches show through.
     color *= mix(vec3(1.0), clamp(vGround, 0.6, 1.4), 0.3);
     // Darker at the roots, like they're in each other's shade.
@@ -233,7 +239,7 @@ const fragmentShader = /* glsl */ `
     // Both sides of a blade face the light the same way; soften towards
     // straight up so a meadow doesn't flicker blade by blade.
     vec3 n = normalize(vNormal) * (gl_FrontFacing ? 1.0 : -1.0);
-    n = normalize(mix(n, vec3(0.0, 1.0, 0.0), 0.88));
+    n = normalize(mix(n, vec3(0.0, 1.0, 0.0), 0.55));
     vec3 toCamera = normalize(cameraPosition - vWorldPosition);
     vec3 toSun = normalize(uSunDirection);
     // Wrapped diffuse and a glow where the sun shines through the blade
@@ -334,6 +340,7 @@ const buildMeadow = ({
     new Float32BufferAttribute(tuft.positions, 3),
   );
   result.setAttribute('normal', new Float32BufferAttribute(tuft.normals, 3));
+  result.setAttribute('aBlade', new Float32BufferAttribute(tuft.blades, 1));
   result.setIndex(tuft.indices);
   result.setAttribute(
     'aOffset',

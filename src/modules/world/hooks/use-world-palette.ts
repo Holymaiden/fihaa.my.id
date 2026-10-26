@@ -14,6 +14,7 @@ const TOKENS = {
   groundLight: '--color-world-ground-light',
   grassLight: '--color-world-grass-light',
   grass: '--color-world-grass',
+  pampas: '--color-world-pampas',
   sand: '--color-world-sand',
   cliff: '--color-world-cliff',
   rock: '--color-world-rock',
