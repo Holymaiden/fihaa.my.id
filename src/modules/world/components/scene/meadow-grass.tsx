@@ -50,51 +50,38 @@ const random = (seed: number) => {
   return x - Math.floor(x);
 };
 
-// One tuft = three tapered blades crossed at 60°, each curving forward
-// towards its tip. y runs 0..1 up the blade. Normals face out of each
-// blade and round off towards its edges, so light rolls across it.
-const LEVELS = [0, 0.25, 0.5, 0.75, 1];
-const WIDTHS = [1, 0.9, 0.72, 0.45, 0];
-const CURVE = 0.28;
-const ROUNDING = 0.45;
+// One blade, tapered and curving forward towards its tip (y runs 0..1 up
+// the blade). The meadow is many thin single blades close together, which
+// reads as a soft carpet; normals round off towards the edges so light
+// rolls across each blade.
+const LEVELS = [0, 0.3, 0.55, 0.8, 1];
+const WIDTHS = [1, 0.85, 0.62, 0.32, 0];
+const CURVE = 0.22;
+const ROUNDING = 0.5;
 
-const buildTuft = () => {
+const buildBlade = () => {
   const positions: number[] = [];
   const normals: number[] = [];
   const indices: number[] = [];
-  for (let blade = 0; blade < 3; blade++) {
-    const angle = (blade / 3) * Math.PI + blade * 0.2;
-    const across = [Math.cos(angle), Math.sin(angle)];
-    const facing = [-across[1], across[0]];
-    // Blades of a tuft stand apart, so it reads as grass, not a cone.
-    const offsetX = (blade - 1) * 0.11;
-    const offsetZ = ((blade * 7) % 3) * 0.09 - 0.09;
-    const start = positions.length / 3;
-    LEVELS.forEach((level, index) => {
-      const half = WIDTHS[index] * 0.5;
-      const lean = CURVE * level * level;
-      for (const side of index === LEVELS.length - 1 ? [0] : [-1, 1]) {
-        positions.push(
-          across[0] * side * half + facing[0] * lean + offsetX,
-          level,
-          across[1] * side * half + facing[1] * lean + offsetZ,
-        );
-        const nx = facing[0] + across[0] * side * ROUNDING;
-        const nz = facing[1] + across[1] * side * ROUNDING;
-        // Tilted back by the curve, so the tip faces more upwards.
-        const ny = level * CURVE * 2;
-        const length = Math.hypot(nx, ny, nz);
-        normals.push(nx / length, ny / length, nz / length);
-      }
-    });
-    // Pairs (left, right) per level, then the tip.
-    for (let index = 0; index < LEVELS.length - 2; index++) {
-      const a = start + index * 2;
-      indices.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+  LEVELS.forEach((level, index) => {
+    const half = WIDTHS[index] * 0.5;
+    const lean = CURVE * level * level;
+    for (const side of index === LEVELS.length - 1 ? [0] : [-1, 1]) {
+      positions.push(side * half, level, lean);
+      // Facing +z, rounded across the width, tipped up by the curve.
+      const nx = side * ROUNDING;
+      const ny = level * CURVE * 2;
+      const length = Math.hypot(nx, ny, 1);
+      normals.push(nx / length, ny / length, 1 / length);
     }
-    const lastPair = start + (LEVELS.length - 2) * 2;
-    indices.push(lastPair, lastPair + 1, lastPair + 2);
+  });
+  // Pairs (left, right) per level, then the tip.
+  for (let index = 0; index < LEVELS.length - 2; index++) {
+    const a = index * 2;
+    indices.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
   }
+  const lastPair = (LEVELS.length - 2) * 2;
+  indices.push(lastPair, lastPair + 1, lastPair + 2);
   return { positions, normals, indices };
 };
 
@@ -129,7 +116,19 @@ const vertexShader = /* glsl */ `
     float h = position.y;
     float c = cos(aParams.x);
     float s = sin(aParams.x);
-    vec3 local = vec3(position.x * aParams.z, h * aParams.y, position.z * aParams.z);
+    // Distance LOD: far from the camera most blades drop out (they'd be
+    // thinner than a pixel and cost fill for nothing) and the rest widen
+    // a little to keep the carpet closed; the ground texture is grassy too.
+    vec3 rootWorld = (modelMatrix * vec4(aOffset, 1.0)).xyz;
+    float far = smoothstep(14.0, 42.0, distance(rootWorld, cameraPosition));
+    float keep = 1.0 - far * 0.8;
+    float pick = fract(aParams.x * 7.31 + aOffset.x * 3.7);
+    if (pick > keep) {
+      gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
+      return;
+    }
+    float widen = 1.0 + far * 1.6;
+    vec3 local = vec3(position.x * aParams.z * widen, h * aParams.y, position.z * aParams.z);
     local = vec3(local.x * c - local.z * s, local.y, local.x * s + local.z * c);
     vec3 bladeNormal = vec3(normal.x * c - normal.z * s, normal.y, normal.x * s + normal.z * c);
 
@@ -191,15 +190,24 @@ const fragmentShader = /* glsl */ `
   varying float vPressed;
   #include <fog_pars_fragment>
 
+  float bladeHash(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+  }
+
   void main() {
-    vec3 color = mix(uBase * 0.7, uTip, smoothstep(0.0, 1.0, vHeight));
+    // Dark, cool roots up to a light, warm tip, like a lit meadow seen
+    // close up; each blade a little lighter or darker than its neighbours.
+    float tip = smoothstep(0.0, 1.0, vHeight);
+    vec3 color = mix(uBase * 0.55, uTip * 1.12, tip);
+    float own = bladeHash(floor(vWorldPosition.xz * 40.0));
+    color *= 0.85 + own * 0.3;
     // Patches of drier grass, and a sheen where the gust bends the blades.
-    color = mix(color, uDry, vTint * 0.55 * vHeight);
-    color += uTip * vGust * vHeight * 0.12;
+    color = mix(color, uDry, vTint * 0.4 * vHeight);
+    color += uTip * vGust * vHeight * 0.1;
     // The ground's own colour patches show through.
-    color *= mix(vec3(1.0), clamp(vGround, 0.4, 1.8), 0.55);
+    color *= mix(vec3(1.0), clamp(vGround, 0.5, 1.6), 0.4);
     // Darker at the roots, like they're in each other's shade.
-    float roots = 0.45 + 0.55 * smoothstep(0.0, 0.7, vHeight);
+    float roots = 0.55 + 0.45 * smoothstep(0.0, 0.6, vHeight);
 
     // Both sides of a blade face the light the same way; soften towards
     // straight up so a meadow doesn't flicker blade by blade.
@@ -216,7 +224,7 @@ const fragmentShader = /* glsl */ `
     // Key light from the sun (with its shadow), soft sky fill, baked AO.
     float shadow = getShadowMask();
     vec3 sun = uSun * uSunScale * shadow * vOcclusion;
-    vec3 light = uSky * 0.5 * vOcclusion
+    vec3 light = uSky * 0.7 * vOcclusion
       + sun * diffuse * (0.55 + 0.45 * vHeight)
       + sun * uTip * through * 0.9;
     // Flattened blades show their paler, shaded side: the trail reads.
@@ -237,7 +245,7 @@ const buildMeadow = ({
   maxHeight,
   width,
 }: typeof VISUAL.grass) => {
-  const tuft = buildTuft();
+  const tuft = buildBlade();
   const offsets: number[] = [];
   const params: number[] = [];
   const occlusion: number[] = [];
@@ -269,7 +277,7 @@ const buildMeadow = ({
       const height =
         (minHeight +
           (maxHeight - minHeight) *
-            (0.35 * random(seed + 0.75) + 0.65 * patch)) *
+            (0.55 * random(seed + 0.75) + 0.45 * patch)) *
         (1 - bare * 0.6);
       offsets.push(x, islandHeight(x, z) - 0.03, z);
       occlusion.push(bakedOcclusion(x, z));
@@ -325,7 +333,7 @@ const buildMeadow = ({
   return result;
 };
 
-// Thousands of grass tufts in one draw call, swaying in the wind. Kept off
+// Many thousands of grass blades in one draw call, swaying in the wind. Kept off
 // paths, water, clearings and the beach.
 const MeadowGrass = ({ palette, density }: MeadowGrassProps) => {
   const effects = useEffectsEnabled();
