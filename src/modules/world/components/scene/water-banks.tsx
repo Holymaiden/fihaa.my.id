@@ -1,18 +1,18 @@
 'use client';
 
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { InstancedMesh } from 'three';
 import {
   Color,
   CylinderGeometry,
   Euler,
-  IcosahedronGeometry,
   Matrix4,
   MeshStandardMaterial,
   Quaternion,
   Vector3,
 } from 'three';
 
+import { getModelMesh, useKit } from '../../assets/use-kit';
 import {
   islandHeight,
   POND,
@@ -23,6 +23,10 @@ import {
 } from '../../config/island';
 import type { WorldPalette } from '../../hooks/use-world-palette';
 import { addSway } from './foliage-sway';
+
+// The kit rock is about 3 units across; stones are placed by radius.
+const ROCK_MODEL = 'Rock_Medium_2';
+const ROCK_RADIUS = 1.5;
 
 interface WaterBanksProps {
   palette: WorldPalette;
@@ -183,7 +187,9 @@ const WaterBanks = ({ palette }: WaterBanksProps) => {
   const reedsRef = useRef<InstancedMesh>(null);
   const stones = useMemo(() => placeStones(), []);
   const reeds = useMemo(() => placeReeds(), []);
-  const stoneGeometry = useMemo(() => new IcosahedronGeometry(1, 1), []);
+  const { scene } = useKit('core');
+  const rock = useMemo(() => getModelMesh(scene, ROCK_MODEL), [scene]);
+  useEffect(() => () => rock.geometry.dispose(), [rock]);
   const reedGeometry = useMemo(
     () => new CylinderGeometry(0.012, 0.022, 1, 4).translate(0, 0.5, 0),
     [],
@@ -199,7 +205,8 @@ const WaterBanks = ({ palette }: WaterBanksProps) => {
     if (!mesh) {
       return;
     }
-    const stone = new Color(palette.stone);
+    // White keeps the rock texture's own colour.
+    const stone = new Color('#ffffff');
     const dark = new Color(palette.rockDeep);
     const moss = new Color(palette.grass);
     stones.forEach(({ position, scale, turn, tint }, index) => {
@@ -207,9 +214,10 @@ const WaterBanks = ({ palette }: WaterBanksProps) => {
       matrix.compose(
         new Vector3(...position),
         quaternion,
-        new Vector3(...scale),
+        new Vector3(...scale).divideScalar(ROCK_RADIUS),
       );
       mesh.setMatrixAt(index, matrix);
+      // Tints the rock texture: lighter and darker stones, some mossy.
       color.copy(stone).lerp(dark, tint * 0.6);
       if (tint > 0.7) {
         color.lerp(moss, 0.35);
@@ -221,7 +229,7 @@ const WaterBanks = ({ palette }: WaterBanksProps) => {
       mesh.instanceColor.needsUpdate = true;
     }
     mesh.computeBoundingSphere();
-  }, [stones, palette.stone, palette.rockDeep, palette.grass]);
+  }, [stones, palette.rockDeep, palette.grass]);
 
   useLayoutEffect(() => {
     const mesh = reedsRef.current;
@@ -251,12 +259,10 @@ const WaterBanks = ({ palette }: WaterBanksProps) => {
     <group>
       <instancedMesh
         ref={stonesRef}
-        args={[stoneGeometry, undefined, stones.length]}
+        args={[rock.geometry, rock.material, stones.length]}
         castShadow
         receiveShadow
-      >
-        <meshStandardMaterial flatShading roughness={0.9} />
-      </instancedMesh>
+      />
       <instancedMesh
         ref={reedsRef}
         args={[reedGeometry, reedMaterial, reeds.length]}

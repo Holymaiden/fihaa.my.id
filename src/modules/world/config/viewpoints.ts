@@ -1,7 +1,14 @@
 import type { WorldStationId } from '@/lib/content/types';
 
 import type { SurfaceStationId, Vec3 } from './island';
-import { islandHeight, POND, STREAM, VAULT, vaultAnchor } from './island';
+import {
+  islandHeight,
+  LAYOUT_SCALE,
+  POND,
+  STREAM,
+  VAULT,
+  vaultAnchor,
+} from './island';
 import {
   arcCandidates,
   EYE_HEIGHT,
@@ -73,7 +80,7 @@ const vaultViewpoint = (): Viewpoint => {
 const waterfallViewpoint = (): Viewpoint => {
   const [ex, ez] = STREAM.end;
   const [ox, oz] = along(POND.angle, 1.2);
-  const [sideX, sideZ] = along(POND.angle - Math.PI / 2, 7.5);
+  const [sideX, sideZ] = along(POND.angle - Math.PI / 2, 4.2);
   const [outX, outZ] = along(POND.angle, 3.5);
   const [bankX, bankZ] = along(POND.angle, -2.2);
   const [nudgeX, nudgeZ] = along(POND.angle - Math.PI / 2, 1.2);
@@ -95,12 +102,12 @@ const meadowViewpoint = (): Viewpoint => ({
       arcCandidates({
         from: 3.2,
         to: 4.4,
-        distances: [9.5, 10.5, 11.5],
+        distances: [9.5, 10.5, 11.5].map((d) => d * LAYOUT_SCALE),
         preferred: 3.7,
       }),
       [0, 0],
-      { ignoreNearTarget: 6 },
-    ) ?? fallback([0, 0], 10.5),
+      { ignoreNearTarget: 6 * LAYOUT_SCALE },
+    ) ?? fallback([0, 0], 10.5 * LAYOUT_SCALE),
   target: [0, 4.2, 0],
 });
 
@@ -112,12 +119,12 @@ const profileViewpoint = (): Viewpoint => ({
       arcCandidates({
         from: -1.3,
         to: -0.2,
-        distances: [10, 11, 12],
+        distances: [10, 11, 12].map((d) => d * LAYOUT_SCALE),
         preferred: -0.7,
       }),
       [0, 0],
-      { ignoreNearTarget: 6, eye: 1.4 },
-    ) ?? fallback([0, 0], 10.6),
+      { ignoreNearTarget: 6 * LAYOUT_SCALE, eye: 1.4 },
+    ) ?? fallback([0, 0], 10.6 * LAYOUT_SCALE),
   target: [0.6, 4.6, 0],
 });
 

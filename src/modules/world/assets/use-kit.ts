@@ -1,7 +1,8 @@
 'use client';
 
 import { useGLTF } from '@react-three/drei';
-import type { Object3D } from 'three';
+import type { BufferGeometry, Material, Mesh, Object3D } from 'three';
+import { BufferAttribute } from 'three';
 
 import type {
   CoreKitGLTF,
@@ -43,4 +44,66 @@ export const getModelNode = (scene: Object3D, name: string): Object3D => {
     throw new Error(`Model "${name}" is missing from the kit.`);
   }
   return node;
+};
+
+// The first mesh of a model, with its geometry baked into the model's own
+// frame (kit meshes are quantized, so the node transform matters). For
+// hand-placed copies that don't go through InstancedModel.
+export const getModelMesh = (
+  scene: Object3D,
+  name: string,
+): { geometry: BufferGeometry; material: Material } => {
+  const root = getModelNode(scene, name);
+  root.updateWorldMatrix(true, true);
+  let found: Mesh | undefined;
+  root.traverse((object) => {
+    if (!found && (object as Mesh).isMesh) {
+      found = object as Mesh;
+    }
+  });
+  if (!found) {
+    throw new Error(`Model "${name}" has no mesh.`);
+  }
+  const local = root.matrixWorld.clone().invert().multiply(found.matrixWorld);
+  const geometry = found.geometry.clone();
+  // Quantized (normalized integer) attributes can't hold transformed
+  // values: turn them into floats first, or normals come out broken (black).
+  for (const [name, attribute] of Object.entries(geometry.attributes)) {
+    if (attribute.array instanceof Float32Array) {
+      continue;
+    }
+    const values = new Float32Array(attribute.count * attribute.itemSize);
+    for (let index = 0; index < attribute.count; index++) {
+      for (let item = 0; item < attribute.itemSize; item++) {
+        values[index * attribute.itemSize + item] = attribute.getComponent(
+          index,
+          item,
+        );
+      }
+    }
+    geometry.setAttribute(
+      name,
+      new BufferAttribute(values, attribute.itemSize),
+    );
+  }
+  return {
+    geometry: geometry.applyMatrix4(local),
+    material: found.material as Material,
+  };
+};
+
+// A kit material by name (e.g. 'Bark_NormalTree'), for hand-built props
+// that should match the kit models.
+export const getKitMaterial = (scene: Object3D, name: string): Material => {
+  let found: Material | undefined;
+  scene.traverse((object) => {
+    const material = (object as Mesh).material as Material | undefined;
+    if (!found && material?.name === name) {
+      found = material;
+    }
+  });
+  if (!found) {
+    throw new Error(`Material "${name}" is missing from the kit.`);
+  }
+  return found;
 };

@@ -1,10 +1,10 @@
 'use client';
 
-import { Environment, Lightformer } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
+import { Suspense, useRef } from 'react';
 import type { DirectionalLight, HemisphereLight } from 'three';
-import { BackSide, MathUtils } from 'three';
+import { MathUtils } from 'three';
 
 import { SHADOW_EXTENT } from '../../config/camera';
 import { VISUAL } from '../../config/visual';
@@ -20,49 +20,24 @@ interface WorldAtmosphereProps {
 
 const SUN = VISUAL.light.sunPosition;
 
-// Image-based lighting, baked once into an environment map from a few
-// light shapes: the sky dome, a warm sun disc, a cool rim from the other
-// side and bounce light from the grass below. Gives every PBR material
-// soft fill and believable reflections without an HDR download.
+// Image-based lighting from a CC0 sky HDRI (Poly Haven, see ASSETS.md):
+// soft fill and believable reflections on every PBR material. The sky dome
+// stays the visible background.
+// ponytail: HDRI sun direction is not aligned to VISUAL.light.sunPosition;
+// rotate with environmentRotation if reflections look off.
 const SkyLight = ({ palette }: { palette: WorldPalette }) => (
-  <Environment
-    // Rebuilt when day turns to night.
-    key={palette.isNight ? 'night' : 'day'}
-    frames={1}
-    resolution={VISUAL.environment.resolution}
-    environmentIntensity={
-      palette.isNight ? VISUAL.environment.night : VISUAL.environment.day
-    }
-  >
-    <mesh scale={100}>
-      <sphereGeometry args={[1, 32, 16]} />
-      <meshBasicMaterial color={palette.skyTop} side={BackSide} />
-    </mesh>
-    <Lightformer
-      form="circle"
-      color={palette.sun}
-      intensity={palette.isNight ? 2 : 6}
-      position={[SUN[0] * 2, SUN[1] * 2, SUN[2] * 2]}
-      scale={14}
-      target={[0, 0, 0]}
+  <Suspense fallback={null}>
+    <Environment
+      files={
+        palette.isNight
+          ? VISUAL.environment.nightFile
+          : VISUAL.environment.dayFile
+      }
+      environmentIntensity={
+        palette.isNight ? VISUAL.environment.night : VISUAL.environment.day
+      }
     />
-    <Lightformer
-      form="rect"
-      color={palette.skyHorizon}
-      intensity={1.4}
-      position={[-SUN[0] * 2, 8, -SUN[2] * 2]}
-      scale={[60, 12, 1]}
-      target={[0, 0, 0]}
-    />
-    <Lightformer
-      form="rect"
-      color={palette.grass}
-      intensity={0.6}
-      position={[0, -30, 0]}
-      rotation-x={Math.PI / 2}
-      scale={[120, 120, 1]}
-    />
-  </Environment>
+  </Suspense>
 );
 
 // Sky, fog, image-based light, and a classic three-light rig: the sun as

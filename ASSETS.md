@@ -1,5 +1,11 @@
 # Aset 3D — Daftar Kandidat dan Lisensi
 
+> **Keputusan baru 2026-10-26: gaya *stylized-realistic*** (acuan teknik: jordan-breton.com, hanya teknik — repo itu *All rights reserved*, tidak ada file yang dipakai). Menggantikan gaya *low-poly flat color* di bawah. Anggaran naik ke **≤ 25 MB** setelah kompresi.
+> - Lisensi yang diterima: **CC0** dan **CC-BY** (atribusi wajib: judul, pembuat, tautan sumber, lisensi — tampil di panel kredit lewat `content/world-assets.json`). Tetap **DITOLAK**: CC-BY-NC, *Editorial*, dan "Royalty Free" yang melarang redistribusi (berkas GLB di web bisa diunduh siapa pun).
+> - Sumber utama: Poly Haven (tekstur, HDRI, batu), ambientCG (tekstur), Quaternius Stylized Nature MegaKit (pohon/semak); Sketchfab CC-BY khusus bangunan utama, dari sesedikit mungkin pembuat agar gaya konsisten.
+> - Baris "Tidak dipilih (gaya)" / "Tidak diperlukan" di bawah yang ditolak karena tekstur PBR atau HDRI kini **boleh dipertimbangkan ulang**.
+> - Pipeline (`yarn world:assets`): tekstur dikompres ke WebP ≤ 2k; model berat bisa diberi `"simplify": <0..1>` di `content/world-assets.json`.
+
 Status: **DISETUJUI pemilik 2026-10-12** (Fase 6): KayKit (utama, 88 model) + Quaternius Ultimate Nature (pelengkap alam, 13 model). Belum ada aset yang dipakai di kode.
 Keputusan acuan: `docs/migrasi/09-keputusan-dunia.md` (gaya *low-poly flat color*, kamera terbang, anggaran ≤ 10 MB setelah kompresi).
 Laporan dan alasan pemilihan: `docs/migrasi/10-aset.md`. Pratinjau render: `docs/migrasi/bukti/10-pratinjau-aset.jpg` (KayKit), `10-pratinjau-quaternius.jpg` (KayKit vs 4 paket Quaternius), `10-pratinjau-campuran.jpg` (KayKit + Ultimate Nature dalam satu adegan).
@@ -21,16 +27,28 @@ Aturan file ini:
 | Tidak diperlukan | KayKit Forest Nature Pack (tier gratis) | https://kaylousberg.itch.io/kaykit-forest | CC0 (menurut halaman itch.io) | Tidak wajib | FBX, GLTF, OBJ | Celah pohon besar sudah terisi Ultimate Nature, jadi paket ini tidak perlu diunduh. |
 | Tidak terjangkau | Quaternius Medieval Village Pack (versi lama, *flat color*, 44 model) | https://quaternius.com/packs/medievalvillage.html (tombol unduh → Google Drive) · https://poly.pizza/bundle/Medieval-Village-Pack-NsHhjhlrfY · https://opengameart.org/content/lowpoly-medieval-village-pack | CC0 (halaman quaternius.com) | Tidak wajib | FBX, OBJ, Blend | Tidak ada di itch.io. Ketiga jalur unduhan gagal dari sandbox (2026-10-12): `drive.google.com` ditolak proxy, `poly.pizza`/`static.poly.pizza` HTTP 403, `opengameart.org` HTTP 500. Lihat "Perlu Diunduh Manual". |
 | Tidak dipilih (gaya) | Quaternius Medieval Village MegaKit (Standard) | https://quaternius.com/packs/medievalvillagemegakit.html · https://quaternius.itch.io/medieval-village-megakit | CC0 1.0 (`License_Standard.txt` di zip) | Tidak wajib | glTF + FBX + OBJ; 27 tekstur PNG (73 MB) | Diunduh dan dirender (2026-10-12). **Bertekstur PBR** (plester, bata, kayu bergurat), tidak menyatu dengan KayKit flat color (`bukti/10-pratinjau-quaternius.jpg` baris 2). Tidak disimpan di repo. |
-| Tidak dipilih (gaya) | Quaternius Stylized Nature MegaKit (Standard) | https://quaternius.com/packs/stylizednaturemegakit.html · https://quaternius.itch.io/stylized-nature-megakit | CC0 1.0 (`License_Standard.txt` di zip) | Tidak wajib | glTF + FBX + OBJ; 20 tekstur PNG (38 MB) | Diunduh dan dirender. Daun berupa kartu tekstur alfa (gaya Ghibli), tidak flat (baris 3). Tidak disimpan. |
+| **Dipakai (2026-10-26)** | Quaternius Stylized Nature MegaKit (Standard) | https://quaternius.com/packs/stylizednaturemegakit.html · https://quaternius.itch.io/stylized-nature-megakit | CC0 1.0 (`LICENSE.txt`) | Tidak wajib | glTF + PNG | 13 model (pohon, pinus, pohon bengkok, semak, pakis, bunga) → `assets/raw/quaternius/stylized-nature-megakit/`, masuk kit `core`. Menggantikan pohon/semak/bunga Ultimate Nature dan pohon KayKit. Lihat `SOURCE.md` di folder itu. |
 | Tidak dipilih (gaya) | Quaternius Fantasy Props MegaKit (Standard) | https://quaternius.com/packs/fantasypropsmegakit.html · https://quaternius.itch.io/fantasy-props-megakit | CC0 1.0 (`License_Standard.txt` di zip) | Tidak wajib | glTF + FBX + OBJ; 4 set tekstur trim (37 MB) | Diunduh dan dirender. Tekstur realistis dengan normal map (baris 4). Tidak disimpan. |
 | Cadangan | Kenney Fantasy Town Kit | https://kenney.nl/assets/fantasy-town-kit · https://opengameart.org/content/fantasy-town-kit | CC0 | Tidak wajib ("Kenney.nl", opsional) | FBX, OBJ, glTF | Perlu diunduh manual |
 | Cadangan | Kenney Nature Kit | https://kenney.nl/assets/nature-kit · https://opengameart.org/content/nature-kit | CC0 | Tidak wajib | FBX, OBJ (glTF belum dipastikan) | Perlu diunduh manual |
-| Tidak diperlukan | Poly Haven HDRI langit | https://polyhaven.com/hdris | CC0 | Tidak wajib | HDR/EXR | Tidak dipakai: foto realistis bertentangan dengan gaya flat color. Langit dibuat gradien prosedural (0 KB). |
+| **Dipakai (2026-10-26)** | Poly Haven HDRI langit | https://polyhaven.com/hdris | CC0 | Tidak wajib | HDR 1k | `kloofendal_48d_partly_cloudy_puresky` (siang) + `qwantani_night_puresky` (malam) → `public/world/hdri/` (2,8 MB), hanya untuk pencahayaan IBL; latar tetap sky-dome. Lihat `assets/raw/polyhaven/SOURCE.md`. |
+| **Dipakai (2026-10-26)** | Poly Haven `japanese_sycamore`, `rock_face_03`, HDRI `kloofendal_38d_partly_cloudy_puresky` | https://polyhaven.com/a/japanese_sycamore · https://polyhaven.com/a/rock_face_03 · https://polyhaven.com/a/kloofendal_38d_partly_cloudy_puresky | CC0 | Tidak wajib | JPG 1k → WebP, HDR 1k | Kulit batang pohon, tebing pulau melayang, langit berawan. Dipilih pemilik 2026-10-26 dari pembanding referensi visual. Lihat `assets/raw/polyhaven/SOURCE.md`. |
 | Tidak diperlukan | ambientCG tekstur PBR | https://ambientcg.com | CC0 | Tidak wajib | PNG/JPG | Tidak dipakai: gaya flat color tidak memakai tekstur PBR. |
+| **Dipakai (2026-10-26)** | Poly Haven tekstur tanah | https://polyhaven.com/textures | CC0 | Tidak wajib | JPG 1k → WebP | `aerial_grass_rock`, `dirt_floor`, `coast_sand_01`, `cliff_side` (albedo + normal) → `public/world/textures/` (2,2 MB). Dipakai sebagai detail di atas warna palet terrain. Lihat `assets/raw/polyhaven/SOURCE.md`. |
 | Tidak dipilih | KayKit Furniture Bits 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Furniture-Bits-1.0 | CC0 1.0 | Tidak wajib | glTF | Sempat diunduh (2 buku), diganti `spellbook_*` dari Adventures yang lebih cocok dengan tema; sisanya perabot modern. |
 | Tidak dipilih | KayKit City Builder Bits, Prototype Bits, Space Base Bits | https://github.com/KayKit-Game-Assets | CC0 | Tidak wajib | glTF | Diperiksa (daftar model): kota modern, prototipe, dan luar angkasa; tidak cocok dengan tema guild. |
 | Tidak dipilih | Kenney Starter Kit 3D Platformer / Basic Scene (Mini Arena) | https://github.com/KenneyNL/Starter-Kit-3D-Platformer · https://github.com/KenneyNL/Starter-Kit-Basic-Scene | Platformer: MIT (repo) · Mini Arena: CC0 | MIT: wajib menyertakan pemberitahuan hak cipta | GLB | Dirender dan dibandingkan: platform kuning-hitam bergaya game platformer, batu Mini Arena berwarna salem pastel; keduanya tidak menyatu dengan KayKit. |
 | Tidak dipilih | KayKit Restaurant Bits 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Restaurant-Bits-1.0 | CC0 1.0 | Tidak wajib | glTF | Diperiksa, tidak diunduh: isinya dapur modern (kulkas, burger, kompor) yang tidak cocok dengan tema guild. |
+
+## Bangunan Sketchfab (CC BY 4.0, 2026-10-26)
+
+| Model | Pembuat | Lisensi | Atribusi | Status |
+|---|---|---|---|---|
+| "Fantastic castle" | lepkarepka | CC BY 4.0 | **Wajib** (panel kredit) | Dipakai: kastil utama, menggantikan `building_castle_blue` |
+| "3 medieval towers" | KattyLi | CC BY 4.0 | **Wajib** | Dipakai: dua menara, menggantikan `building_tower_A_blue` |
+| "The Drunk Troll" Tavern | mrrobot | CC BY 4.0 | **Wajib** | Dipakai: tavern Contact, menggantikan `building_tavern_blue` |
+
+Detail sumber dan perubahan: `assets/raw/sketchfab/SOURCE.md`.
 
 ## Kandidat model (subset yang sudah diunduh)
 

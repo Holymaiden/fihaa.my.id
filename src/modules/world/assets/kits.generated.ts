@@ -11,69 +11,108 @@ export const KIT_URLS = {
 export type KitId = keyof typeof KIT_URLS;
 
 export const CORE_MODELS = [
-  'building_castle_blue',
-  'building_tower_A_blue',
-  'building_tavern_blue',
-  'building_well_blue',
   'flag_blue',
   'barrel',
   'crate_A_big',
   'sack',
-  'tree_single_A',
-  'trees_A_medium',
-  'rock_single_A',
-  'rock_single_C',
-  'cloud_big',
-  'cloud_small',
   'lantern_standing',
   'spellbook_open',
   'mug_full',
   'keg',
   'stool',
   'CommonTree_1',
-  'PineTree_3',
-  'Bush_1',
-  'BushBerries_1',
-  'Rock_Moss_4',
-  'Flowers',
+  'CommonTree_2',
+  'CommonTree_3',
+  'CommonTree_4',
+  'Pine_1',
+  'Pine_2',
+  'Pine_3',
+  'TwistedTree_1',
+  'Bush_Common',
+  'Bush_Common_Flowers',
+  'Fern_1',
+  'Flower_3_Group',
+  'Flower_4_Group',
+  'Rock_Medium_1',
+  'Rock_Medium_2',
+  'Rock_Medium_3',
+  'castle_fantastic',
+  'tower_archer',
+  'tower_crystal',
+  'tavern_troll',
 ] as const;
 
 export type CoreModelName = (typeof CORE_MODELS)[number];
 
 export type CoreKitGLTF = GLTF & {
   nodes: {
-    building_castle_blue_1: THREE.Mesh;
-    building_tower_A_top_blue: THREE.Mesh;
-    building_tower_A_blue_2: THREE.Mesh;
-    building_tavern_blue_1: THREE.Mesh;
-    building_well_blue_1: THREE.Mesh;
     flag_blue_1: THREE.Mesh;
     barrel_1: THREE.Mesh;
     crate_A_big_1: THREE.Mesh;
     sack_1: THREE.Mesh;
-    tree_single_A_1: THREE.Mesh;
-    trees_A_medium_1: THREE.Mesh;
-    rock_single_A_1: THREE.Mesh;
-    rock_single_C_1: THREE.Mesh;
-    cloud_big_1: THREE.Mesh;
-    cloud_small_1: THREE.Mesh;
     lantern_standing_1: THREE.Mesh;
     spellbook_open_1: THREE.Mesh;
     mug_full_1: THREE.Mesh;
     keg_1: THREE.Mesh;
     stool_1: THREE.Mesh;
-    CommonTree_1_2: THREE.Mesh;
-    CommonTree_1_3: THREE.Mesh;
-    PineTree_3_2: THREE.Mesh;
-    PineTree_3_3: THREE.Mesh;
-    Bush_1_1: THREE.Mesh;
-    BushBerries_1_2: THREE.Mesh;
-    BushBerries_1_3: THREE.Mesh;
-    Rock_Moss_4_2: THREE.Mesh;
-    Rock_Moss_4_3: THREE.Mesh;
-    Flowers_2: THREE.Mesh;
-    Flowers_3: THREE.Mesh;
-    Flowers_4: THREE.Mesh;
+    tree023: THREE.Mesh;
+    tree023_1: THREE.Mesh;
+    tree024: THREE.Mesh;
+    tree024_1: THREE.Mesh;
+    tree025: THREE.Mesh;
+    tree025_1: THREE.Mesh;
+    tree026: THREE.Mesh;
+    tree026_1: THREE.Mesh;
+    tree028: THREE.Mesh;
+    tree028_1: THREE.Mesh;
+    tree029: THREE.Mesh;
+    tree029_1: THREE.Mesh;
+    tree030: THREE.Mesh;
+    tree030_1: THREE.Mesh;
+    tree038: THREE.Mesh;
+    tree038_1: THREE.Mesh;
+    Bush_Common_1: THREE.Mesh;
+    tree009: THREE.Mesh;
+    tree009_1: THREE.Mesh;
+    Fern_1_1: THREE.Mesh;
+    Plane021: THREE.Mesh;
+    Plane021_1: THREE.Mesh;
+    Plane003: THREE.Mesh;
+    Plane003_1: THREE.Mesh;
+    Rock_Medium_1_1: THREE.Mesh;
+    Rock_Medium_2_1: THREE.Mesh;
+    Rock_Medium_3_1: THREE.Mesh;
+    ['��������������001_����������������003_0']: THREE.Mesh;
+    ['������008_����������������002_0']: THREE.Mesh;
+    ['������010_����������������001_0']: THREE.Mesh;
+    ['������011_����������������_0']: THREE.Mesh;
+    b1_low_base_0: THREE.Mesh;
+    b23_low_alpha_0: THREE.Mesh;
+    m1_low_base_0: THREE.Mesh;
+    m3_low_alpha_0: THREE.Mesh;
+    food_food_0: THREE.Mesh;
+    house_wood_0: THREE.Mesh;
+    house_iron_0: THREE.Mesh;
+    house_wood3_0: THREE.Mesh;
+    house_wood2_0: THREE.Mesh;
+    house_stone_0: THREE.Mesh;
+    house_beer_0: THREE.Mesh;
+    house_stone_simple_0: THREE.Mesh;
+    house_black_0: THREE.Mesh;
+    house_paper_0: THREE.Mesh;
+    house_green_0: THREE.Mesh;
+    house_yellow_0: THREE.Mesh;
+    house_blue_0: THREE.Mesh;
+    house_text_0: THREE.Mesh;
+    house_emiisive_0: THREE.Mesh;
+    house_rope_0: THREE.Mesh;
+    house_walls_0: THREE.Mesh;
+    house_roof_0: THREE.Mesh;
+    house_cloth_0: THREE.Mesh;
+    house_red_0: THREE.Mesh;
+    house_iron_shiny_0: THREE.Mesh;
+    house_glass_0: THREE.Mesh;
+    house_bronze_0: THREE.Mesh;
   };
   materials: {
     hexagons_medieval: THREE.MeshStandardMaterial;
@@ -81,12 +120,43 @@ export type CoreKitGLTF = GLTF & {
     mage_texture: THREE.MeshStandardMaterial;
     barbarian_texture: THREE.MeshStandardMaterial;
     texture: THREE.MeshStandardMaterial;
-    CommonTree_1_Wood: THREE.MeshStandardMaterial;
-    CommonTree_1_Green: THREE.MeshStandardMaterial;
-    BushBerries_1_Berry: THREE.MeshStandardMaterial;
-    Rock_Moss_4_Rock: THREE.MeshStandardMaterial;
-    Flowers_Cyan: THREE.MeshStandardMaterial;
-    Flowers_Yellow: THREE.MeshStandardMaterial;
+    Bark_NormalTree: THREE.MeshStandardMaterial;
+    Leaves_NormalTree: THREE.MeshStandardMaterial;
+    Leaves_Pine: THREE.MeshStandardMaterial;
+    Bark_TwistedTree: THREE.MeshStandardMaterial;
+    Leaves_TwistedTree: THREE.MeshStandardMaterial;
+    Flowers: THREE.MeshStandardMaterial;
+    Leaves: THREE.MeshStandardMaterial;
+    Rocks: THREE.MeshStandardMaterial;
+    ['.003']: THREE.MeshStandardMaterial;
+    ['.002']: THREE.MeshStandardMaterial;
+    ['.001']: THREE.MeshStandardMaterial;
+    material: THREE.MeshStandardMaterial;
+    base: THREE.MeshStandardMaterial;
+    alpha: THREE.MeshStandardMaterial;
+    food: THREE.MeshStandardMaterial;
+    wood: THREE.MeshStandardMaterial;
+    iron: THREE.MeshStandardMaterial;
+    wood3: THREE.MeshStandardMaterial;
+    wood2: THREE.MeshStandardMaterial;
+    stone: THREE.MeshStandardMaterial;
+    beer: THREE.MeshStandardMaterial;
+    stone_simple: THREE.MeshStandardMaterial;
+    black: THREE.MeshStandardMaterial;
+    paper: THREE.MeshStandardMaterial;
+    green: THREE.MeshStandardMaterial;
+    yellow: THREE.MeshStandardMaterial;
+    blue: THREE.MeshStandardMaterial;
+    text: THREE.MeshStandardMaterial;
+    emiisive: THREE.MeshStandardMaterial;
+    rope: THREE.MeshStandardMaterial;
+    walls: THREE.MeshStandardMaterial;
+    roof: THREE.MeshStandardMaterial;
+    cloth: THREE.MeshStandardMaterial;
+    tavern_troll_material: THREE.MeshStandardMaterial;
+    iron_shiny: THREE.MeshStandardMaterial;
+    glass: THREE.MeshStandardMaterial;
+    bronze: THREE.MeshStandardMaterial;
   };
 };
 
@@ -105,12 +175,9 @@ export type VaultKitGLTF = GLTF & {
   nodes: {
     floor_tile_large_1: THREE.Mesh;
     torch_lit_1: THREE.Mesh;
-    chest_gold_lid: THREE.Mesh;
-    Cube14744: THREE.Mesh;
+    chest_gold_1: THREE.Mesh;
     coin_stack_medium_1: THREE.Mesh;
-    arch_gate_left: THREE.Mesh;
-    arch_gate_right: THREE.Mesh;
-    Cube632: THREE.Mesh;
+    arch_gate_1: THREE.Mesh;
     shrine_candles_1: THREE.Mesh;
   };
   materials: {

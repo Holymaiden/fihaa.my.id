@@ -2,21 +2,33 @@
 //   raw glTF/GLB/OBJ in assets/raw -> one GLB per kit in public/world/models
 // Each source model becomes one top-level node named after the model.
 // Run with: yarn world:assets
-import { Document, NodeIO } from '@gltf-transform/core';
+import { Document, getBounds, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-import { dedup, mergeDocuments, meshopt, prune, unpartition, weld } from '@gltf-transform/functions';
-import { MeshoptEncoder } from 'meshoptimizer';
+import {
+  dedup,
+  flatten,
+  join as joinMeshes,
+  mergeDocuments,
+  meshopt,
+  prune,
+  simplify,
+  textureCompress,
+  unpartition,
+  weld,
+} from '@gltf-transform/functions';
+import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
+import sharp from 'sharp';
 
 import { objToDocument } from './obj-to-document.mjs';
 
 const ROOT = join(dirname(new URL(import.meta.url).pathname), '..', '..');
 const OUT_DIR = join(ROOT, 'public', 'world', 'models');
-const REPORT = join(ROOT, 'docs', 'migrasi', 'bukti', '12-ukuran-aset.json');
 const GENERATED = join(ROOT, 'src', 'modules', 'world', 'assets', 'kits.generated.ts');
+const TEXTURE_DIR = join(ROOT, 'public', 'world', 'textures');
 const PUBLIC_URL = '/world/models';
 
 const config = JSON.parse(readFileSync(join(ROOT, 'content', 'world-assets.json'), 'utf8'));
@@ -40,15 +52,47 @@ const rawSize = (src) => {
   return size;
 };
 
-const readModel = async ({ name, src }) =>
-  src.endsWith('.obj') ? objToDocument(join(ROOT, src), name) : io.read(join(ROOT, src));
+// Optional per-model settings for downloaded models:
+// - "drop": names of nodes to leave out (a ground plate, other variants);
+// - "simplify": 0..1 share of triangles to keep, for heavy models.
+const readModel = async ({ name, src, drop = [], simplify: ratio }) => {
+  const doc = src.endsWith('.obj') ? await objToDocument(join(ROOT, src), name) : await io.read(join(ROOT, src));
+  for (const node of doc.getRoot().listNodes()) {
+    if (drop.includes(node.getName())) node.dispose();
+  }
+  // One draw per material: downloaded models often split into hundreds of
+  // small meshes, each its own draw call.
+  await doc.transform(prune(), flatten(), joinMeshes({ keepNamed: false }));
+  if (ratio) await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio, error: 0.001 }));
+  return doc;
+};
+
+// Optional "height": the model is centred on its footprint, stood on y = 0
+// and scaled to this height, through a child node so the model's own node
+// stays untransformed.
+const fitTo = (doc, group, height) => {
+  const fit = doc.createNode(`${group.getName()}_fit`);
+  for (const child of group.listChildren()) fit.addChild(child);
+  group.addChild(fit);
+  const { min, max } = getBounds(fit);
+  const scale = height / (max[1] - min[1]);
+  fit.setScale([scale, scale, scale]);
+  fit.setTranslation([-((min[0] + max[0]) / 2) * scale, -min[1] * scale, -((min[2] + max[2]) / 2) * scale]);
+};
 
 const buildKit = async (kit, models) => {
   const doc = new Document().setLogger(QUIET_LOGGER);
   const scene = doc.createScene(kit);
 
+  const materialNames = new Set();
   for (const model of models) {
     const source = await readModel(model);
+    // Material names are keys in the generated types: keep them unique
+    // (downloaded models often call theirs just "material").
+    for (const material of source.getRoot().listMaterials()) {
+      if (materialNames.has(material.getName())) material.setName(`${model.name}_${material.getName()}`);
+      materialNames.add(material.getName());
+    }
     const before = new Set(doc.getRoot().listScenes());
     mergeDocuments(doc, source);
     const group = doc.createNode(model.name);
@@ -57,6 +101,7 @@ const buildKit = async (kit, models) => {
       for (const child of merged.listChildren()) group.addChild(child);
       merged.dispose();
     }
+    if (model.height) fitTo(doc, group, model.height);
     scene.addChild(group);
   }
   doc.getRoot().setDefaultScene(scene);
@@ -66,6 +111,8 @@ const buildKit = async (kit, models) => {
     dedup(),
     prune({ keepLeaves: false }),
     weld(),
+    // Textures as WebP, at most 1k.
+    textureCompress({ encoder: sharp, targetFormat: 'webp', resize: [1024, 1024] }),
     meshopt({ encoder: MeshoptEncoder, level: 'medium' }),
   );
 
@@ -75,19 +122,23 @@ const buildKit = async (kit, models) => {
   return { kit, file: `public/world/models/${kit}.glb`, bytes: statSync(out).size };
 };
 
-await MeshoptEncoder.ready;
+await Promise.all([MeshoptEncoder.ready, MeshoptSimplifier.ready]);
 
 const kits = [...new Set(config.models.map((model) => model.kit))];
-const report = { kits: [], models: [] };
 for (const kit of kits) {
   const models = config.models.filter((model) => model.kit === kit);
   const result = await buildKit(kit, models);
   const raw = models.reduce((sum, model) => sum + rawSize(model.src), 0);
-  report.kits.push({ ...result, models: models.length, rawBytes: raw });
-  for (const model of models) report.models.push({ name: model.name, kit, rawBytes: rawSize(model.src) });
   console.log(`${kit}: ${models.length} models, raw ${raw} B -> ${result.bytes} B`);
 }
-writeFileSync(REPORT, `${JSON.stringify(report, null, 2)}\n`);
+
+// Loose textures (terrain, rock): raw JPG/PNG -> WebP at most 1k.
+mkdirSync(TEXTURE_DIR, { recursive: true });
+for (const texture of config.textures ?? []) {
+  const out = join(TEXTURE_DIR, `${texture.name}.webp`);
+  await sharp(join(ROOT, texture.src)).resize(1024, 1024, { fit: 'inside' }).webp({ quality: 85 }).toFile(out);
+  console.log(`texture ${texture.name}: ${statSync(join(ROOT, texture.src)).size} B -> ${statSync(out).size} B`);
+}
 
 // gltfjsx --types gives the node/material names of each kit; keep only the
 // GLTF type and add the model list, so the scene code is typed against the

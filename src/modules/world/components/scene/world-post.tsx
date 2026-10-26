@@ -36,8 +36,8 @@ const { post } = VISUAL;
 // - in linear HDR: ambient occlusion, raymarched clouds, temporal AA
 //   (which also smooths the AO and cloud noise), raindrops on the lens,
 //   god rays from the sun and bloom;
-// - then Khronos PBR Neutral tone mapping (keeps the palette's hues),
-//   vignette, grain and a touch of saturation.
+// - then ACES Filmic tone mapping (filmic contrast and highlight
+//   roll-off), vignette, grain and an optional saturation tweak.
 // 'low' keeps the cheap part and uses SMAA instead of TAA.
 // No brightness/contrast pass: it pushes shadows below zero, and the soft
 // light grain then turns them into NaN (black patches).
@@ -91,7 +91,7 @@ const WorldPost = ({ palette, quality, sun }: WorldPostProps) => {
         luminanceThreshold={post.bloom.threshold}
         luminanceSmoothing={0.25}
       />
-      <ToneMapping mode={ToneMappingMode.NEUTRAL} />
+      <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       <Vignette
         offset={post.vignette.offset}
         darkness={post.vignette.darkness}

@@ -20,7 +20,7 @@ export interface TerrainColors {
   waterDeep: string;
 }
 
-const { radius, rings, segments, undersideRings, depth } = ISLAND;
+const { radius, depth } = ISLAND;
 
 // Rock under the island tapers to a point; this is its radius share at a
 // given share of the depth.
@@ -46,13 +46,25 @@ const valueNoise = (x: number, z: number) => {
     hash(ix, iz + 1) + (hash(ix + 1, iz + 1) - hash(ix, iz + 1)) * ux;
   return top + (bottom - top) * uz;
 };
+const smoothstep = (edge0: number, edge1: number, value: number) => {
+  const t = Math.min(Math.max((value - edge0) / (edge1 - edge0), 0), 1);
+  return t * t * (3 - 2 * t);
+};
+
 // Two octaves, 0..1.
 const mottle = (x: number, z: number) =>
   valueNoise(x * 0.45, z * 0.45) * 0.65 + valueNoise(x * 1.7, z * 1.7) * 0.35;
 
 // The ground under the grass is darker than the blades, so the meadow reads
 // as dense; paths are worn dirt and the pond/stream beds are dark.
-const GROUND_UNDER_GRASS = 0.72;
+const GROUND_UNDER_GRASS = 0.84;
+
+// Texture layers blended on the ground (see island-terrain.tsx), as
+// weights per vertex: grass, dirt (paths and water beds), sand, rock.
+export type Splat = [number, number, number, number];
+
+// Ground steeper than this shows bare rock (0 = flat, 1 = vertical).
+const ROCK_SLOPE: [number, number] = [0.32, 0.55];
 
 const surfaceColor = (
   {
@@ -60,9 +72,10 @@ const surfaceColor = (
     height,
     x,
     z,
-  }: { share: number; height: number; x: number; z: number },
+    slope,
+  }: { share: number; height: number; x: number; z: number; slope: number },
   colors: ColorSet,
-  out: Color,
+  { color: out, splat }: { color: Color; splat: Splat },
 ) => {
   out
     .copy(colors.grass)
@@ -71,12 +84,23 @@ const surfaceColor = (
       Math.min(Math.max(height / ISLAND.hillHeight, 0), 1) * 0.6,
     )
     .multiplyScalar(GROUND_UNDER_GRASS);
-  out.lerp(colors.path, pathMask(x, z) * 0.9);
+  const path = pathMask(x, z) * 0.9;
+  out.lerp(colors.path, path);
   const beachStart = 1 - ISLAND.beachWidth;
-  if (share > beachStart) {
-    out.lerp(colors.sand, (share - beachStart) / ISLAND.beachWidth);
-  }
-  out.lerp(colors.waterDeep, waterMask(x, z) * 0.85);
+  const sand =
+    share > beachStart ? (share - beachStart) / ISLAND.beachWidth : 0;
+  out.lerp(colors.sand, sand);
+  const rock = smoothstep(ROCK_SLOPE[0], ROCK_SLOPE[1], slope);
+  out.lerp(colors.cliff, rock * 0.85);
+  const water = waterMask(x, z);
+  out.lerp(colors.waterDeep, water * 0.85);
+  // Same order as the colour blends above: each layer covers the ones
+  // before it.
+  const dirt = Math.max(path, water);
+  splat[3] = rock;
+  splat[2] = sand * (1 - rock);
+  splat[1] = dirt * (1 - rock) * (1 - sand);
+  splat[0] = 1 - splat[1] - splat[2] - splat[3];
   // Nothing in nature is one flat colour: soft patches of light and dark,
   // and baked shade where walls and trees block the sky.
   out.multiplyScalar((0.86 + mottle(x, z) * 0.28) * bakedOcclusion(x, z));
@@ -84,15 +108,26 @@ const surfaceColor = (
 };
 
 // One smooth mesh: a disc of rings for the top, then rings of rock going
-// down to a point. Vertex colours, no textures.
-export const buildIslandGeometry = (palette: TerrainColors): BufferGeometry => {
+// down to a point. Vertex colours carry the palette; the `splat` attribute
+// says which ground texture shows where. `detail` (0..1] thins the mesh
+// for far or small copies (distant islands, the floating islet).
+export const buildIslandGeometry = (
+  palette: TerrainColors,
+  detail = 1,
+): BufferGeometry => {
+  const rings = Math.max(8, Math.round(ISLAND.rings * detail));
+  const segments = Math.max(24, Math.round(ISLAND.segments * detail));
+  const undersideRings = Math.max(
+    6,
+    Math.round(ISLAND.undersideRings * detail),
+  );
   const colors = Object.fromEntries(
     (Object.entries(palette) as [keyof TerrainColors, string][]).map(
       ([key, value]) => [key, new Color(value)],
     ),
   ) as ColorSet;
   const positions: number[] = [];
-  const vertexColors: number[] = [];
+  const underColors: number[] = [];
   const indices: number[] = [];
   const color = new Color();
 
@@ -103,10 +138,7 @@ export const buildIslandGeometry = (palette: TerrainColors): BufferGeometry => {
       const distance = radius * islandEdge(angle) * share;
       const x = Math.sin(angle) * distance;
       const z = Math.cos(angle) * distance;
-      const y = islandHeight(x, z);
-      positions.push(x, y, z);
-      surfaceColor({ share, height: y, x, z }, colors, color);
-      vertexColors.push(color.r, color.g, color.b);
+      positions.push(x, islandHeight(x, z), z);
     }
   }
 
@@ -143,7 +175,7 @@ export const buildIslandGeometry = (palette: TerrainColors): BufferGeometry => {
         colors.grass,
         Math.max(0, 1 - depthShare * 9) * 0.45 * mottle(px, pz),
       );
-      vertexColors.push(color.r, color.g, color.b);
+      underColors.push(color.r, color.g, color.b);
     }
   }
 
@@ -164,8 +196,39 @@ export const buildIslandGeometry = (palette: TerrainColors): BufferGeometry => {
 
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
-  geometry.setAttribute('color', new Float32BufferAttribute(vertexColors, 3));
   geometry.setIndex(indices);
   geometry.computeVertexNormals();
+
+  // Colours and texture weights of the top need the slope, so they come
+  // after the normals; the rock underneath is all rock.
+  const normals = geometry.getAttribute('normal');
+  const topCount = (rings + 1) * segments;
+  const vertexColors: number[] = [];
+  const splats: number[] = [];
+  const splat: Splat = [1, 0, 0, 0];
+  for (let index = 0; index < topCount; index++) {
+    const x = positions[index * 3];
+    const y = positions[index * 3 + 1];
+    const z = positions[index * 3 + 2];
+    surfaceColor(
+      {
+        share: Math.floor(index / segments) / rings,
+        height: y,
+        x,
+        z,
+        slope: 1 - normals.getY(index),
+      },
+      colors,
+      { color, splat },
+    );
+    vertexColors.push(color.r, color.g, color.b);
+    splats.push(...splat);
+  }
+  vertexColors.push(...underColors);
+  for (let index = topCount; index < normals.count; index++) {
+    splats.push(0, 0, 0, 1);
+  }
+  geometry.setAttribute('color', new Float32BufferAttribute(vertexColors, 3));
+  geometry.setAttribute('splat', new Float32BufferAttribute(splats, 4));
   return geometry;
 };

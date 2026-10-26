@@ -1,5 +1,12 @@
 import type { Vec3 } from './island';
-import { islandHeight, POND, POND_CENTER, STREAM } from './island';
+import {
+  islandHeight,
+  LAYOUT_SCALE,
+  POND,
+  POND_CENTER,
+  STREAM,
+  TOWER_SPOTS,
+} from './island';
 
 // Crystals hidden round the island. Finding them all opens the way to the
 // hidden vault. Positions are island frame; y is the height above ground.
@@ -27,12 +34,26 @@ export const CRYSTALS: CrystalSpot[] = [
     id: 'pond',
     position: onGround(POND_CENTER[0] - 2.6, 1, POND_CENTER[1] + 0.8),
   },
-  { id: 'tower', position: onGround(3.8, 10.6, -2.2) },
+  // On top of the crystal tower.
+  {
+    id: 'tower',
+    position: onGround(TOWER_SPOTS[1][0], 4.8, TOWER_SPOTS[1][1]),
+  },
   { id: 'waterfall', position: bank(1.6, 1.1) },
-  { id: 'meadow', position: onGround(-4.2, 0.9, -9.4) },
-  { id: 'grove', position: onGround(-9.2, 0.9, 3.2) },
-  { id: 'stones', position: onGround(6.6, 0.9, -8.8) },
-  { id: 'flag', position: onGround(-2.2, 3.6, 2.6) },
+  {
+    id: 'meadow',
+    position: onGround(-4.2 * LAYOUT_SCALE, 0.9, -9.4 * LAYOUT_SCALE),
+  },
+  {
+    id: 'grove',
+    position: onGround(-9.2 * LAYOUT_SCALE, 0.9, 3.2 * LAYOUT_SCALE),
+  },
+  {
+    id: 'stones',
+    position: onGround(6.6 * LAYOUT_SCALE, 0.9, -8.8 * LAYOUT_SCALE),
+  },
+  // Above the banner by the castle gate.
+  { id: 'flag', position: onGround(-2.6, 3.6, 6.8) },
 ];
 
 // Walking this close in explore mode picks a crystal up.

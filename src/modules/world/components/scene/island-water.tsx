@@ -12,11 +12,13 @@ import {
   Vector3,
 } from 'three';
 
+import { FALL_LANDING, STREAM } from '../../config/island';
 import { VISUAL } from '../../config/visual';
 import { useEffectsEnabled } from '../../hooks/use-effects-enabled';
 import type { WorldPalette } from '../../hooks/use-world-palette';
 import { interaction } from './interaction';
 import { isDrag } from './pointer';
+import { useWaterfallSource } from './rain-lens';
 import { fogUniforms, setUniforms, setVector } from './shader-utils';
 import {
   buildFall,
@@ -45,9 +47,10 @@ const colors = () => ({
   uDeep: { value: new Color() },
   uFoam: { value: new Color() },
   uSky: { value: new Color() },
+  uSkyTop: { value: new Color() },
 });
 
-const surfaceMaterial = () =>
+export const surfaceMaterial = () =>
   new ShaderMaterial({
     vertexShader: surfaceVertex,
     fragmentShader: surfaceFragment,
@@ -63,10 +66,11 @@ const surfaceMaterial = () =>
       uSun: { value: new Color() },
       uSunDirection: { value: SUN_DIRECTION },
       uRipple: { value: new Vector3(0, 0, -100) },
+      uLanding: { value: new Vector3() },
     } satisfies Record<string, IUniform>,
   });
 
-const fallMaterial = (seed: number) =>
+export const fallMaterial = (seed: number, drop: number) =>
   new ShaderMaterial({
     vertexShader: fallVertex,
     fragmentShader: fallFragment,
@@ -79,14 +83,15 @@ const fallMaterial = (seed: number) =>
       ...colors(),
       uTime: { value: 0 },
       uSeed: { value: seed },
+      uDrop: { value: drop },
     },
   });
 
 const buildMaterials = () => ({
   pond: surfaceMaterial(),
   stream: surfaceMaterial(),
-  fall: fallMaterial(0),
-  fallBack: fallMaterial(17),
+  fall: fallMaterial(0, VISUAL.waterfall.drop),
+  fallBack: fallMaterial(17, VISUAL.waterfall.drop),
   spray: new ShaderMaterial({
     vertexShader: sprayVertex,
     fragmentShader: sprayFragment,
@@ -105,6 +110,7 @@ const buildMaterials = () => ({
 // water sends rings across it.
 const IslandWater = ({ palette }: IslandWaterProps) => {
   const effects = useEffectsEnabled();
+  const fallTop = useWaterfallSource(VISUAL.waterfall.drop);
   const clock = useThree((state) => state.clock);
   const invalidate = useThree((state) => state.invalidate);
 
@@ -122,7 +128,12 @@ const IslandWater = ({ palette }: IslandWaterProps) => {
     () => () => Object.values(geometries).forEach((item) => item.dispose()),
     [geometries],
   );
-  const materials = useMemo(() => buildMaterials(), []);
+  const materials = useMemo(() => {
+    const built = buildMaterials();
+    // The islet's fall churns the pond where it lands.
+    setVector(built.pond, 'uLanding', [...FALL_LANDING, 0.9]);
+    return built;
+  }, []);
   useEffect(
     () => () => Object.values(materials).forEach((item) => item.dispose()),
     [materials],
@@ -135,6 +146,7 @@ const IslandWater = ({ palette }: IslandWaterProps) => {
         uShallow: palette.water,
         uDeep: palette.waterDeep,
         uSky: palette.skyHorizon,
+        uSkyTop: palette.skyTop,
         uSun: palette.sun,
       });
     }
@@ -178,6 +190,11 @@ const IslandWater = ({ palette }: IslandWaterProps) => {
 
   return (
     <group>
+      {/* Top of the fall, for the wet lens (rain-lens.tsx). */}
+      <object3D
+        ref={fallTop}
+        position={[STREAM.end[0], STREAM.endLevel, STREAM.end[1]]}
+      />
       <mesh
         geometry={geometries.pond}
         material={materials.pond}

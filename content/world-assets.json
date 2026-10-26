@@ -45,33 +45,54 @@
       "url": "https://quaternius.com/packs/ultimatenature.html",
       "license": "CC0 1.0",
       "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "id": "quaternius-stylized-nature-megakit",
+      "name": "Stylized Nature MegaKit",
+      "author": "Quaternius",
+      "authorUrl": "https://quaternius.com",
+      "url": "https://quaternius.com/packs/stylizednaturemegakit.html",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "id": "polyhaven-textures",
+      "name": "Poly Haven textures",
+      "author": "Rob Tuytel, eye-candy.xyz, James Ray Cock, Jenelle van Heerden, Dario Barresi, Dimitrios Savva, Rico Cilliers, Charlotte Baglioni",
+      "authorUrl": "https://polyhaven.com/textures",
+      "url": "https://polyhaven.com/textures",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "id": "sketchfab-fantastic-castle",
+      "name": "Fantastic castle",
+      "author": "lepkarepka",
+      "authorUrl": "https://sketchfab.com/lepkarepka14",
+      "url": "https://sketchfab.com/3d-models/fantastic-castle-08a018e4e7b3486dbec7b0341be3aeb4",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "id": "sketchfab-3-medieval-towers",
+      "name": "3 medieval towers",
+      "author": "KattyLi",
+      "authorUrl": "https://sketchfab.com/KattyLi",
+      "url": "https://sketchfab.com/3d-models/3-medieval-towers-8b509574fc8a442fa88ed85506bcb416",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "id": "sketchfab-drunk-troll-tavern",
+      "name": "\"The Drunk Troll\" Tavern",
+      "author": "mrrobot",
+      "authorUrl": "https://sketchfab.com/mrrobot",
+      "url": "https://sketchfab.com/3d-models/the-drunk-troll-tavern-6cdc0bdee2df457ebf9ac06a3a9910b8",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     }
   ],
   "models": [
-    {
-      "name": "building_castle_blue",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_castle_blue.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "building_tower_A_blue",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_tower_A_blue.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "building_tavern_blue",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_tavern_blue.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "building_well_blue",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/buildings/blue/building_well_blue.gltf",
-      "kit": "core"
-    },
     {
       "name": "flag_blue",
       "pack": "kaykit-medieval-hexagon",
@@ -94,42 +115,6 @@
       "name": "sack",
       "pack": "kaykit-medieval-hexagon",
       "src": "assets/raw/kaykit/medieval-hexagon/decoration/props/sack.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "tree_single_A",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/tree_single_A.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "trees_A_medium",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/trees_A_medium.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "rock_single_A",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/rock_single_A.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "rock_single_C",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/rock_single_C.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "cloud_big",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/cloud_big.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "cloud_small",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/cloud_small.gltf",
       "kit": "core"
     },
     {
@@ -160,42 +145,6 @@
       "name": "stool",
       "pack": "kaykit-dungeon-remastered",
       "src": "assets/raw/kaykit/dungeon-remastered/stool.gltf.glb",
-      "kit": "core"
-    },
-    {
-      "name": "CommonTree_1",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/CommonTree_1.obj",
-      "kit": "core"
-    },
-    {
-      "name": "PineTree_3",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/PineTree_3.obj",
-      "kit": "core"
-    },
-    {
-      "name": "Bush_1",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/Bush_1.obj",
-      "kit": "core"
-    },
-    {
-      "name": "BushBerries_1",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/BushBerries_1.obj",
-      "kit": "core"
-    },
-    {
-      "name": "Rock_Moss_4",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/Rock_Moss_4.obj",
-      "kit": "core"
-    },
-    {
-      "name": "Flowers",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/Flowers.obj",
       "kit": "core"
     },
     {
@@ -233,6 +182,223 @@
       "pack": "kaykit-halloween-bits",
       "src": "assets/raw/kaykit/halloween-bits/shrine_candles.gltf",
       "kit": "vault"
+    },
+    {
+      "name": "CommonTree_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/CommonTree_1.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "CommonTree_2",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/CommonTree_2.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "CommonTree_3",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/CommonTree_3.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "CommonTree_4",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/CommonTree_4.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Pine_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Pine_1.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Pine_2",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Pine_2.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Pine_3",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Pine_3.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "TwistedTree_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/TwistedTree_1.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Bush_Common",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Bush_Common.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Bush_Common_Flowers",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Bush_Common_Flowers.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Fern_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Fern_1.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Flower_3_Group",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Flower_3_Group.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Flower_4_Group",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Flower_4_Group.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Rock_Medium_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Rock_Medium_1.gltf",
+      "kit": "core",
+      "simplify": 0.4
+    },
+    {
+      "name": "Rock_Medium_2",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Rock_Medium_2.gltf",
+      "kit": "core",
+      "simplify": 0.4
+    },
+    {
+      "name": "Rock_Medium_3",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Rock_Medium_3.gltf",
+      "kit": "core",
+      "simplify": 0.4
+    },
+    {
+      "name": "castle_fantastic",
+      "pack": "sketchfab-fantastic-castle",
+      "src": "assets/raw/sketchfab/fantastic_castle/scene.gltf",
+      "kit": "core",
+      "drop": [
+        "������������������"
+      ],
+      "height": 9.5
+    },
+    {
+      "name": "tower_archer",
+      "pack": "sketchfab-3-medieval-towers",
+      "src": "assets/raw/sketchfab/3_medieval_towers/scene.gltf",
+      "kit": "core",
+      "drop": [
+        "bashnia1",
+        "bashnia2",
+        "pushka",
+        "mag"
+      ],
+      "height": 5
+    },
+    {
+      "name": "tower_crystal",
+      "pack": "sketchfab-3-medieval-towers",
+      "src": "assets/raw/sketchfab/3_medieval_towers/scene.gltf",
+      "kit": "core",
+      "drop": [
+        "bashnia",
+        "bashnia1",
+        "pushka",
+        "luchnik"
+      ],
+      "height": 5
+    },
+    {
+      "name": "tavern_troll",
+      "pack": "sketchfab-drunk-troll-tavern",
+      "src": "assets/raw/sketchfab/the_drunk_troll_tavern/scene.gltf",
+      "kit": "core",
+      "drop": [
+        "ground"
+      ],
+      "height": 3.4
+    }
+  ],
+  "textures": [
+    {
+      "name": "aerial_grass_rock_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/aerial_grass_rock_diff_1k.jpg"
+    },
+    {
+      "name": "aerial_grass_rock_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/aerial_grass_rock_nor_gl_1k.jpg"
+    },
+    {
+      "name": "dirt_floor_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/dirt_floor_diff_1k.jpg"
+    },
+    {
+      "name": "dirt_floor_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/dirt_floor_nor_gl_1k.jpg"
+    },
+    {
+      "name": "coast_sand_01_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/coast_sand_01_diff_1k.jpg"
+    },
+    {
+      "name": "coast_sand_01_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/coast_sand_01_nor_gl_1k.jpg"
+    },
+    {
+      "name": "cliff_side_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/cliff_side_diff_1k.jpg"
+    },
+    {
+      "name": "cliff_side_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/cliff_side_nor_gl_1k.jpg"
+    },
+    {
+      "name": "weathered_brown_planks_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/weathered_brown_planks_diff_1k.jpg"
+    },
+    {
+      "name": "weathered_brown_planks_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/weathered_brown_planks_nor_gl_1k.jpg"
+    },
+    {
+      "name": "japanese_sycamore_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/japanese_sycamore_diff_1k.jpg"
+    },
+    {
+      "name": "japanese_sycamore_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/japanese_sycamore_nor_gl_1k.jpg"
+    },
+    {
+      "name": "rock_face_03_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/rock_face_03_diff_1k.jpg"
+    },
+    {
+      "name": "rock_face_03_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/rock_face_03_nor_gl_1k.jpg"
     }
   ]
 }

@@ -2,8 +2,8 @@
 // (--color-world-*, see globals.css); everything else is here.
 
 export const VISUAL = {
-  // Filmic tone mapping plus soft shadows gives the smooth look; the
-  // terrain itself stays flat-colored (vertex colors, no textures).
+  // ACES tone mapping exposure. The terrain takes its colour from the
+  // palette and its detail from ground textures (terrain-material.ts).
   exposure: 1.15,
   // Post-processing (see world-post.tsx).
   post: {
@@ -12,26 +12,32 @@ export const VISUAL = {
     dof: { focus: 9, range: 14, bokeh: 2.2 },
     // Only things brighter than white bloom (sun, fire, crystals), so the
     // bright sky doesn't haze the whole frame.
-    bloom: { day: 0.4, night: 0.8, threshold: 1.05 },
-    saturation: 0.16,
+    bloom: { day: 0.55, night: 0.8, threshold: 1.05 },
+    saturation: 0,
     vignette: { offset: 0.3, darkness: 0.55 },
     grain: 0.08,
     // Temporal AA: share of the history kept each frame, and the size of
     // the sub-pixel camera nudge (1 = a full pixel).
     taa: { blend: 0.88, jitter: 1 },
+    // Strong shafts through the crowns, as in the reference's daytime.
     godRays: {
-      samples: 48,
-      density: 0.94,
-      decay: 0.92,
-      weight: 0.35,
-      exposure: 0.55,
+      samples: 60,
+      density: 0.96,
+      decay: 0.95,
+      weight: 0.55,
+      exposure: 0.8,
     },
   },
-  // Image-based lighting from a small studio of light shapes (no HDR file).
-  environment: { resolution: 128, day: 0.7, night: 0.35 },
+  // Image-based lighting from CC0 sky HDRIs (1k, Poly Haven).
+  environment: {
+    dayFile: '/world/hdri/kloofendal_48d_partly_cloudy_puresky.hdr',
+    nightFile: '/world/hdri/qwantani_night_puresky.hdr',
+    day: 0.7,
+    night: 0.22,
+  },
   dpr: [1, 2] as [number, number],
   // Far enough that the zoomed-out phone view stays clear.
-  fog: { near: 70, far: 220 },
+  fog: { near: 80, far: 280 },
   sky: {
     radius: 280,
     // Where the sun (or moon) disc sits, and its size (share of the dome).
@@ -41,14 +47,15 @@ export const VISUAL = {
   },
   // Grass tufts: grid spacing (smaller = denser), blade size, brightness.
   grass: {
-    spacing: 0.15,
-    minHeight: 0.2,
-    maxHeight: 0.55,
-    width: 0.055,
+    // One clump of three blades per grid cell.
+    spacing: 0.09,
+    minHeight: 0.14,
+    maxHeight: 0.36,
+    width: 0.075,
     dayLight: 1,
-    nightLight: 0.5,
+    nightLight: 0.95,
     // Share of tufts drawn on narrow screens, and when frames stay slow.
-    narrowDensity: 0.5,
+    narrowDensity: 0.7,
     fallbackDensity: 0.35,
   },
   waterfall: {
@@ -75,10 +82,17 @@ export const VISUAL = {
     flowerDrifts: 26,
     flowersPerDrift: 26,
     flowerSize: 22,
-    moteCount: 90,
-    fireflySize: 55,
+    // Fireflies gather in drifts just above the grass at night (drifts x
+    // per drift); by day only the first `pollenCount` float about as pollen.
+    fireflyDrifts: 90,
+    firefliesPerDrift: 24,
+    pollenCount: 90,
+    fireflySize: 110,
     pollenSize: 18,
   },
+  // Golden seed stalks over the grass: clusters x stalks each, height
+  // range (world units).
+  pampas: { clusters: 55, perCluster: 7, minHeight: 0.5, maxHeight: 0.9 },
   weather: {
     // Seconds for one weather to blend into the next.
     blendSeconds: 6,
@@ -94,8 +108,8 @@ export const VISUAL = {
   campfire: { dayLight: 3, nightLight: 14, distance: 9 },
   light: {
     // Key (sun), rim (opposite, cool) and fill (sky), with IBL on top.
-    day: { hemisphere: 0.7, sun: 2.8, rim: 0.7 },
-    night: { hemisphere: 0.6, sun: 1.2, rim: 0.5 },
+    day: { hemisphere: 0.3, sun: 3.6, rim: 0.5 },
+    night: { hemisphere: 0.4, sun: 1.2, rim: 0.5 },
     sunPosition: [18, 28, 12] as const,
   },
   // Soft shadows from the sun; switched off when frames stay slow.
@@ -123,8 +137,8 @@ export const VISUAL = {
   tour: {
     // Radians per second round the island (one loop ≈ 70 s).
     speed: 0.09,
-    radius: [24, 34] as const,
-    height: [3, 15] as const,
+    radius: [30, 42] as const,
+    height: [4, 18] as const,
     // Seconds to ease from wherever the camera was onto the path.
     blendIn: 3,
     // Start by itself after this long without input (seconds).

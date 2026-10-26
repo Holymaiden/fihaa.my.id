@@ -1,3 +1,5 @@
+import { SimplexNoise } from 'three/examples/jsm/math/SimplexNoise.js';
+
 import type { WorldStationId } from '@/lib/content/types';
 
 // Shape of the single floating island and where things sit on it, in world
@@ -10,18 +12,25 @@ export type Vec3 = readonly [number, number, number];
 export type SurfaceStationId = Exclude<WorldStationId, 'secret' | 'profile'>;
 
 export const ISLAND = {
-  radius: 14,
+  radius: 18,
   // Mesh resolution of the top surface (rings from the centre, segments
   // around) and of the rock underneath.
-  rings: 72,
-  segments: 192,
+  rings: 96,
+  segments: 256,
   undersideRings: 40,
-  depth: 16,
+  depth: 19,
   // Height of the gentle hills on top.
   hillHeight: 1.2,
+  // Extra rolling hills and ridges where nothing stands (see relief()).
+  reliefHeight: 2.4,
   // Outer share of the radius that turns into beach.
   beachWidth: 0.1,
 } as const;
+
+// The layout below (paths, stations, pond, scenery in props.ts) was drawn
+// for a 14-unit island; distances are multiplied by this so they spread
+// out with the island while buildings and trees keep their size.
+export const LAYOUT_SCALE = ISLAND.radius / 14;
 
 // Wobbly outline so the island doesn't read as a perfect disc.
 export const islandEdge = (angle: number): number =>
@@ -66,9 +75,9 @@ const toSegment = (
 // and falls off the edge as a waterfall.
 export const POND = {
   angle: Math.PI / 4,
-  distance: 9.4,
-  radius: 1.9,
-  depth: 0.45,
+  distance: 9.4 * LAYOUT_SCALE,
+  radius: 2.3,
+  depth: 0.5,
 } as const;
 
 const polar = (angle: number, distance: number): [number, number] => [
@@ -79,6 +88,12 @@ const polar = (angle: number, distance: number): [number, number] => [
 export const POND_CENTER = polar(POND.angle, POND.distance);
 // Water surface of the pond, a little under the ground around it.
 export const POND_LEVEL = baseHeight(POND_CENTER[0], POND_CENTER[1]) - 0.22;
+// Where the floating islet's fall lands: the inner half of the pond, away
+// from its outlet.
+export const FALL_LANDING: [number, number] = [
+  POND_CENTER[0] - Math.sin(POND.angle) * 0.6,
+  POND_CENTER[1] - Math.cos(POND.angle) * 0.6,
+];
 
 // Where the stream leaves the island (just past the rim).
 export const STREAM = {
@@ -177,7 +192,7 @@ export const waterMask = (x: number, z: number): number => {
 // Height of the top surface at (x, z); flattens out towards the rim, with
 // the pond bowl and the stream bed carved in.
 export const islandHeight = (x: number, z: number): number => {
-  let height = baseHeight(x, z);
+  let height = baseHeight(x, z) + relief(x, z);
   const pondDistance = Math.hypot(x - POND_CENTER[0], z - POND_CENTER[1]);
   const pondShare = smoothstep(
     POND.radius + 1.1,
@@ -202,7 +217,7 @@ export const islandHeight = (x: number, z: number): number => {
 
 // Dirt paths: a ring round the castle with spokes out to each station and
 // the pond. 0 = grass, 1 = path.
-const PATH_RING = 6.1;
+const PATH_RING = 6.1 * LAYOUT_SCALE;
 const PATH_HALF_WIDTH = 0.42;
 
 // Stations sit around the castle; the island turns so the active one faces
@@ -214,7 +229,7 @@ export const STATION_ANGLES: Record<SurfaceStationId, number> = {
   contact: (Math.PI * 3) / 2,
 };
 
-export const STATION_DISTANCE = 8.2;
+export const STATION_DISTANCE = 8.2 * LAYOUT_SCALE;
 
 // Dragging snaps to these, in this order.
 export const STATION_ORDER: SurfaceStationId[] = [
@@ -246,11 +261,17 @@ const PATH_SPOKES: [[number, number], [number, number]][] = [
   ],
 ];
 
-export const pathMask = (x: number, z: number): number => {
+// Distance from (x, z) to the nearest path centre line.
+const pathDistance = (x: number, z: number): number => {
   let distance = Math.abs(Math.hypot(x, z) - PATH_RING);
   for (const [from, to] of PATH_SPOKES) {
     distance = Math.min(distance, toSegment([x, z], from, to).distance);
   }
+  return distance;
+};
+
+export const pathMask = (x: number, z: number): number => {
+  const distance = pathDistance(x, z);
   // Wobble the edge a little so it reads as worn ground.
   const wobble = 0.08 * Math.sin(x * 2.3 + z * 1.7);
   return smoothstep(
@@ -260,14 +281,17 @@ export const pathMask = (x: number, z: number): number => {
   );
 };
 
+// The two towers beside the castle (see GUILD_PROPS in props.ts).
+export const TOWER_SPOTS: [number, number][] = [
+  [-6.4 * LAYOUT_SCALE, -4.6 * LAYOUT_SCALE],
+  [6.6 * LAYOUT_SCALE, -3.8 * LAYOUT_SCALE],
+];
+
 // Bare ground under the castle and around each station, where grass would
 // poke through buildings and props.
 export const clearingMask = (x: number, z: number): number => {
-  let clearing = smoothstep(4.6, 3.8, Math.hypot(x, z));
-  for (const [tx, tz] of [
-    [-3.6, -2.6],
-    [3.8, -2.2],
-  ]) {
+  let clearing = smoothstep(6, 5.2, Math.hypot(x, z));
+  for (const [tx, tz] of TOWER_SPOTS) {
     clearing = Math.max(
       clearing,
       smoothstep(2, 1.4, Math.hypot(x - tx, z - tz)),
@@ -283,13 +307,65 @@ export const clearingMask = (x: number, z: number): number => {
   return clearing;
 };
 
+// Fixed seed so every client (and the grass, props and camera that sit on
+// the ground) sees the same hills.
+export const seededRandom = (seed: number) => ({
+  random: () => {
+    seed = (seed + 0x6d_2b_79_f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4_294_967_296;
+  },
+});
+const simplex = new SimplexNoise(seededRandom(7));
+
+// Rolling hills (fbm) mixed with sharper ridges, roughly -0.4..1.
+const hillNoise = (x: number, z: number): number => {
+  let fbm = 0;
+  let ridge = 0;
+  let amplitude = 0.5;
+  let frequency = 0.11;
+  for (let octave = 0; octave < 4; octave++) {
+    const n = simplex.noise(x * frequency, z * frequency);
+    fbm += n * amplitude;
+    ridge += (1 - Math.abs(n)) ** 2 * amplitude;
+    amplitude *= 0.5;
+    frequency *= 2.1;
+  }
+  return fbm * 0.6 + (ridge - 0.45) * 0.9;
+};
+
+// Share (0..1) of the relief allowed at (x, z): none under the castle, at
+// the stations, on the paths or by the water, so everything that stands
+// there stays level, and it fades out at the rim so the top meets the rock.
+const reliefShare = (x: number, z: number): number => {
+  const share = Math.hypot(x, z) / ISLAND.radius;
+  let calm = smoothstep(7.8, 5.6, Math.hypot(x, z));
+  for (const id of STATION_ORDER) {
+    const [sx, sz] = polar(STATION_ANGLES[id], STATION_DISTANCE);
+    calm = Math.max(calm, smoothstep(4.2, 2.4, Math.hypot(x - sx, z - sz)));
+  }
+  calm = Math.max(calm, smoothstep(2.2, 0.6, pathDistance(x, z)));
+  const pond = Math.hypot(x - POND_CENTER[0], z - POND_CENTER[1]) - POND.radius;
+  const { distance, t } = toStream(x, z);
+  calm = Math.max(
+    calm,
+    smoothstep(2.6, 0.8, pond),
+    smoothstep(2.4, 0.8, distance - streamHalfWidth(t)),
+  );
+  return (1 - calm) * smoothstep(1, 0.88, share);
+};
+
+const relief = (x: number, z: number): number =>
+  Math.max(hillNoise(x, z), 0) * ISLAND.reliefHeight * reliefShare(x, z);
+
 // The hidden vault is a ledge on the rock under the island, on the back
 // side (between the journal and the mailbox), so the first view hides it.
 // The ledge sits just outside the rock so the gate isn't buried.
 export const VAULT = {
   angle: (Math.PI * 5) / 4,
-  distance: 9.4,
-  height: -6,
+  distance: 9.4 * LAYOUT_SCALE - 0.6,
+  height: -7,
   ledgeRadius: 2.8,
 } as const;
 

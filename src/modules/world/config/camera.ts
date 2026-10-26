@@ -17,7 +17,7 @@ export const INTRO_VIEW: CameraView = {
 };
 
 export const OVERVIEW: CameraView = {
-  position: [0, 13, 34],
+  position: [0, 16, 43],
   target: [0, -1, 0],
 };
 
@@ -30,7 +30,7 @@ export const STATION_VIEW: CameraView = {
 
 // The castle (profile), from the front.
 export const PROFILE_VIEW: CameraView = {
-  position: [0, 9, 21],
+  position: [0, 10, 26],
   target: [0, 5, 0],
 };
 

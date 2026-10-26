@@ -17,8 +17,10 @@ import CameraDirector from './scene/camera-director';
 import CloudSea from './scene/cloud-sea';
 import CrystalHunt from './scene/crystal-hunt';
 import DistantIslands from './scene/distant-islands';
+import DistantRange from './scene/distant-range';
 import ExploreCamera from './scene/explore-camera';
 import FloatingCard from './scene/floating-card';
+import FloatingIslet from './scene/floating-islet';
 import FovDirector from './scene/fov-director';
 import GroundCursor from './scene/ground-cursor';
 import GuildHall from './scene/guild-hall';
@@ -30,6 +32,7 @@ import IslandWater from './scene/island-water';
 import KitRecolor from './scene/kit-recolor';
 import MeadowGrass from './scene/meadow-grass';
 import MeadowLife from './scene/meadow-life';
+import Pampas from './scene/pampas';
 import { endedDragJustNow } from './scene/pointer';
 import Rain from './scene/rain';
 import { LensRainClock } from './scene/rain-lens';
@@ -50,7 +53,9 @@ import WorldClouds from './scene/world-clouds';
 import WorldPost from './scene/world-post';
 import WorldProgress from './world-progress';
 import {
+  isDebugCameraEnabled,
   isStatsEnabled,
+  WorldDebugCamera,
   WorldStatsOverlay,
   WorldStatsProbe,
 } from './world-stats';
@@ -70,6 +75,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
   const closeStation = useWorldStore((state) => state.closeStation);
   // Read once; the scene is client only, so window is available.
   const [showStats] = useState(isStatsEnabled);
+  const [debugCamera] = useState(isDebugCameraEnabled);
   const effects = useEffectsEnabled();
   const quality = useSceneQuality();
   // The sun mesh, once mounted, is the god rays' light source.
@@ -126,19 +132,22 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
         <CloudSea palette={palette} />
         {!palette.isNight && <SunDisc palette={palette} ref={setSun} />}
         <DistantIslands palette={palette} />
+        <DistantRange palette={palette} />
         {palette.isNight && (
           <Stars radius={200} depth={50} count={2500} factor={5} fade />
         )}
         <Suspense fallback={null}>
           <KitRecolor palette={palette} />
-          <WorldClouds />
+          <WorldClouds palette={palette} />
           <IslandRig>
-            <IslandTerrain palette={palette} />
+            <IslandTerrain palette={palette} lite={quality.liteTerrain} />
             <MeadowGrass palette={palette} density={quality.grassDensity} />
             <GroundCursor palette={palette} />
             <MeadowLife palette={palette} />
+            <Pampas palette={palette} />
             {effects && <Wildlife palette={palette} />}
             <IslandWater palette={palette} />
+            <FloatingIslet palette={palette} />
             <WaterBanks palette={palette} />
             <GuildHall />
             <IslandDecor />
@@ -175,6 +184,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
         <LensRainClock />
         {effects && <Rain palette={palette} narrow={quality.narrow} />}
         {showStats && <WorldStatsProbe />}
+        {debugCamera && <WorldDebugCamera />}
       </Canvas>
       <WorldProgress label={content.copy.loadingAssets} />
       {showStats && <WorldStatsOverlay />}
