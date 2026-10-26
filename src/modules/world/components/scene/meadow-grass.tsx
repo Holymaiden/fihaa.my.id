@@ -214,46 +214,42 @@ const fragmentShader = /* glsl */ `
   varying float vPressed;
   #include <fog_pars_fragment>
 
-  float bladeHash(vec2 p) {
-    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
-  }
-
   void main() {
     // Dark, cool roots up to a light, warm tip, like a lit meadow seen
     // close up; each blade a little lighter or darker than its neighbours.
     float tip = smoothstep(0.0, 1.0, vHeight);
-    vec3 color = mix(uBase * 0.78, uTip * 1.15, tip);
-    float own = bladeHash(floor(vWorldPosition.xz * 40.0));
-    color *= 0.93 + own * 0.14;
+    // Close to the ground's own colour at the root and only a little
+    // lighter at the tip: blades blend into one soft carpet instead of
+    // standing out as spikes.
+    vec3 color = mix(uBase * 0.82, mix(uBase, uTip, 0.7) * 1.04, tip);
     // Patches of drier grass, and a sheen where the gust bends the blades.
     color = mix(color, uDry, vTint * 0.4 * vHeight);
     color += uTip * vGust * vHeight * 0.1;
     // The ground's own colour patches show through.
     color *= mix(vec3(1.0), clamp(vGround, 0.6, 1.4), 0.3);
     // Darker at the roots, like they're in each other's shade.
-    float roots = 0.72 + 0.28 * smoothstep(0.0, 0.5, vHeight);
+    float roots = 0.86 + 0.14 * smoothstep(0.0, 0.5, vHeight);
 
     // Both sides of a blade face the light the same way; soften towards
     // straight up so a meadow doesn't flicker blade by blade.
     vec3 n = normalize(vNormal) * (gl_FrontFacing ? 1.0 : -1.0);
-    n = normalize(mix(n, vec3(0.0, 1.0, 0.0), 0.6));
+    n = normalize(mix(n, vec3(0.0, 1.0, 0.0), 0.88));
     vec3 toCamera = normalize(cameraPosition - vWorldPosition);
     vec3 toSun = normalize(uSunDirection);
-    // Wrapped diffuse, a glow where the sun shines through the blade
-    // towards the camera, and a soft glossy highlight.
+    // Wrapped diffuse and a glow where the sun shines through the blade
+    // towards the camera. No per-blade highlight: it reads as glitter.
     float diffuse = max(dot(n, toSun), 0.0) * 0.7 + 0.3;
     float through = pow(max(dot(toCamera, -toSun), 0.0), 3.0) * vHeight;
-    float gloss = pow(max(dot(n, normalize(toSun + toCamera)), 0.0), 28.0) * vHeight;
 
     // Key light from the sun (with its shadow), soft sky fill, baked AO.
     float shadow = getShadowMask();
     vec3 sun = uSun * uSunScale * shadow * vOcclusion;
     vec3 light = uSky * 0.7 * vOcclusion
       + sun * diffuse * (0.55 + 0.45 * vHeight)
-      + sun * uTip * through * 0.9;
+      + sun * uTip * through * 0.5;
     // Flattened blades show their paler, shaded side: the trail reads.
     color = mix(color, uDry * 0.8, vPressed * 0.35);
-    color = color * roots * light + sun * gloss * 0.12;
+    color = color * roots * light;
     gl_FragColor = vec4(color * uLight * (1.0 - vPressed * 0.2), 1.0);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>

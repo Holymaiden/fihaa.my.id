@@ -50,7 +50,7 @@ export const VISUAL = {
     spacing: 0.09,
     minHeight: 0.14,
     maxHeight: 0.36,
-    width: 0.05,
+    width: 0.04,
     dayLight: 1,
     nightLight: 0.5,
     // Share of tufts drawn on narrow screens, and when frames stay slow.
