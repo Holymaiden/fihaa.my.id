@@ -75,3 +75,28 @@ dpr ${sample.pixelRatio}`}
     </pre>
   );
 };
+
+// Debug camera for same-angle comparisons: open /world?debug=cam, then set
+// window.worldCam = { position: [x, y, z], target: [x, y, z] } (world
+// space) from the console; window.worldThree holds the R3F state.
+type Vec3 = [number, number, number];
+type DebugWindow = Window & {
+  worldCam?: { position: Vec3; target: Vec3 };
+  worldThree?: unknown;
+};
+
+export const isDebugCameraEnabled = (): boolean =>
+  new URLSearchParams(window.location.search).get('debug') === 'cam';
+
+// Mounted after the other camera rigs so it has the last word each frame.
+export const WorldDebugCamera = () => {
+  useFrame((state) => {
+    const debug = window as DebugWindow;
+    debug.worldThree = state;
+    if (debug.worldCam) {
+      state.camera.position.set(...debug.worldCam.position);
+      state.camera.lookAt(...debug.worldCam.target);
+    }
+  });
+  return null;
+};

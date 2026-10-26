@@ -17,6 +17,8 @@ import { VISUAL } from '../../config/visual';
 const { waterfall } = VISUAL;
 // How far the water reaches over the bank (its edge fades out there).
 const BANK_OVERLAP = 0.25;
+// How much wider the fall is than the stream at the lip (it fans out).
+const FALL_FAN = 1.3;
 const ACROSS = [-1, -0.5, 0, 0.5, 1];
 
 const geometryOf = (
@@ -122,9 +124,14 @@ export const buildStream = () => {
     ) {
       return;
     }
-    const half = streamHalfWidth(t) + BANK_OVERLAP;
+    // The last row matches the top of the fall and dips into it, so the
+    // water rolls over the lip instead of ending in a flat shelf.
+    const lip = index === last;
+    const half = lip
+      ? streamHalfWidth(1) * FALL_FAN
+      : streamHalfWidth(t) + BANK_OVERLAP;
     const speed = 0.35 + 1.6 * t * t;
-    const y = streamLevel(t) + 0.03;
+    const y = streamLevel(t) + (lip ? -0.08 : 0.03);
     for (const side of ACROSS) {
       const edgeX = x - dirZ * half * side;
       const edgeZ = z + dirX * half * side;
@@ -143,7 +150,8 @@ export const buildStream = () => {
       const b = a + 1;
       const c = a + columns;
       const d = c + 1;
-      indices.push(a, c, b, b, c, d);
+      // Wound to face up, so the surface is not culled when seen from above.
+      indices.push(a, b, c, b, d, c);
     }
   }
   return geometryOf(positions, indices, {
@@ -219,8 +227,7 @@ export const buildFall = ({ back = 0, width = 1 } = {}) => {
   return buildFallSheet({
     start: [ex, STREAM.endLevel + 0.02, ez],
     direction: [(ex - px) / length, (ez - pz) / length],
-    // A little wider than the stream: the water fans out over the lip.
-    topHalf: streamHalfWidth(1) * 1.3 * width,
+    topHalf: streamHalfWidth(1) * FALL_FAN * width,
     reach: waterfall.reach,
     drop: waterfall.drop,
     spread: waterfall.spread,

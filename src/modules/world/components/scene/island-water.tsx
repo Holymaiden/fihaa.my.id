@@ -12,7 +12,7 @@ import {
   Vector3,
 } from 'three';
 
-import { STREAM } from '../../config/island';
+import { FALL_LANDING, STREAM } from '../../config/island';
 import { VISUAL } from '../../config/visual';
 import { useEffectsEnabled } from '../../hooks/use-effects-enabled';
 import type { WorldPalette } from '../../hooks/use-world-palette';
@@ -66,10 +66,11 @@ export const surfaceMaterial = () =>
       uSun: { value: new Color() },
       uSunDirection: { value: SUN_DIRECTION },
       uRipple: { value: new Vector3(0, 0, -100) },
+      uLanding: { value: new Vector3() },
     } satisfies Record<string, IUniform>,
   });
 
-export const fallMaterial = (seed: number) =>
+export const fallMaterial = (seed: number, drop: number) =>
   new ShaderMaterial({
     vertexShader: fallVertex,
     fragmentShader: fallFragment,
@@ -82,14 +83,15 @@ export const fallMaterial = (seed: number) =>
       ...colors(),
       uTime: { value: 0 },
       uSeed: { value: seed },
+      uDrop: { value: drop },
     },
   });
 
 const buildMaterials = () => ({
   pond: surfaceMaterial(),
   stream: surfaceMaterial(),
-  fall: fallMaterial(0),
-  fallBack: fallMaterial(17),
+  fall: fallMaterial(0, VISUAL.waterfall.drop),
+  fallBack: fallMaterial(17, VISUAL.waterfall.drop),
   spray: new ShaderMaterial({
     vertexShader: sprayVertex,
     fragmentShader: sprayFragment,
@@ -126,7 +128,12 @@ const IslandWater = ({ palette }: IslandWaterProps) => {
     () => () => Object.values(geometries).forEach((item) => item.dispose()),
     [geometries],
   );
-  const materials = useMemo(() => buildMaterials(), []);
+  const materials = useMemo(() => {
+    const built = buildMaterials();
+    // The islet's fall churns the pond where it lands.
+    setVector(built.pond, 'uLanding', [...FALL_LANDING, 0.9]);
+    return built;
+  }, []);
   useEffect(
     () => () => Object.values(materials).forEach((item) => item.dispose()),
     [materials],

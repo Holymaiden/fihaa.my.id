@@ -52,7 +52,9 @@ import WorldClouds from './scene/world-clouds';
 import WorldPost from './scene/world-post';
 import WorldProgress from './world-progress';
 import {
+  isDebugCameraEnabled,
   isStatsEnabled,
+  WorldDebugCamera,
   WorldStatsOverlay,
   WorldStatsProbe,
 } from './world-stats';
@@ -72,6 +74,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
   const closeStation = useWorldStore((state) => state.closeStation);
   // Read once; the scene is client only, so window is available.
   const [showStats] = useState(isStatsEnabled);
+  const [debugCamera] = useState(isDebugCameraEnabled);
   const effects = useEffectsEnabled();
   const quality = useSceneQuality();
   // The sun mesh, once mounted, is the god rays' light source.
@@ -179,6 +182,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
         <LensRainClock />
         {effects && <Rain palette={palette} narrow={quality.narrow} />}
         {showStats && <WorldStatsProbe />}
+        {debugCamera && <WorldDebugCamera />}
       </Canvas>
       <WorldProgress label={content.copy.loadingAssets} />
       {showStats && <WorldStatsOverlay />}

@@ -2,14 +2,20 @@
 
 import { useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useMemo } from 'react';
-import type { MeshStandardMaterial } from 'three';
-import { RepeatWrapping, SRGBColorSpace, Vector3 } from 'three';
+import { useEffect, useMemo, useRef } from 'react';
+import type { InstancedMesh, MeshStandardMaterial } from 'three';
+import {
+  Object3D,
+  RepeatWrapping,
+  SphereGeometry,
+  SRGBColorSpace,
+  Vector3,
+} from 'three';
 
 import {
+  FALL_LANDING as LANDING,
   islandHeight,
   POND,
-  POND_CENTER,
   POND_LEVEL,
   STREAM,
   STREAM_PATH,
@@ -23,7 +29,6 @@ import { useWaterfallSource } from './rain-lens';
 import { setUniforms } from './shader-utils';
 import { applyTerrainMaterial, terrainTextureUrls } from './terrain-material';
 import { buildFallSheet, buildPond, buildStream } from './water-geometry';
-import { buildPuffs, puffMaterial } from './world-clouds';
 
 // A small floating island over the pond: a scaled copy of the main island
 // (pond and stream included) whose stream pours off its lip as a tall
@@ -37,6 +42,11 @@ const SCALE = 0.17;
 // How high the lip is above the pond, and how far the water arcs out.
 const LIP_HEIGHT = 8.4;
 const FALL_REACH = 0.7;
+// Half the sheet's width at the lip, and how much wider it gets at the
+// foot: a broad, nearly straight curtain.
+const FALL_HALF = 0.75;
+const FALL_SPREAD = 0.25;
+const FOOT_HALF = FALL_HALF * (1 + FALL_SPREAD);
 
 // The islet turns so its stream (and fall) faces out the same way as the
 // pond, towards a visitor looking at it.
@@ -48,11 +58,6 @@ const turned = (x: number, y: number, z: number) =>
   new Vector3(x, y, z).multiplyScalar(SCALE).applyAxisAngle(UP, TURN);
 const LIP = turned(lipX, STREAM.endLevel, lipZ);
 const FLOW = turned(lipX - prevX, 0, lipZ - prevZ).normalize();
-// The fall lands in the inner half of the pond, away from its outlet.
-const LANDING: [number, number] = [
-  POND_CENTER[0] - Math.sin(POND.angle) * 0.6,
-  POND_CENTER[1] - Math.cos(POND.angle) * 0.6,
-];
 // Islet origin, so its lip hangs over the landing spot.
 const ORIGIN = new Vector3(
   LANDING[0] - FLOW.x * (FALL_REACH - 0.25) - LIP.x,
@@ -60,6 +65,24 @@ const ORIGIN = new Vector3(
   LANDING[1] - FLOW.z * (FALL_REACH - 0.25) - LIP.z,
 );
 const LIP_WORLD = ORIGIN.clone().add(LIP);
+
+// Foam where the fall lands: a row of round white balls across the foot of
+// the sheet, with a few more spilling out in front. Each one churns
+// (swells and shrinks) on its own beat.
+const FOAM = Array.from({ length: 15 }, (_, index) => {
+  const front = index >= 10;
+  const side = front ? (index - 12) * 0.35 : (index / 9) * 2 - 1;
+  const jitter = Math.sin(index * 12.9898) * 0.5;
+  const across = side * FOOT_HALF * (front ? 0.8 : 0.95) + jitter * 0.08;
+  const out = front ? 0.3 + jitter * 0.1 : jitter * 0.06;
+  return {
+    x: LANDING[0] - FLOW.z * across + FLOW.x * out,
+    z: LANDING[1] + FLOW.x * across + FLOW.z * out,
+    size: (front ? 0.2 : 0.3) + Math.abs(jitter) * 0.1,
+    phase: index * 1.7,
+  };
+});
+const foamBall = new Object3D();
 
 // A few plants on top, placed on the scaled ground (islet frame, unscaled
 // units like the main island).
@@ -86,18 +109,18 @@ const buildIsletWater = () => ({
   fall: buildFallSheet({
     start: [LIP_WORLD.x, LIP_WORLD.y + 0.02, LIP_WORLD.z],
     direction: [FLOW.x, FLOW.z],
-    topHalf: 0.3,
+    topHalf: FALL_HALF,
     reach: FALL_REACH,
     drop: LIP_HEIGHT,
-    spread: 0.9,
+    spread: FALL_SPREAD,
   }),
   fallBack: buildFallSheet({
     start: [LIP_WORLD.x, LIP_WORLD.y + 0.02, LIP_WORLD.z],
     direction: [FLOW.x, FLOW.z],
-    topHalf: 0.22,
+    topHalf: FALL_HALF * 0.8,
     reach: FALL_REACH,
     drop: LIP_HEIGHT,
-    spread: 0.7,
+    spread: FALL_SPREAD,
     back: 0.06,
   }),
 });
@@ -135,23 +158,9 @@ const FloatingIslet = ({ palette }: FloatingIsletProps) => {
   });
 
   const water = useMemo(() => buildIsletWater(), []);
-  // White spray billowing where the fall hits the pond.
-  const splash = useMemo(
-    () =>
-      buildPuffs(
-        [{ position: [LANDING[0], POND_LEVEL + 0.1, LANDING[1]], width: 2.4 }],
-        12,
-      ),
-    [],
-  );
-  const splashMaterial = useMemo(() => puffMaterial(), []);
-  useEffect(
-    () => () => {
-      splash.dispose();
-      splashMaterial.dispose();
-    },
-    [splash, splashMaterial],
-  );
+  const foamGeometry = useMemo(() => new SphereGeometry(1, 14, 8), []);
+  useEffect(() => () => foamGeometry.dispose(), [foamGeometry]);
+  const foam = useRef<InstancedMesh>(null);
   useEffect(
     () => () => Object.values(water).forEach((item) => item.dispose()),
     [water],
@@ -159,8 +168,8 @@ const FloatingIslet = ({ palette }: FloatingIsletProps) => {
   const materials = useMemo(
     () => ({
       surface: surfaceMaterial(),
-      fall: fallMaterial(5),
-      fallBack: fallMaterial(23),
+      fall: fallMaterial(5, LIP_HEIGHT),
+      fallBack: fallMaterial(23, LIP_HEIGHT),
     }),
     [],
   );
@@ -182,18 +191,18 @@ const FloatingIslet = ({ palette }: FloatingIsletProps) => {
     }
   }, [materials, palette]);
 
-  useEffect(() => {
-    setUniforms(splashMaterial, {
-      uLight: palette.foam,
-      uShade: palette.cloudShade,
-      uSun: palette.sun,
-    });
-  }, [splashMaterial, palette]);
-
   useFrame(({ clock }) => {
     const time = effects ? clock.elapsedTime : 0;
-    // The spray churns faster than the clouds drift.
-    setUniforms(splashMaterial, { uTime: time * 6 });
+    if (foam.current) {
+      for (const [index, ball] of FOAM.entries()) {
+        const churn = 1 + Math.sin(time * 3 + ball.phase) * 0.15;
+        foamBall.position.set(ball.x, POND_LEVEL, ball.z);
+        foamBall.scale.setScalar(ball.size * churn);
+        foamBall.updateMatrix();
+        foam.current.setMatrixAt(index, foamBall.matrix);
+      }
+      foam.current.instanceMatrix.needsUpdate = true;
+    }
     for (const material of Object.values(materials)) {
       setUniforms(material, { uTime: time, uNow: clock.elapsedTime });
     }
@@ -238,13 +247,19 @@ const FloatingIslet = ({ palette }: FloatingIsletProps) => {
       <object3D ref={fallTop} position={LIP_WORLD} />
       <mesh geometry={water.fallBack} material={materials.fallBack} />
       <mesh geometry={water.fall} material={materials.fall} />
-      <mesh
-        geometry={splash}
-        material={splashMaterial}
+      <instancedMesh
+        ref={foam}
+        args={[foamGeometry, undefined, FOAM.length]}
         frustumCulled={false}
-        renderOrder={2}
         raycast={() => null}
-      />
+      >
+        <meshStandardMaterial
+          color={palette.foam}
+          emissive={palette.foam}
+          emissiveIntensity={0.35}
+          roughness={1}
+        />
+      </instancedMesh>
     </group>
   );
 };

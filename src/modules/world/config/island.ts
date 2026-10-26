@@ -88,6 +88,12 @@ const polar = (angle: number, distance: number): [number, number] => [
 export const POND_CENTER = polar(POND.angle, POND.distance);
 // Water surface of the pond, a little under the ground around it.
 export const POND_LEVEL = baseHeight(POND_CENTER[0], POND_CENTER[1]) - 0.22;
+// Where the floating islet's fall lands: the inner half of the pond, away
+// from its outlet.
+export const FALL_LANDING: [number, number] = [
+  POND_CENTER[0] - Math.sin(POND.angle) * 0.6,
+  POND_CENTER[1] - Math.cos(POND.angle) * 0.6,
+];
 
 // Where the stream leaves the island (just past the rim).
 export const STREAM = {
