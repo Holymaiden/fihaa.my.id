@@ -52,6 +52,10 @@ export const buildPool = ({
 }) => {
   const rings = 10;
   const segments = 56;
+  // Pool patterns run along the drift (towards the outlet).
+  const driftLength = Math.hypot(dx, dz);
+  const [ax, az] =
+    driftLength > 0 ? [dx / driftLength, dz / driftLength] : [0, 1];
   const positions: number[] = [];
   const flow: number[] = [];
   const shore: number[] = [];
@@ -71,8 +75,8 @@ export const buildPool = ({
       flow.push(-z * 0.04 + dx, x * 0.04 + dz);
       shore.push(share);
       rapids.push(0);
-      across.push(x);
-      along.push(z);
+      across.push(x * az - z * ax);
+      along.push(x * ax + z * az);
     }
   }
   for (let ring = 0; ring < rings; ring++) {

@@ -154,8 +154,9 @@ export const surfaceFragment = /* glsl */ `
     float facing = max(dot(reflect(-viewDir, vec3(0.0, 1.0, 0.0)), uSunDirection), 0.0);
     color += uSun * sparkle * pow(facing, 6.0) * (1.6 - run);
 
-    // Shore foam: a crisp wavy line along the bank.
-    float wobble = (waterNoise(vIsland.xz * 3.0 + uTime * 0.3) - 0.5) * 0.12;
+    // Shore foam: a crisp wavy line along the bank, its waves carried
+    // downstream with the current (not across the island).
+    float wobble = (waterNoise(flowP * 3.0) - 0.5) * 0.12;
     float shoreLine = crisp(0.86, vShore + wobble);
     // The falls' sharp white chips, a little longer along the current and
     // carried downstream; few on calm water. Kept well under a chip's
