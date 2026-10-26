@@ -54,6 +54,11 @@
   --color-world-rock: #6e5a4a;
   --color-world-rock-deep: #43362f;
   --color-world-foliage: #51783a;
+  /* Painted tree crowns (lit / shaded), and the hero (skills) tree. */
+  --color-world-leaf: #7aa834;
+  --color-world-leaf-shade: #2d4a0c;
+  --color-world-hero-leaf: #b3175f;
+  --color-world-hero-leaf-shade: #3a0028;
   --color-world-trunk: #5e4330;
   --color-world-stone: #9a9893;
   --color-world-berry: #d65a4f;
@@ -243,6 +248,10 @@ a {
   --color-world-rock: #5a4a48;
   --color-world-rock-deep: #2f2836;
   --color-world-foliage: #36603f;
+  --color-world-leaf: #52a39c;
+  --color-world-leaf-shade: #0f2f3c;
+  --color-world-hero-leaf: #5f27ad;
+  --color-world-hero-leaf-shade: #1b0651;
   --color-world-trunk: #5c3f2d;
   --color-world-stone: #7d8394;
   --color-world-station-hover: #e8ecff;

@@ -10,6 +10,7 @@ import type { ModelName } from '../../assets/use-kit';
 import { getModelNode, useKit } from '../../assets/use-kit';
 import type { Vec3 } from '../../config/island';
 import { addSway } from './foliage-sway';
+import TreeCrown, { isCrownLeaves } from './tree-crown';
 
 export interface InstanceTransform {
   position: Vec3;
@@ -31,6 +32,9 @@ interface InstancedModelProps<K extends KitId> {
 interface Part {
   geometry: BufferGeometry;
   material: Material | Material[];
+  // Leaves redrawn as painted clumps (tree-crown.tsx); this part then only
+  // casts their shadow.
+  crown: boolean;
   // Mesh transform relative to the model's root node.
   local: Matrix4;
 }
@@ -46,6 +50,14 @@ const swayingCopy = (material: Material | Material[]) => {
     },
   );
   return Array.isArray(material) ? copies : copies[0];
+};
+
+// Draws nothing but still casts the (alpha-cut) shadow of the original.
+const shadowOnly = (material: Material) => {
+  const copy = material.clone();
+  copy.colorWrite = false;
+  copy.depthWrite = false;
+  return copy;
 };
 
 const toMatrix = ({ position, rotationY = 0, scale = 1 }: InstanceTransform) =>
@@ -108,10 +120,18 @@ const InstancedModel = <K extends KitId>({
     root.traverse((object) => {
       const mesh = object as Mesh;
       if (mesh.isMesh) {
+        const crown =
+          !Array.isArray(mesh.material) &&
+          isCrownLeaves(model, mesh.material.name);
         found.push({
           geometry: mesh.geometry,
-          material: sway ? swayingCopy(mesh.material) : mesh.material,
+          material: crown
+            ? shadowOnly(mesh.material as Material)
+            : sway
+              ? swayingCopy(mesh.material)
+              : mesh.material,
           local: rootInverse.clone().multiply(mesh.matrixWorld),
+          crown,
         });
       }
     });
@@ -130,6 +150,17 @@ const InstancedModel = <K extends KitId>({
           castShadow={castShadow}
         />
       ))}
+      {parts
+        .filter((part) => part.crown)
+        .map((part, index) => (
+          <TreeCrown
+            key={`crown-${index}`}
+            model={model}
+            leaves={part.geometry}
+            local={part.local}
+            matrices={matrices}
+          />
+        ))}
     </>
   );
 };
