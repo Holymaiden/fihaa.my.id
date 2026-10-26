@@ -57,6 +57,8 @@ export const buildPool = ({
   const shore: number[] = [];
   const rapids: number[] = [];
   const depth: number[] = [];
+  const across: number[] = [];
+  const along: number[] = [];
   const indices: number[] = [];
   for (let ring = 0; ring <= rings; ring++) {
     const share = ring / rings;
@@ -69,6 +71,8 @@ export const buildPool = ({
       flow.push(-z * 0.04 + dx, x * 0.04 + dz);
       shore.push(share);
       rapids.push(0);
+      across.push(x);
+      along.push(z);
     }
   }
   for (let ring = 0; ring < rings; ring++) {
@@ -86,6 +90,8 @@ export const buildPool = ({
     aShore: [shore, 1],
     aRapids: [rapids, 1],
     aDepth: [depth, 1],
+    aAcross: [across, 1],
+    aAlong: [along, 1],
   });
 };
 
@@ -107,10 +113,17 @@ export const buildStream = () => {
   const shore: number[] = [];
   const rapids: number[] = [];
   const depth: number[] = [];
+  const across: number[] = [];
+  const along: number[] = [];
   const indices: number[] = [];
   const last = STREAM_PATH.length - 1;
   let rows = 0;
+  let travelled = 0;
   STREAM_PATH.forEach(([x, z], index) => {
+    if (index > 0) {
+      const [bx, bz] = STREAM_PATH[index - 1];
+      travelled += Math.hypot(x - bx, z - bz);
+    }
     const t = index / last;
     const [px, pz] = STREAM_PATH[Math.max(index - 1, 0)];
     const [nx, nz] = STREAM_PATH[Math.min(index + 1, last)];
@@ -140,6 +153,8 @@ export const buildStream = () => {
       flow.push(dirX * speed, dirZ * speed);
       shore.push(Math.abs(side));
       rapids.push(Math.max(0, (t - 0.72) / 0.28));
+      across.push(half * side);
+      along.push(travelled);
     }
     rows++;
   });
@@ -158,6 +173,8 @@ export const buildStream = () => {
     aFlow: [flow, 2],
     aShore: [shore, 1],
     aRapids: [rapids, 1],
+    aAcross: [across, 1],
+    aAlong: [along, 1],
     aDepth: [depth, 1],
   });
 };

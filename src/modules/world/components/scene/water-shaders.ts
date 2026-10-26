@@ -1,6 +1,8 @@
 // Shaders for the pond, the stream and the waterfall (see island-water.tsx).
 
 export const NOISE_GLSL = /* glsl */ `
+  // The pale blue shared by the falls' upper half and running water.
+  #define PALE 0.28
   float waterHash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
   }
@@ -19,16 +21,21 @@ export const NOISE_GLSL = /* glsl */ `
 // Pond and stream share one surface. Per vertex: aFlow = flow direction
 // times speed (island frame), aShore = 0 mid-water .. 1 at the bank,
 // aRapids = how broken the water is (rises towards the lip), aDepth =
-// water depth over the bed.
+// water depth over the bed, aAcross / aAlong = metres across and along the
+// current (on pools, plain offsets from the centre).
 export const surfaceVertex = /* glsl */ `
   attribute vec2 aFlow;
   attribute float aShore;
   attribute float aRapids;
   attribute float aDepth;
+  attribute float aAcross;
+  attribute float aAlong;
   varying vec2 vFlow;
   varying float vShore;
   varying float vRapids;
   varying float vDepth;
+  varying float vAcross;
+  varying float vAlong;
   varying vec3 vIsland;
   varying vec3 vWorld;
   #include <fog_pars_vertex>
@@ -37,6 +44,8 @@ export const surfaceVertex = /* glsl */ `
     vShore = aShore;
     vRapids = aRapids;
     vDepth = aDepth;
+    vAcross = aAcross;
+    vAlong = aAlong;
     vIsland = position;
     vec4 world = modelMatrix * vec4(position, 1.0);
     vWorld = world.xyz;
@@ -66,6 +75,8 @@ export const surfaceFragment = /* glsl */ `
   varying float vShore;
   varying float vRapids;
   varying float vDepth;
+  varying float vAcross;
+  varying float vAlong;
   varying vec3 vIsland;
   varying vec3 vWorld;
   #include <fog_pars_fragment>
@@ -108,21 +119,27 @@ export const surfaceFragment = /* glsl */ `
 
   void main() {
     float speed = length(vFlow);
-    vec2 along = speed > 1e-3 ? vFlow / speed : vec2(0.0, 1.0);
-    vec2 across = vec2(-along.y, along.x);
-    // Flow space: stretched along the current and carried downstream.
-    vec2 p = vec2(dot(vIsland.xz, across), dot(vIsland.xz, along));
+    // Flow space (metres across and along the current), stretched along it
+    // and carried downstream.
+    vec2 p = vec2(vAcross, vAlong);
     vec2 drift = vec2(0.0, uTime * (0.06 + speed * 0.9));
     vec2 flowP = vec2(p.x, p.y * (1.0 - min(speed, 0.6) * 0.6)) - drift;
 
     // Colour by depth, in the same two tones as the falls: pale blue over
     // the shallows, the falls' deeper blue (and a little darker) further in.
     float deep = 1.0 - exp(-vDepth * 3.0);
-    vec3 pale = mix(uShallow, uFoam, 0.4);
+    vec3 pale = mix(uShallow, uFoam, PALE);
     vec3 low = mix(mix(uShallow, uFoam, 0.12), uDeep, 0.18);
     // Running water stays pale, like the top of the falls it feeds.
     float still = 1.0 - min(speed * 1.5, 0.8);
     vec3 body = mix(pale, mix(low, uDeep, 0.2), smoothstep(0.1, 0.9, deep) * still);
+    // The falls' grain laid flat: thin darker lines running with the
+    // current, spaced as on the falls (in metres) so they carry straight on
+    // over the lip. Calm water has none.
+    float run = min(speed * 1.2, 1.0);
+    float lineX = p.x * 11.0 + waterNoise(vec2(p.x * 2.0, p.y * 0.5)) * 0.35;
+    float grain = 1.0 - crisp(0.045, abs(fract(lineX) - 0.5));
+    body = mix(body, mix(uShallow, uDeep, 0.55), grain * run * 0.5);
 
     // A little sky in it, more at grazing angles.
     vec3 viewDir = normalize(cameraPosition - vWorld);
@@ -131,22 +148,22 @@ export const surfaceFragment = /* glsl */ `
     vec3 color = mix(body, sky, 0.04 + fresnel * 0.2);
 
     // Sun sparkles: tiny cells that catch the light now and then.
-    vec2 glitter = voronoi(vIsland.xz * 9.0 + drift * 2.0, uTime * 2.5);
-    float sparkle = 1.0 - crisp(0.08, glitter.x);
+    vec2 glitter = voronoi(vIsland.xz * 3.0 + drift, uTime * 1.5);
+    float sparkle = 1.0 - crisp(0.1, glitter.x);
     float facing = max(dot(reflect(-viewDir, vec3(0.0, 1.0, 0.0)), uSunDirection), 0.0);
-    color += uSun * sparkle * pow(facing, 6.0) * 1.6;
+    color += uSun * sparkle * pow(facing, 6.0) * (1.6 - run);
 
-    // Shore foam: a crisp wavy line along the bank and a second one that
-    // breathes in and out just inside it.
+    // Shore foam: a crisp wavy line along the bank.
     float wobble = (waterNoise(vIsland.xz * 3.0 + uTime * 0.3) - 0.5) * 0.12;
     float shoreLine = crisp(0.86, vShore + wobble);
-    float pulse = 0.72 + sin(uTime * 1.3 + vIsland.x * 0.7) * 0.04;
-    float innerLine = crisp(pulse, vShore + wobble) - crisp(pulse + 0.035, vShore + wobble);
-    // White flecks like the falls', drawn out along the current and
-    // carried with it; sparse on calm water.
-    float flecks = crisp(0.77, waterNoise(flowP * vec2(9.0, 2.6) + 7.0)) * min(0.4 + speed, 1.0);
-    // Rapids: long white streaks breaking up towards the lip.
-    float rapids = crisp(0.5, waterNoise(flowP * vec2(6.0, 0.7)) + vRapids * 0.45) * vRapids;
+    // The falls' sharp white chips, same size, carried downstream about as
+    // fast as the current (as fast as the falls by the lip); few on calm
+    // water.
+    float chipSpeed = 0.3 + speed * 1.2;
+    float flecks = crisp(0.81, waterNoise(vec2(p.x * 27.0, p.y * 8.0 - uTime * chipSpeed * 8.0)))
+      * (0.3 + run * 0.7);
+    // Rapids: a few longer white streaks breaking up towards the lip.
+    float rapids = crisp(0.72, waterNoise(flowP * vec2(14.0, 0.9))) * vRapids;
     // Where a fall lands: churned white water, streaks spreading outwards.
     vec2 fromFall = vIsland.xz - uLanding.xy;
     float landing = length(fromFall) / max(uLanding.z, 1e-3);
@@ -158,7 +175,7 @@ export const surfaceFragment = /* glsl */ `
     vec2 rainCells = voronoi(vIsland.xz * 5.0, 0.0);
     float rainPhase = fract(uTime * 1.3 + cellHash(floor(vIsland.xz * 5.0)).x);
     float rainRing = (1.0 - crisp(0.03, abs(rainCells.x - rainPhase * 0.5))) * (1.0 - rainPhase) * uRain;
-    float foam = clamp(shoreLine * 0.9 + innerLine * 0.7 + rapids + flecks + rainRing * 0.6, 0.0, 1.0);
+    float foam = clamp(shoreLine * 0.9 + rapids + flecks + rainRing * 0.6, 0.0, 1.0);
     color = mix(color, uFoam, foam);
 
     // Rings from the last click.
@@ -169,7 +186,8 @@ export const surfaceFragment = /* glsl */ `
 
     // Shallow water lets the bed show through; past the foam line it
     // fades out over the bank.
-    float clarity = mix(0.92, 0.98, deep);
+    // Running water is opaque like the falls.
+    float clarity = max(mix(0.92, 0.98, deep), run);
     float alpha = max(clarity, foam) * (1.0 - smoothstep(0.93, 1.0, vShore));
     gl_FragColor = vec4(color, alpha);
     #include <tonemapping_fragment>
@@ -220,7 +238,7 @@ export const fallFragment = /* glsl */ `
     float down = vUv.y;
     float rush = uTime * 1.6;
 
-    vec3 upper = mix(uShallow, uFoam, 0.5);
+    vec3 upper = mix(uShallow, uFoam, PALE);
     vec3 lower = mix(mix(uShallow, uFoam, 0.12), uDeep, 0.18);
     // The hem: rounded drips hanging down, each a slightly different
     // length, swaying a little.
