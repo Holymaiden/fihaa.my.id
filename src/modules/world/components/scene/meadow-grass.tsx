@@ -50,38 +50,57 @@ const random = (seed: number) => {
   return x - Math.floor(x);
 };
 
-// One blade, tapered and curving forward towards its tip (y runs 0..1 up
-// the blade). The meadow is many thin single blades close together, which
-// reads as a soft carpet; normals round off towards the edges so light
-// rolls across each blade.
+// One clump: three thin blades sprouting from almost the same spot, each
+// turned its own way and a different height, tapered and curving out
+// towards the tip (y runs 0..1 up the tallest blade). Clumps close together
+// read as a soft, full carpet; normals round off towards each blade's edges
+// so light rolls across it.
 const LEVELS = [0, 0.3, 0.55, 0.8, 1];
 const WIDTHS = [1, 0.85, 0.62, 0.32, 0];
 const CURVE = 0.22;
 const ROUNDING = 0.5;
+// Per blade: turn (radians), height share, offset from the clump centre
+// (in blade widths).
+const CLUMP: [number, number, [number, number]][] = [
+  [0, 1, [0, 0]],
+  [2.1, 0.78, [0.9, 0.5]],
+  [4.2, 0.88, [-0.7, 0.8]],
+];
 
 const buildBlade = () => {
   const positions: number[] = [];
   const normals: number[] = [];
   const indices: number[] = [];
-  LEVELS.forEach((level, index) => {
-    const half = WIDTHS[index] * 0.5;
-    const lean = CURVE * level * level;
-    for (const side of index === LEVELS.length - 1 ? [0] : [-1, 1]) {
-      positions.push(side * half, level, lean);
-      // Facing +z, rounded across the width, tipped up by the curve.
-      const nx = side * ROUNDING;
-      const ny = level * CURVE * 2;
-      const length = Math.hypot(nx, ny, 1);
-      normals.push(nx / length, ny / length, 1 / length);
+  for (const [turn, tall, [ox, oz]] of CLUMP) {
+    const c = Math.cos(turn);
+    const s = Math.sin(turn);
+    const start = positions.length / 3;
+    LEVELS.forEach((level, index) => {
+      const half = WIDTHS[index] * 0.5;
+      const lean = CURVE * level * level;
+      for (const side of index === LEVELS.length - 1 ? [0] : [-1, 1]) {
+        // Facing +z before the turn.
+        const x = side * half;
+        const z = lean;
+        positions.push(x * c + z * s + ox, level * tall, -x * s + z * c + oz);
+        const nx = side * ROUNDING;
+        const ny = level * CURVE * 2;
+        const length = Math.hypot(nx, ny, 1);
+        normals.push(
+          (nx * c + s) / length,
+          ny / length,
+          (-nx * s + c) / length,
+        );
+      }
+    });
+    // Pairs (left, right) per level, then the tip.
+    for (let index = 0; index < LEVELS.length - 2; index++) {
+      const a = start + index * 2;
+      indices.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
     }
-  });
-  // Pairs (left, right) per level, then the tip.
-  for (let index = 0; index < LEVELS.length - 2; index++) {
-    const a = index * 2;
-    indices.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+    const lastPair = start + (LEVELS.length - 2) * 2;
+    indices.push(lastPair, lastPair + 1, lastPair + 2);
   }
-  const lastPair = (LEVELS.length - 2) * 2;
-  indices.push(lastPair, lastPair + 1, lastPair + 2);
   return { positions, normals, indices };
 };
 
@@ -120,8 +139,8 @@ const vertexShader = /* glsl */ `
     // thinner than a pixel and cost fill for nothing) and the rest widen
     // a little to keep the carpet closed; the ground texture is grassy too.
     vec3 rootWorld = (modelMatrix * vec4(aOffset, 1.0)).xyz;
-    float far = smoothstep(14.0, 42.0, distance(rootWorld, cameraPosition));
-    float keep = 1.0 - far * 0.8;
+    float far = smoothstep(20.0, 48.0, distance(rootWorld, cameraPosition));
+    float keep = 1.0 - far * 0.65;
     float pick = fract(aParams.x * 7.31 + aOffset.x * 3.7);
     if (pick > keep) {
       gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
@@ -133,11 +152,16 @@ const vertexShader = /* glsl */ `
     vec3 bladeNormal = vec3(normal.x * c - normal.z * s, normal.y, normal.x * s + normal.z * c);
 
     float strength = windStrength(aOffset.xz, uTime) * uWind;
-    float bend = strength * h * h * aParams.y;
-    // Each tuft also leans its own way a little, even without wind.
-    local.xz += vec2(cos(aParams.x * 3.0), sin(aParams.x * 3.0)) * h * h * aParams.y * 0.25;
-    local.xz += WIND_DIR * bend * 0.9;
-    local.y -= bend * bend * 0.35;
+    // Lean: each blade a little its own way, plus the wind. The blade
+    // turns about its root (more towards the tip) so it keeps its length
+    // and stays a standing blade instead of being combed flat.
+    vec2 own = vec2(cos(aParams.x * 3.0), sin(aParams.x * 3.0)) * 0.2;
+    vec2 lean = own + WIND_DIR * strength * 0.42;
+    float tilt = min(length(lean), 0.9) * h;
+    vec2 leanDir = lean / max(length(lean), 1e-4);
+    float rise = local.y;
+    local.xz += leanDir * rise * sin(tilt);
+    local.y = rise * cos(tilt);
 
     // Pressed down where the pointer or the visitor's feet passed, lying
     // away from the path and slowly springing back up.
@@ -200,19 +224,19 @@ const fragmentShader = /* glsl */ `
     float tip = smoothstep(0.0, 1.0, vHeight);
     vec3 color = mix(uBase * 0.78, uTip * 1.15, tip);
     float own = bladeHash(floor(vWorldPosition.xz * 40.0));
-    color *= 0.9 + own * 0.2;
+    color *= 0.93 + own * 0.14;
     // Patches of drier grass, and a sheen where the gust bends the blades.
     color = mix(color, uDry, vTint * 0.4 * vHeight);
     color += uTip * vGust * vHeight * 0.1;
     // The ground's own colour patches show through.
-    color *= mix(vec3(1.0), clamp(vGround, 0.5, 1.6), 0.4);
+    color *= mix(vec3(1.0), clamp(vGround, 0.6, 1.4), 0.3);
     // Darker at the roots, like they're in each other's shade.
     float roots = 0.72 + 0.28 * smoothstep(0.0, 0.5, vHeight);
 
     // Both sides of a blade face the light the same way; soften towards
     // straight up so a meadow doesn't flicker blade by blade.
     vec3 n = normalize(vNormal) * (gl_FrontFacing ? 1.0 : -1.0);
-    n = normalize(mix(n, vec3(0.0, 1.0, 0.0), 0.35));
+    n = normalize(mix(n, vec3(0.0, 1.0, 0.0), 0.6));
     vec3 toCamera = normalize(cameraPosition - vWorldPosition);
     vec3 toSun = normalize(uSunDirection);
     // Wrapped diffuse, a glow where the sun shines through the blade

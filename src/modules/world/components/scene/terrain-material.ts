@@ -28,7 +28,7 @@ export const GRASS_TEXTURE_SCALE = 7;
 
 const LAYERS = {
   scale: [GRASS_TEXTURE_SCALE, 2.6, 4, 5],
-  detail: [0.9, 0.8, 0.7, 1],
+  detail: [0.3, 0.8, 0.7, 1],
   bump: [0.8, 0.9, 0.6, 1.1],
 };
 

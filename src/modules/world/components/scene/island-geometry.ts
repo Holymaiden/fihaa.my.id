@@ -57,7 +57,7 @@ const mottle = (x: number, z: number) =>
 
 // The ground under the grass is darker than the blades, so the meadow reads
 // as dense; paths are worn dirt and the pond/stream beds are dark.
-const GROUND_UNDER_GRASS = 0.72;
+const GROUND_UNDER_GRASS = 0.8;
 
 // Texture layers blended on the ground (see island-terrain.tsx), as
 // weights per vertex: grass, dirt (paths and water beds), sand, rock.
