@@ -186,37 +186,53 @@ export const fallVertex = /* glsl */ `
   }
 `;
 
-// The fall: a clear glassy sheet over the lip that breaks into white
-// streaks, ragged at the sides, thinning into spray as it drops.
+// The fall, drawn stylized: a light blue sheet with a bright band at the
+// lip, thin darker streaks running down it, darker lobes and white foam
+// flecks that rush downwards, and ragged sides.
 export const fallFragment = /* glsl */ `
   uniform float uTime;
   uniform float uSeed;
   uniform vec3 uShallow;
+  uniform vec3 uDeep;
   uniform vec3 uFoam;
   uniform vec3 uSky;
   varying vec2 vUv;
   varying vec3 vWorld;
   #include <fog_pars_fragment>
   ${NOISE_GLSL}
+
+  float crisp(float edge, float value) {
+    float width = max(fwidth(value), 1e-4) * 0.75;
+    return smoothstep(edge - width, edge + width, value);
+  }
+
   void main() {
     float across = vUv.x;
     float down = vUv.y;
-    float rush = uTime * 2.8;
-    float coarse = waterNoise(vec2(across * 9.0 + uSeed, down * 2.6 - rush));
-    float fine = waterNoise(vec2(across * 26.0 + uSeed, down * 6.0 - rush * 1.5));
+    float rush = uTime * 1.6;
+
+    // Light blue body, a touch deeper towards the bottom.
+    vec3 light = mix(uShallow, uFoam, 0.45);
+    vec3 color = mix(light, mix(uShallow, uDeep, 0.25), smoothstep(0.0, 1.0, down));
+    // Darker lobes sliding down the sheet.
+    float lobes = waterNoise(vec2(across * 4.0 + uSeed, down * 3.0 - rush * 0.8));
+    color = mix(color, mix(uShallow, uDeep, 0.45), crisp(0.62, lobes) * 0.55);
+    // Thin streaks: the water's grain, slightly wavy.
+    float streakX = across * 14.0 + waterNoise(vec2(across * 3.0, down * 2.0)) * 0.6;
+    float streak = 1.0 - crisp(0.06, abs(fract(streakX) - 0.5));
+    color = mix(color, mix(uShallow, uDeep, 0.55), streak * 0.5);
+    // White foam flecks rushing down, more towards the bottom.
+    float flecks = waterNoise(vec2(across * 22.0 + uSeed, down * 7.0 - rush * 2.2));
+    color = mix(color, uFoam * 1.3, crisp(0.8 - down * 0.12, flecks));
+    // Bright band where the water rolls over the lip.
+    float lip = 1.0 - crisp(0.06 + waterNoise(vec2(across * 9.0, rush)) * 0.04, down);
+    color = mix(color, uFoam * 1.2, lip * 0.8);
+
+    // Ragged sides, and the sheet thins out at the very bottom.
     float edge = abs(across - 0.5) * 2.0;
-    float ragged = 1.0 - smoothstep(0.55 - coarse * 0.35, 1.0, edge);
-    float sheet = 1.0 - smoothstep(0.02, 0.12, down);
-
-    float white = clamp(coarse * 0.7 + fine * 0.6 - 0.25 + down * 0.7, 0.0, 1.0);
-    vec3 color = mix(uShallow, uFoam, white);
-    // Over the lip the water is still smooth and reflects the sky.
-    color = mix(color, mix(uShallow, uSky, 0.5), sheet * 0.7);
-    // Sparkle on the crests (blooms).
-    color += uFoam * smoothstep(0.78, 0.95, fine) * 0.8 * (1.0 - sheet);
-
-    float fade = 1.0 - smoothstep(0.5, 1.0, down);
-    float alpha = ragged * fade * mix(0.7 + fine * 0.3, 0.9, sheet);
+    float ragged = 1.0 - crisp(0.9 - lobes * 0.15, edge);
+    float fade = 1.0 - smoothstep(0.82, 1.0, down);
+    float alpha = ragged * fade * 0.95;
     // The fall writes depth (so the raymarched clouds go behind it); its
     // see-through edges are dropped so they don't block what's behind.
     if (alpha < 0.12) discard;

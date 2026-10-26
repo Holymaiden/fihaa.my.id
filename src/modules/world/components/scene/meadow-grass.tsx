@@ -198,16 +198,16 @@ const fragmentShader = /* glsl */ `
     // Dark, cool roots up to a light, warm tip, like a lit meadow seen
     // close up; each blade a little lighter or darker than its neighbours.
     float tip = smoothstep(0.0, 1.0, vHeight);
-    vec3 color = mix(uBase * 0.55, uTip * 1.12, tip);
+    vec3 color = mix(uBase * 0.78, uTip * 1.15, tip);
     float own = bladeHash(floor(vWorldPosition.xz * 40.0));
-    color *= 0.85 + own * 0.3;
+    color *= 0.9 + own * 0.2;
     // Patches of drier grass, and a sheen where the gust bends the blades.
     color = mix(color, uDry, vTint * 0.4 * vHeight);
     color += uTip * vGust * vHeight * 0.1;
     // The ground's own colour patches show through.
     color *= mix(vec3(1.0), clamp(vGround, 0.5, 1.6), 0.4);
     // Darker at the roots, like they're in each other's shade.
-    float roots = 0.55 + 0.45 * smoothstep(0.0, 0.6, vHeight);
+    float roots = 0.72 + 0.28 * smoothstep(0.0, 0.5, vHeight);
 
     // Both sides of a blade face the light the same way; soften towards
     // straight up so a meadow doesn't flicker blade by blade.

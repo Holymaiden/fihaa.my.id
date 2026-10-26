@@ -48,9 +48,9 @@ export const VISUAL = {
   grass: {
     // One blade per grid cell.
     spacing: 0.07,
-    minHeight: 0.18,
-    maxHeight: 0.46,
-    width: 0.04,
+    minHeight: 0.14,
+    maxHeight: 0.36,
+    width: 0.036,
     dayLight: 1,
     nightLight: 0.5,
     // Share of tufts drawn on narrow screens, and when frames stay slow.

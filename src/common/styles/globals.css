@@ -47,8 +47,8 @@
   --color-world-sun: #fff0d6;
   --color-world-ground-light: #6b7660;
   /* Island terrain, from the hilltops down to the rock underneath. */
-  --color-world-grass-light: #93b155;
-  --color-world-grass: #5e8236;
+  --color-world-grass-light: #9ad35a;
+  --color-world-grass: #4c9a2a;
   --color-world-sand: #ccb283;
   --color-world-cliff: #9c7b5a;
   --color-world-rock: #6e5a4a;
@@ -71,9 +71,9 @@
   --color-world-secret: #4a3f63;
   /* Meadow, water and sky details of the explorable island. */
   --color-world-path: #a88d66;
-  --color-world-water: #4a98a3;
-  --color-world-water-deep: #1f5a6b;
-  --color-world-foam: #effbff;
+  --color-world-water: #4fb4d8;
+  --color-world-water-deep: #1d5c96;
+  --color-world-foam: #f4fdff;
   --color-world-cloud-light: #ffffff;
   --color-world-cloud-shade: #b3c0d2;
   --color-world-blossom: #fffaf0;
@@ -236,8 +236,8 @@ a {
   --color-world-fog: #2a3256;
   --color-world-sun: #c9d5ff;
   --color-world-ground-light: #222a44;
-  --color-world-grass-light: #557a4a;
-  --color-world-grass: #3a5f3e;
+  --color-world-grass-light: #5f9a52;
+  --color-world-grass: #3d7040;
   --color-world-sand: #a9a07e;
   --color-world-cliff: #7a6455;
   --color-world-rock: #5a4a48;
@@ -247,7 +247,7 @@ a {
   --color-world-stone: #7d8394;
   --color-world-station-hover: #e8ecff;
   --color-world-path: #6f6152;
-  --color-world-water: #2a5f7a;
+  --color-world-water: #2f78a8;
   --color-world-water-deep: #12304f;
   --color-world-foam: #b9d4ff;
   --color-world-cloud-light: #4a5684;
