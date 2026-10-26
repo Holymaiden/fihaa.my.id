@@ -183,13 +183,3 @@ export const DECOR: CorePlacement[] = [
   nature('Flower_4_Group', 'flower', { at: [5.8, -4.2], rotationY: 0.6 }),
   nature('Flower_3_Group', 'flower', { at: [3.4, -9.4], rotationY: 2.6 }),
 ];
-
-// World positions of the clouds around and below the island.
-export const CLOUDS: CorePlacement[] = [
-  { model: 'cloud_big', position: [-24, -6, -10], scale: 2.6 },
-  { model: 'cloud_big', position: [22, -9, -6], scale: 3 },
-  { model: 'cloud_big', position: [-10, -13, 16], rotationY: 1, scale: 3.2 },
-  { model: 'cloud_big', position: [26, 5, -20], scale: 2.2 },
-  { model: 'cloud_small', position: [-28, 7, -22], scale: 2.4 },
-  { model: 'cloud_small', position: [14, -16, 12], rotationY: 2, scale: 2.6 },
-];

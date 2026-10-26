@@ -15,8 +15,6 @@ export const CORE_MODELS = [
   'barrel',
   'crate_A_big',
   'sack',
-  'cloud_big',
-  'cloud_small',
   'lantern_standing',
   'spellbook_open',
   'mug_full',
@@ -52,8 +50,6 @@ export type CoreKitGLTF = GLTF & {
     barrel_1: THREE.Mesh;
     crate_A_big_1: THREE.Mesh;
     sack_1: THREE.Mesh;
-    cloud_big_1: THREE.Mesh;
-    cloud_small_1: THREE.Mesh;
     lantern_standing_1: THREE.Mesh;
     spellbook_open_1: THREE.Mesh;
     mug_full_1: THREE.Mesh;

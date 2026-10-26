@@ -17,6 +17,7 @@ import CameraDirector from './scene/camera-director';
 import CloudSea from './scene/cloud-sea';
 import CrystalHunt from './scene/crystal-hunt';
 import DistantIslands from './scene/distant-islands';
+import DistantRange from './scene/distant-range';
 import ExploreCamera from './scene/explore-camera';
 import FloatingCard from './scene/floating-card';
 import FovDirector from './scene/fov-director';
@@ -126,12 +127,13 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
         <CloudSea palette={palette} />
         {!palette.isNight && <SunDisc palette={palette} ref={setSun} />}
         <DistantIslands palette={palette} />
+        <DistantRange palette={palette} />
         {palette.isNight && (
           <Stars radius={200} depth={50} count={2500} factor={5} fade />
         )}
         <Suspense fallback={null}>
           <KitRecolor palette={palette} />
-          <WorldClouds />
+          <WorldClouds palette={palette} />
           <IslandRig>
             <IslandTerrain palette={palette} />
             <MeadowGrass palette={palette} density={quality.grassDensity} />

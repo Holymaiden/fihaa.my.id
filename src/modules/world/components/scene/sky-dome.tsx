@@ -23,8 +23,9 @@ const vertexShader = /* glsl */ `
   }
 `;
 
-// Three-stop vertical gradient: bottom -> horizon -> top.
-// Plus a sun (or moon) disc with a wide glow around it.
+// Three-stop vertical gradient (bottom -> horizon -> top) from the palette,
+// with a hazy horizon band, Mie-style glow round the sun (or moon) and the
+// disc itself.
 const fragmentShader = /* glsl */ `
   uniform vec3 topColor;
   uniform vec3 horizonColor;
@@ -47,9 +48,18 @@ const fragmentShader = /* glsl */ `
     vec3 color = h > 0.0
       ? mix(horizonColor, topColor, smoothstep(0.0, 0.6, h))
       : mix(horizonColor, bottomColor, smoothstep(0.08, 0.6, -h));
-    float facing = max(dot(direction, sunDirection), 0.0);
+    float mu = dot(direction, sunDirection);
+    float facing = max(mu, 0.0);
     float clearSky = 1.0 - overcast;
-    color += sunColor * pow(facing, 12.0) * glowStrength * clearSky;
+    // Haze: the sky pales into a bright band along the horizon, as the
+    // light passes through more air there.
+    color = mix(color, horizonColor * 1.08, exp(-abs(h) * 14.0) * 0.5);
+    // Forward (Mie) scattering: a broad glow round the sun, stronger low in
+    // the sky where the air is thicker.
+    float g = 0.76;
+    float mie = (1.0 - g * g) / pow(1.0 + g * g - 2.0 * g * mu, 1.5) / 12.566;
+    color += sunColor * mie * glowStrength * 0.6 * clearSky
+      * (0.45 + 0.55 * (1.0 - clamp(h, 0.0, 1.0)));
     color += sunColor * pow(facing, 160.0) * glowStrength * 0.6 * clearSky;
     color = mix(color, sunColor * 1.4, smoothstep(1.0 - sunSize, 1.0 - sunSize * 0.6, facing) * clearSky);
     // Aurora: three wavering curtains over the northern sky, with fine

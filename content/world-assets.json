@@ -118,18 +118,6 @@
       "kit": "core"
     },
     {
-      "name": "cloud_big",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/cloud_big.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "cloud_small",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/cloud_small.gltf",
-      "kit": "core"
-    },
-    {
       "name": "lantern_standing",
       "pack": "kaykit-halloween-bits",
       "src": "assets/raw/kaykit/halloween-bits/lantern_standing.gltf",
@@ -296,7 +284,9 @@
       "pack": "sketchfab-fantastic-castle",
       "src": "assets/raw/sketchfab/fantastic_castle/scene.gltf",
       "kit": "core",
-      "drop": ["������������������"],
+      "drop": [
+        "������������������"
+      ],
       "height": 9.5
     },
     {
@@ -304,7 +294,12 @@
       "pack": "sketchfab-3-medieval-towers",
       "src": "assets/raw/sketchfab/3_medieval_towers/scene.gltf",
       "kit": "core",
-      "drop": ["bashnia1", "bashnia2", "pushka", "mag"],
+      "drop": [
+        "bashnia1",
+        "bashnia2",
+        "pushka",
+        "mag"
+      ],
       "height": 5
     },
     {
@@ -312,7 +307,12 @@
       "pack": "sketchfab-3-medieval-towers",
       "src": "assets/raw/sketchfab/3_medieval_towers/scene.gltf",
       "kit": "core",
-      "drop": ["bashnia", "bashnia1", "pushka", "luchnik"],
+      "drop": [
+        "bashnia",
+        "bashnia1",
+        "pushka",
+        "luchnik"
+      ],
       "height": 5
     },
     {
@@ -320,7 +320,9 @@
       "pack": "sketchfab-drunk-troll-tavern",
       "src": "assets/raw/sketchfab/the_drunk_troll_tavern/scene.gltf",
       "kit": "core",
-      "drop": ["ground"],
+      "drop": [
+        "ground"
+      ],
       "height": 3.4
     }
   ],

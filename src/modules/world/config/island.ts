@@ -303,7 +303,7 @@ export const clearingMask = (x: number, z: number): number => {
 
 // Fixed seed so every client (and the grass, props and camera that sit on
 // the ground) sees the same hills.
-const seeded = (seed: number) => ({
+export const seededRandom = (seed: number) => ({
   random: () => {
     seed = (seed + 0x6d_2b_79_f5) | 0;
     let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
@@ -311,7 +311,7 @@ const seeded = (seed: number) => ({
     return ((t ^ (t >>> 14)) >>> 0) / 4_294_967_296;
   },
 });
-const simplex = new SimplexNoise(seeded(7));
+const simplex = new SimplexNoise(seededRandom(7));
 
 // Rolling hills (fbm) mixed with sharper ridges, roughly -0.4..1.
 const hillNoise = (x: number, z: number): number => {
