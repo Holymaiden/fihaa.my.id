@@ -4,18 +4,27 @@
 // Run with: yarn world:assets
 import { Document, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-import { dedup, mergeDocuments, meshopt, prune, unpartition, weld } from '@gltf-transform/functions';
-import { MeshoptEncoder } from 'meshoptimizer';
+import {
+  dedup,
+  mergeDocuments,
+  meshopt,
+  prune,
+  simplify,
+  textureCompress,
+  unpartition,
+  weld,
+} from '@gltf-transform/functions';
+import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
+import sharp from 'sharp';
 
 import { objToDocument } from './obj-to-document.mjs';
 
 const ROOT = join(dirname(new URL(import.meta.url).pathname), '..', '..');
 const OUT_DIR = join(ROOT, 'public', 'world', 'models');
-const REPORT = join(ROOT, 'docs', 'migrasi', 'bukti', '12-ukuran-aset.json');
 const GENERATED = join(ROOT, 'src', 'modules', 'world', 'assets', 'kits.generated.ts');
 const PUBLIC_URL = '/world/models';
 
@@ -40,8 +49,13 @@ const rawSize = (src) => {
   return size;
 };
 
-const readModel = async ({ name, src }) =>
-  src.endsWith('.obj') ? objToDocument(join(ROOT, src), name) : io.read(join(ROOT, src));
+// Optional per-model "simplify" (0..1 share of triangles to keep) thins
+// heavy downloaded models before they join the kit.
+const readModel = async ({ name, src, simplify: ratio }) => {
+  const doc = src.endsWith('.obj') ? await objToDocument(join(ROOT, src), name) : await io.read(join(ROOT, src));
+  if (ratio) await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio, error: 0.001 }));
+  return doc;
+};
 
 const buildKit = async (kit, models) => {
   const doc = new Document().setLogger(QUIET_LOGGER);
@@ -66,6 +80,8 @@ const buildKit = async (kit, models) => {
     dedup(),
     prune({ keepLeaves: false }),
     weld(),
+    // Textures as WebP, at most 2k.
+    textureCompress({ encoder: sharp, targetFormat: 'webp', resize: [2048, 2048] }),
     meshopt({ encoder: MeshoptEncoder, level: 'medium' }),
   );
 
@@ -75,19 +91,15 @@ const buildKit = async (kit, models) => {
   return { kit, file: `public/world/models/${kit}.glb`, bytes: statSync(out).size };
 };
 
-await MeshoptEncoder.ready;
+await Promise.all([MeshoptEncoder.ready, MeshoptSimplifier.ready]);
 
 const kits = [...new Set(config.models.map((model) => model.kit))];
-const report = { kits: [], models: [] };
 for (const kit of kits) {
   const models = config.models.filter((model) => model.kit === kit);
   const result = await buildKit(kit, models);
   const raw = models.reduce((sum, model) => sum + rawSize(model.src), 0);
-  report.kits.push({ ...result, models: models.length, rawBytes: raw });
-  for (const model of models) report.models.push({ name: model.name, kit, rawBytes: rawSize(model.src) });
   console.log(`${kit}: ${models.length} models, raw ${raw} B -> ${result.bytes} B`);
 }
-writeFileSync(REPORT, `${JSON.stringify(report, null, 2)}\n`);
 
 // gltfjsx --types gives the node/material names of each kit; keep only the
 // GLTF type and add the model list, so the scene code is typed against the

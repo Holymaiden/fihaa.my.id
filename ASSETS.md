@@ -1,5 +1,11 @@
 # Aset 3D — Daftar Kandidat dan Lisensi
 
+> **Keputusan baru 2026-10-26: gaya *stylized-realistic*** (acuan teknik: jordan-breton.com, hanya teknik — repo itu *All rights reserved*, tidak ada file yang dipakai). Menggantikan gaya *low-poly flat color* di bawah. Anggaran naik ke **≤ 25 MB** setelah kompresi.
+> - Lisensi yang diterima: **CC0** dan **CC-BY** (atribusi wajib: judul, pembuat, tautan sumber, lisensi — tampil di panel kredit lewat `content/world-assets.json`). Tetap **DITOLAK**: CC-BY-NC, *Editorial*, dan "Royalty Free" yang melarang redistribusi (berkas GLB di web bisa diunduh siapa pun).
+> - Sumber utama: Poly Haven (tekstur, HDRI, batu), ambientCG (tekstur), Quaternius Stylized Nature MegaKit (pohon/semak); Sketchfab CC-BY khusus bangunan utama, dari sesedikit mungkin pembuat agar gaya konsisten.
+> - Baris "Tidak dipilih (gaya)" / "Tidak diperlukan" di bawah yang ditolak karena tekstur PBR atau HDRI kini **boleh dipertimbangkan ulang**.
+> - Pipeline (`yarn world:assets`): tekstur dikompres ke WebP ≤ 2k; model berat bisa diberi `"simplify": <0..1>` di `content/world-assets.json`.
+
 Status: **DISETUJUI pemilik 2026-10-12** (Fase 6): KayKit (utama, 88 model) + Quaternius Ultimate Nature (pelengkap alam, 13 model). Belum ada aset yang dipakai di kode.
 Keputusan acuan: `docs/migrasi/09-keputusan-dunia.md` (gaya *low-poly flat color*, kamera terbang, anggaran ≤ 10 MB setelah kompresi).
 Laporan dan alasan pemilihan: `docs/migrasi/10-aset.md`. Pratinjau render: `docs/migrasi/bukti/10-pratinjau-aset.jpg` (KayKit), `10-pratinjau-quaternius.jpg` (KayKit vs 4 paket Quaternius), `10-pratinjau-campuran.jpg` (KayKit + Ultimate Nature dalam satu adegan).
