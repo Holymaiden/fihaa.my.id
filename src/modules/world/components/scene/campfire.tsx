@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import type { PointLight } from 'three';
 import { AdditiveBlending, Color, DoubleSide, ShaderMaterial } from 'three';
 
+import { getKitMaterial, getModelMesh, useKit } from '../../assets/use-kit';
 import { VISUAL } from '../../config/visual';
 import { useEffectsEnabled } from '../../hooks/use-effects-enabled';
 import type { WorldPalette } from '../../hooks/use-world-palette';
@@ -52,6 +53,11 @@ const fragmentShader = /* glsl */ `
 const Campfire = ({ palette }: CampfireProps) => {
   const effects = useEffectsEnabled();
   const lightRef = useRef<PointLight>(null);
+  // Same rock and bark as the kit's stones and trees.
+  const { scene } = useKit('core');
+  const rock = useMemo(() => getModelMesh(scene, 'Rock_Medium_1'), [scene]);
+  useEffect(() => () => rock.geometry.dispose(), [rock]);
+  const bark = useMemo(() => getKitMaterial(scene, 'Bark_NormalTree'), [scene]);
   const material = useMemo(
     () =>
       new ShaderMaterial({
@@ -91,13 +97,14 @@ const Campfire = ({ palette }: CampfireProps) => {
         return (
           <mesh
             key={index}
-            position={[Math.cos(angle) * 0.55, 0.08, Math.sin(angle) * 0.55]}
-            rotation={[index, index * 2, 0]}
+            geometry={rock.geometry}
+            material={rock.material}
+            position={[Math.cos(angle) * 0.55, 0.02, Math.sin(angle) * 0.55]}
+            rotation={[0, index * 2, 0]}
+            // The kit rock is ~3 units across.
+            scale={(0.16 + (index % 3) * 0.03) / 1.5}
             castShadow
-          >
-            <dodecahedronGeometry args={[0.16 + (index % 3) * 0.03, 0]} />
-            <meshStandardMaterial color={palette.stone} flatShading />
-          </mesh>
+          />
         );
       })}
       {[0, 1, 2].map((index) => (
@@ -105,9 +112,9 @@ const Campfire = ({ palette }: CampfireProps) => {
           key={index}
           position={[0, 0.14, 0]}
           rotation={[0, (index / 3) * Math.PI, Math.PI / 2 - 0.25]}
+          material={bark}
         >
-          <cylinderGeometry args={[0.07, 0.08, 0.8, 6]} />
-          <meshStandardMaterial color={palette.trunk} flatShading />
+          <cylinderGeometry args={[0.07, 0.08, 0.8, 8]} />
         </mesh>
       ))}
       {[0, Math.PI / 2].map((rotation) => (

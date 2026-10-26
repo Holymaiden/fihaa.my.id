@@ -19,8 +19,6 @@ export const CORE_MODELS = [
   'barrel',
   'crate_A_big',
   'sack',
-  'rock_single_A',
-  'rock_single_C',
   'cloud_big',
   'cloud_small',
   'lantern_standing',
@@ -28,7 +26,6 @@ export const CORE_MODELS = [
   'mug_full',
   'keg',
   'stool',
-  'Rock_Moss_4',
   'CommonTree_1',
   'CommonTree_2',
   'CommonTree_3',
@@ -42,6 +39,9 @@ export const CORE_MODELS = [
   'Fern_1',
   'Flower_3_Group',
   'Flower_4_Group',
+  'Rock_Medium_1',
+  'Rock_Medium_2',
+  'Rock_Medium_3',
 ] as const;
 
 export type CoreModelName = (typeof CORE_MODELS)[number];
@@ -57,8 +57,6 @@ export type CoreKitGLTF = GLTF & {
     barrel_1: THREE.Mesh;
     crate_A_big_1: THREE.Mesh;
     sack_1: THREE.Mesh;
-    rock_single_A_1: THREE.Mesh;
-    rock_single_C_1: THREE.Mesh;
     cloud_big_1: THREE.Mesh;
     cloud_small_1: THREE.Mesh;
     lantern_standing_1: THREE.Mesh;
@@ -66,8 +64,6 @@ export type CoreKitGLTF = GLTF & {
     mug_full_1: THREE.Mesh;
     keg_1: THREE.Mesh;
     stool_1: THREE.Mesh;
-    Rock_Moss_4_2: THREE.Mesh;
-    Rock_Moss_4_3: THREE.Mesh;
     tree023: THREE.Mesh;
     tree023_1: THREE.Mesh;
     tree024: THREE.Mesh;
@@ -92,6 +88,9 @@ export type CoreKitGLTF = GLTF & {
     Plane021_1: THREE.Mesh;
     Plane003: THREE.Mesh;
     Plane003_1: THREE.Mesh;
+    Rock_Medium_1_1: THREE.Mesh;
+    Rock_Medium_2_1: THREE.Mesh;
+    Rock_Medium_3_1: THREE.Mesh;
   };
   materials: {
     hexagons_medieval: THREE.MeshStandardMaterial;
@@ -99,8 +98,6 @@ export type CoreKitGLTF = GLTF & {
     mage_texture: THREE.MeshStandardMaterial;
     barbarian_texture: THREE.MeshStandardMaterial;
     texture: THREE.MeshStandardMaterial;
-    Rock_Moss_4_Rock: THREE.MeshStandardMaterial;
-    Rock_Moss_4_Green: THREE.MeshStandardMaterial;
     Bark_NormalTree: THREE.MeshStandardMaterial;
     Leaves_NormalTree: THREE.MeshStandardMaterial;
     Leaves_Pine: THREE.MeshStandardMaterial;
@@ -108,6 +105,7 @@ export type CoreKitGLTF = GLTF & {
     Leaves_TwistedTree: THREE.MeshStandardMaterial;
     Flowers: THREE.MeshStandardMaterial;
     Leaves: THREE.MeshStandardMaterial;
+    Rocks: THREE.MeshStandardMaterial;
   };
 };
 

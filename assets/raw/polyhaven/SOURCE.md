@@ -20,3 +20,4 @@
 | `dirt_floor_*` | jalan tanah, dasar air | https://polyhaven.com/a/dirt_floor | eye-candy.xyz |
 | `coast_sand_01_*` | pasir tepi | https://polyhaven.com/a/coast_sand_01 | Rob Tuytel |
 | `cliff_side_*` | tebing dan batu bawah pulau (triplanar) | https://polyhaven.com/a/cliff_side | James Ray Cock, Jenelle van Heerden, Dario Barresi |
+| `weathered_brown_planks_*` | papan quest, tiang kotak surat | https://polyhaven.com/a/weathered_brown_planks | Dimitrios Savva, Rico Cilliers |

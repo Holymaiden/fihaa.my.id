@@ -58,7 +58,7 @@
     {
       "id": "polyhaven-textures",
       "name": "Poly Haven ground textures",
-      "author": "Rob Tuytel, eye-candy.xyz, James Ray Cock, Jenelle van Heerden, Dario Barresi",
+      "author": "Rob Tuytel, eye-candy.xyz, James Ray Cock, Jenelle van Heerden, Dario Barresi, Dimitrios Savva, Rico Cilliers",
       "authorUrl": "https://polyhaven.com/textures",
       "url": "https://polyhaven.com/textures",
       "license": "CC0 1.0",
@@ -115,18 +115,6 @@
       "kit": "core"
     },
     {
-      "name": "rock_single_A",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/rock_single_A.gltf",
-      "kit": "core"
-    },
-    {
-      "name": "rock_single_C",
-      "pack": "kaykit-medieval-hexagon",
-      "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/rock_single_C.gltf",
-      "kit": "core"
-    },
-    {
       "name": "cloud_big",
       "pack": "kaykit-medieval-hexagon",
       "src": "assets/raw/kaykit/medieval-hexagon/decoration/nature/cloud_big.gltf",
@@ -166,12 +154,6 @@
       "name": "stool",
       "pack": "kaykit-dungeon-remastered",
       "src": "assets/raw/kaykit/dungeon-remastered/stool.gltf.glb",
-      "kit": "core"
-    },
-    {
-      "name": "Rock_Moss_4",
-      "pack": "quaternius-ultimate-nature",
-      "src": "assets/raw/quaternius/ultimate-nature/Rock_Moss_4.obj",
       "kit": "core"
     },
     {
@@ -287,6 +269,24 @@
       "pack": "quaternius-stylized-nature-megakit",
       "src": "assets/raw/quaternius/stylized-nature-megakit/Flower_4_Group.gltf",
       "kit": "core"
+    },
+    {
+      "name": "Rock_Medium_1",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Rock_Medium_1.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Rock_Medium_2",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Rock_Medium_2.gltf",
+      "kit": "core"
+    },
+    {
+      "name": "Rock_Medium_3",
+      "pack": "quaternius-stylized-nature-megakit",
+      "src": "assets/raw/quaternius/stylized-nature-megakit/Rock_Medium_3.gltf",
+      "kit": "core"
     }
   ],
   "textures": [
@@ -329,6 +329,16 @@
       "name": "cliff_side_normal",
       "pack": "polyhaven-textures",
       "src": "assets/raw/polyhaven/textures/cliff_side_nor_gl_1k.jpg"
+    },
+    {
+      "name": "weathered_brown_planks_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/weathered_brown_planks_diff_1k.jpg"
+    },
+    {
+      "name": "weathered_brown_planks_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/weathered_brown_planks_nor_gl_1k.jpg"
     }
   ]
 }

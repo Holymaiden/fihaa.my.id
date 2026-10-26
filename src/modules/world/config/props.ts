@@ -93,6 +93,7 @@ const NATURE_SCALE = {
   bush: 0.55,
   fern: 0.13,
   flower: 0.22,
+  rock: 0.4,
 } as const;
 
 const nature = (
@@ -158,11 +159,11 @@ export const DECOR: CorePlacement[] = [
   nature('Fern_1', 'fern', { at: [-7.4, 2.2], rotationY: 0.5 }),
   nature('Fern_1', 'fern', { at: [8.4, -2.6], size: 0.9, rotationY: 2.5 }),
   nature('Fern_1', 'fern', { at: [-3.2, -9.6], rotationY: 4.2 }),
-  { model: 'Rock_Moss_4', position: [10.8, 0, 4.6], scale: 1.2 },
-  { model: 'Rock_Moss_4', position: [-12.2, 0, 1.4], scale: 1 },
-  { model: 'Rock_Moss_4', position: [3.4, 0, 11.8], scale: 1 },
-  { model: 'rock_single_C', position: [-5, 0, -11], scale: 3 },
-  { model: 'rock_single_A', position: [8, 0, -10], scale: 4 },
+  nature('Rock_Medium_1', 'rock', { at: [10.8, 4.6], size: 1.1 }),
+  nature('Rock_Medium_2', 'rock', { at: [-12.2, 1.4], rotationY: 2 }),
+  nature('Rock_Medium_3', 'rock', { at: [3.4, 11.8], size: 0.9, rotationY: 4 }),
+  nature('Rock_Medium_3', 'rock', { at: [-5, -11], size: 0.8, rotationY: 1 }),
+  nature('Rock_Medium_1', 'rock', { at: [8, -10], size: 0.7, rotationY: 3 }),
   nature('Flower_3_Group', 'flower', { at: [-3.6, 7.8] }),
   nature('Flower_4_Group', 'flower', { at: [4.2, 8.6], rotationY: 1.4 }),
   nature('Flower_3_Group', 'flower', { at: [-6.6, 4.8], rotationY: 2 }),
