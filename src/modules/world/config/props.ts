@@ -28,9 +28,20 @@ const hex = (
 
 // Island frame (x/z on the island, y = offset above the ground).
 export const GUILD_PROPS: CorePlacement[] = [
-  hex('building_castle_blue', [0, 0, 0], 0.3),
-  hex('building_tower_A_blue', [-3.6, 0, -2.6], 0.4),
-  hex('building_tower_A_blue', [3.8, 0, -2.2], -0.6),
+  // Sketchfab models (CC BY 4.0), sized in the asset build ("height").
+  { model: 'castle_fantastic', position: [0, 0, 0], rotationY: 0.3 },
+  {
+    model: 'tower_archer',
+    position: [-6.4, 0, -4.6],
+    rotationY: 0.8,
+    scale: 0.8,
+  },
+  {
+    model: 'tower_crystal',
+    position: [6.6, 0, -3.8],
+    rotationY: -0.6,
+    scale: 0.8,
+  },
   hex('flag_blue', [-2.2, 0, 2.6], 0.5),
   hex('flag_blue', [2.4, 0, 2.4], -0.3),
 ];
@@ -53,7 +64,7 @@ export const STATION_PROPS: Record<SurfaceStationId, CorePlacement[]> = {
     { model: 'lantern_standing', position: [1.6, 0, -0.6] },
   ],
   contact: [
-    hex('building_tavern_blue', [0, 0, -1]),
+    { model: 'tavern_troll', position: [0, 0, -1.4] },
     {
       model: 'keg',
       position: [-2.4, 0, 0.8],

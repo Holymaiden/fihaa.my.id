@@ -33,9 +33,9 @@ interface FloatingIsletProps {
 
 const SCALE = 0.17;
 // Where the waterfall lands, and how high its lip is above the ground.
-const POOL: [number, number] = [-2.4, -0.4];
+const POOL: [number, number] = [-2.6, 0.9];
 const POOL_RADIUS = 0.85;
-const LIP_HEIGHT = 7.2;
+const LIP_HEIGHT = 8.4;
 const FALL_REACH = 0.7;
 
 // The islet turns so its stream leaves towards the camera (+z).

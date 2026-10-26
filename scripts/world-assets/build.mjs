@@ -2,7 +2,7 @@
 //   raw glTF/GLB/OBJ in assets/raw -> one GLB per kit in public/world/models
 // Each source model becomes one top-level node named after the model.
 // Run with: yarn world:assets
-import { Document, NodeIO } from '@gltf-transform/core';
+import { Document, getBounds, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import {
   dedup,
@@ -50,20 +50,45 @@ const rawSize = (src) => {
   return size;
 };
 
-// Optional per-model "simplify" (0..1 share of triangles to keep) thins
-// heavy downloaded models before they join the kit.
-const readModel = async ({ name, src, simplify: ratio }) => {
+// Optional per-model settings for downloaded models:
+// - "drop": names of nodes to leave out (a ground plate, other variants);
+// - "simplify": 0..1 share of triangles to keep, for heavy models.
+const readModel = async ({ name, src, drop = [], simplify: ratio }) => {
   const doc = src.endsWith('.obj') ? await objToDocument(join(ROOT, src), name) : await io.read(join(ROOT, src));
+  for (const node of doc.getRoot().listNodes()) {
+    if (drop.includes(node.getName())) node.dispose();
+  }
+  await doc.transform(prune());
   if (ratio) await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio, error: 0.001 }));
   return doc;
+};
+
+// Optional "height": the model is centred on its footprint, stood on y = 0
+// and scaled to this height, through a child node so the model's own node
+// stays untransformed.
+const fitTo = (doc, group, height) => {
+  const fit = doc.createNode(`${group.getName()}_fit`);
+  for (const child of group.listChildren()) fit.addChild(child);
+  group.addChild(fit);
+  const { min, max } = getBounds(fit);
+  const scale = height / (max[1] - min[1]);
+  fit.setScale([scale, scale, scale]);
+  fit.setTranslation([-((min[0] + max[0]) / 2) * scale, -min[1] * scale, -((min[2] + max[2]) / 2) * scale]);
 };
 
 const buildKit = async (kit, models) => {
   const doc = new Document().setLogger(QUIET_LOGGER);
   const scene = doc.createScene(kit);
 
+  const materialNames = new Set();
   for (const model of models) {
     const source = await readModel(model);
+    // Material names are keys in the generated types: keep them unique
+    // (downloaded models often call theirs just "material").
+    for (const material of source.getRoot().listMaterials()) {
+      if (materialNames.has(material.getName())) material.setName(`${model.name}_${material.getName()}`);
+      materialNames.add(material.getName());
+    }
     const before = new Set(doc.getRoot().listScenes());
     mergeDocuments(doc, source);
     const group = doc.createNode(model.name);
@@ -72,6 +97,7 @@ const buildKit = async (kit, models) => {
       for (const child of merged.listChildren()) group.addChild(child);
       merged.dispose();
     }
+    if (model.height) fitTo(doc, group, model.height);
     scene.addChild(group);
   }
   doc.getRoot().setDefaultScene(scene);

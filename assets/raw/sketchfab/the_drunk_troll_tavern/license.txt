@@ -1,0 +1,11 @@
+Model Information:
+* title:	"The Drunk Troll" Tavern
+* source:	https://sketchfab.com/3d-models/the-drunk-troll-tavern-6cdc0bdee2df457ebf9ac06a3a9910b8
+* author:	mrrobot (https://sketchfab.com/mrrobot)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on ""The Drunk Troll" Tavern" (https://sketchfab.com/3d-models/the-drunk-troll-tavern-6cdc0bdee2df457ebf9ac06a3a9910b8) by mrrobot (https://sketchfab.com/mrrobot) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

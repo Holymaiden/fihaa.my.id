@@ -39,6 +39,16 @@ Aturan file ini:
 | Tidak dipilih | Kenney Starter Kit 3D Platformer / Basic Scene (Mini Arena) | https://github.com/KenneyNL/Starter-Kit-3D-Platformer · https://github.com/KenneyNL/Starter-Kit-Basic-Scene | Platformer: MIT (repo) · Mini Arena: CC0 | MIT: wajib menyertakan pemberitahuan hak cipta | GLB | Dirender dan dibandingkan: platform kuning-hitam bergaya game platformer, batu Mini Arena berwarna salem pastel; keduanya tidak menyatu dengan KayKit. |
 | Tidak dipilih | KayKit Restaurant Bits 1.0 | https://github.com/KayKit-Game-Assets/KayKit-Restaurant-Bits-1.0 | CC0 1.0 | Tidak wajib | glTF | Diperiksa, tidak diunduh: isinya dapur modern (kulkas, burger, kompor) yang tidak cocok dengan tema guild. |
 
+## Bangunan Sketchfab (CC BY 4.0, 2026-10-26)
+
+| Model | Pembuat | Lisensi | Atribusi | Status |
+|---|---|---|---|---|
+| "Fantastic castle" | lepkarepka | CC BY 4.0 | **Wajib** (panel kredit) | Dipakai: kastil utama, menggantikan `building_castle_blue` |
+| "3 medieval towers" | KattyLi | CC BY 4.0 | **Wajib** | Dipakai: dua menara, menggantikan `building_tower_A_blue` |
+| "The Drunk Troll" Tavern | mrrobot | CC BY 4.0 | **Wajib** | Dipakai: tavern Contact, menggantikan `building_tavern_blue` |
+
+Detail sumber dan perubahan: `assets/raw/sketchfab/SOURCE.md`.
+
 ## Kandidat model (subset yang sudah diunduh)
 
 Semua dari KayKit oleh Kay Lousberg · Lisensi **CC0 1.0** · Atribusi **tidak wajib**. Ukuran adalah ukuran berkas mentah sebelum kompresi; jumlah segitiga dihitung dari accessor indeks glTF. Varian warna bangunan sementara memakai `blue`. Setiap bangunan tersedia dalam `blue/red/green/yellow` dan pilihannya menunggu keputusan palet.
