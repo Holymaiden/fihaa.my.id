@@ -81,9 +81,14 @@ vec3 detailOf(sampler2D map, vec2 uv, float strength) {
   return mix(vec3(1.0), clamp(texture2D(map, uv).rgb / average, 0.0, 2.5), strength);
 }
 
+// TERRAIN_LITE (low quality): no normal maps, about half the texture reads.
 vec3 unpackNormal(sampler2D map, vec2 uv, float strength) {
-  vec3 n = texture2D(map, uv).xyz * 2.0 - 1.0;
-  return vec3(n.xy * strength, n.z);
+  #ifdef TERRAIN_LITE
+    return vec3(0.0, 0.0, 1.0);
+  #else
+    vec3 n = texture2D(map, uv).xyz * 2.0 - 1.0;
+    return vec3(n.xy * strength, n.z);
+  #endif
 }
 `;
 
@@ -147,11 +152,14 @@ normal = normalize(
 `;
 
 // Patches a MeshStandardMaterial (with vertexColors) into the terrain
-// material. `textures` is albedo, normal for each of TERRAIN_LAYERS.
+// material. `textures` is albedo, normal for each of TERRAIN_LAYERS; `lite`
+// drops the normal maps on slow devices.
 export const applyTerrainMaterial = (
   material: MeshStandardMaterial,
   textures: Texture[],
+  lite = false,
 ) => {
+  material.defines = lite ? { TERRAIN_LITE: '' } : {};
   material.onBeforeCompile = (shader) => {
     for (const [index] of TERRAIN_LAYERS.entries()) {
       shader.uniforms[`uAlbedo${index}`] = { value: textures[index * 2] };
@@ -174,6 +182,6 @@ export const applyTerrainMaterial = (
         `#include <normal_fragment_maps>\n${FRAGMENT_NORMAL}`,
       );
   };
-  material.customProgramCacheKey = () => 'terrain';
+  material.customProgramCacheKey = () => (lite ? 'terrain-lite' : 'terrain');
   material.needsUpdate = true;
 };

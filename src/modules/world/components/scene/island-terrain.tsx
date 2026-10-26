@@ -17,12 +17,14 @@ import { applyTerrainMaterial, terrainTextureUrls } from './terrain-material';
 
 interface IslandTerrainProps {
   palette: WorldPalette;
+  // Cheaper ground shading (no normal maps) on slow devices.
+  lite: boolean;
 }
 
 // Clicks within this distance of a station open it.
 const STATION_HIT_RADIUS = 4;
 
-const IslandTerrain = ({ palette }: IslandTerrainProps) => {
+const IslandTerrain = ({ palette, lite }: IslandTerrainProps) => {
   const openStation = useWorldStore((state) => state.openStation);
   const walkTo = useWorldStore((state) => state.walkTo);
   const { grassLight, grass, sand, cliff, rock, rockDeep, path, waterDeep } =
@@ -99,7 +101,7 @@ const IslandTerrain = ({ palette }: IslandTerrainProps) => {
         roughness={0.95}
         ref={(material: MeshStandardMaterial | null) => {
           if (material) {
-            applyTerrainMaterial(material, textures);
+            applyTerrainMaterial(material, textures, lite);
           }
         }}
       />

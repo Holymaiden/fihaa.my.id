@@ -17,6 +17,9 @@ export const useSceneQuality = () => {
   );
   const [dpr, setDpr] = useState(maxDpr);
   const [shadows, setShadows] = useState(true);
+  // Cheaper ground shading, only once frames stay slow at the lowest
+  // settings (not just because the screen is small).
+  const [liteTerrain, setLiteTerrain] = useState(false);
   // ?post=off|low|high overrides the automatic choice (handy for testing).
   const [postQuality, setPostQuality] = useState<PostQuality>(() => {
     const forced = new URLSearchParams(window.location.search).get('post');
@@ -47,6 +50,7 @@ export const useSceneQuality = () => {
   const onFallback = () => {
     setDpr(VISUAL.dpr[0]);
     setShadows(false);
+    setLiteTerrain(true);
     setPostQuality((quality) => (quality === 'off' ? quality : 'low'));
     setGrassDensity((density) =>
       Math.min(density, VISUAL.grass.fallbackDensity),
@@ -59,6 +63,7 @@ export const useSceneQuality = () => {
     shadowMapSize,
     postQuality,
     grassDensity,
+    liteTerrain,
     narrow,
     onChange,
     onFallback,

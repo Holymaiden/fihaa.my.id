@@ -32,16 +32,19 @@ const DistantIslands = ({ palette }: DistantIslandsProps) => {
   const { grassLight, grass, sand, cliff, rock, rockDeep } = palette;
   const geometry = useMemo(
     () =>
-      buildIslandGeometry({
-        grassLight,
-        grass: grassLight,
-        sand,
-        cliff,
-        rock,
-        rockDeep,
-        path: grass,
-        waterDeep: grass,
-      }),
+      buildIslandGeometry(
+        {
+          grassLight,
+          grass: grassLight,
+          sand,
+          cliff,
+          rock,
+          rockDeep,
+          path: grass,
+          waterDeep: grass,
+        },
+        0.25,
+      ),
     // No paths or ponds out there: both are painted as grass.
     [grassLight, grass, sand, cliff, rock, rockDeep],
   );

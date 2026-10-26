@@ -6,6 +6,8 @@ import { Document, getBounds, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import {
   dedup,
+  flatten,
+  join as joinMeshes,
   mergeDocuments,
   meshopt,
   prune,
@@ -58,7 +60,9 @@ const readModel = async ({ name, src, drop = [], simplify: ratio }) => {
   for (const node of doc.getRoot().listNodes()) {
     if (drop.includes(node.getName())) node.dispose();
   }
-  await doc.transform(prune());
+  // One draw per material: downloaded models often split into hundreds of
+  // small meshes, each its own draw call.
+  await doc.transform(prune(), flatten(), joinMeshes({ keepNamed: false }));
   if (ratio) await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio, error: 0.001 }));
   return doc;
 };

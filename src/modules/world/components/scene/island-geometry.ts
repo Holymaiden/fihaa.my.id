@@ -20,7 +20,7 @@ export interface TerrainColors {
   waterDeep: string;
 }
 
-const { radius, rings, segments, undersideRings, depth } = ISLAND;
+const { radius, depth } = ISLAND;
 
 // Rock under the island tapers to a point; this is its radius share at a
 // given share of the depth.
@@ -109,8 +109,18 @@ const surfaceColor = (
 
 // One smooth mesh: a disc of rings for the top, then rings of rock going
 // down to a point. Vertex colours carry the palette; the `splat` attribute
-// says which ground texture shows where.
-export const buildIslandGeometry = (palette: TerrainColors): BufferGeometry => {
+// says which ground texture shows where. `detail` (0..1] thins the mesh
+// for far or small copies (distant islands, the floating islet).
+export const buildIslandGeometry = (
+  palette: TerrainColors,
+  detail = 1,
+): BufferGeometry => {
+  const rings = Math.max(8, Math.round(ISLAND.rings * detail));
+  const segments = Math.max(24, Math.round(ISLAND.segments * detail));
+  const undersideRings = Math.max(
+    6,
+    Math.round(ISLAND.undersideRings * detail),
+  );
   const colors = Object.fromEntries(
     (Object.entries(palette) as [keyof TerrainColors, string][]).map(
       ([key, value]) => [key, new Color(value)],

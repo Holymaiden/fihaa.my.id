@@ -135,7 +135,7 @@ const WorldScene = ({ content, onContextLost }: WorldSceneProps) => {
           <KitRecolor palette={palette} />
           <WorldClouds palette={palette} />
           <IslandRig>
-            <IslandTerrain palette={palette} />
+            <IslandTerrain palette={palette} lite={quality.liteTerrain} />
             <MeadowGrass palette={palette} density={quality.grassDensity} />
             <GroundCursor palette={palette} />
             <MeadowLife palette={palette} />
