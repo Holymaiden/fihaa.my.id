@@ -57,8 +57,8 @@
     },
     {
       "id": "polyhaven-textures",
-      "name": "Poly Haven ground textures",
-      "author": "Rob Tuytel, eye-candy.xyz, James Ray Cock, Jenelle van Heerden, Dario Barresi, Dimitrios Savva, Rico Cilliers",
+      "name": "Poly Haven textures",
+      "author": "Rob Tuytel, eye-candy.xyz, James Ray Cock, Jenelle van Heerden, Dario Barresi, Dimitrios Savva, Rico Cilliers, Charlotte Baglioni",
       "authorUrl": "https://polyhaven.com/textures",
       "url": "https://polyhaven.com/textures",
       "license": "CC0 1.0",
@@ -376,6 +376,26 @@
       "name": "weathered_brown_planks_normal",
       "pack": "polyhaven-textures",
       "src": "assets/raw/polyhaven/textures/weathered_brown_planks_nor_gl_1k.jpg"
+    },
+    {
+      "name": "japanese_sycamore_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/japanese_sycamore_diff_1k.jpg"
+    },
+    {
+      "name": "japanese_sycamore_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/japanese_sycamore_nor_gl_1k.jpg"
+    },
+    {
+      "name": "rock_face_03_albedo",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/rock_face_03_diff_1k.jpg"
+    },
+    {
+      "name": "rock_face_03_normal",
+      "pack": "polyhaven-textures",
+      "src": "assets/raw/polyhaven/textures/rock_face_03_nor_gl_1k.jpg"
     }
   ]
 }
