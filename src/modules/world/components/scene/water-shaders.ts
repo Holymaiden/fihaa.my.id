@@ -68,68 +68,103 @@ export const surfaceFragment = /* glsl */ `
   #include <fog_pars_fragment>
   ${NOISE_GLSL}
 
-  // Ripple height: two layers drawn out along the current and travelling
-  // downstream, plus raindrops.
-  float rippleHeight(vec2 p, float slow) {
-    return waterNoise(vec2(p.x * 2.6, p.y * 1.1 - slow * 1.4)) * 0.6
-      + waterNoise(vec2(p.x * 6.5 + 4.0, p.y * 2.6 - slow * 2.2)) * 0.3
-      + waterNoise(vec2(p.x * 15.0 - 7.0, p.y * 9.0 - slow * 3.4)) * 0.1;
+  vec2 cellHash(vec2 p) {
+    p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+    return fract(sin(p) * 43758.5453);
+  }
+
+  // Animated Voronoi: distances to the nearest and second-nearest cell
+  // points, whose points wander slowly so the pattern lives.
+  vec2 voronoi(vec2 p, float time) {
+    vec2 cell = floor(p);
+    vec2 local = fract(p);
+    float first = 8.0;
+    float second = 8.0;
+    for (int y = -1; y <= 1; y++) {
+      for (int x = -1; x <= 1; x++) {
+        vec2 offset = vec2(float(x), float(y));
+        vec2 h = cellHash(cell + offset);
+        vec2 point = offset + 0.5 + 0.4 * sin(time + h * 6.2831);
+        float d = length(point - local);
+        if (d < first) {
+          second = first;
+          first = d;
+        } else if (d < second) {
+          second = d;
+        }
+      }
+    }
+    return vec2(first, second);
+  }
+
+  // A crisp step that stays smooth at any zoom (no aliasing).
+  float crisp(float edge, float value) {
+    float width = max(fwidth(value), 1e-4) * 0.75;
+    return smoothstep(edge - width, edge + width, value);
   }
 
   void main() {
     float speed = length(vFlow);
     vec2 along = speed > 1e-3 ? vFlow / speed : vec2(0.0, 1.0);
     vec2 across = vec2(-along.y, along.x);
+    // Flow space: stretched along the current and carried downstream.
     vec2 p = vec2(dot(vIsland.xz, across), dot(vIsland.xz, along));
-    float slow = uTime * (0.08 + speed);
+    vec2 drift = vec2(0.0, uTime * (0.06 + speed * 0.9));
+    vec2 flowP = vec2(p.x, p.y * (1.0 - min(speed, 0.6) * 0.6)) - drift;
 
-    // Surface normal from the slope of the ripples (finite differences),
-    // turned back from flow space into the island frame.
-    float e = 0.04;
-    float h = rippleHeight(p, slow);
-    float dx = (rippleHeight(p + vec2(e, 0.0), slow) - h) / e;
-    float dy = (rippleHeight(p + vec2(0.0, e), slow) - h) / e;
-    float drops = waterNoise(vIsland.xz * 9.0 + uTime * 3.0) * uRain;
-    float bump = 0.08 + speed * 0.05 + uRain * 0.06;
-    vec2 slope = (across * dx + along * dy) * bump + (drops - 0.15) * 0.3 * uRain;
-    vec3 normal = normalize(vec3(-slope.x, 1.0, -slope.y));
+    // Colour by depth: bright and clear over the shallows, through a mid
+    // tone, to deep water.
+    float deep = 1.0 - exp(-vDepth * 3.0);
+    vec3 mid = mix(uShallow, uDeep, 0.5);
+    vec3 body = deep < 0.5
+      ? mix(uShallow * 1.08, mid, deep * 2.0)
+      : mix(mid, uDeep, deep * 2.0 - 1.0);
 
-    // Deeper water absorbs more light: clear and bright over the shallows,
-    // dark in the middle of the pond.
-    float deep = 1.0 - exp(-vDepth * 3.2);
-    vec3 body = mix(uShallow, uDeep, deep);
+    // Caustic web: thin bright lines along the Voronoi cell edges, brighter
+    // in the shallows where the light reaches the bed.
+    vec2 cells = voronoi(flowP * 2.2, uTime * 0.6);
+    float web = 1.0 - crisp(0.06, cells.y - cells.x);
+    vec2 fine = voronoi(flowP * 4.7 + 3.1, uTime * 0.9);
+    web = max(web, (1.0 - crisp(0.045, fine.y - fine.x)) * 0.6);
+    body += uFoam * web * (0.28 - deep * 0.18);
 
-    // The sky it mirrors: horizon colour low down, the zenith above.
+    // A little sky in it, more at grazing angles.
     vec3 viewDir = normalize(cameraPosition - vWorld);
-    vec3 mirrored = reflect(-viewDir, normal);
-    vec3 sky = mix(uSky, uSkyTop, smoothstep(0.0, 0.6, mirrored.y));
-    float fresnel = 0.02 + 0.98 * pow(1.0 - max(dot(viewDir, normal), 0.0), 5.0);
-    vec3 color = mix(body, sky, clamp(fresnel * 0.9 + 0.08, 0.0, 1.0));
-    // Sun glints on the ripple crests (bright enough to bloom).
-    float glint = pow(max(dot(mirrored, uSunDirection), 0.0), 220.0);
-    color += uSun * glint * 3.0;
+    float fresnel = pow(1.0 - max(viewDir.y, 0.0), 4.0);
+    vec3 sky = mix(uSky, uSkyTop, 0.35);
+    vec3 color = mix(body, sky, 0.06 + fresnel * 0.45);
 
-    // Foam: a soft lace along the banks, streaks where it runs fast, and
-    // white water in the rapids before the lip.
-    float lace = waterNoise(vIsland.xz * 7.0 + uTime * 0.4);
-    float bankFoam = smoothstep(0.8, 0.97, vShore + (lace - 0.5) * 0.25) * 0.6;
-    float streaks = smoothstep(0.66, 0.88, h) * smoothstep(0.3, 1.2, speed);
-    float white = smoothstep(0.4, 0.8, h + lace * 0.3) * vRapids;
-    float foam = clamp(bankFoam * 0.6 + streaks * 0.4 + white, 0.0, 1.0);
+    // Sun sparkles: tiny cells that catch the light now and then.
+    vec2 glitter = voronoi(vIsland.xz * 9.0 + drift * 2.0, uTime * 2.5);
+    float sparkle = 1.0 - crisp(0.08, glitter.x);
+    float facing = max(dot(reflect(-viewDir, vec3(0.0, 1.0, 0.0)), uSunDirection), 0.0);
+    color += uSun * sparkle * pow(facing, 6.0) * 1.6;
+
+    // Shore foam: a crisp wavy line along the bank and a second one that
+    // breathes in and out just inside it.
+    float wobble = (waterNoise(vIsland.xz * 3.0 + uTime * 0.3) - 0.5) * 0.12;
+    float shoreLine = crisp(0.86, vShore + wobble);
+    float pulse = 0.72 + sin(uTime * 1.3 + vIsland.x * 0.7) * 0.04;
+    float innerLine = crisp(pulse, vShore + wobble) - crisp(pulse + 0.035, vShore + wobble);
+    // Rapids: white water breaking up towards the lip.
+    float rapids = crisp(0.55, waterNoise(flowP * vec2(3.0, 1.2)) + vRapids * 0.5) * vRapids;
+    // Rain: rings opening on the surface.
+    vec2 rainCells = voronoi(vIsland.xz * 5.0, 0.0);
+    float rainPhase = fract(uTime * 1.3 + cellHash(floor(vIsland.xz * 5.0)).x);
+    float rainRing = (1.0 - crisp(0.03, abs(rainCells.x - rainPhase * 0.5))) * (1.0 - rainPhase) * uRain;
+    float foam = clamp(shoreLine * 0.9 + innerLine * 0.7 + rapids + rainRing * 0.6, 0.0, 1.0);
     color = mix(color, uFoam, foam);
 
     // Rings from the last click.
     float age = uNow - uRipple.z;
     float spread = length(vIsland.xz - uRipple.xy);
-    float rings = sin((spread - age * 1.6) * 14.0) * 0.5 + 0.5;
-    float front = smoothstep(0.5, 0.0, abs(spread - age * 1.6));
-    color = mix(color, uFoam, rings * front * exp(-age * 0.9) * step(0.0, age) * 0.7);
+    float ring = 1.0 - crisp(0.06, abs(spread - age * 1.6));
+    color = mix(color, uFoam, ring * exp(-age * 0.9) * step(0.0, age) * 0.8);
 
-    // Shallow water lets the bed show through; the edge fades out over
-    // the bank instead of a hard line.
-    float clarity = mix(0.45, 0.94, deep);
-    float alpha = max(clarity, fresnel) * (1.0 - smoothstep(0.82, 1.0, vShore));
-    alpha = max(alpha, foam * 0.6 * (1.0 - smoothstep(0.9, 1.0, vShore)));
+    // Shallow water lets the bed show through; past the foam line it
+    // fades out over the bank.
+    float clarity = mix(0.55, 0.95, deep);
+    float alpha = max(clarity, foam) * (1.0 - smoothstep(0.93, 1.0, vShore));
     gl_FragColor = vec4(color, alpha);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
